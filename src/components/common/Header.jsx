@@ -1,0 +1,179 @@
+// src/components/common/Header.jsx
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import Button from '../ui/Button';
+
+const Header = () => {
+  const location = useLocation();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
+  const isActive = (path) => {
+    return location.pathname === path;
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  return (
+    <header className="bg-neutral-background py-4 px-4 sticky top-0 z-40 shadow-sm">
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        {/* Logo */}
+        <div className="flex items-center">
+          <Link to="/" className="text-xl sm:text-2xl font-bold font-inter">
+            <span className="text-primary-blue">HARE KRISHNA</span>
+            <span className="text-black"> </span>
+            <span className="text-accent-yellow">VIDYA</span>
+          </Link>
+        </div>
+
+        {/* Desktop Navigation */}
+        <nav className="hidden lg:flex items-center space-x-8">
+          <Link 
+            to="/" 
+            className={`font-medium text-base transition-colors ${
+              isActive('/') 
+                ? 'text-secondary-orange' :'text-neutral-dark hover:text-secondary-orange'
+            }`}
+          >
+            Home
+          </Link>
+          <Link 
+            to="/about-us" 
+            className={`font-medium text-base transition-colors ${
+              isActive('/about-us') 
+                ? 'text-secondary-orange' :'text-neutral-dark hover:text-secondary-orange'
+            }`}
+          >
+            About Us
+          </Link>
+          <Link 
+            to="/services" 
+            className={`font-medium text-base transition-colors ${
+              isActive('/services') 
+                ? 'text-secondary-orange' :'text-neutral-dark hover:text-secondary-orange'
+            }`}
+          >
+            Services
+          </Link>
+          <Link 
+            to="/gallery" 
+            className={`font-medium text-base transition-colors ${
+              isActive('/gallery') 
+                ? 'text-secondary-orange' :'text-neutral-dark hover:text-secondary-orange'
+            }`}
+          >
+            Gallery
+          </Link>
+          <Link 
+            to="/contact" 
+            className={`font-medium text-base transition-colors ${
+              isActive('/contact') 
+                ? 'text-secondary-orange' :'text-neutral-dark hover:text-secondary-orange'
+            }`}
+          >
+            Contact Us
+          </Link>
+        </nav>
+
+        {/* Desktop Donate Button */}
+        <div className="hidden lg:block">
+          <Link to="/donate">
+            <Button 
+              variant="primary"
+              className="bg-primary-blue text-white px-6 py-3 rounded-[20px] font-semibold text-base shadow-custom-blue hover:bg-primary-dark transition-colors"
+            >
+              Donate Now
+            </Button>
+          </Link>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          onClick={toggleMobileMenu}
+          className="lg:hidden p-2 rounded-md text-neutral-dark hover:text-secondary-orange transition-colors"
+          aria-label="Toggle mobile menu"
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            {isMobileMenuOpen ? (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            ) : (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            )}
+          </svg>
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="lg:hidden mt-4 py-4 border-t border-border-light">
+          <nav className="flex flex-col space-y-4">
+            <Link 
+              to="/" 
+              onClick={toggleMobileMenu}
+              className={`font-medium text-base px-4 py-2 transition-colors ${
+                isActive('/') 
+                  ? 'text-secondary-orange bg-secondary-orange bg-opacity-10' :'text-neutral-dark hover:text-secondary-orange'
+              }`}
+            >
+              Home
+            </Link>
+            <Link 
+              to="/about-us" 
+              onClick={toggleMobileMenu}
+              className={`font-medium text-base px-4 py-2 transition-colors ${
+                isActive('/about-us') 
+                  ? 'text-secondary-orange bg-secondary-orange bg-opacity-10' :'text-neutral-dark hover:text-secondary-orange'
+              }`}
+            >
+              About Us
+            </Link>
+            <Link 
+              to="/services" 
+              onClick={toggleMobileMenu}
+              className={`font-medium text-base px-4 py-2 transition-colors ${
+                isActive('/services') 
+                  ? 'text-secondary-orange bg-secondary-orange bg-opacity-10' :'text-neutral-dark hover:text-secondary-orange'
+              }`}
+            >
+              Services
+            </Link>
+            <Link 
+              to="/gallery" 
+              onClick={toggleMobileMenu}
+              className={`font-medium text-base px-4 py-2 transition-colors ${
+                isActive('/gallery') 
+                  ? 'text-secondary-orange bg-secondary-orange bg-opacity-10' :'text-neutral-dark hover:text-secondary-orange'
+              }`}
+            >
+              Gallery
+            </Link>
+            <Link 
+              to="/contact" 
+              onClick={toggleMobileMenu}
+              className={`font-medium text-base px-4 py-2 transition-colors ${
+                isActive('/contact') 
+                  ? 'text-secondary-orange bg-secondary-orange bg-opacity-10' :'text-neutral-dark hover:text-secondary-orange'
+              }`}
+            >
+              Contact Us
+            </Link>
+            
+            <div className="px-4 pt-4">
+              <Link to="/donate" onClick={toggleMobileMenu}>
+                <Button 
+                  variant="primary"
+                  className="w-full bg-primary-blue text-white py-3 rounded-[20px] font-semibold text-base shadow-custom-blue"
+                >
+                  Donate Now
+                </Button>
+              </Link>
+            </div>
+          </nav>
+        </div>
+      )}
+    </header>
+  );
+};
+
+export default Header;
