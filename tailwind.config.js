@@ -29,8 +29,8 @@ module.exports = {
   darkMode: "class",
   theme: {
     extend: {
-      fontSize: scaleRemValues(fontSize, 0.8),
-      spacing: scaleRemValues(spacing, 0.8),      
+      fontSize: scaleRemValues(fontSize, 0.75),
+      spacing: scaleRemValues(spacing, 0.75),      
       colors: {
         primary: {
           background: "#0b3954",

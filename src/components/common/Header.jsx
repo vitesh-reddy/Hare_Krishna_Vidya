@@ -16,11 +16,11 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-neutral-background py-4 px-4 sticky top-0 z-40 shadow-sm">
+    <header className="bg-neutral-background py-6 px-16 top-0 z-40">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center">
-          <Link to="/" className="text-xl sm:text-2xl font-bold font-inter">
+          <Link to="/" className="text-2xl sm:text-[1.3rem] font-bold font-inter">
             <span className="text-primary-blue">HARE KRISHNA</span>
             <span className="text-black"> </span>
             <span className="text-accent-yellow">VIDYA</span>
@@ -31,7 +31,7 @@ const Header = () => {
         <nav className="hidden lg:flex items-center space-x-8">
           <Link 
             to="/" 
-            className={`font-medium text-base transition-colors ${
+            className={`font-medium text-[0.9rem] transition-colors ${
               isActive('/') 
                 ? 'text-secondary-orange' :'text-neutral-dark hover:text-secondary-orange'
             }`}
@@ -40,7 +40,7 @@ const Header = () => {
           </Link>
           <Link 
             to="/about-us" 
-            className={`font-medium text-base transition-colors ${
+            className={`font-medium text-[0.9rem] transition-colors ${
               isActive('/about-us') 
                 ? 'text-secondary-orange' :'text-neutral-dark hover:text-secondary-orange'
             }`}
@@ -49,16 +49,16 @@ const Header = () => {
           </Link>
           <Link 
             to="/services" 
-            className={`font-medium text-base transition-colors ${
+            className={`font-medium text-[0.9rem] transition-colors ${
               isActive('/services') 
                 ? 'text-secondary-orange' :'text-neutral-dark hover:text-secondary-orange'
             }`}
           >
-            Services
+            Our Intiative
           </Link>
           <Link 
             to="/gallery" 
-            className={`font-medium text-base transition-colors ${
+            className={`font-medium text-[0.9rem] transition-colors ${
               isActive('/gallery') 
                 ? 'text-secondary-orange' :'text-neutral-dark hover:text-secondary-orange'
             }`}
@@ -67,7 +67,7 @@ const Header = () => {
           </Link>
           <Link 
             to="/contact" 
-            className={`font-medium text-base transition-colors ${
+            className={`font-medium text-[0.9rem] transition-colors ${
               isActive('/contact') 
                 ? 'text-secondary-orange' :'text-neutral-dark hover:text-secondary-orange'
             }`}
@@ -81,10 +81,11 @@ const Header = () => {
           <Link to="/donate">
             <Button 
               variant="primary"
-              className="bg-primary-blue text-white px-6 py-3 rounded-[20px] font-semibold text-base shadow-custom-blue hover:bg-primary-dark transition-colors"
+              className="bg-primary-blue text-white px-12 py-5 rounded-[20px] text-[0.950rem] shadow-custom-blue hover:bg-primary-dark transition-colors"
             >
               Donate Now
             </Button>
+            
           </Link>
         </div>
 
@@ -111,7 +112,7 @@ const Header = () => {
             <Link 
               to="/" 
               onClick={toggleMobileMenu}
-              className={`font-medium text-base px-4 py-2 transition-colors ${
+              className={`font-medium text-[0.9rem] px-4 py-2 transition-colors ${
                 isActive('/') 
                   ? 'text-secondary-orange bg-secondary-orange bg-opacity-10' :'text-neutral-dark hover:text-secondary-orange'
               }`}
@@ -121,7 +122,7 @@ const Header = () => {
             <Link 
               to="/about-us" 
               onClick={toggleMobileMenu}
-              className={`font-medium text-base px-4 py-2 transition-colors ${
+              className={`font-medium text-[0.9rem] px-4 py-2 transition-colors ${
                 isActive('/about-us') 
                   ? 'text-secondary-orange bg-secondary-orange bg-opacity-10' :'text-neutral-dark hover:text-secondary-orange'
               }`}
@@ -131,17 +132,17 @@ const Header = () => {
             <Link 
               to="/services" 
               onClick={toggleMobileMenu}
-              className={`font-medium text-base px-4 py-2 transition-colors ${
+              className={`font-medium text-[0.9rem] px-4 py-2 transition-colors ${
                 isActive('/services') 
                   ? 'text-secondary-orange bg-secondary-orange bg-opacity-10' :'text-neutral-dark hover:text-secondary-orange'
               }`}
             >
-              Services
+              Our Intiative
             </Link>
             <Link 
               to="/gallery" 
               onClick={toggleMobileMenu}
-              className={`font-medium text-base px-4 py-2 transition-colors ${
+              className={`font-medium text-[0.9rem] px-4 py-2 transition-colors ${
                 isActive('/gallery') 
                   ? 'text-secondary-orange bg-secondary-orange bg-opacity-10' :'text-neutral-dark hover:text-secondary-orange'
               }`}
@@ -151,7 +152,7 @@ const Header = () => {
             <Link 
               to="/contact" 
               onClick={toggleMobileMenu}
-              className={`font-medium text-base px-4 py-2 transition-colors ${
+              className={`font-medium text-[0.9rem] px-4 py-2 transition-colors ${
                 isActive('/contact') 
                   ? 'text-secondary-orange bg-secondary-orange bg-opacity-10' :'text-neutral-dark hover:text-secondary-orange'
               }`}
@@ -163,7 +164,7 @@ const Header = () => {
               <Link to="/donate" onClick={toggleMobileMenu}>
                 <Button 
                   variant="primary"
-                  className="w-full bg-primary-blue text-white py-3 rounded-[20px] font-semibold text-base shadow-custom-blue"
+                  className="w-full bg-primary-blue text-white py-3 rounded-[20px] font-semibold text-[0.9rem] shadow-custom-blue"
                 >
                   Donate Now
                 </Button>
