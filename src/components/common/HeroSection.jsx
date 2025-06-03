@@ -98,7 +98,7 @@ const HeroSection = () => {
 
           {/* Donors Info */}
           <div className="flex items-center space-x-4">
-            <img src="/images/img_frame_12.png" alt="Donor avatars" className="w-[117px] h-10" />
+            <img src="/images/img_frame_12.png" alt="Donor avatars" className="h-12" />
             <p className="text-sm font-bold text-[#505051] leading-4">
               300+ Donors around the world
             </p>
