@@ -72,6 +72,8 @@ module.exports = {
         'custom-medium': '15px 15px 38px rgba(209,213,215,0.9)',
         'custom-heavy': '0px 4px 12px rgba(136,136,136,1)',
         'custom-blue': '0px 16px 26px rgba(71,186,255,0.3)',
+        'custom-numKeys': '1px 1px 2px 0px rgba(255, 255, 255, 0.30) inset, -1px -1px 2px 0px rgba(185, 185, 185, 0.50) inset, -6px 6px 12px 0px rgba(185, 185, 185, 0.20), 6px -6px 12px 0px rgba(185, 185, 185, 0.20), -6px -6px 12px 0px rgba(255, 255, 255, 0.90), 6px 6px 15px 0px rgba(185, 185, 185, 0.90)',
+        'custom-numButton': '1px 1px 2px 0px rgba(255, 178, 107, 0.30) inset, -1px -1px 2px 0px rgba(220, 146, 87, 0.50) inset, -10px 10px 20px 0px rgba(220, 146, 87, 0.20), 10px -10px 20px 0px rgba(220, 146, 87, 0.20), -10px -10px 20px 0px rgba(255, 178, 107, 0.90), 10px 10px 25px 0px rgba(220, 146, 87, 0.90)',        
       },
     },
   },

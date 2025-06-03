@@ -81,9 +81,9 @@ const Header = () => {
           <Link to="/donate">
             <Button 
               variant="primary"
-              className="bg-primary-blue text-white px-11 py-5 rounded-[20px] text-[0.95rem] shadow-custom-blue hover:bg-primary-dark transition-colors"
+              className="bg-primary-blue text-white px-11 py-5 rounded-[20px] text-[0.95rem]  hover:bg-primary-dark transition-colors"
             >
-              Donate Now
+            <p className='text-shadow-[0_100px_100px_rgba(71,187,255,0.30)]'>  Donate Now </p>
             </Button>
             
           </Link>
