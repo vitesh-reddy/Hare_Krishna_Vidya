@@ -16,7 +16,7 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-neutral-background py-6 px-16 top-0 z-40">
+    <header className="bg-neutral-background py-6 px-4 top-0 z-40">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center">
@@ -81,7 +81,7 @@ const Header = () => {
           <Link to="/donate">
             <Button 
               variant="primary"
-              className="bg-primary-blue text-white px-12 py-5 rounded-[20px] text-[0.950rem] shadow-custom-blue hover:bg-primary-dark transition-colors"
+              className="bg-primary-blue text-white px-11 py-5 rounded-[20px] text-[0.95rem] shadow-custom-blue hover:bg-primary-dark transition-colors"
             >
               Donate Now
             </Button>

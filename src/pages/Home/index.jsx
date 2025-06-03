@@ -51,7 +51,7 @@ const HomePage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-neutral-background">
+    <div className="min-h-screen bg-neutral-background px-12">
       <Header />
       
       <main>
