@@ -48,7 +48,7 @@ const HeroSection = () => {
         <div className="max-w-4xl mx-auto text-center">
           {/* Main Heading */}
           <h1 className="font-urbanist text-[3.25rem] font-bold text-white mb-3 leading-[72px]">
-            One Meal. <span className="text-[#f4a261] italic"> One Book. </span>One Child
+            One Meal. <span className="[font-style:oblique_6deg] text-[#f4a261]"> One Book. </span>One Child
           </h1>
 
           {/* Subtitle */}
