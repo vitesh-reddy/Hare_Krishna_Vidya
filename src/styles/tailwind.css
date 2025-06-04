@@ -157,6 +157,9 @@
   .bg-gradient-light {
     background: linear-gradient(135deg, #e8e8e8 0%, #ffffff 100%);
   }
+  .bg-gradient-light2 {
+    background: linear-gradient(135deg, #e8e8e8 100%, #ffffff 0%);
+  }
 
   .bg-gradient-gallery {
     background: linear-gradient(180deg, #edf2f7 0%, #edf2f7 100%);

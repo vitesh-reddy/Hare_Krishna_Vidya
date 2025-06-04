@@ -51,14 +51,14 @@ const HomePage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-neutral-background px-12">
+    <div className="min-h-screen bg-neutral-background">
       <Header />
 
       <main>
         <HeroSection />
 
         {/* Mission Section */}
-        <section className="pt-0 px-4 sm:pt-[2.75rem]  lg:pt-6">
+        <section className="pt-0 px-16 sm:pt-[2.75rem]  lg:pt-6">
           <div className="max-w-7xl mx-auto">
             <div className="text-left mb-12">
               <h2 className="[font-style:oblique_6deg] font-urbanist text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-dark mb-10">
@@ -129,7 +129,7 @@ const HomePage = () => {
         </section>
 
         {/* Donation Journey Section */}
-        <section className="relative pb-12 px-4 sm:pb-16 lg:pb-0 w-full">
+        <section className="relative pb-12 px-16 sm:pb-16 lg:pb-0 w-full">
           <div className="max-w-7xl mx-auto w-full">
             <div className="flex justify-center items-center w-full">
               {/* Left Side - Journey Steps */}
@@ -226,8 +226,8 @@ const HomePage = () => {
                   Woohoo! 🎉
                 </h2>
                 <p className="text-lg lg:text-[1.125rem] text-white/70 font-inter font-medium mb-8 leading-6">
-                  Your kindness will serve fresh, sanctified meals to{' '}
-                  <span className="font-bold text-white/70 italic font-inter">100 children today.</span>
+                  Your kindness will serve fresh  , sanctified meals to{' '}
+                  <span className="font-bold text-white/70 [font-style:oblique_6deg] font-inter">100 children today.</span>
                 </p>
                 <div
                   className="bg-accent-yellow text-white px-6 py-3 rounded-[20px] font-semibold shadow-2xl hover:bg-accent-dark transition-colors flex items-center space-x-3 w-full sm:w-auto justify-center"
@@ -245,18 +245,18 @@ const HomePage = () => {
         </section>
 
         {/* Testimonials Section */}
-        <section className="py-12 px-4 sm:py-16 lg:py-20">
+        <section className="py-12 px-16 sm:py-16 lg:py-20 mb-10">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
-              <div className="bg-gradient-light rounded-[24px] p-4 shadow-custom-light inline-flex items-center space-x-3 mb-6">
-                <img src="/images/img_shines.png" alt="Shine icon" className="w-5 h-5" />
-                <span className="text-base font-semibold text-black">Testimonials</span>
+              <div className="bg-white rounded-[24px] px-4 py-3 shadow-custom-numKeys inline-flex items-center space-x-3 mb-10">
+                <img src="/images/img_shines.png" alt="Shine icon" className="w-[1rem]" />
+                <span className="text-[1rem] font-inter font-semibold text-black">Testimonials</span>
               </div>
 
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-4">
-                Your <span className="text-accent-yellow">Impact in Their Words</span>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-urbanist font-extrabold text-[#2c2c2c] text-center mb-5">
+                Your <span className="text-accent-yellow [font-style:oblique_6deg]">Impact </span> in Their Words
               </h2>
-              <p className="text-lg text-neutral-dark text-center max-w-2xl mx-auto">
+              <p className="text-[1rem] font-inter font-medium text-[#2c2c2c] w-[30rem] text-center max-w-2xl mx-auto">
                 Real voices. Real change. Hear from those whose lives have been transformed by your
                 kindness.
               </p>
@@ -265,9 +265,10 @@ const HomePage = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
               {testimonials.map((testimonial) => (
                 <div key={testimonial.id} className="relative">
-                  <div className="border-4 border-accent-yellow rounded-[40px] p-0 overflow-hidden">
-                    <Card variant="secondary" className="rounded-[40px] p-6 lg:p-8">
-                      <p className="text-lg lg:text-2xl text-white text-opacity-90 mb-8 lg:mb-12 leading-relaxed">
+                  <div className="hover:border-4 border-accent-yellow rounded-[40px] p-0 overflow-hidden transition-all duration-300">
+                    <div
+                      className="overflow-hidden bg-[#e76f51] rounded-[40px] p-6 lg:px-10 lg:py-[4rem] shadow-[15px_15px_38px_rgba(209,213,215,0.9)]">
+                      <p className="text-lg lg:text-[1.3rem] text-[#ecece2] font-[400] font-inter text-opacity-90 mb-14 lg:mb-20 leading-relaxed">
                         {testimonial.text}
                       </p>
 
@@ -275,21 +276,21 @@ const HomePage = () => {
                         <img
                           src={testimonial.image}
                           alt={testimonial.name}
-                          className="w-16 h-16 lg:w-[85px] lg:h-[85px] rounded-full object-cover"
+                          className="w-16 lg:w-[4.75rem]  rounded-full object-cover"
                         />
-                        <div>
-                          <h4 className="text-xl lg:text-2xl font-bold text-white leading-tight">
+                        <div className='flex flex-col space-y-3 justify-evenly'>
+                          <h4 className="text-xl lg:text-[1.75rem] font-urbanist font-bold text-[#ECECE2] ">
                             {testimonial.name}
                           </h4>
-                          <p className="text-base lg:text-lg text-white text-opacity-70 leading-6">
+                          <p className="text-base lg:text-[1rem] font-inter text-[#ECECE2]/60 font-medium text-opacity-70">
                             {testimonial.location}
                           </p>
-                          <p className="text-sm lg:text-base font-semibold text-white leading-5">
+                          <p className="text-sm lg:text-[0.9rem] font-inter font-semibold text-[#ECECE2]">
                             {testimonial.donation}
                           </p>
                         </div>
                       </div>
-                    </Card>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -298,88 +299,82 @@ const HomePage = () => {
         </section>
 
         {/* Gallery Section */}
-        <section className="py-12 px-4 sm:py-16 lg:py-20 bg-gradient-gallery">
+        <section className="py-12 px-[5rem] sm:py-16 lg:py-20 bg-gradient-gallery">
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12">
-              <div className="bg-gradient-light rounded-[24px] p-4 shadow-custom-light inline-flex items-center space-x-3 mb-6">
-                <img src="/images/img_shines.png" alt="Shine icon" className="w-5 h-5" />
-                <span className="text-base font-semibold text-black">Gallery</span>
+            <div className="text-center mb-28">
+              <div className="bg-white rounded-[24px] px-4 py-3 shadow-custom-numKeys inline-flex items-center space-x-3 mb-8">
+                <img src="/images/img_shines.png" alt="Shine icon" className="w-[1rem]" />
+                <span className="text-[1rem] font-inter font-semibold text-black">Gallery</span>
               </div>
 
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-8">
-                A glimpse into the lives you have touched with your{' '}
-                <span className="text-accent-yellow">kindness.</span>
-              </h2>
+              <p className="text-3xl sm:text-4xl lg:text-[2.20rem] text-[#2C2C2C] font-urbanist font-extrabold text-center mb-4">
+                A glimpse into the lives you have
+              </p>
+              <p className="text-3xl sm:text-4xl lg:text-[2.20rem] text-[#2C2C2C]  font-urbanist font-extrabold  text-center mb-8">
+                touched with your{' '}
+                <span className="text-accent-yellow [font-style:oblique_6deg]">kindness.</span>
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="flex justify-evenly items-start space-x-8">
               {/* Left Column */}
-              <div className="space-y-6">
-                <Card className="bg-white rounded-[20px] p-0 overflow-hidden group">
+              <div className="space-y-12">
+                <div className="overflow-hidden bg-white rounded-[20px] p-0 group shadow-[15px_15px_38px_rgba(209,213,215,0.9)]">
                   <img
                     src={galleryImages[0].src}
                     alt={galleryImages[0].alt}
-                    className="w-full h-64 lg:h-80 object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full  object-cover "
                   />
-                </Card>
-                <Card className="bg-white rounded-[20px] p-0 overflow-hidden group">
+                </div>
+                <div className="overflow-hidden bg-white rounded-[20px] p-0 group shadow-[15px_15px_38px_rgba(209,213,215,0.9)]">
                   <img
                     src={galleryImages[3].src}
                     alt={galleryImages[3].alt}
-                    className="w-full h-64 lg:h-80 object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full object-cover "
                   />
-                </Card>
+                </div>
               </div>
 
               {/* Center Column */}
-              <div className="sm:col-span-2">
-                <Card className="bg-white rounded-[20px] p-0 mb-6 overflow-hidden group">
+              <div className="">
+                <div className="overflow-hidden bg-white rounded-[20px] p-0 mb-auto group shadow-[15px_15px_38px_rgba(209,213,215,0.9)]">
                   <img
                     src={galleryImages[1].src}
                     alt={galleryImages[1].alt}
-                    className="w-full h-64 lg:h-80 object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full object-cover "
                   />
-                </Card>
+                </div>
 
-                <div className="text-center py-8 lg:py-12">
-                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-neutral-dark leading-tight">
-                    Real change does not always speak
-                    <br className="hidden sm:block" />
-                    it shows.{' '}
-                    <span className="text-accent-yellow font-extrabold">Just like this.</span>
-                  </h3>
+                <div className="text-center py-auto flex flex-col justify-evenly space-y-4 lg:py-12">
+                  <p className="text-2xl sm:text-3xl lg:text-[2rem] font-urbanist font-bold text-[#2C2C2C] leading-tight">
+                    Real change doesn't 
+                  </p>
+                  <p className="text-2xl sm:text-3xl lg:text-[2rem] font-urbanist font-bold text-[#2C2C2C] leading-tight">
+                    always speak 
+                  </p>
+                  <p className="text-2xl sm:text-3xl lg:text-[2rem] font-urbanist font-bold text-[#2C2C2C] leading-tight">
+                    it shows. <span className="text-accent-yellow font-extrabold">Just like this.</span>
+                  </p>
                 </div>
               </div>
 
               {/* Right Column */}
-              <div className="space-y-6">
-                <Card className="bg-white rounded-[20px] p-0 overflow-hidden group">
+              <div className="space-y-12">
+                <div className="overflow-hidden bg-white rounded-[20px] p-0 group shadow-[15px_15px_38px_rgba(209,213,215,0.9)]">
                   <img
                     src={galleryImages[2].src}
                     alt={galleryImages[2].alt}
-                    className="w-full h-64 lg:h-80 object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full object-cover "
                   />
-                </Card>
-                <Card className="bg-white rounded-[20px] p-0 overflow-hidden group">
+                </div>
+                <div className="overflow-hidden bg-white rounded-[20px] p-0 group shadow-[15px_15px_38px_rgba(209,213,215,0.9)]">
                   <img
                     src={galleryImages[4].src}
                     alt={galleryImages[4].alt}
-                    className="w-full h-64 lg:h-80 object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full object-cover "
                   />
-                </Card>
+                </div>
               </div>
-            </div>
-
-            <div className="text-center mt-12">
-              <Link to="/gallery">
-                <Button
-                  variant="primary"
-                  size="large"
-                  className="px-8 py-4 text-lg rounded-[25px] shadow-custom-blue"
-                >
-                  View Full Gallery
-                </Button>
-              </Link>
             </div>
           </div>
         </section>

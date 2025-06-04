@@ -23,7 +23,7 @@ const HeroSection = () => {
           alt="Children receiving food"
           className="w-full h-full object-cover rounded-[40px]"
         />
-        <div className="absolute inset-0 bg-black bg-opacity-20 rounded-[40px]"></div>
+        <div className="absolute inset-0 bg-black/10 rounded-[40px]"></div>
       </div>
       {/* Donation Notification */}
       <div
@@ -47,12 +47,12 @@ const HeroSection = () => {
       <div className="relative z-10 px-8 py-20 w-full h-full flex flex-col justify-center">
         <div className="max-w-4xl mx-auto text-center">
           {/* Main Heading */}
-          <h1 className="font-urbanist text-[3.25rem] font-bold text-white mb-3 leading-[72px]">
+          <h1 className="font-urbanist text-[3.35rem] font-bold text-white mb-3 leading-[72px]">
             One Meal. <span className="[font-style:oblique_6deg] text-[#f4a261]"> One Book. </span>One Child
           </h1>
 
           {/* Subtitle */}
-          <p className="font-inter text-[1.25rem] text-white mb-[15rem] leading-9 max-w-3xl mx-auto">
+          <p className="font-inter text-[1.35rem] font-[350] text-white mb-[15rem] leading-0 max-w-2xl mx-auto">
             Closer to a Brighter Tomorrow. Every donation brings nourishment, knowledge, and hope to
             underprivileged children.
           </p>
@@ -62,7 +62,7 @@ const HeroSection = () => {
         <div className="absolute left-10 bottom-14 bg-[rgba(237,242,247,0.8)] rounded-[40px] p-6 shadow-[0px_4px_12px_rgba(136,136,136,1)] max-w-[23.4375rem] h-[14rem] cursor-pointer">
           {/* Karma Insights Header */}
           <div className="flex flex-row items-center mb-6 gap-3 relative">
-            <div className="bg-gradient-to-r from-[#e8e8e8] to-white rounded-[24px] p-4 shadow-[6px_6px_15px_rgba(185,185,185,0.9)]">
+            <div className="bg-gradient-to-r from-[#e8e8e8] to-white rounded-[24px] p-4 shadow-custom-numKeys">
               <div className="flex items-center space-x-3">
                 <img src="/images/img_shines.png" alt="Shine icon" className="w-5 h-5" />
                 <span className="text-lg font-semibold font-inter text-black">Karma Insights</span>
@@ -72,7 +72,7 @@ const HeroSection = () => {
             <img
               src="/images/img_vector_1.svg"
               alt="Decorative vector"
-              className="absolute top-12 right-8 w-[135px] h-5 z-[100]"
+              className="absolute top-7 h-[7.5rem] right-8  z-[100]"
             />
           </div>
           {/* Stats */}
