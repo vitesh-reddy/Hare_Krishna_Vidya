@@ -39,7 +39,7 @@ const OurStorySection = () => {
           <div className="order-1 lg:order-2">
             <Card className="bg-white rounded-[30px] p-0 shadow-[15px_15px_38px_rgba(209,213,215,0.9)] overflow-hidden">
               <img 
-                src="https://images.pexels.com/photos/8923184/pexels-photo-8923184.jpeg?auto=compress&cs=tinysrgb&w=1200" 
+                src="https://assets.pexels.com/photos/8923184/pexels-photo-8923184.jpeg?auto=compress&cs=tinysrgb&w=1200" 
                 alt="Our journey from humble beginnings" 
                 className="w-full h-[400px] object-cover"
               />

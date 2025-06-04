@@ -20,8 +20,8 @@ const DonatePage = () => {
       id: 'annadaan',
       title: 'Annadaan',
       description: 'Provide freshly cooked, sanctified meals to those in need',
-      icon: '/images/img_food_traced.svg',
-      image: '/images/img_image_14.png',
+      icon: '/assets/img_food_traced.svg',
+      image: '/assets/img_image_14.png',
       impact: {
         100: '1 meal for a child',
         500: '5 meals for a family',
@@ -33,8 +33,8 @@ const DonatePage = () => {
       id: 'education',
       title: 'Vidya Daan',
       description: 'Support education and spiritual learning for children',
-      icon: '/images/img_settings.svg',
-      image: '/images/img_image_15.png',
+      icon: '/assets/img_settings.svg',
+      image: '/assets/img_image_15.png',
       impact: {
         100: 'School supplies for 1 child',
         500: 'Books for 5 students',
@@ -46,8 +46,8 @@ const DonatePage = () => {
       id: 'sponsorship',
       title: 'Sponsor a Child',
       description: 'Complete care and education support for a child',
-      icon: '/images/img_heart_traced.svg',
-      image: '/images/img_image_16.png',
+      icon: '/assets/img_heart_traced.svg',
+      image: '/assets/img_image_16.png',
       impact: {
         100: 'Daily nutrition for 1 week',
         500: 'Healthcare checkup',
@@ -93,7 +93,7 @@ const DonatePage = () => {
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
               <div className="bg-gradient-light rounded-[24px] p-4 shadow-custom-light inline-flex items-center space-x-3 mb-6">
-                <img src="/images/img_heart_traced.svg" alt="Donate" className="w-5 h-5" />
+                <img src="/assets/img_heart_traced.svg" alt="Donate" className="w-5 h-5" />
                 <span className="text-base font-semibold text-neutral-dark">Make a Donation</span>
               </div>
               

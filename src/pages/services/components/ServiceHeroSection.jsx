@@ -11,7 +11,7 @@ const ServiceHeroSection = () => {
           {/* Left Content */}
           <div className="order-2 lg:order-1">
             <div className="bg-gradient-light rounded-[24px] p-4 shadow-custom-light inline-flex items-center space-x-3 mb-6">
-              <img src="/images/img_shines.png" alt="Services" className="w-5 h-5" />
+              <img src="/assets/img_shines.png" alt="Services" className="w-5 h-5" />
               <span className="text-base font-semibold text-neutral-dark">Our Services</span>
             </div>
             
@@ -47,7 +47,7 @@ const ServiceHeroSection = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <Card variant="gradient" className="p-6 hover:shadow-custom-medium transition-all duration-300">
                 <div className="bg-accent-yellow bg-opacity-50 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                  <img src="/images/img_food_traced.svg" alt="Food" className="w-8 h-8" />
+                  <img src="/assets/img_food_traced.svg" alt="Food" className="w-8 h-8" />
                 </div>
                 <h3 className="text-xl font-semibold text-neutral-dark mb-2">Annadaan</h3>
                 <p className="text-text-muted">Feeding the hungry with sanctified meals</p>
@@ -55,7 +55,7 @@ const ServiceHeroSection = () => {
               
               <Card variant="gradient" className="p-6 hover:shadow-custom-medium transition-all duration-300 mt-8">
                 <div className="bg-accent-yellow bg-opacity-50 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                  <img src="/images/img_heart_traced.svg" alt="Child" className="w-8 h-8" />
+                  <img src="/assets/img_heart_traced.svg" alt="Child" className="w-8 h-8" />
                 </div>
                 <h3 className="text-xl font-semibold text-neutral-dark mb-2">Child Sponsorship</h3>
                 <p className="text-text-muted">Supporting children's education and welfare</p>
@@ -63,7 +63,7 @@ const ServiceHeroSection = () => {
               
               <Card variant="gradient" className="p-6 hover:shadow-custom-medium transition-all duration-300 sm:col-span-2">
                 <div className="bg-accent-yellow bg-opacity-50 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                  <img src="/images/img_settings.svg" alt="Education" className="w-8 h-8" />
+                  <img src="/assets/img_settings.svg" alt="Education" className="w-8 h-8" />
                 </div>
                 <h3 className="text-xl font-semibold text-neutral-dark mb-2">Vidya Daan</h3>
                 <p className="text-text-muted">Sharing knowledge and spiritual teachings</p>

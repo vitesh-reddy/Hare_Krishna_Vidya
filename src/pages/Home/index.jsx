@@ -22,7 +22,7 @@ const HomePage = () => {
       name: 'Lorem ipsum',
       location: 'Lorem ipsum',
       donation: 'Donated ₹1000 in Anadaan',
-      image: '/images/img_ellipse_3.png',
+      image: '/assets/img_ellipse_3.png',
     },
     {
       id: 2,
@@ -30,7 +30,7 @@ const HomePage = () => {
       name: 'Lorem ipsum',
       location: 'Lorem ipsum',
       donation: 'Donated ₹1000 in Anadaan',
-      image: '/images/img_ellipse_3.png',
+      image: '/assets/img_ellipse_3.png',
     },
     {
       id: 3,
@@ -38,16 +38,16 @@ const HomePage = () => {
       name: 'Lorem ipsum',
       location: 'Lorem ipsum',
       donation: 'Donated ₹1000 in Anadaan',
-      image: '/images/img_ellipse_3.png',
+      image: '/assets/img_ellipse_3.png',
     },
   ];
 
   const galleryImages = [
-    { src: '/images/img_image_15.png', alt: 'Children receiving education' },
-    { src: '/images/img_image_16.png', alt: 'Community gathering' },
-    { src: '/images/img_image_17.png', alt: 'Educational activities' },
-    { src: '/images/img_image_18.png', alt: 'Food distribution' },
-    { src: '/images/img_image_19.png', alt: 'Happy children' },
+    { src: '/assets/img_image_15.png', alt: 'Children receiving education' },
+    { src: '/assets/img_image_16.png', alt: 'Community gathering' },
+    { src: '/assets/img_image_17.png', alt: 'Educational activities' },
+    { src: '/assets/img_image_18.png', alt: 'Food distribution' },
+    { src: '/assets/img_image_19.png', alt: 'Happy children' },
   ];
 
   return (
@@ -76,7 +76,7 @@ const HomePage = () => {
               <div className="bg-gradient-to-br from-[#e1e6e8] to-[#f9feff] border border-border-primary rounded-[30px] p-6 lg:px-8 lg:py-14 hover:[box-shadow:inset_11px_11px_28px_rgba(209,213,215,0.9)] transition-all duration-300">
                 <div className="bg-[#F4A261] bg-opacity-40 w-14 h-14 lg:w-[3.25rem] lg:h-[3.25rem] rounded-full flex items-center justify-center mb-6 lg:mb-8">
                   <img
-                    src="/images/img_food_traced.svg"
+                    src="/assets/img_food_traced.svg"
                     alt="Food icon"
                     className="w-6 h-6 lg:w-7 lg:h-7"
                   />
@@ -94,7 +94,7 @@ const HomePage = () => {
               <div className="bg-gradient-to-br from-[#e1e6e8] to-[#f9feff] border border-border-primary rounded-[30px] p-6 lg:p-8 hover:[box-shadow:inset_11px_11px_28px_rgba(209,213,215,0.9)] transition-all duration-300">
                 <div className="bg-[#F4A261] bg-opacity-40 w-14 h-14 lg:w-[3.25rem] lg:h-[3.25rem] rounded-full flex items-center justify-center mb-6 lg:mb-8">
                   <img
-                    src="/images/img_food_traced.svg"
+                    src="/assets/img_food_traced.svg"
                     alt="Child icon"
                     className="w-6 h-6 lg:w-7 lg:h-7"
                   />
@@ -111,7 +111,7 @@ const HomePage = () => {
               <div className="bg-gradient-to-br from-[#e1e6e8] to-[#f9feff] border border-border-primary rounded-[30px] p-6 lg:p-8 hover:[box-shadow:inset_11px_11px_28px_rgba(209,213,215,0.9)]   transition-all duration-300 md:col-span-2 lg:col-span-1">
                 <div className="bg-[#F4A261] bg-opacity-40 w-14 h-14 lg:w-[3.25rem] lg:h-[3.25rem] rounded-full flex items-center justify-center mb-6 lg:mb-8">
                   <img
-                    src="/images/img_food_traced.svg"
+                    src="/assets/img_food_traced.svg"
                     alt="Education icon"
                     className="w-6 h-6 lg:w-7 lg:h-7"
                   />
@@ -174,7 +174,7 @@ const HomePage = () => {
               <div className="relative mt-12 flex justify-center w-[45%] z-1">
                 <div className="relative max-w-full w-full">
                   <img
-                    src="/images/img_iphone_15_1.png"
+                    src="/assets/img_iphone_15_1.png"
                     alt="Mobile donation interface"
                     className="h-[95%] rounded-[30px] lg:rounded-[50px] bg-[#EDF2F7] mix-blend-multiply"
                   />
@@ -234,7 +234,7 @@ const HomePage = () => {
                 >
                   <span>Click here to make payment</span>
                   <img
-                    src="/images/img_credit.png"
+                    src="/assets/img_credit.png"
                     alt="Credit card"
                     className="w-6 h-6 lg:w-7 lg:h-7"
                   />
@@ -249,7 +249,7 @@ const HomePage = () => {
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
               <div className="bg-white rounded-[24px] px-4 py-3 shadow-custom-numKeys inline-flex items-center space-x-3 mb-10">
-                <img src="/images/img_shines.png" alt="Shine icon" className="w-[1rem]" />
+                <img src="/assets/img_shines.png" alt="Shine icon" className="w-[1rem]" />
                 <span className="text-[1rem] font-inter font-semibold text-black">Testimonials</span>
               </div>
 
@@ -303,7 +303,7 @@ const HomePage = () => {
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-28">
               <div className="bg-white rounded-[24px] px-4 py-3 shadow-custom-numKeys inline-flex items-center space-x-3 mb-8">
-                <img src="/images/img_shines.png" alt="Shine icon" className="w-[1rem]" />
+                <img src="/assets/img_shines.png" alt="Shine icon" className="w-[1rem]" />
                 <span className="text-[1rem] font-inter font-semibold text-black">Gallery</span>
               </div>
 

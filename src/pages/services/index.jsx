@@ -14,7 +14,7 @@ const ServicesPage = () => {
       id: 1,
       title: 'Annadaan',
       description: 'Provide freshly cooked, sanctified meals to those in need. Your kindness fills plates and hearts.',
-      icon: '/images/img_food_traced.svg',
+      icon: '/assets/img_food_traced.svg',
       impact: '10,000+ meals served daily',
       category: 'Food Security',
       features: [
@@ -28,7 +28,7 @@ const ServicesPage = () => {
       id: 2,
       title: 'Sponsor a Child',
       description: 'Support a child\'s education, nutrition, and wellbeing. Change one life forever.',
-      icon: '/images/img_heart_traced.svg',
+      icon: '/assets/img_heart_traced.svg',
       impact: '500+ children sponsored',
       category: 'Child Welfare',
       features: [
@@ -42,7 +42,7 @@ const ServicesPage = () => {
       id: 3,
       title: 'Vidya Daan',
       description: 'Help light the lamp of learning. Your support shares sacred teachings and education with young hearts.',
-      icon: '/images/img_settings.svg',
+      icon: '/assets/img_settings.svg',
       impact: '2,000+ students educated',
       category: 'Education',
       features: [
@@ -66,7 +66,7 @@ const ServicesPage = () => {
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
               <div className="bg-gradient-light rounded-[24px] p-4 shadow-custom-light inline-flex items-center space-x-3 mb-6">
-                <img src="/images/img_shines.png" alt="Services" className="w-5 h-5" />
+                <img src="/assets/img_shines.png" alt="Services" className="w-5 h-5" />
                 <span className="text-base font-semibold text-neutral-dark">Our Services</span>
               </div>
               

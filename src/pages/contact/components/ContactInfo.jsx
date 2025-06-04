@@ -5,21 +5,21 @@ import Card from '../../../components/ui/Card';
 const ContactInfo = () => {
   const contactMethods = [
     {
-      icon: '/images/img_phone.svg',
+      icon: '/assets/img_phone.svg',
       title: 'Phone',
       primary: '+91 98765 43210',
       secondary: '+91 87654 32109',
       description: 'Call us during business hours'
     },
     {
-      icon: '/images/img_mail.svg',
+      icon: '/assets/img_mail.svg',
       title: 'Email',
       primary: 'info@hkvidya.org',
       secondary: 'donate@hkvidya.org',
       description: 'We respond within 24 hours'
     },
     {
-      icon: '/images/img_settings.svg',
+      icon: '/assets/img_settings.svg',
       title: 'Address',
       primary: '123 Seva Road, Krishna Nagar',
       secondary: 'Mumbai, Maharashtra 400001',
@@ -28,11 +28,11 @@ const ContactInfo = () => {
   ];
 
   const socialLinks = [
-    { icon: '/images/img_facebook.svg', name: 'Facebook', url: '#' },
-    { icon: '/images/img_instagram.svg', name: 'Instagram', url: '#' },
-    { icon: '/images/img_x.svg', name: 'Twitter', url: '#' },
-    { icon: '/images/img_youtube.svg', name: 'YouTube', url: '#' },
-    { icon: '/images/img_linkedin.svg', name: 'LinkedIn', url: '#' }
+    { icon: '/assets/img_facebook.svg', name: 'Facebook', url: '#' },
+    { icon: '/assets/img_instagram.svg', name: 'Instagram', url: '#' },
+    { icon: '/assets/img_x.svg', name: 'Twitter', url: '#' },
+    { icon: '/assets/img_youtube.svg', name: 'YouTube', url: '#' },
+    { icon: '/assets/img_linkedin.svg', name: 'LinkedIn', url: '#' }
   ];
 
   return (

@@ -153,10 +153,10 @@ const DonationSuccess = ({ donationData, onClose }) => {
             
             <div className="flex justify-center space-x-4">
               {[
-                { name: 'Facebook', icon: '/images/img_facebook.svg' },
-                { name: 'Twitter', icon: '/images/img_x.svg' },
-                { name: 'LinkedIn', icon: '/images/img_linkedin.svg' },
-                { name: 'WhatsApp', icon: '/images/img_phone.svg' }
+                { name: 'Facebook', icon: '/assets/img_facebook.svg' },
+                { name: 'Twitter', icon: '/assets/img_x.svg' },
+                { name: 'LinkedIn', icon: '/assets/img_linkedin.svg' },
+                { name: 'WhatsApp', icon: '/assets/img_phone.svg' }
               ].map((social, index) => (
                 <button
                   key={index}

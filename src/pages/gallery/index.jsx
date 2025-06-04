@@ -24,56 +24,56 @@ const GalleryPage = () => {
   const galleryImages = [
     {
       id: 1,
-      src: '/images/img_image_15.png',
+      src: '/assets/img_image_15.png',
       title: 'Children receiving education',
       category: 'education',
       description: 'Young minds engaged in learning activities at our education center'
     },
     {
       id: 2,
-      src: '/images/img_image_16.png',
+      src: '/assets/img_image_16.png',
       title: 'Community meal distribution',
       category: 'annadaan',
       description: 'Daily meal service reaching hundreds of families in need'
     },
     {
       id: 3,
-      src: '/images/img_image_17.png',
+      src: '/assets/img_image_17.png',
       title: 'Educational activities',
       category: 'education',
       description: 'Interactive learning sessions fostering creativity and growth'
     },
     {
       id: 4,
-      src: '/images/img_image_18.png',
+      src: '/assets/img_image_18.png',
       title: 'Food distribution program',
       category: 'annadaan',
       description: 'Volunteers serving fresh, nutritious meals to the community'
     },
     {
       id: 5,
-      src: '/images/img_image_19.png',
+      src: '/assets/img_image_19.png',
       title: 'Happy children',
       category: 'children',
       description: 'Joyful moments captured during our child development programs'
     },
     {
       id: 6,
-      src: '/images/img_frame_12.png',
+      src: '/assets/img_frame_12.png',
       title: 'Community gathering',
       category: 'events',
       description: 'Bringing communities together through shared values and service'
     },
     {
       id: 7,
-      src: '/images/img_image_13.png',
+      src: '/assets/img_image_13.png',
       title: 'Educational workshop',
       category: 'education',
       description: 'Skill development workshops empowering youth with practical knowledge'
     },
     {
       id: 8,
-      src: '/images/img_image_14.png',
+      src: '/assets/img_image_14.png',
       title: 'Meal preparation',
       category: 'annadaan',
       description: 'Behind the scenes - preparing fresh, sanctified meals daily'

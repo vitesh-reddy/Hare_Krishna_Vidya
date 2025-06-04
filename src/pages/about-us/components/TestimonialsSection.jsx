@@ -44,35 +44,35 @@ const TestimonialsSection = () => {
       role: "Child Psychologist",
       organization: "Mumbai Children\'s Hospital",
       quote: "The holistic approach of Hare Krishna Vidya towards child development is remarkable. They don\'t just feed bodies, they nourish souls and minds. I\'ve seen children transform from withdrawn and malnourished to confident, healthy learners.",
-      image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+      image: "https://assets.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
     },
     {
       name: "Rajesh Kumar",
       role: "Parent",
       organization: "Father of Sponsored Child",
       quote: "My daughter Priya was struggling in school and often went hungry. Since joining Hare Krishna Vidya\'s program, she\'s not only well-fed but has become one of the top students in her class. The foundation saved our family\'s future.",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+      image: "https://assets.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
     },
     {
       name: "Sister Mary Thomas",
       role: "Social Worker",
       organization: "St. Joseph\'s Community Center",
       quote: "In my 25 years of social work, I\'ve rarely seen an organization that combines efficiency with such genuine compassion. Their transparency and dedication to the children is truly inspiring.",
-      image: "https://images.pexels.com/photos/3768894/pexels-photo-3768894.jpeg?auto=compress&cs=tinysrgb&w=600"
+      image: "https://assets.pexels.com/photos/3768894/pexels-photo-3768894.jpeg?auto=compress&cs=tinysrgb&w=600"
     },
     {
       name: "Anita Sharma",
       role: "Former Student, Now Teacher",
       organization: "Hare Krishna Vidya Graduate",
       quote: "I was once a beneficiary of this foundation\'s programs. Today, I\'m a teacher giving back to new students. This organization doesn\'t just change lives—it creates cycles of positive change that last generations.",
-      image: "https://images.pixabay.com/photo/2017/05/31/04/59/beautiful-2359121_640.jpg"
+      image: "https://assets.pixabay.com/photo/2017/05/31/04/59/beautiful-2359121_640.jpg"
     },
     {
       name: "Vikram Patil",
       role: "Local Government Official",
       organization: "District Education Officer",
       quote: "Hare Krishna Vidya has become an integral part of our community\'s educational ecosystem. Their innovative approaches and consistent results have earned them the trust and respect of families and officials alike.",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+      image: "https://assets.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
     }
   ];
 
@@ -115,7 +115,7 @@ const TestimonialsSection = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <div className="bg-gradient-to-r from-[#e8e8e8] to-white rounded-[24px] p-4 shadow-[6px_6px_15px_rgba(185,185,185,0.9)] inline-flex items-center space-x-3 mb-6">
-            <img src="/images/img_shines.png" alt="Shine icon" className="w-5 h-5" />
+            <img src="/assets/img_shines.png" alt="Shine icon" className="w-5 h-5" />
             <span className="text-base font-semibold text-black">Testimonials</span>
           </div>
           

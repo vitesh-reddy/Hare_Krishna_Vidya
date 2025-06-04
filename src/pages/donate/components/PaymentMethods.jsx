@@ -7,22 +7,22 @@ const PaymentMethods = () => {
     {
       name: 'Credit/Debit Cards',
       description: 'Visa, Mastercard, RuPay',
-      icon: '/images/img_credit.png'
+      icon: '/assets/img_credit.png'
     },
     {
       name: 'UPI',
       description: 'PhonePe, GPay, Paytm',
-      icon: '/images/img_phone.svg'
+      icon: '/assets/img_phone.svg'
     },
     {
       name: 'Net Banking',
       description: 'All major banks',
-      icon: '/images/img_settings.svg'
+      icon: '/assets/img_settings.svg'
     },
     {
       name: 'Digital Wallets',
       description: 'PayPal, Amazon Pay',
-      icon: '/images/img_mail.svg'
+      icon: '/assets/img_mail.svg'
     }
   ];
 

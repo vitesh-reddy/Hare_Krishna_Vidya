@@ -8,7 +8,7 @@ const GalleryHero = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <div className="bg-gradient-light rounded-[24px] p-4 shadow-custom-light inline-flex items-center space-x-3 mb-6">
-            <img src="/images/img_shines.png" alt="Gallery" className="w-5 h-5" />
+            <img src="/assets/img_shines.png" alt="Gallery" className="w-5 h-5" />
             <span className="text-base font-semibold text-neutral-dark">Gallery</span>
           </div>
           
@@ -27,7 +27,7 @@ const GalleryHero = () => {
             <Card variant="default" className="p-0 overflow-hidden group">
               <div className="relative">
                 <img 
-                  src="/images/img_image_16.png" 
+                  src="/assets/img_image_16.png" 
                   alt="Featured moment"
                   className="w-full h-80 lg:h-96 object-cover group-hover:scale-105 transition-transform duration-500"
                 />
@@ -45,7 +45,7 @@ const GalleryHero = () => {
             <Card variant="default" className="p-0 overflow-hidden group">
               <div className="relative">
                 <img 
-                  src="/images/img_image_15.png" 
+                  src="/assets/img_image_15.png" 
                   alt="Education program"
                   className="w-full h-36 lg:h-44 object-cover group-hover:scale-105 transition-transform duration-500"
                 />
@@ -60,7 +60,7 @@ const GalleryHero = () => {
             <Card variant="default" className="p-0 overflow-hidden group">
               <div className="relative">
                 <img 
-                  src="/images/img_image_19.png" 
+                  src="/assets/img_image_19.png" 
                   alt="Happy children"
                   className="w-full h-36 lg:h-44 object-cover group-hover:scale-105 transition-transform duration-500"
                 />

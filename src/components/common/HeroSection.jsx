@@ -19,7 +19,7 @@ const HeroSection = () => {
       {/* Background Image */}
       <div className="absolute inset-0 h-full">
         <img
-          src="/images/img_c2f5de6806506b4a28874bec3bcdf212_1_1_1.png"
+          src="/assets/img_c2f5de6806506b4a28874bec3bcdf212_1_1_1.png"
           alt="Children receiving food"
           className="w-full h-full object-cover rounded-[40px]"
         />
@@ -34,7 +34,7 @@ const HeroSection = () => {
       >
         <div className="bg-gradient-to-r from-[#ededed] to-white rounded-[15px] p-3 shadow-[100px_100px_250px_rgba(224,224,224,0.9)] max-w-[435px]">
           <div className="flex items-center space-x-3 py-1">
-            <img src="/images/img_om.png" alt="Om symbol" className="w-[1rem] h-[1rem]" />
+            <img src="/assets/img_om.png" alt="Om symbol" className="w-[1rem] h-[1rem]" />
             <p className="text-lg font-urbanist text-[#2c2c2c] leading-4">
               <span className="font-black">Rohit</span> from Mumbai just donated{' '}
               <span className="font-black">₹1,000</span> to feed{' '}
@@ -64,13 +64,13 @@ const HeroSection = () => {
           <div className="flex flex-row items-center mb-6 gap-3 relative">
             <div className="bg-gradient-to-r from-[#e8e8e8] to-white rounded-[24px] p-4 shadow-custom-numKeys">
               <div className="flex items-center space-x-3">
-                <img src="/images/img_shines.png" alt="Shine icon" className="w-5 h-5" />
+                <img src="/assets/img_shines.png" alt="Shine icon" className="w-5 h-5" />
                 <span className="text-lg font-semibold font-inter text-black">Karma Insights</span>
               </div>
             </div>
             <span className="text-lg text-[#6d7175] leading-5 mt-1">Click here</span>
             <img
-              src="/images/img_vector_1.svg"
+              src="/assets/img_vector_1.svg"
               alt="Decorative vector"
               className="absolute top-7 h-[7.5rem] right-8  z-[100]"
             />
@@ -98,7 +98,7 @@ const HeroSection = () => {
 
           {/* Donors Info */}
           <div className="flex items-center space-x-4">
-            <img src="/images/img_frame_12.png" alt="Donor avatars" className="h-12" />
+            <img src="/assets/img_frame_12.png" alt="Donor avatars" className="h-12" />
             <p className="text-sm font-bold text-[#505051] leading-4">
               300+ Donors around the world
             </p>
@@ -122,12 +122,12 @@ const HeroSection = () => {
 
           <div className="flex space-x-4 font-inter">
             <Button className="bg-[#e76f51] text-white text-lg px-6 py-4 rounded-[25px] font-semibold flex items-center space-x-2 hover:bg-[#d65a3f] transition-colors">
-              <img src="/images/img_heart_traced.svg" alt="Heart" className="h-7" />
+              <img src="/assets/img_heart_traced.svg" alt="Heart" className="h-7" />
               <span>Donate Now</span>
             </Button>
 
             <Button className="bg-white text-[#2c2c2c] text-lg px-6 py-4 rounded-[24px] font-semibold flex items-center space-x-2 hover:bg-gray-100 transition-colors">
-              <img src="/images/img_information_button.png" alt="Info" className="w-5" />
+              <img src="/assets/img_information_button.png" alt="Info" className="w-5" />
               <span className="text-black">About Us</span>
             </Button>
           </div>

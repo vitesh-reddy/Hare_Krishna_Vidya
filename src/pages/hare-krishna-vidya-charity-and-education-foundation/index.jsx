@@ -15,7 +15,7 @@ const HareKrishnaVidyaPage = () => {
         <section className="py-20 px-4 bg-gradient-to-br from-[#edf2f7] to-[#f9feff]">
           <div className="max-w-7xl mx-auto text-center">
             <div className="bg-gradient-to-r from-[#e8e8e8] to-white rounded-[24px] p-4 shadow-[6px_6px_15px_rgba(185,185,185,0.9)] inline-flex items-center space-x-3 mb-6">
-              <img src="/images/img_shines.png" alt="Shine icon" className="w-5 h-5" />
+              <img src="/assets/img_shines.png" alt="Shine icon" className="w-5 h-5" />
               <span className="text-base font-semibold text-black">Our Foundation</span>
             </div>
             
@@ -47,7 +47,7 @@ const HareKrishnaVidyaPage = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
               <Card className="bg-white rounded-[30px] p-0 shadow-[15px_15px_38px_rgba(209,213,215,0.9)] overflow-hidden">
                 <img 
-                  src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                  src="https://assets.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
                   alt="Children receiving education and meals" 
                   className="w-full h-[400px] object-cover"
                 />
@@ -105,7 +105,7 @@ const HareKrishnaVidyaPage = () => {
               {/* Annadaan Program */}
               <Card variant="gradient" className="rounded-[30px] p-8 border border-[#cfcfcf]">
                 <div className="bg-[rgba(244,162,97,0.5)] w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                  <img src="/images/img_food_traced.svg" alt="Food icon" className="w-8 h-8" />
+                  <img src="/assets/img_food_traced.svg" alt="Food icon" className="w-8 h-8" />
                 </div>
                 <h3 className="text-2xl font-bold text-[#2c2c2c] mb-4">Annadaan</h3>
                 <p className="text-lg text-[#656565] mb-6 leading-relaxed">
@@ -122,7 +122,7 @@ const HareKrishnaVidyaPage = () => {
               {/* Education Program */}
               <Card variant="gradient" className="rounded-[30px] p-8 border border-[#cfcfcf]">
                 <div className="bg-[rgba(231,111,81,0.5)] w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                  <img src="/images/img_books_traced.svg" alt="Books icon" className="w-8 h-8" />
+                  <img src="/assets/img_books_traced.svg" alt="Books icon" className="w-8 h-8" />
                 </div>
                 <h3 className="text-2xl font-bold text-[#2c2c2c] mb-4">Vidya Daan</h3>
                 <p className="text-lg text-[#656565] mb-6 leading-relaxed">
@@ -139,7 +139,7 @@ const HareKrishnaVidyaPage = () => {
               {/* Child Sponsorship Program */}
               <Card variant="gradient" className="rounded-[30px] p-8 border border-[#cfcfcf]">
                 <div className="bg-[rgba(11,57,84,0.5)] w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                  <img src="/images/img_heart_traced.svg" alt="Heart icon" className="w-8 h-8 filter brightness-0 invert" />
+                  <img src="/assets/img_heart_traced.svg" alt="Heart icon" className="w-8 h-8 filter brightness-0 invert" />
                 </div>
                 <h3 className="text-2xl font-bold text-[#2c2c2c] mb-4">Child Sponsorship</h3>
                 <p className="text-lg text-[#656565] mb-6 leading-relaxed">
@@ -171,7 +171,7 @@ const HareKrishnaVidyaPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <Card className="bg-white rounded-[20px] p-0 overflow-hidden">
                 <img 
-                  src="https://images.pexels.com/photos/8923184/pexels-photo-8923184.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                  src="https://assets.pexels.com/photos/8923184/pexels-photo-8923184.jpeg?auto=compress&cs=tinysrgb&w=600" 
                   alt="Children enjoying meals" 
                   className="w-full h-[250px] object-cover"
                 />
@@ -183,7 +183,7 @@ const HareKrishnaVidyaPage = () => {
 
               <Card className="bg-white rounded-[20px] p-0 overflow-hidden">
                 <img 
-                  src="https://images.unsplash.com/photo-1497486751825-1233686d5d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                  src="https://assets.unsplash.com/photo-1497486751825-1233686d5d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
                   alt="Children in classroom" 
                   className="w-full h-[250px] object-cover"
                 />
@@ -195,7 +195,7 @@ const HareKrishnaVidyaPage = () => {
 
               <Card className="bg-white rounded-[20px] p-0 overflow-hidden">
                 <img 
-                  src="https://images.pixabay.com/photo/2017/07/31/11/32/people-2557396_1280.jpg" 
+                  src="https://assets.pixabay.com/photo/2017/07/31/11/32/people-2557396_1280.jpg" 
                   alt="Community celebration" 
                   className="w-full h-[250px] object-cover"
                 />
@@ -207,7 +207,7 @@ const HareKrishnaVidyaPage = () => {
 
               <Card className="bg-white rounded-[20px] p-0 overflow-hidden">
                 <img 
-                  src="https://images.pexels.com/photos/8923058/pexels-photo-8923058.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                  src="https://assets.pexels.com/photos/8923058/pexels-photo-8923058.jpeg?auto=compress&cs=tinysrgb&w=600" 
                   alt="Happy children" 
                   className="w-full h-[250px] object-cover"
                 />

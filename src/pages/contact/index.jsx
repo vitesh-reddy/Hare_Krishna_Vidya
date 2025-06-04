@@ -27,7 +27,7 @@ const ContactPage = () => {
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
               <div className="bg-gradient-light rounded-[24px] p-4 shadow-custom-light inline-flex items-center space-x-3 mb-6">
-                <img src="/images/img_mail.svg" alt="Contact" className="w-5 h-5" />
+                <img src="/assets/img_mail.svg" alt="Contact" className="w-5 h-5" />
                 <span className="text-base font-semibold text-neutral-dark">Contact Us</span>
               </div>
               
@@ -67,7 +67,7 @@ const ContactPage = () => {
                       size="medium"
                       className="w-full rounded-[20px] justify-start"
                     >
-                      <img src="/images/img_heart_traced.svg" alt="Donate" className="w-5 h-5 mr-3" />
+                      <img src="/assets/img_heart_traced.svg" alt="Donate" className="w-5 h-5 mr-3" />
                       Make a Donation
                     </Button>
                     <Button 
@@ -75,7 +75,7 @@ const ContactPage = () => {
                       size="medium"
                       className="w-full rounded-[20px] justify-start"
                     >
-                      <img src="/images/img_settings.svg" alt="Volunteer" className="w-5 h-5 mr-3" />
+                      <img src="/assets/img_settings.svg" alt="Volunteer" className="w-5 h-5 mr-3" />
                       Become a Volunteer
                     </Button>
                     <Button 
@@ -83,7 +83,7 @@ const ContactPage = () => {
                       size="medium"
                       className="w-full rounded-[20px] justify-start"
                     >
-                      <img src="/images/img_mail.svg" alt="Newsletter" className="w-5 h-5 mr-3" />
+                      <img src="/assets/img_mail.svg" alt="Newsletter" className="w-5 h-5 mr-3" />
                       Subscribe to Newsletter
                     </Button>
                   </div>

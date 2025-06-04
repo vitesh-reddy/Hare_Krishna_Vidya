@@ -22,37 +22,37 @@ const ValuesSection = () => {
     {
       title: "Compassion",
       description: "We serve with an open heart, treating every individual with dignity, respect, and unconditional love, regardless of their background or circumstances.",
-      icon: "/images/img_heart_traced.svg",
+      icon: "/assets/img_heart_traced.svg",
       color: "bg-[rgba(244,162,97,0.5)]"
     },
     {
       title: "Service",
       description: "Selfless service is at the core of our mission. We dedicate ourselves to serving others without expectation, finding fulfillment in giving back to society.",
-      icon: "/images/img_food_traced.svg",
+      icon: "/assets/img_food_traced.svg",
       color: "bg-[rgba(231,111,81,0.5)]"
     },
     {
       title: "Education",
       description: "We believe education is the foundation of transformation. Through learning, we empower individuals to break cycles of poverty and build brighter futures.",
-      icon: "/images/img_books_traced.svg",
+      icon: "/assets/img_books_traced.svg",
       color: "bg-[rgba(11,57,84,0.5)]"
     },
     {
       title: "Integrity",
       description: "Transparency and honesty guide all our actions. We maintain the highest ethical standards in our operations and use resources responsibly.",
-      icon: "/images/img_education_traced.svg",
+      icon: "/assets/img_education_traced.svg",
       color: "bg-[rgba(244,162,97,0.5)]"
     },
     {
       title: "Community",
       description: "We foster strong communities where everyone supports each other. Together, we create lasting positive change that extends beyond individual lives.",
-      icon: "/images/img_heart_traced.svg",
+      icon: "/assets/img_heart_traced.svg",
       color: "bg-[rgba(231,111,81,0.5)]"
     },
     {
       title: "Sustainability",
       description: "Our programs are designed for long-term impact. We build sustainable solutions that communities can maintain and grow independently.",
-      icon: "/images/img_logo_design_3_traced.svg",
+      icon: "/assets/img_logo_design_3_traced.svg",
       color: "bg-[rgba(11,57,84,0.5)]"
     }
   ];
@@ -62,7 +62,7 @@ const ValuesSection = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <div className="bg-gradient-to-r from-[#e8e8e8] to-white rounded-[24px] p-4 shadow-[6px_6px_15px_rgba(185,185,185,0.9)] inline-flex items-center space-x-3 mb-6">
-            <img src="/images/img_shines.png" alt="Shine icon" className="w-5 h-5" />
+            <img src="/assets/img_shines.png" alt="Shine icon" className="w-5 h-5" />
             <span className="text-base font-semibold text-black">Our Values</span>
           </div>
           
@@ -90,7 +90,7 @@ const ValuesSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <Card className="bg-white rounded-[30px] p-0 shadow-[15px_15px_38px_rgba(209,213,215,0.9)] overflow-hidden">
             <img 
-              src="https://images.pexels.com/photos/8923058/pexels-photo-8923058.jpeg?auto=compress&cs=tinysrgb&w=1200" 
+              src="https://assets.pexels.com/photos/8923058/pexels-photo-8923058.jpeg?auto=compress&cs=tinysrgb&w=1200" 
               alt="Values in action" 
               className="w-full h-[400px] object-cover"
             />
@@ -111,7 +111,7 @@ const ValuesSection = () => {
             <div className="space-y-6">
               <div className="flex items-start space-x-4">
                 <div className="bg-[#f4a261] w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
-                  <img src="/images/img_heart_traced.svg" alt="Heart" className="w-6 h-6" />
+                  <img src="/assets/img_heart_traced.svg" alt="Heart" className="w-6 h-6" />
                 </div>
                 <div>
                   <h4 className="text-xl font-bold text-[#2c2c2c] mb-2">Compassionate Care</h4>
@@ -121,7 +121,7 @@ const ValuesSection = () => {
               
               <div className="flex items-start space-x-4">
                 <div className="bg-[#e76f51] w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
-                  <img src="/images/img_education_traced.svg" alt="Education" className="w-6 h-6" />
+                  <img src="/assets/img_education_traced.svg" alt="Education" className="w-6 h-6" />
                 </div>
                 <div>
                   <h4 className="text-xl font-bold text-[#2c2c2c] mb-2">Educational Excellence</h4>
@@ -131,7 +131,7 @@ const ValuesSection = () => {
               
               <div className="flex items-start space-x-4">
                 <div className="bg-[#0b3954] w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
-                  <img src="/images/img_logo_design_3_traced.svg" alt="Community" className="w-6 h-6 text-white" />
+                  <img src="/assets/img_logo_design_3_traced.svg" alt="Community" className="w-6 h-6 text-white" />
                 </div>
                 <div>
                   <h4 className="text-xl font-bold text-[#2c2c2c] mb-2">Community Building</h4>

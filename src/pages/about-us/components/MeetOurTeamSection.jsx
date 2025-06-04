@@ -35,42 +35,42 @@ const MeetOurTeamSection = () => {
       name: "Radha Sharma",
       role: "Founder & President",
       description: "A devoted spiritual practitioner with over 20 years of experience in community service and child welfare. Radha\'s vision drives our mission forward.",
-      image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      image: "https://assets.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
       experience: "20+ Years"
     },
     {
       name: "Krishna Das",
       role: "Education Director",
       description: "Former teacher with expertise in child psychology and spiritual education. Krishna ensures our educational programs meet the highest standards.",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      image: "https://assets.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
       experience: "15+ Years"
     },
     {
       name: "Priya Mehta",
       role: "Nutrition Coordinator",
       description: "Certified nutritionist specializing in child health and meal planning. Priya ensures every meal we serve promotes healthy growth and development.",
-      image: "https://images.pexels.com/photos/3768894/pexels-photo-3768894.jpeg?auto=compress&cs=tinysrgb&w=600",
+      image: "https://assets.pexels.com/photos/3768894/pexels-photo-3768894.jpeg?auto=compress&cs=tinysrgb&w=600",
       experience: "12+ Years"
     },
     {
       name: "Gopal Singh",
       role: "Community Outreach Manager",
       description: "Passionate about connecting with local communities and building sustainable relationships. Gopal coordinates our field operations across multiple states.",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      image: "https://assets.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
       experience: "10+ Years"
     },
     {
       name: "Sita Devi",
       role: "Child Welfare Specialist",
       description: "Licensed social worker dedicated to child protection and family support services. Sita ensures our programs create safe, nurturing environments.",
-      image: "https://images.pixabay.com/photo/2017/05/31/04/59/beautiful-2359121_640.jpg",
+      image: "https://assets.pixabay.com/photo/2017/05/31/04/59/beautiful-2359121_640.jpg",
       experience: "8+ Years"
     },
     {
       name: "Arjun Patel",
       role: "Operations Manager",
       description: "Expert in logistics and program management, Arjun ensures smooth operations across all our centers and efficient resource distribution.",
-      image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      image: "https://assets.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
       experience: "9+ Years"
     }
   ];
@@ -80,7 +80,7 @@ const MeetOurTeamSection = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <div className="bg-gradient-to-r from-[#e8e8e8] to-white rounded-[24px] p-4 shadow-[6px_6px_15px_rgba(185,185,185,0.9)] inline-flex items-center space-x-3 mb-6">
-            <img src="/images/img_shines.png" alt="Shine icon" className="w-5 h-5" />
+            <img src="/assets/img_shines.png" alt="Shine icon" className="w-5 h-5" />
             <span className="text-base font-semibold text-black">Our Team</span>
           </div>
           

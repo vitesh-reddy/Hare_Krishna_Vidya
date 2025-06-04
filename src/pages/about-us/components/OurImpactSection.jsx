@@ -74,21 +74,21 @@ const OurImpactSection = () => {
       targetNumber: 10000,
       suffix: "+",
       description: "Nutritious meals served every day to children in need across our network",
-      icon: "/images/img_food_traced.svg"
+      icon: "/assets/img_food_traced.svg"
     },
     {
       title: "Students Educated",
       targetNumber: 5000,
       suffix: "+",
       description: "Children receiving quality education and spiritual guidance in our schools",
-      icon: "/images/img_books_traced.svg"
+      icon: "/assets/img_books_traced.svg"
     },
     {
       title: "Lives Transformed",
       targetNumber: 25000,
       suffix: "+",
       description: "Families and communities positively impacted through our comprehensive programs",
-      icon: "/images/img_heart_traced.svg"
+      icon: "/assets/img_heart_traced.svg"
     }
   ];
 
@@ -97,7 +97,7 @@ const OurImpactSection = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <div className="bg-gradient-to-r from-[#e8e8e8] to-white rounded-[24px] p-4 shadow-[6px_6px_15px_rgba(185,185,185,0.9)] inline-flex items-center space-x-3 mb-6">
-            <img src="/images/img_shines.png" alt="Shine icon" className="w-5 h-5" />
+            <img src="/assets/img_shines.png" alt="Shine icon" className="w-5 h-5" />
             <span className="text-base font-semibold text-black">Our Impact</span>
           </div>
           
@@ -155,7 +155,7 @@ const OurImpactSection = () => {
           
           <Card className="bg-white rounded-[30px] p-0 shadow-[15px_15px_38px_rgba(209,213,215,0.9)] overflow-hidden">
             <img 
-              src="https://images.pixabay.com/photo/2017/07/31/11/32/people-2557396_1280.jpg" 
+              src="https://assets.pixabay.com/photo/2017/07/31/11/32/people-2557396_1280.jpg" 
               alt="Children celebrating their achievements" 
               className="w-full h-[400px] object-cover"
             />
