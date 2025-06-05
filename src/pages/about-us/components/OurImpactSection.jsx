@@ -27,7 +27,7 @@ const OurImpactSection = () => {
   ]
 
   return (
-    <section className="w-full flex flex-col items-center mb-[4rem]">
+    <section className="w-full flex flex-col items-center mb-[6rem]">
       <WhiteGlowDiv text={'Our Impact in Numbers'} />
 
       <div className="border border-[#F4A261] rounded-[2rem] px-[4rem] py-6 grid grid-cols-1 sm:grid-cols-2 bg-white shadow-lg min-h-[14.5rem] max-w-[40rem]">
