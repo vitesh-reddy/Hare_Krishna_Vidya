@@ -10,6 +10,7 @@ import ValuesSection from './components/ValuesSection';
 import TestimonialsSection from './components/TestimonialsSection';
 import FounderSection from './components/FounderSection';
 import Mission_VisionSection from './components/Mission_VisionSection';
+import GallerySection from '@/components/common/GallerySection';
 
 const AboutUsPage = () => {
   return (
@@ -28,6 +29,7 @@ const AboutUsPage = () => {
         {/* <MeetOurTeamSection />
         <ValuesSection />
         <TestimonialsSection /> */}
+        <GallerySection/>
       </main>
 
       <Footer />
