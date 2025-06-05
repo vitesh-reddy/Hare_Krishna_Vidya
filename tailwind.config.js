@@ -66,6 +66,7 @@ module.exports = {
       fontFamily: {
         inter: ['Inter', 'sans-serif'],
         urbanist: ['Urbanist', 'sans-serif'],
+        outfit: ['Outfit', 'sans-serif'],
       },
       boxShadow: {
         'custom-light': '6px 6px 15px rgba(185,185,185,0.9)',
