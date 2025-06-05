@@ -52,3 +52,7 @@ img {
   max-width: 100%;
   height: auto;
 }
+
+.clip-custom-shape {
+  clip-path: path("M0,0 H240 Q300,0 360,40 Q420,80 512,47 V100 H0 Z");
+}

@@ -2,7 +2,7 @@ import React from 'react';
 
 const FounderSection = () => {
   return (
-    <section className='bg-[#F9F9F9] mt-[2.5rem] p-[1px]'>
+    <section className='bg-[#F9F9F9] my-[2.5rem] p-[1px] mb-44'>
       <div className='relative flex justify-end mr-[8.75rem]'>
         <p className='absolute top-[2.5rem] left-[6rem] font-inter text-[#EDF2F7] text-[1rem] bg-[#E76F51] px-6 py-4 leading-[1.4rem] w-[31rem] rounded-2xl'>
             Hare Krishna Movement (HKM) was founded by His Divine Grace 
@@ -19,7 +19,7 @@ const FounderSection = () => {
 
         <p className='absolute bottom-0 right-[1rem] font-outfit text-[#EDF2F7] text-[1.125rem] text-end bg-[#E76F51] px-6 py-4 leading-[1.4rem] w-[23rem] rounded-2xl'>
         On his order HKM is carrying out massive food distribution programs with the support from respective governments and CSR funding from corporates.</p>
-        <div className='absolute -bottom-[2rem] right-[2rem] bg-black w-2 h-2 rounded-full'></div> <div className='absolute -bottom-[1.85rem] right-[2.75rem] h-[1.5px] w-[20rem] bg-black'></div>
+        <div className='absolute -bottom-[1.25rem] right-[2rem] bg-black w-2 h-2 rounded-full'></div> <div className='absolute -bottom-[1.125rem] right-[2.75rem] h-[1px] w-[20rem] bg-black'></div>
         
         <img className='w-[44.5rem]' src='/assets/founder_img2.jpg' alt="Founder Img" />
 

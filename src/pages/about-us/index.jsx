@@ -9,6 +9,7 @@ import MeetOurTeamSection from './components/MeetOurTeamSection';
 import ValuesSection from './components/ValuesSection';
 import TestimonialsSection from './components/TestimonialsSection';
 import FounderSection from './components/FounderSection';
+import Mission_VisionSection from './components/Mission_VisionSection';
 
 const AboutUsPage = () => {
   return (
@@ -22,11 +23,11 @@ const AboutUsPage = () => {
         </div>
         <AboutUsHeroSection />
         <FounderSection/>
-        <OurStorySection />
+        <Mission_VisionSection/>
         <OurImpactSection />
-        <MeetOurTeamSection />
+        {/* <MeetOurTeamSection />
         <ValuesSection />
-        <TestimonialsSection />
+        <TestimonialsSection /> */}
       </main>
 
       <Footer />

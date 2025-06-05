@@ -1,0 +1,118 @@
+import WhiteGlowDiv from '@/components/common/whiteGlowDiv';
+import React, { useEffect, useState } from 'react';
+import PointItem from './PointItem';
+
+const Mission_VisionSection = () => {
+  const [status, setStatus] = useState('mission');
+  const [fadeIn, setFadeIn] = useState(true);
+
+  const transition = 'transition-all duration-500 ease-in-out';
+  const contents = {
+    mission: {
+      text1Width: '32rem',
+      bgColor: '#E76F51',
+      imgUrl: '/assets/mission.png',
+      text1:
+        'At Aikya Vidya, our mission is to empower underprivileged children from rural communities by nurturing not just their minds, but their hearts and hopes too. We believe that every child, regardless of their socio-economic background, deserves the chance to thrive and that education, nourishment, and values are the pillars of true empowerment.',
+      text2: 'Here’s how we bring this mission to life:',
+      points: [
+        'Providing Free Post-School Education',
+        'Ensuring Nutritious Meals',
+        'Instilling Core Values for Life',
+        'Creating a Safe, Nurturing Environment',
+      ],
+    },
+    vision: {
+      text1Width: '21.5rem',
+      bgColor: '#F4A261',
+      imgUrl: '/assets/vision.png',
+      text1:
+        'We envision a world where every child is given the wings to rise, not just survive. A future where learning is joyful, nourishing is dignified, and values are woven into the heart of education.',
+      text2: 'Here’s how we bring this mission to life:',
+      points: [
+        'Universal Access to Quality Education & Food',
+        'Thriving Rural Communities through Value-Based Learning',
+        'Redefining Education as a Gateway to Purpose',
+        'Nurturing Tomorrow’s Compassionate Leaders',
+      ],
+    },
+  };
+
+  const handleStatusChange = (newStatus) => {
+    if (newStatus === status) return;
+    setFadeIn(false); // Trigger fade out
+    setTimeout(() => {
+      setStatus(newStatus);
+      setFadeIn(true); // Trigger fade in after state update
+    }, 300); // match with transition duration
+  };
+
+  const content = status === 'mission' ? contents.mission : contents.vision;
+
+  return (
+    <section className="flex flex-col pr-[3rem] items-start mb-[4rem]">
+      <div className="relative w-[480px] bg-black">
+        <div
+          onClick={() => handleStatusChange('mission')}
+          className={'absolute left-0 cursor-pointer' + transition + (status === 'mission' ? ' z-10' : ' z-0')}
+        >
+          <img src="assets/Rectangle_1.png" alt="Left" className="w-[332px]" />
+        </div>
+        <div
+          onClick={() => handleStatusChange('vision')}
+          className={'absolute right-0 cursor-pointer' + transition + (status === 'vision' ? ' z-10' : ' z-0')}
+        >
+          <img src="assets/Rectangle_2.png" alt="Right" className="w-[290px]" />
+        </div>
+      </div>
+
+      <div className="flex w-[96.5%] mt-14 h-[550px]">
+        {/* Left section with bg color */}
+        <div
+          className={`w-[50%] p-[3rem] rounded-[0px_0px_0px_30px] flex flex-col justify-evenly transition-all duration-500`}
+          style={{ backgroundColor: content.bgColor }}
+        >
+          {/* text1 with fade and width transition */}
+          <p
+            key={status + '-text1'}
+            className={`font-inter font-semibold text-[1rem] text-[#F9F9F9] leading-[1.7rem] transition-[opacity,width] duration-500 ${
+              fadeIn ? 'opacity-100' : 'opacity-80'
+            }`}
+            style={{ width: content.text1Width }}
+          >
+            {content.text1}
+          </p>
+
+          {/* points */}
+          <div className="flex flex-col justify-evenly space-y-6">
+            <p className="font-inter font-semibold text-[#2C2C2C]">{content.text2}</p>
+						{content.points.map((point, index) => (
+							<PointItem
+								key={status + '-point-' + index}
+								point={point}
+								fadeIn={fadeIn}
+								status={status}
+								index={index}
+							/>
+						))}
+
+          </div>
+        </div>
+
+        {/* Right section with fade image */}
+        <div className="rounded-[0px_30px_30px_0px] overflow-hidden relative w-[50%] flex items-center justify-center">
+          <img
+            key={status + '-image'}
+            src={content.imgUrl}
+            alt={status}
+            className={`rounded-[0px_30px_30px_0px] w-full h-full object-cover transition-opacity ease-out-in duration-500 ${
+              fadeIn ? 'opacity-100' : 'opacity-80'
+            }`}
+          />
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Mission_VisionSection;

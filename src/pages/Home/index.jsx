@@ -5,6 +5,7 @@ import Footer from '../../components/common/Footer';
 import HeroSection from '../../components/common/HeroSection';
 import Button from '../../components/ui/Button';
 import Card from '../../components/ui/Card';
+import WhiteGlowDiv from '@/components/common/whiteGlowDiv';
 
 const HomePage = () => {
   const [selectedAmount, setSelectedAmount] = useState('5000');
@@ -181,7 +182,7 @@ const HomePage = () => {
                   <div className='absolute inset-0 w-full flex flex-col top-[5rem] items-center space-y-10 pr-5'>
                     <div className='w-[70%] relative inset-0'>
                       <img className='w-full rounded-3xl z-1'
-                         src="images/img_image_14.png" alt="Annadhanam" />
+                         src="assets/img_image_14.png" alt="Annadhanam" />
                       <div className='absolute rounded-3xl inset-0 flex flex-col justify-center items-center text-white z-10'>
                         <p className='font-urbanist text-[#F9F9F9] text-lg font-semibold'>You've selected</p>
                         <p className='font-urbanist text-[#F9F9F9] text-[2rem] leading-5 font-semibold'>Annadaan</p>
@@ -195,7 +196,7 @@ const HomePage = () => {
                       {/* Display Field */}
                       <div className="w-[16rem] max-w-xs flex items-center justify-between bg-[#F9F9F9] rounded-full px-6 py-4 mb-6 shadow-custom-complex">
                         <span className="text-black/50 font-semibold text-[1.25rem] font-urbanist ">₹ 5,000</span>
-                        <img src="images/img_chevrondown.svg" alt="Dropdown" className='w-6'/>
+                        <img src="assets/img_chevrondown.svg" alt="Dropdown" className='w-6'/>
                       </div>
 
                       {/* Keypad Grid */}
@@ -211,7 +212,7 @@ const HomePage = () => {
                         ))}
                         {/* Confirm Button */}
                         <div className="group col-span-2 w-full h-[3.75rem] mt-1 bg-[#FEAA66] from-[40%] to-[#FFAA66] shadow-custom-numButton rounded-full flex items-center justify-center text-black/50 text-[1.3rem] font-urbanist font-semibold cursor-pointer">
-                          Confirm <img src="images/arrow-right-circle.svg" alt="->" className='group-hover:h-8 ml-1 mt-1 h-0 transition-all duration-[400ms]'/>
+                          Confirm <img src="assets/arrow-right-circle.svg" alt="->" className='group-hover:h-8 ml-1 mt-1 h-0 transition-all duration-[400ms]'/>
                         </div>
                       </div>
                     </div>
@@ -248,10 +249,7 @@ const HomePage = () => {
         <section className="py-12 px-16 sm:py-16 lg:py-20 mb-10">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
-              <div className="bg-white rounded-[24px] px-4 py-3 shadow-custom-numKeys inline-flex items-center space-x-3 mb-10">
-                <img src="/assets/img_shines.png" alt="Shine icon" className="w-[1rem]" />
-                <span className="text-[1rem] font-inter font-semibold text-black">Testimonials</span>
-              </div>
+              <WhiteGlowDiv text="Testimonials"/>
 
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-urbanist font-extrabold text-[#2c2c2c] text-center mb-5">
                 Your <span className="text-accent-yellow [font-style:oblique_6deg]">Impact </span> in Their Words
@@ -302,10 +300,7 @@ const HomePage = () => {
         <section className="py-12 px-[5rem] sm:py-16 lg:py-20 bg-gradient-gallery">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-28">
-              <div className="bg-white rounded-[24px] px-4 py-3 shadow-custom-numKeys inline-flex items-center space-x-3 mb-8">
-                <img src="/assets/img_shines.png" alt="Shine icon" className="w-[1rem]" />
-                <span className="text-[1rem] font-inter font-semibold text-black">Gallery</span>
-              </div>
+              <WhiteGlowDiv text="Gallery"/>
 
               <p className="text-3xl sm:text-4xl lg:text-[2.20rem] text-[#2C2C2C] font-urbanist font-extrabold text-center mb-4">
                 A glimpse into the lives you have
