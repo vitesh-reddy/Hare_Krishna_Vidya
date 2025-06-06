@@ -77,7 +77,7 @@ module.exports = {
         'custom-mission-vision': '1px 1px 2px 0px rgba(255, 255, 255, 0.30) inset, -1px -1px 2px 0px rgba(185, 185, 185, 0.50) inset, -6px 6px 12px 0px rgba(185, 185, 185, 0.20), 6px -6px 12px 0px rgba(185, 185, 185, 0.20)',
         'custom-content-card': "inset 1px 1px 2px rgba(255, 255, 255, 0.3), inset -1px -1px 2px rgba(185, 185, 185, 0.5), -6px 6px 12px rgba(185, 185, 185, 0.2), 6px -6px 12px rgba(185, 185, 185, 0.2), -6px -6px 12px rgba(255, 255, 255, 0.9),6px 6px 15px rgba(185, 185, 185, 0.9)",
         'custom-numKeys': '1px 1px 2px 0px rgba(255, 255, 255, 0.30) inset, -1px -1px 2px 0px rgba(185, 185, 185, 0.50) inset, -6px 6px 12px 0px rgba(185, 185, 185, 0.20), 6px -6px 12px 0px rgba(185, 185, 185, 0.20), -6px -6px 12px 0px rgba(255, 255, 255, 0.90), 6px 6px 15px 0px rgba(185, 185, 185, 0.90)',
-        'custom-numButton': '1px 1px 2px 0px rgba(255, 178, 107, 0.30) inset, -1px -1px 2px 0px rgba(220, 146, 87, 0.50) inset, -10px 10px 20px 0px rgba(220, 146, 87, 0.20), 10px -10px 20px 0px rgba(220, 146, 87, 0.20), -10px -10px 20px 0px rgba(255, 178, 107, 0.90), 10px 10px 25px 0px rgba(220, 146, 87, 0.90)',        
+        'custom-numButton': '1px 1px 2px 0px rgba(255, 178, 107, 0.30) inset, -1px -1px 2px 0px rgba(220, 146, 87, 0.50) inset, -10px 10px 20px 0px rgba(220, 146, 87, 0.20), 10px -10px 20px 0px rgba(220, 146, 87, 0.20), -10px -10px 20px 0px rgba(255, 178, 107, 0.90), 10px 10px 25px 0px rgba(220, 146, 87, 0.90)',
       },
     },
   },

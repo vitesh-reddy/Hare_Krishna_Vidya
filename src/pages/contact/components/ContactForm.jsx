@@ -1,27 +1,22 @@
-// src/pages/contact/components/ContactForm.jsx
 import React, { useState } from 'react';
-import Button from '../../../components/ui/Button';
 
 const ContactForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
     phone: '',
-    subject: '',
     message: '',
-    interest: 'general'
   });
 
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {
     const newErrors = {};
-    
-    if (!formData.name.trim()) newErrors.name = 'Name is required';
+    if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
     if (!formData.email.trim()) newErrors.email = 'Email is required';
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Email is invalid';
+    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Invalid email';
     if (!formData.message.trim()) newErrors.message = 'Message is required';
-    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -29,149 +24,135 @@ const ContactForm = ({ onSubmit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      onSubmit(formData);
+      if (onSubmit) onSubmit(formData);
       setFormData({
-        name: '',
+        firstName: '',
+        lastName: '',
         email: '',
         phone: '',
-        subject: '',
         message: '',
-        interest: 'general'
       });
     }
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
+      setErrors((prev) => ({ ...prev, [name]: '' }));
     }
   };
 
-  const inputClasses = "w-full px-4 py-3 border border-border-light rounded-[15px] focus:ring-2 focus:ring-accent-yellow focus:border-accent-yellow focus:outline-none transition-colors text-neutral-dark";
-  const labelClasses = "block text-sm font-medium text-neutral-dark mb-2";
-
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Name and Email Row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <label htmlFor="name" className={labelClasses}>
-            Full Name *
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className={`${inputClasses} ${errors.name ? 'border-red-500' : ''}`}
-            placeholder="Enter your full name"
-          />
-          {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center pt-[3rem]">
+      {/* Header */}
+      <div className="flex flex-col space-y-[0.5rem] text-center mb-[1rem] sm:mb-[3.5rem] font-inter">
+        <p className="text-[#E76F51] text-[1.5rem] sm:text-[0.9rem] font-semibold leading-3">Contact us</p>
+        <p className="text-[2rem] font-semibold text-[#101828] leading-[3.5rem]">Get in touch</p>
+        <p className="text-[1.125rem] text-[#667085]">We’d love to hear from you. Please fill out this form.</p>
+      </div>
+      <form onSubmit={handleSubmit} className="mt-10 lg:mt-0 flex flex-col space-y-6 w-[95%] font-inter text-[#344054]">
+        <div className="grid gap-[1.75rem] sm:grid-cols-2">
+          <div>
+            <label className="mb-1 block text-[0.8rem] font-medium text-gray-700">First name</label>
+            <input
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              placeholder="First name"
+              className={`w-full rounded-[0.5rem] border px-[1rem] py-[0.65rem] text-[0.85rem] shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500 ${
+                errors.firstName ? 'border-red-500' : 'border-gray-300'
+              }`}
+            />
+            {errors.firstName && <p className="mt-1 text-sm text-red-500">{errors.firstName}</p>}
+          </div>
+          <div>
+            <label className="mb-1 block text-[0.8rem] font-medium text-gray-700">Last name</label>
+            <input
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              placeholder="Last name"
+              className="w-full rounded-[0.5rem] border border-gray-300  px-[1rem] py-[0.65rem] text-[0.85rem] shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500"
+            />
+          </div>
         </div>
-        
+
         <div>
-          <label htmlFor="email" className={labelClasses}>
-            Email Address *
-          </label>
+          <label className="mb-1 block text-[0.8rem] font-medium text-gray-700">Email</label>
           <input
-            type="email"
-            id="email"
             name="email"
+            type="email"
             value={formData.email}
             onChange={handleChange}
-            className={`${inputClasses} ${errors.email ? 'border-red-500' : ''}`}
-            placeholder="Enter your email address"
+            placeholder="you@company.com"
+            className={`w-full rounded-[0.5rem] border  px-[1rem] py-[0.65rem] text-[0.85rem] shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500 ${
+              errors.email ? 'border-red-500' : 'border-gray-300'
+            }`}
           />
-          {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+          {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
         </div>
-      </div>
 
-      {/* Phone and Subject Row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="phone" className={labelClasses}>
-            Phone Number
-          </label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            className={inputClasses}
-            placeholder="Enter your phone number"
-          />
+          <label className="mb-1 block text-[0.8rem] font-medium text-gray-700">Phone number</label>
+          <div className="flex">
+            <select className="border-l border-t border-b border-gray-300 rounded-l-md bg-white pl-4 pr-2 text-[0.85rem] text-gray-700">
+              <option>US</option>
+              <option>IN</option>
+              <option>UK</option>
+            </select>
+            <input
+              type="tel"
+              placeholder="+1 (555) 000-0000"
+              className="flex-1 border border-l-0  px-[1rem] py-[0.65rem] text-[0.85rem] border-gray-300 rounded-r-md shadow-sm focus:ring-orange-500 focus:border-orange-500"
+            />
+          </div>
         </div>
-        
+
         <div>
-          <label htmlFor="subject" className={labelClasses}>
-            Subject
-          </label>
-          <input
-            type="text"
-            id="subject"
-            name="subject"
-            value={formData.subject}
+          <label className="mb-1 block text-[0.8rem] font-medium text-gray-700">Message</label>
+          <textarea
+            name="message"
+            rows="4"
+            value={formData.message}
             onChange={handleChange}
-            className={inputClasses}
-            placeholder="Enter subject"
+            placeholder="Leave a message..."
+            className={`w-full rounded-[0.5rem] border  px-[1rem] py-[0.65rem] text-[0.85rem] shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500 ${
+              errors.message ? 'border-red-500' : 'border-gray-300'
+            }`}
           />
+          {errors.message && <p className="mt-1 text-sm text-red-500">{errors.message}</p>}
         </div>
-      </div>
 
-      {/* Interest Type */}
-      <div>
-        <label htmlFor="interest" className={labelClasses}>
-          I'm interested in
-        </label>
-        <select
-          id="interest"
-          name="interest"
-          value={formData.interest}
-          onChange={handleChange}
-          className={inputClasses}
-        >
-          <option value="general">General Inquiry</option>
-          <option value="donation">Making a Donation</option>
-          <option value="volunteering">Volunteering</option>
-          <option value="partnership">Partnership</option>
-          <option value="sponsorship">Child Sponsorship</option>
-          <option value="other">Other</option>
-        </select>
-      </div>
+        <div className="flex items-center">
+          <div className="flex h-5 items-center">
+            <input
+              id="terms"
+              name="terms"
+              type="checkbox"
+              required
+              className="h-[1rem] w-[1rem]  border-[#D0D5DD]/70 text-orange-600 focus:ring-orange-500"
+            />
+          </div>
+          <div className="ml-2 text-[0.85rem]">
+            <label htmlFor="terms" className="font-medium text-[#344054]">
+              You agree to our friendly{' '}
+              <a href="#" className="underline">
+                privacy policy
+              </a>
+              .
+            </label>
+          </div>
+        </div>
 
-      {/* Message */}
-      <div>
-        <label htmlFor="message" className={labelClasses}>
-          Message *
-        </label>
-        <textarea
-          id="message"
-          name="message"
-          rows={6}
-          value={formData.message}
-          onChange={handleChange}
-          className={`${inputClasses} ${errors.message ? 'border-red-500' : ''} resize-none`}
-          placeholder="Tell us how we can help you..."
-        />
-        {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
-      </div>
-
-      {/* Submit Button */}
-      <div className="pt-4">
-        <Button 
+        <button
           type="submit"
-          variant="primary" 
-          size="large"
-          className="w-full md:w-auto px-8 py-4 rounded-[25px] shadow-custom-blue"
+          className="w-full bg-[#E76F51] hover:bg-orange-600 text-white font-semibold py-3 px-6 text-[0.85rem] rounded-[0.5rem]"
         >
-          Send Message
-        </Button>
-      </div>
-    </form>
+          Send message
+        </button>
+      </form>
+    </div>
   );
 };
 
