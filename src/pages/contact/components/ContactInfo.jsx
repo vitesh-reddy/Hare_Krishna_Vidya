@@ -1,5 +1,4 @@
 import React from 'react';
-// import { MapPin, Phone, Mail } from 'lucide-react'; // Optional: Lucide icons
 
 const ContactInfo = () => {
   return (

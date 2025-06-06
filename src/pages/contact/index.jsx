@@ -4,9 +4,7 @@ import Header from '../../components/common/Header';
 import Footer from '../../components/common/Footer';
 import Card from '../../components/ui/Card';
 import Button from '../../components/ui/Button';
-import ContactForm1 from './components/ContactForm1';
 import ContactInfo from './components/ContactInfo';
-import LocationMap from './components/LocationMap';
 import ContactForm from './components/ContactForm';
 
 const ContactPage = () => {
