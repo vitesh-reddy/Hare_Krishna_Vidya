@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../ui/Button';
+import DonateButton from './DonateButton';
 
 const HeroSection = () => {
   const [showNotification, setShowNotification] = useState(false);
@@ -121,10 +122,7 @@ const HeroSection = () => {
           </p>
 
           <div className="flex space-x-4 font-inter">
-            <Button className="bg-[#e76f51] text-white text-lg px-6 py-4 rounded-[25px] font-semibold flex items-center space-x-2 hover:bg-[#d65a3f] transition-colors">
-              <img src="/assets/img_heart_traced.svg" alt="Heart" className="h-7" />
-              <span>Donate Now</span>
-            </Button>
+            <DonateButton/>
 
             <Button className="bg-white text-[#2c2c2c] text-lg px-6 py-4 rounded-[24px] font-semibold flex items-center space-x-2 hover:bg-gray-100 transition-colors">
               <img src="/assets/img_information_button.png" alt="Info" className="w-5" />

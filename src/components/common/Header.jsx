@@ -79,8 +79,8 @@ const Header = () => {
         {/* Desktop Donate Button */}
         <div className="hidden lg:block">
           <Link to="/donate">
-            <div class="font-medium font-inter rounded-[1.125rem] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer inline-flex items-center justify-center bg-primary-blue text-white px-[2.25rem] py-4 text-[0.95rem] hover:bg-primary-dark focus:ring-[#0b3954]">
-              <p class="text-shadow-[0_100px_100px_rgba(71,187,255,0.30)]">Donate Now</p>
+            <div className="font-medium font-inter rounded-[1.125rem] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer inline-flex items-center justify-center bg-primary-blue text-white px-[2.25rem] py-4 text-[0.95rem] hover:bg-primary-dark focus:ring-[#0b3954]">
+              <p className="text-shadow-[0_100px_100px_rgba(71,187,255,0.30)]">Donate Now</p>
             </div>
             
           </Link>
