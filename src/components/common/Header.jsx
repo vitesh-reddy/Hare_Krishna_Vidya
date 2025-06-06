@@ -16,7 +16,7 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-neutral-background py-6 px-16 top-0 z-40">
+    <header className="bg-neutral-background py-6 px-6 sm:px-16 top-0 z-40">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center">
@@ -28,10 +28,10 @@ const Header = () => {
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center space-x-8">
+        <nav className="hidden lg:flex items-center space-x-[2.25rem]">
           <Link 
             to="/" 
-            className={`font-medium text-[0.9rem] transition-colors ${
+            className={`font-medium font-inter text-[0.9rem] transition-colors ${
               isActive('/') 
                 ? 'text-secondary-orange' :'text-neutral-dark hover:text-secondary-orange'
             }`}
@@ -40,7 +40,7 @@ const Header = () => {
           </Link>
           <Link 
             to="/about-us" 
-            className={`font-medium text-[0.9rem] transition-colors ${
+            className={`font-medium font-inter text-[0.9rem] transition-colors ${
               isActive('/about-us') 
                 ? 'text-secondary-orange' :'text-neutral-dark hover:text-secondary-orange'
             }`}
@@ -48,17 +48,17 @@ const Header = () => {
             About Us
           </Link>
           <Link 
-            to="/services" 
-            className={`font-medium text-[0.9rem] transition-colors ${
-              isActive('/services') 
+            to="/our-initiative" 
+            className={`font-medium font-inter text-[0.9rem] transition-colors ${
+              isActive('/our-initiative') 
                 ? 'text-secondary-orange' :'text-neutral-dark hover:text-secondary-orange'
             }`}
           >
-            Our Intiative
+            Our Initiative
           </Link>
           <Link 
             to="/gallery" 
-            className={`font-medium text-[0.9rem] transition-colors ${
+            className={`font-medium font-inter text-[0.9rem] transition-colors ${
               isActive('/gallery') 
                 ? 'text-secondary-orange' :'text-neutral-dark hover:text-secondary-orange'
             }`}
@@ -67,7 +67,7 @@ const Header = () => {
           </Link>
           <Link 
             to="/contact" 
-            className={`font-medium text-[0.9rem] transition-colors ${
+            className={`font-medium font-inter text-[0.9rem] transition-colors ${
               isActive('/contact') 
                 ? 'text-secondary-orange' :'text-neutral-dark hover:text-secondary-orange'
             }`}
@@ -79,12 +79,9 @@ const Header = () => {
         {/* Desktop Donate Button */}
         <div className="hidden lg:block">
           <Link to="/donate">
-            <Button 
-              variant="primary"
-              className="bg-primary-blue text-white px-11 py-5 rounded-[20px] text-[0.95rem]  hover:bg-primary-dark transition-colors"
-            >
-            <p className='text-shadow-[0_100px_100px_rgba(71,187,255,0.30)]'>  Donate Now </p>
-            </Button>
+            <div class="font-medium font-inter rounded-[1.125rem] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer inline-flex items-center justify-center bg-primary-blue text-white px-[2.25rem] py-4 text-[0.95rem] hover:bg-primary-dark focus:ring-[#0b3954]">
+              <p class="text-shadow-[0_100px_100px_rgba(71,187,255,0.30)]">Donate Now</p>
+            </div>
             
           </Link>
         </div>
@@ -112,7 +109,7 @@ const Header = () => {
             <Link 
               to="/" 
               onClick={toggleMobileMenu}
-              className={`font-medium text-[0.9rem] px-4 py-2 transition-colors ${
+              className={`font-medium font-inter text-[0.9rem] px-4 py-2 transition-colors ${
                 isActive('/') 
                   ? 'text-secondary-orange bg-secondary-orange bg-opacity-10' :'text-neutral-dark hover:text-secondary-orange'
               }`}
@@ -122,7 +119,7 @@ const Header = () => {
             <Link 
               to="/about-us" 
               onClick={toggleMobileMenu}
-              className={`font-medium text-[0.9rem] px-4 py-2 transition-colors ${
+              className={`font-medium font-inter text-[0.9rem] px-4 py-2 transition-colors ${
                 isActive('/about-us') 
                   ? 'text-secondary-orange bg-secondary-orange bg-opacity-10' :'text-neutral-dark hover:text-secondary-orange'
               }`}
@@ -130,19 +127,19 @@ const Header = () => {
               About Us
             </Link>
             <Link 
-              to="/services" 
+              to="/our-initiative" 
               onClick={toggleMobileMenu}
-              className={`font-medium text-[0.9rem] px-4 py-2 transition-colors ${
-                isActive('/services') 
+              className={`font-medium font-inter text-[0.9rem] px-4 py-2 transition-colors ${
+                isActive('/our-initiative') 
                   ? 'text-secondary-orange bg-secondary-orange bg-opacity-10' :'text-neutral-dark hover:text-secondary-orange'
               }`}
             >
-              Our Intiative
+              Our Initiative
             </Link>
             <Link 
               to="/gallery" 
               onClick={toggleMobileMenu}
-              className={`font-medium text-[0.9rem] px-4 py-2 transition-colors ${
+              className={`font-medium font-inter text-[0.9rem] px-4 py-2 transition-colors ${
                 isActive('/gallery') 
                   ? 'text-secondary-orange bg-secondary-orange bg-opacity-10' :'text-neutral-dark hover:text-secondary-orange'
               }`}
@@ -152,7 +149,7 @@ const Header = () => {
             <Link 
               to="/contact" 
               onClick={toggleMobileMenu}
-              className={`font-medium text-[0.9rem] px-4 py-2 transition-colors ${
+              className={`font-medium font-inter text-[0.9rem] px-4 py-2 transition-colors ${
                 isActive('/contact') 
                   ? 'text-secondary-orange bg-secondary-orange bg-opacity-10' :'text-neutral-dark hover:text-secondary-orange'
               }`}
