@@ -34,9 +34,9 @@ const AikyaVidyaSection = () => {
       </div>
       
       <div className='w-full flex flex-col items-center space-y-5'>
-          <p className='text-[1.5rem] sm:text-[2rem] md:text-[2rem] lg:text-[2.675rem] text-[#F4A261] font-urbanist font-bold text-center'>
-            An Initiative of  <p className='block sm:inline text-[#0B3954]'> Hare Krishna Movement</p> </p>
-          <p className='font-inter text-[0.8rem] md:text-[0.9rem] lg:text-[1rem] text-center text-[#656565] font-medium w-[95%] md:w-[90%] lg:w-[51%]'>
+          <p className='text-[1.5rem] sm:text-[2rem] md:text-[2rem] lg:text-[2.675rem] text-[#F4A261] font-urbanist font-bold text-center leading-[1.75rem] sm:leading-[3.75rem]'>
+            An Initiative of  <p className='block sm:inline text-[#0B3954] leading'> Hare Krishna Movement</p> </p>
+          <p className='font-inter text-[0.8rem] md:text-[0.9rem] lg:text-[1rem] text-center text-[#656565] font-medium w-[88%] md:w-[90%] lg:w-[51%]'>
             At Harekrishnavidya, we believe that change begins with understanding the needs of the community. By addressing the root causes of challenges like hunger, education gaps, and healthcare disparities, we are creating sustainable and lasting impact.
           </p>
       </div>
