@@ -3,7 +3,7 @@ import React from 'react';
 const Footer = () => {
   return (
     <footer className="w-full bg-[#0b3954] text-white">
-      <div className="w-full px-[5rem] sm:px-[2rem] lg:px-[5rem] py-0 sm:py-16 flex justify-evenly">
+      <div className="w-full px-[5rem] sm:px-[2rem] lg:px-[5rem] py-3 sm:py-16 flex justify-evenly">
         
         {/* About Section */}
         <div className="hidden sm:block space-y-[0.25rem] w-[50%] sm:pr-[2rem] lg:pr-[4.5rem]">
