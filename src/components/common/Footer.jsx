@@ -3,10 +3,10 @@ import React from 'react';
 const Footer = () => {
   return (
     <footer className="w-full bg-[#0b3954] text-white">
-      <div className="w-full px-[5rem] py-16 flex justify-evenly">
+      <div className="w-full px-[5rem] py-0 sm:py-16 flex justify-evenly">
         
         {/* About Section */}
-        <div className="space-y-8 w-[50%] pr-[4.5rem]">
+        <div className="hidden sm:block space-y-8 w-[50%] pr-[4.5rem]">
           <img 
             src="/assets/img_hkmi_1.png" 
             alt="HKMI Logo" 
@@ -20,30 +20,36 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className='flex w-[50%] justify-between'>
+        <div className='flex w-full sm:w-[50%] justify-between'>
          {/* Quick Links */}
-         <div className="space-y-6">
-           <h3 className="text-2xl font-bold text-[#f4a261]">Quick Links</h3>
-           <ul className="space-y-3">
-             {[
-               'Our Initiative',
-               'Gallery',
-               'Term & Conditions',
-               'Refund Policy',
-               'Privacy Policy',
-               'Certificates'
-             ].map((item, idx) => (
-               <li key={idx}>
-                 <a href="#" className="block text-lg text-[#f9f9f9] hover:text-[#f4a261] transition-colors">
-                   {item}
-                 </a>
-               </li>
-             ))}
-           </ul>
-         </div>
+            <div className="space-y-6">
+              <h3 className="hidden sm:block text-2xl font-bold text-[#f4a261]">Quick Links</h3>
+              <ul className="flex sm:flex-col flex-wrap items-center sm:items-start gap-x-3 gap-y-1 sm:gap-y-4 text-[0.5rem] sm:text-lg sm:text-[#f9f9f9] font-inter">
+                {[
+                  { to: 'Our Initiative', path: "/our-initiative"},
+                  { to: 'Gallery', path: "/gallery"},
+                  { to: 'Term & Conditions', path: "terms&conditions"},
+                  { to: 'Refund Policy', path: "refund-policy"},
+                  { to: 'Privacy Policy', path: "privacy-policy"},
+                  { to: 'Certificates', path: "certificates"},
+                ].map(({to, path}, idx) => (
+                  <li key={idx} className="flex items-center">
+                    <a
+                      href={path}
+                      className="text-[#F9F9F9]/70 font-medium hover:text-[#f4a261] transition-colors"
+                    >
+                      <span className="mx-1 text-[#F9F9F9]/70 sm:hidden">•</span>
+                      {to}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+
  
          {/* Contact Us */}
-         <div className="space-y-6">
+         <div className="hidden sm:block space-y-6">
            <h3 className="text-2xl font-bold text-[#f4a261]">Contact Us</h3>
            <div className="space-y-4">
              <p className="text-lg text-[#f9f9f9] leading-7">
@@ -72,12 +78,12 @@ const Footer = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div className="bg-[#002942] py-3">
+      <div className="sm:bg-[#002942] py-3">
         <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
-          <p className="text-white text-sm">
+          <p className="text-white/70 sm:text-white text-sm">
             Copyright © 2024 Hare Krishna Vidya-Aikya Vidya
           </p>
-          <div className="flex space-x-4">
+          <div className="hidden sm:flex space-x-4">
             <img src="/assets/img_facebook.svg" alt="Facebook" className="w-5 h-5" />
             <img src="/assets/img_instagram.svg" alt="Instagram" className="w-5 h-5" />
             <img src="/assets/img_youtube.svg" alt="YouTube" className="w-5 h-5" />
