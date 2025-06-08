@@ -20,7 +20,7 @@ const Header = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center">
-          <Link to="/" className="text-2xl sm:text-[1.3rem] font-bold font-inter">
+          <Link to="/" className="text-[1.3rem] font-bold font-inter">
             <span className="text-primary-blue">HARE KRISHNA</span>
             <span className="text-black"> </span>
             <span className="text-accent-yellow">VIDYA</span>
@@ -29,9 +29,7 @@ const Header = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center space-x-[2.25rem]">
-          <Link 
-            to="/" 
-            className={`font-medium font-inter text-[0.9rem] transition-colors ${
+          <Link to="/" className={`font-medium font-inter text-[0.9rem] transition-colors ${
               isActive('/') 
                 ? 'text-secondary-orange' :'text-neutral-dark hover:text-secondary-orange'
             }`}
@@ -79,7 +77,7 @@ const Header = () => {
         {/* Desktop Donate Button */}
         <div className="hidden lg:block">
           <Link to="/donate">
-            <div className="font-medium font-inter rounded-[1.125rem] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer inline-flex items-center justify-center bg-primary-blue text-white px-[2.25rem] py-4 text-[0.95rem] hover:bg-primary-dark focus:ring-[#0b3954]">
+            <div className="font-medium font-inter rounded-[1.125rem] transition-colors duration-200 cursor-pointer inline-flex items-center justify-center bg-primary-blue shadow-custom-donate text-white px-[2.25rem] py-4 text-[0.95rem] hover:bg-primary-dark focus:ring-[#0b3954]">
               <p className="text-shadow-[0_100px_100px_rgba(71,187,255,0.30)]">Donate Now</p>
             </div>
             
@@ -92,7 +90,7 @@ const Header = () => {
           className="lg:hidden p-2 rounded-md text-neutral-dark hover:text-secondary-orange transition-colors"
           aria-label="Toggle mobile menu"
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-[2rem]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             {isMobileMenuOpen ? (
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             ) : (
@@ -109,9 +107,9 @@ const Header = () => {
             <Link 
               to="/" 
               onClick={toggleMobileMenu}
-              className={`font-medium font-inter text-[0.9rem] px-4 py-2 transition-colors ${
+              className={`font-medium font-inter text-[0.9rem] text-center px-4 py-2 transition-colors ${
                 isActive('/') 
-                  ? 'text-secondary-orange bg-secondary-orange bg-opacity-10' :'text-neutral-dark hover:text-secondary-orange'
+                  ? 'text-secondary-orange ' :'text-neutral-dark hover:text-secondary-orange'
               }`}
             >
               Home
@@ -119,9 +117,9 @@ const Header = () => {
             <Link 
               to="/about-us" 
               onClick={toggleMobileMenu}
-              className={`font-medium font-inter text-[0.9rem] px-4 py-2 transition-colors ${
+              className={`font-medium font-inter text-[0.9rem] text-center px-4 py-2 transition-colors ${
                 isActive('/about-us') 
-                  ? 'text-secondary-orange bg-secondary-orange bg-opacity-10' :'text-neutral-dark hover:text-secondary-orange'
+                  ? 'text-secondary-orange ' :'text-neutral-dark hover:text-secondary-orange'
               }`}
             >
               About Us
@@ -129,9 +127,9 @@ const Header = () => {
             <Link 
               to="/our-initiative" 
               onClick={toggleMobileMenu}
-              className={`font-medium font-inter text-[0.9rem] px-4 py-2 transition-colors ${
+              className={`font-medium font-inter text-[0.9rem] text-center px-4 py-2 transition-colors ${
                 isActive('/our-initiative') 
-                  ? 'text-secondary-orange bg-secondary-orange bg-opacity-10' :'text-neutral-dark hover:text-secondary-orange'
+                  ? 'text-secondary-orange 0' :'text-neutral-dark hover:text-secondary-orange'
               }`}
             >
               Our Initiative
@@ -139,9 +137,9 @@ const Header = () => {
             <Link 
               to="/gallery" 
               onClick={toggleMobileMenu}
-              className={`font-medium font-inter text-[0.9rem] px-4 py-2 transition-colors ${
+              className={`font-medium font-inter text-[0.9rem] text-center px-4 py-2 transition-colors ${
                 isActive('/gallery') 
-                  ? 'text-secondary-orange bg-secondary-orange bg-opacity-10' :'text-neutral-dark hover:text-secondary-orange'
+                  ? 'text-secondary-orange ' :'text-neutral-dark hover:text-secondary-orange'
               }`}
             >
               Gallery
@@ -149,19 +147,19 @@ const Header = () => {
             <Link 
               to="/contact" 
               onClick={toggleMobileMenu}
-              className={`font-medium font-inter text-[0.9rem] px-4 py-2 transition-colors ${
+              className={`font-medium font-inter text-[0.9rem] text-center px-4 py-2 transition-colors ${
                 isActive('/contact') 
-                  ? 'text-secondary-orange bg-secondary-orange bg-opacity-10' :'text-neutral-dark hover:text-secondary-orange'
+                  ? 'text-secondary-orange ' :'text-neutral-dark hover:text-secondary-orange'
               }`}
             >
               Contact Us
             </Link>
             
-            <div className="px-4 pt-4">
+            <div className="px-[4rem] pt-4">
               <Link to="/donate" onClick={toggleMobileMenu}>
                 <Button 
                   variant="primary"
-                  className="w-full bg-primary-blue text-white py-3 rounded-[20px] font-semibold text-[0.9rem] shadow-custom-blue"
+                  className="w-full bg-primary-blue text-white py-[0.75rem] rounded-[20px] font-semibold text-[0.9rem] shadow-custom-donate"
                 >
                   Donate Now
                 </Button>
