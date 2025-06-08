@@ -30,16 +30,16 @@ const ActionCard = ({position}) => {
           </div>
         </div>}
       {position == 'outside' &&
-        <div className="block md:hidden right-8 bottom-14 rounded-[40px] p-10 max-w-[30rem]">
-          <h2 className="text-[2rem] font-bold font-urbanist text-white mb-4 leading-11">
+        <div className="flex flex-col items-center  md:hidden bg-[#edf2f7cc] mb-[2rem] rounded-[40px] p-10 w-[90%]">
+          <h2 className="text-[1.5rem] sm:text-[2.5rem] font-bold font-urbanist text-[#2c2c2c] mb-1 sm:mb-4 leading-11">
             {' '}
             Nourish a Life. Uplift a Soul.{' '}
           </h2>
-          <p className="text-[1rem] text-wrap text-white font-inter leading-7">
+          <p className="text-[1rem] sm:text-[1.25rem] text-wrap text-[#2c2c2c] font-inter leading-7">
             {' '}
             Your support delivers food, education, and{' '}
           </p>
-          <p className="text-[1rem] text-wrap text-white mb-8 font-inter leading-7">
+          <p className="text-[1rem] sm:text-[1.25rem] text-wrap text-[#2c2c2c] mb-4 sm:mb-8 font-inter leading-7">
             {' '}
             hope to those who need it most.
           </p>
