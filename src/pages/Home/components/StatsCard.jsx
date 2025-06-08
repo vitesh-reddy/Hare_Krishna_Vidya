@@ -1,0 +1,103 @@
+import React from 'react'
+
+const StatsCard = ({position}) => {
+  return (
+    <>
+    {position == 'inside' &&
+     (<div className="hidden md:block absolute left-10 bottom-14 bg-[rgba(237,242,247,0.8)] rounded-[40px] p-6 shadow-[0px_4px_12px_rgba(136,136,136,1)] max-w-[18rem] lg:max-w-[23.4375rem] h-[14rem] cursor-pointer">
+          {/* Karma Insights Header */}
+          <div className="flex flex-row items-center mb-3 lg:mb-6 gap-3 relative">
+            <div className="bg-gradient-to-r from-[#e8e8e8] to-white rounded-[24px] p-4 shadow-custom-numKeys">
+              <div className="flex items-center space-x-3">
+                <img src="/assets/img_shines.png" alt="Shine icon" className="h-4 lg:h-5" />
+                <span className="text-[0.75rem] lg:text-lg font-semibold font-inter text-black">Karma Insights</span>
+              </div>
+            </div>
+            <span className="text-lg text-[#6d7175] leading-5 mt-1">Click here</span>
+            <img
+              src="/assets/img_vector_1.svg"
+              alt="Decorative vector"
+              className="absolute top-7 h-[7.5rem] right-6 lg:right-8 z-[100]"
+            />
+          </div>
+          {/* Stats */}
+          <div className="grid grid-cols-2 gap-0 pr-16 mb-6">
+            <div className="w-fit">
+              <p className="w-fit text-[1.5rem] font-urbanist font-bold text-[#2c2c2cbb] leading-10">
+                800K
+              </p>
+              <p className="w-fit text-base font-semibold text-[#2c2c2cbb] leading-6">
+                Meals Served
+              </p>
+            </div>
+            <div>
+              <div className="text-[1.5rem] font-urbanist font-bold text-[#2c2c2cbb] leading-10">
+                50K
+              </div>
+              <div className="text-base font-semibold text-[#2c2c2cbb] leading-6">
+                {' '}
+                Children's Educated{' '}
+              </div>
+            </div>
+          </div>
+
+          {/* Donors Info */}
+          <div className="flex items-center space-x-4">
+            <img src="/assets/img_frame_12.png" alt="Donor avatars" className="h-12" />
+            <p className="text-sm font-bold text-[#505051] leading-4">
+              300+ Donors around the world
+            </p>
+          </div>
+    </div>)}
+    
+    {position == 'outside' &&
+     (<div className="block md:hidden left-10 bottom-14 bg-[rgba(237,242,247,0.8)] rounded-[40px] p-6 shadow-[0px_4px_12px_rgba(136,136,136,1)] max-w-[23.4375rem] h-[14rem] cursor-pointer">
+          {/* Karma Insights Header */}
+          <div className="flex flex-row items-center mb-6 gap-3 relative">
+            <div className="bg-gradient-to-r from-[#e8e8e8] to-white rounded-[24px] p-4 shadow-custom-numKeys">
+              <div className="flex items-center space-x-3">
+                <img src="/assets/img_shines.png" alt="Shine icon" className="w-5 h-5" />
+                <span className="text-lg font-semibold font-inter text-black">Karma Insights</span>
+              </div>
+            </div>
+            <span className="text-lg text-[#6d7175] leading-5 mt-1">Click here</span>
+            <img
+              src="/assets/img_vector_1.svg"
+              alt="Decorative vector"
+              className="absolute top-7 h-[7.5rem] right-8  z-[100]"
+            />
+          </div>
+          {/* Stats */}
+          <div className="grid grid-cols-2 gap-0 pr-16 mb-6">
+            <div className="w-fit">
+              <p className="w-fit text-[1.5rem] font-urbanist font-bold text-[#2c2c2cbb] leading-10">
+                800K
+              </p>
+              <p className="w-fit text-base font-semibold text-[#2c2c2cbb] leading-6">
+                Meals Served
+              </p>
+            </div>
+            <div>
+              <div className="text-[1.5rem] font-urbanist font-bold text-[#2c2c2cbb] leading-10">
+                50K
+              </div>
+              <div className="text-base font-semibold text-[#2c2c2cbb] leading-6">
+                {' '}
+                Children's Educated{' '}
+              </div>
+            </div>
+          </div>
+
+          {/* Donors Info */}
+          <div className="flex items-center space-x-4">
+            <img src="/assets/img_frame_12.png" alt="Donor avatars" className="h-12" />
+            <p className="text-sm font-bold text-[#505051] leading-4">
+              300+ Donors around the world
+            </p>
+          </div>
+    </div>)}
+    </>
+  )
+}
+
+export default StatsCard

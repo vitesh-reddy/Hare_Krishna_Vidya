@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import Header from '../../components/common/Header';
 import Footer from '../../components/common/Footer';
-import HeroSection from '../../components/common/HeroSection';
+import HeroSection from './components/HeroSection';
 import Button from '../../components/ui/Button';
-import Card from '../../components/ui/Card';
 import WhiteGlowDiv from '@/components/common/whiteGlowDiv';
 import GallerySection from '@/components/common/GallerySection';
+import StatsCard from './components/StatsCard';
+import ActionCard from './components/ActionCard';
 
 const HomePage = () => {
   const [selectedAmount, setSelectedAmount] = useState('5000');
@@ -50,6 +50,8 @@ const HomePage = () => {
 
       <main>
         <HeroSection />
+        <StatsCard position={"outside"} />
+        <ActionCard position={"outside"} />
 
         {/* Mission Section */}
         <section className="pt-0 px-16 sm:pt-[2.75rem]  lg:pt-6">
