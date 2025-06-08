@@ -13,7 +13,7 @@ const GallerySection = () => {
   return (
     <section className="py-12 px-[1rem] lg:px-[5rem] sm:py-16 lg:py-20 bg-gradient-gallery">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center sm:mb-28">
+        <div className="text-center mb-[3rem] sm:mb-[4rem] md:mb-[4.5rem] lg:mb-28">
           <WhiteGlowDiv text="Gallery" />
 
           <p className="text-[1.25rem] sm:text-4xl lg:text-[2.20rem] text-[#2C2C2C] font-urbanist font-extrabold text-center sm:mb-4 leading-[1.5rem]">
