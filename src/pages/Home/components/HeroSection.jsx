@@ -29,14 +29,14 @@ const HeroSection = () => {
       {/* Donation Notification */}
       <div
         className={
-          'absolute top-0 right-8 z-20 transition-all duration-1000 ease-in-out ' +
+          'absolute top-0 right-0 sm:right-8 z-20 transition-all duration-1000 ease-in-out ' +
           (showNotification ? 'translate-y-10' : 'opacity-0')
         }
       >
-        <div className="bg-gradient-to-r from-[#ededed] to-white rounded-[15px] p-3 shadow-[100px_100px_250px_rgba(224,224,224,0.9)] max-w-[435px]">
+        <div className="bg-gradient-to-r from-[#ededed] to-white rounded-[15px] px-2 py-1 sm:p-3 shadow-[100px_100px_250px_rgba(224,224,224,0.9)] max-w-[435px]">
           <div className="flex items-center space-x-3 py-1">
             <img src="/assets/img_om.png" alt="Om symbol" className="w-[1rem] h-[1rem]" />
-            <p className="text-lg font-urbanist text-[#2c2c2c] leading-4">
+            <p className="text-[0.75rem] sm:text-lg font-urbanist text-[#2c2c2c] leading-4">
               <span className="font-black">Rohit</span> from Mumbai just donated{' '}
               <span className="font-black">₹1,000</span> to feed{' '}
               <span className="font-black">40 children.</span>
