@@ -30,7 +30,7 @@ const AppRoutes = () => {
         <Route path="/hare-krishna-vidya-charity-and-education-foundation" element={<HareKrishnaVidyaPage />} />
         <Route path="/our-initiative" element={<OurInitiativePage />} />
         <Route path="/gallery" element={<GalleryPage />} />
-        <Route path="/contact " element={<ContactPage />} />
+        <Route path="/contact" element={<ContactPage />} />
         <Route path="/donate" element={<DonatePage />} />
         <Route path='/terms&conditions' element= {<TnCPage/> } />
         <Route path='/refund-policy' element= {<RefundPolicyPage/> } />
