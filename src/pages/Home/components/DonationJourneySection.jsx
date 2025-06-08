@@ -3,8 +3,8 @@ import React from 'react';
 const DonationJourneySection = () => {
   return (
     <section className="relative flex flex-col items-center pb-12 px-16 sm:pb-16 lg:pb-0 w-full">
-      <img className='mt-[4rem] hidden sm:block' src="/assets/Full Mobile.png" alt="Donation Journey" />
-      <img className='mt-[4rem] block sm:hidden h-[30rem]' src="/assets/Mobile.png" alt="Donation Journey" />
+      <img className='mt-[4rem] hidden sm:block' src="/assets/Full Mobile.png" draggable={false} alt="Donation Journey" />
+      <img className='mt-[4rem] block sm:hidden h-[30rem]' src="/assets/Mobile.png" draggable={false} alt="Donation Journey" />
       <div className="hidden max-w-7xl mx-auto w-full">
         <div className="flex justify-center items-center w-full">
           {/* Left Side - Journey Steps */}
