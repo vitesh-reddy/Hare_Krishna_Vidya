@@ -62,17 +62,17 @@ const Header = () => {
           aria-label="Toggle mobile menu"
         >
           <span
-            className={`block absolute h-[3px] w-full bg-current transform transition duration-500 ${
+            className={`block absolute h-[3px] w-full rounded-[0.5rem] bg-current transform transition duration-500 ${
               isMobileMenuOpen ? 'rotate-45 top-[0.875rem]' : 'top-[0.375rem]'
             }`}
           />
           <span
-            className={`block absolute h-[3px] w-full bg-current transform transition duration-500 ${
+            className={`block absolute h-[3px] w-full rounded-[0.5rem] bg-current transform transition duration-500 ${
               isMobileMenuOpen ? 'opacity-0' : 'top-[0.875rem]'
             }`}
           />
           <span
-            className={`block absolute h-[3px] w-full bg-current transform transition duration-500 ${
+            className={`block absolute h-[3px] w-full rounded-[0.5rem] bg-current transform transition duration-500 ${
               isMobileMenuOpen ? '-rotate-45 top-[0.875rem]' : 'top-[1.375rem]'
             }`}
           />
