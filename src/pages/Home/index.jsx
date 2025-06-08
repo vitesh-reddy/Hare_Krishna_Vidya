@@ -13,7 +13,6 @@ import TestimonialSection from './components/TestimonialSection';
 const HomePage = () => {
   const [selectedAmount, setSelectedAmount] = useState('5000');
   const [showPaymentSuccess, setShowPaymentSuccess] = useState(false);
-
   const handleDonationClick = () => {
     setShowPaymentSuccess(true);
     setTimeout(() => setShowPaymentSuccess(false), 3000);
@@ -22,7 +21,6 @@ const HomePage = () => {
   return (
     <div className="min-h-screen bg-neutral-background">
       <Header />
-
       <main className='flex flex-col items-center'>
         <HeroSection />
         <ActionCard position={"outside"} />

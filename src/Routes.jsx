@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 // Import page components
 import HomePage from './pages/Home';
@@ -14,11 +15,10 @@ import PrivacyPolicyPage from './pages/privacy-policy';
 import RefundPolicyPage from './pages/refund-policy';
 import OurAssociatedTrustsPage from './pages/our-associated-trusts';
 import GovernancePage from './pages/governance';
-import { AnimatePresence } from 'framer-motion';
 
 const AppRoutes = () => {
-    const location = useLocation();
-  const animatedRoutes = ["/our-associated-trusts", "/governance"];
+  const location = useLocation();
+  const animatedRoutes = ["/our-associated-trusts", "/governance", '/donate'];
   const isAnimated = animatedRoutes.includes(location.pathname);
   return (
     <AnimatePresence mode="wait">
@@ -30,11 +30,11 @@ const AppRoutes = () => {
         <Route path="/hare-krishna-vidya-charity-and-education-foundation" element={<HareKrishnaVidyaPage />} />
         <Route path="/our-initiative" element={<OurInitiativePage />} />
         <Route path="/gallery" element={<GalleryPage />} />
-        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/contact " element={<ContactPage />} />
         <Route path="/donate" element={<DonatePage />} />
         <Route path='/terms&conditions' element= {<TnCPage/> } />
         <Route path='/refund-policy' element= {<RefundPolicyPage/> } />
-        <Route path='/privacy-policy' element= {<PrivacyPolicyPage/> } />
+        <Route path='/privacy-policy' element= {<PrivacyPolicyPage/> } />        
       </Routes>
     </AnimatePresence>
   );

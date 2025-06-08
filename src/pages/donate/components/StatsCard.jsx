@@ -4,37 +4,31 @@ const StatsCard = ({position}) => {
   return (
     <>
     {position == 'inside' &&
-     (<div onClick={() => window.location.href = '/donate'} className="hidden md:block absolute left-10 bottom-14 bg-[#edf2f7cc] rounded-[40px] p-6 shadow-[0px_4px_12px_rgba(136,136,136,1)] max-w-[18rem] lg:max-w-[23.4375rem] h-[14rem] cursor-pointer">
+     (<div className="hidden lg:flex gap-5 items-center justify-evenly px-[0.5rem] py-[0.25rem] bg-[#edf2f7cc] rounded-[40px] shadow-[0px_4px_12px_rgba(136,136,136,1)] cursor-pointer">
           {/* Karma Insights Header */}
-          <div className="flex flex-row items-center mb-3 lg:mb-6 gap-3 relative">
-            <div className="bg-gradient-to-r from-[#e8e8e8] to-white rounded-[24px] p-4 shadow-custom-numKeys">
+          <div className="flex flex-row items-center gap-3 relative">
+            <div className="bg-gradient-to-r from-[#e8e8e8] to-white rounded-[24px] p-4">
               <div className="flex items-center space-x-3">
                 <img src="/assets/img_shines.png" alt="Shine icon" className="h-4 lg:h-5" />
                 <span className="text-[0.75rem] lg:text-lg font-semibold font-inter text-black">Karma Insights</span>
               </div>
             </div>
-            <span className="text-lg text-[#6d7175] leading-5 mt-1">Click here</span>
-            <img
-              src="/assets/img_vector_1.svg"
-              alt="Decorative vector"
-              className="absolute top-7 h-[7.5rem] right-6 lg:right-8 z-[100]"
-            />
           </div>
           {/* Stats */}
-          <div className="grid grid-cols-2 gap-0 pr-16 mb-6">
+          <div className="grid grid-cols-2 gap-0">
             <div className="w-fit">
-              <p className="w-fit text-[1.5rem] font-urbanist font-bold text-[#2c2c2cbb] leading-10">
+              <p className="w-fit text-[1.5rem] font-urbanist font-bold text-[#2c2c2cbb] ">
                 800K
               </p>
-              <p className="w-fit text-base font-semibold text-[#2c2c2cbb] leading-6">
+              <p className="w-fit text-base font-semibold text-[#2c2c2cbb]">
                 Meals Served
               </p>
             </div>
             <div>
-              <div className="text-[1.5rem] font-urbanist font-bold text-[#2c2c2cbb] leading-10">
+              <div className="text-[1.5rem] font-urbanist font-bold text-[#2c2c2cbb] ">
                 50K
               </div>
-              <div className="text-base font-semibold text-[#2c2c2cbb] leading-6">
+              <div className="text-base font-semibold text-[#2c2c2cbb]">
                 {' '}
                 Children's Educated{' '}
               </div>
@@ -51,7 +45,7 @@ const StatsCard = ({position}) => {
     </div>)}
 
     {position == 'outside' &&
-     (<div onClick={() => window.location.href = '/donate'} className="block md:hidden bg-[#edf2f7cc] rounded-[40px] p-6 mb-[2rem] w-[80%] sm:w-[60%] h-[14rem] cursor-pointer">
+     (<div className="flex lg:hidden flex-col items-center bg-[#edf2f7cc] rounded-[40px] p-6 mb-[2rem] w-[80%] sm:w-[60%] h-[14rem] cursor-pointer">
           {/* Karma Insights Header */}
           <div className="flex flex-row items-center mb-6 gap-3 relative">
             <div className="bg-gradient-to-r from-[#e8e8e8] to-white rounded-[24px] p-4 shadow-custom-numKeys">
@@ -60,16 +54,10 @@ const StatsCard = ({position}) => {
                 <span className="text-lg font-semibold font-inter text-black">Karma Insights</span>
               </div>
             </div>
-            <span className="text-lg text-[#6d7175] leading-5 mt-1">Click here</span>
-            <img
-              src="/assets/img_vector_1.svg"
-              alt="Decorative vector"
-              className="absolute top-7 h-[7.5rem] right-8  z-[100]"
-            />
           </div>
           {/* Stats */}
-          <div className="grid grid-cols-2 gap-0 pr-16 mb-6">
-            <div className="w-fit">
+          <div className="grid grid-cols-2 gap-0 mb-6">
+            <div className="w-fit text-center">
               <p className="w-fit text-[1.5rem] font-urbanist font-bold text-[#2c2c2cbb] leading-10">
                 800K
               </p>
