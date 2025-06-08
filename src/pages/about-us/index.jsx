@@ -23,8 +23,7 @@ const AboutUsPage = () => {
         <FounderSection/>
         <Mission_VisionSection/>
         <OurImpactSection />
-        <ExistanceSection/>
-        
+        <ExistanceSection/>        
         <GallerySection/>
       </main>
 

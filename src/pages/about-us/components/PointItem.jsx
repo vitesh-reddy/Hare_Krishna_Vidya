@@ -1,6 +1,5 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
-
-const PointItem = ({ point, fadeIn, status, index }) => {
+const PointItem = ({ point, fadeIn, status, index, align = "center" }) => {
   const spanRef = useRef(null);
   const wrapperRef = useRef(null);
   const [width, setWidth] = useState(null);
@@ -33,13 +32,13 @@ const PointItem = ({ point, fadeIn, status, index }) => {
     <div
       ref={wrapperRef}
       key={status + '-point-' + index}
-      className="bg-white rounded-[24px] px-4 py-3 shadow-custom-mission-vision inline-flex items-center space-x-3 overflow-hidden"
       style={{ width: width ? `${width}px` : 'auto' }}
+      className={"bg-white rounded-[24px] px-4 py-3 shadow-custom-mission-vision inline-flex my-[0.25rem] md:mb-0 items-center space-x-3 overflow-hidden justify-" + align} 
     >
       <img src="/assets/img_shines.png" alt="Shine icon" className="w-[1rem]" />
       <span
         ref={spanRef}
-        className={`text-[0.9rem] font-inter font-semibold text-black transition-opacity duration-500 ${
+        className={`text-[0.75rem] md:text-[0.8rem] lg:text-[0.9rem] font-inter font-semibold text-black transition-opacity duration-500 ${
           fadeIn ? 'opacity-100' : 'opacity-50'
         }`}
       >

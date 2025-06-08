@@ -50,23 +50,23 @@ const Mission_VisionSection = () => {
   const content = status === 'mission' ? contents.mission : contents.vision;
 
   return (
-    <section className="flex flex-col pr-[3rem] items-start mb-[4rem]">
-      <div className="relative w-[480px] bg-black">
+    <section className="flex flex-col items-start mb-[4rem]">
+      <div className="hidden md:block relative w-[480px] bg-black">
         <div
           onClick={() => handleStatusChange('mission')}
           className={'absolute left-0 cursor-pointer' + transition + (status === 'mission' ? ' z-10' : ' z-0')}
         >
-          <img src="assets/Rectangle_1.png" alt="Left" className="w-[332px]" />
+          <img src="assets/Rectangle_1.png" alt="Left" className="w-[334px]" draggable={false} />
         </div>
         <div
           onClick={() => handleStatusChange('vision')}
           className={'absolute right-0 cursor-pointer' + transition + (status === 'vision' ? ' z-10' : ' z-0')}
         >
-          <img src="assets/Rectangle_2.png" alt="Right" className="w-[290px]" />
+          <img src="assets/Rectangle_2.png" alt="Right" className="w-[290px]"  draggable={false} />
         </div>
       </div>
 
-      <div className="flex w-[96.5%] mt-14 h-[550px]">
+      <div className="hidden md:flex w-[96.5%] mt-14 h-[550px]">
         {/* Left section with bg color */}
         <div
           className={`w-[50%] p-[3rem] rounded-[0px_0px_0px_30px] flex flex-col justify-evenly transition-all duration-500`}
@@ -75,17 +75,17 @@ const Mission_VisionSection = () => {
           {/* text1 with fade and width transition */}
           <p
             key={status + '-text1'}
-            className={`font-inter font-semibold text-[1rem] text-[#F9F9F9] leading-[1.7rem] transition-[opacity,width] duration-500 ${
+            className={`font-inter font-semibold text-[0.75rem] md:text-[0.8rem] lg:text-[1rem] text-[#F9F9F9] lg:leading-[1.7rem] transition-[opacity,width] duration-500 ${
               fadeIn ? 'opacity-100' : 'opacity-80'
             }`}
-            style={{ width: content.text1Width }}
+            // style={{ width: content.text1Width }}
           >
             {content.text1}
           </p>
 
           {/* points */}
           <div className="flex flex-col justify-evenly space-y-6">
-            <p className="font-inter font-semibold text-[#2C2C2C]">{content.text2}</p>
+            <p className="font-inter md:text-[0.8rem] lg:text-[1rem] font-semibold text-[#2C2C2C]">{content.text2}</p>
 						{content.points.map((point, index) => (
 							<PointItem
 								key={status + '-point-' + index}
@@ -111,6 +111,44 @@ const Mission_VisionSection = () => {
           />
         </div>
       </div>
+          
+      <div className='md:hidden pl-[2rem] pr-[4rem] sm:pr-[10rem]'>
+        <p className='font-urbanist [font-style:oblique_6deg] text-[1.5rem] font-bold text-[#2c2c2c]'>Our Mission</p>
+        <p className={`font-inter font-semibold text-[0.75rem] sm:text-[0.8rem] mb-[1rem] text-[#404040] }`} > {content.text1} </p>
+          <div className="flex flex-col justify-evenly space-y-6">
+            <p className="font-inter text-[0.9rem] md:text-[0.8rem] lg:text-[1rem] font-semibold text-[#2C2C2C]">{content.text2}</p>
+						{content.points.map((point, index) => (
+							<PointItem
+								key={status + '-point-' + index}
+								point={point}
+								fadeIn={fadeIn}
+								status={status}
+								index={index}
+                align='start'
+							/>
+						))}
+
+          </div>       
+      </div>
+      <div className='md:hidden pl-[4rem] sm:pl-[10rem] pr-[2rem] sm:pr-[4rem] mt-[2rem] flex flex-col items-end'>
+        <p className='font-urbanist [font-style:oblique_6deg] text-end text-[1.5rem] font-bold text-[#2c2c2c]'>Our Vision</p>
+        <p className={`font-inter font-semibold text-[0.75rem] text-end sm:text-[0.8rem] mb-[1rem] text-[#404040] }`} > {contents.vision.text1} </p>
+          <div className="flex flex-col items-end justify-evenly space-y-6">
+            <p className="font-inter text-[0.9rem] md:text-[0.8rem] lg:text-[1rem] font-semibold text-[#2C2C2C]">{contents.vision.text2}</p>
+						{content.points.map((point, index) => (
+							<PointItem
+								key={status + '-point-' + index}
+								point={point}
+								fadeIn={fadeIn}
+								status={status}
+								index={index}
+                align='end'
+							/>
+						))}
+
+          </div>       
+      </div>
+
     </section>
   );
 };

@@ -27,7 +27,7 @@ const OurImpactSection = () => {
   ]
 
   return (
-    <section className="w-full flex flex-col items-center mb-[6rem]">
+    <section className="w-full flex flex-col items-center mb-[4rem] md:mb-[6rem] px-[2rem]">
       <WhiteGlowDiv text={'Our Impact in Numbers'} />
 
       <div className="border border-[#F4A261] rounded-[2rem] px-[4rem] py-6 grid grid-cols-1 sm:grid-cols-2 bg-white shadow-lg min-h-[14.5rem] max-w-[40rem]">
@@ -43,10 +43,10 @@ const OurImpactSection = () => {
 
 const Card = ({emoji, metric, text}) => {
   return (
-  <div className="flex items-center">
-    <img src={emoji} alt="Emoji" className='w-[3.75rem] mr-2' />
-    <p className="text-[2.75rem] font-urbanist font-bold  text-[#2C2C2C] mr-5">{metric}</p>
-    <p className="text-[0.97rem] w-[30%] font-inter font-medium text-[#2C2C2C] mr-5">{text}</p>
+  <div className="flex items-center mb-[1rem] sm:mb-0">
+    <img src={emoji} alt="Emoji" className='w-[3rem] sm:w-[3.75rem] mr-2' />
+    <p className="text-[2rem] sm:text-[2.75rem] font-urbanist font-bold  text-[#2C2C2C] mr-5">{metric}</p>
+    <p className="text-[0.75rem] sm:text-[0.97rem] w-[30%] font-inter font-medium text-[#2C2C2C] mr-5">{text}</p>
   </div>
   )
 };
