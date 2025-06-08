@@ -6,17 +6,13 @@ import Button from '../ui/Button';
 const Header = () => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  
-  const isActive = (path) => {
-    return location.pathname === path;
-  };
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+  const isActive = (path) => location.pathname === path;
+
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   return (
-    <header className="bg-neutral-background py-6 px-6 sm:px-16 top-0 z-40">
+    <header className="bg-neutral-background py-6 px-6 sm:px-16 top-0 z-40 relative">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center">
@@ -27,147 +23,115 @@ const Header = () => {
           </Link>
         </div>
 
-        {/* Desktop Navigation */}
+        {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center space-x-[2.25rem]">
-          <Link to="/" className={`font-medium font-inter text-[0.9rem] transition-colors ${
-              isActive('/') 
-                ? 'text-secondary-orange' :'text-neutral-dark hover:text-secondary-orange'
-            }`}
-          >
-            Home
-          </Link>
-          <Link 
-            to="/about-us" 
-            className={`font-medium font-inter text-[0.9rem] transition-colors ${
-              isActive('/about-us') 
-                ? 'text-secondary-orange' :'text-neutral-dark hover:text-secondary-orange'
-            }`}
-          >
-            About Us
-          </Link>
-          <Link 
-            to="/our-initiative" 
-            className={`font-medium font-inter text-[0.9rem] transition-colors ${
-              isActive('/our-initiative') 
-                ? 'text-secondary-orange' :'text-neutral-dark hover:text-secondary-orange'
-            }`}
-          >
-            Our Initiative
-          </Link>
-          <Link 
-            to="/gallery" 
-            className={`font-medium font-inter text-[0.9rem] transition-colors ${
-              isActive('/gallery') 
-                ? 'text-secondary-orange' :'text-neutral-dark hover:text-secondary-orange'
-            }`}
-          >
-            Gallery
-          </Link>
-          <Link 
-            to="/contact" 
-            className={`font-medium font-inter text-[0.9rem] transition-colors ${
-              isActive('/contact') 
-                ? 'text-secondary-orange' :'text-neutral-dark hover:text-secondary-orange'
-            }`}
-          >
-            Contact Us
-          </Link>
+          {[
+            { path: '/', label: 'Home' },
+            { path: '/about-us', label: 'About Us' },
+            { path: '/our-initiative', label: 'Our Initiative' },
+            { path: '/gallery', label: 'Gallery' },
+            { path: '/contact', label: 'Contact Us' },
+          ].map((item) => (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={`font-medium font-inter text-[0.9rem] transition-colors ${
+                isActive(item.path)
+                  ? 'text-secondary-orange'
+                  : 'text-neutral-dark hover:text-secondary-orange'
+              }`}
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
 
-        {/* Desktop Donate Button */}
+        {/* Desktop Donate */}
         <div className="hidden lg:block">
           <Link to="/donate">
             <div className="font-medium font-inter rounded-[1.125rem] transition-colors duration-200 cursor-pointer inline-flex items-center justify-center bg-primary-blue shadow-custom-donate text-white px-[2.25rem] py-4 text-[0.95rem] hover:bg-primary-dark focus:ring-[#0b3954]">
               <p className="text-shadow-[0_100px_100px_rgba(71,187,255,0.30)]">Donate Now</p>
             </div>
-            
           </Link>
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile Menu Button (Animated Hamburger) */}
         <button
           onClick={toggleMobileMenu}
-          className="lg:hidden p-2 rounded-md text-neutral-dark hover:text-secondary-orange transition-colors"
+          className="lg:hidden relative w-[1.75rem] h-[2rem] p-[0.5rem] mr-3 text-accent-yellow"
           aria-label="Toggle mobile menu"
         >
-          <svg className="w-[2rem]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            {isMobileMenuOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            )}
-          </svg>
+          <span
+            className={`block absolute h-[3px] w-full bg-current transform transition duration-500 ${
+              isMobileMenuOpen ? 'rotate-45 top-[0.875rem]' : 'top-[0.375rem]'
+            }`}
+          />
+          <span
+            className={`block absolute h-[3px] w-full bg-current transform transition duration-500 ${
+              isMobileMenuOpen ? 'opacity-0' : 'top-[0.875rem]'
+            }`}
+          />
+          <span
+            className={`block absolute h-[3px] w-full bg-current transform transition duration-500 ${
+              isMobileMenuOpen ? '-rotate-45 top-[0.875rem]' : 'top-[1.375rem]'
+            }`}
+          />
         </button>
+
       </div>
 
       {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="lg:hidden mt-4 py-4 border-t border-border-light">
-          <nav className="flex flex-col space-y-4">
-            <Link 
-              to="/" 
+      <div
+        className={`lg:hidden absolute top-full left-0 w-full bg-neutral-background z-30 border-t border-border-light overflow-hidden transition-all duration-500 ease-in-out ${
+          isMobileMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+        }`}
+      >
+        <nav className="flex flex-col space-y-4 py-4 px-4">
+          {[
+            { path: '/', label: 'Home' },
+            { path: '/about-us', label: 'About Us' },
+            { path: '/our-initiative', label: 'Our Initiative' },
+            { path: '/gallery', label: 'Gallery' },
+            { path: '/contact', label: 'Contact Us' },
+          ].map((item, index) => (
+            <Link
+              key={item.path}
+              to={item.path}
               onClick={toggleMobileMenu}
-              className={`font-medium font-inter text-[0.9rem] text-center px-4 py-2 transition-colors ${
-                isActive('/') 
-                  ? 'text-secondary-orange ' :'text-neutral-dark hover:text-secondary-orange'
+              className={`font-medium font-inter text-[0.9rem] text-center py-2 transform transition-all duration-500 ease-in-out ${
+                isActive(item.path)
+                  ? 'text-secondary-orange'
+                  : 'text-neutral-dark hover:text-secondary-orange'
+              } ${
+                isMobileMenuOpen
+                  ? 'translate-x-0 opacity-100'
+                  : 'translate-x-[100%] opacity-0'
               }`}
+              style={{ transitionDelay: `${index * 100}ms` }}
             >
-              Home
+              {item.label}
             </Link>
-            <Link 
-              to="/about-us" 
-              onClick={toggleMobileMenu}
-              className={`font-medium font-inter text-[0.9rem] text-center px-4 py-2 transition-colors ${
-                isActive('/about-us') 
-                  ? 'text-secondary-orange ' :'text-neutral-dark hover:text-secondary-orange'
-              }`}
-            >
-              About Us
+          ))}
+
+          <div
+            className={`pt-4 px-[4rem] transform transition-all duration-500 ease-in-out ${
+              isMobileMenuOpen
+                ? 'translate-x-0 opacity-100'
+                : 'translate-x-[100%] opacity-0'
+            }`}
+            style={{ transitionDelay: '500ms' }}
+          >
+            <Link to="/donate" onClick={toggleMobileMenu}>
+              <Button
+                variant="primary"
+                className="w-full bg-primary-blue text-white py-[0.75rem] rounded-[20px] font-semibold text-[0.9rem] shadow-custom-donate"
+              >
+                Donate Now
+              </Button>
             </Link>
-            <Link 
-              to="/our-initiative" 
-              onClick={toggleMobileMenu}
-              className={`font-medium font-inter text-[0.9rem] text-center px-4 py-2 transition-colors ${
-                isActive('/our-initiative') 
-                  ? 'text-secondary-orange 0' :'text-neutral-dark hover:text-secondary-orange'
-              }`}
-            >
-              Our Initiative
-            </Link>
-            <Link 
-              to="/gallery" 
-              onClick={toggleMobileMenu}
-              className={`font-medium font-inter text-[0.9rem] text-center px-4 py-2 transition-colors ${
-                isActive('/gallery') 
-                  ? 'text-secondary-orange ' :'text-neutral-dark hover:text-secondary-orange'
-              }`}
-            >
-              Gallery
-            </Link>
-            <Link 
-              to="/contact" 
-              onClick={toggleMobileMenu}
-              className={`font-medium font-inter text-[0.9rem] text-center px-4 py-2 transition-colors ${
-                isActive('/contact') 
-                  ? 'text-secondary-orange ' :'text-neutral-dark hover:text-secondary-orange'
-              }`}
-            >
-              Contact Us
-            </Link>
-            
-            <div className="px-[4rem] pt-4">
-              <Link to="/donate" onClick={toggleMobileMenu}>
-                <Button 
-                  variant="primary"
-                  className="w-full bg-primary-blue text-white py-[0.75rem] rounded-[20px] font-semibold text-[0.9rem] shadow-custom-donate"
-                >
-                  Donate Now
-                </Button>
-              </Link>
-            </div>
-          </nav>
-        </div>
-      )}
+          </div>
+        </nav>
+      </div>
     </header>
   );
 };
