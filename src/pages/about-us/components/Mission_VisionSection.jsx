@@ -51,7 +51,7 @@ const Mission_VisionSection = () => {
 
   return (
     <section className="flex flex-col items-start mb-[4rem]">
-      <div className="hidden md:block relative w-[480px] bg-black cursor-pointer">
+      <div className="hidden md:block relative w-[480px] bg-blackz">
         <div
           onClick={() => handleStatusChange('mission')}
           className={'absolute left-0 cursor-pointer' + transition + (status === 'mission' ? ' z-10' : ' z-0')}
@@ -112,7 +112,7 @@ const Mission_VisionSection = () => {
         </div>
       </div>
           
-      <div className='md:hidden pl-[2rem] pr-[4rem] sm:pr-[10rem]'>
+      <div className='md:hidden px-[2rem] sm:pr-[10rem]'>
         <p className='font-urbanist [font-style:oblique_6deg] text-[1.5rem] font-bold text-[#2c2c2c]'>Our Mission</p>
         <p className={`font-inter font-semibold text-[0.75rem] sm:text-[0.8rem] mb-[1rem] text-[#404040] }`} > {content.text1} </p>
           <div className="flex flex-col justify-evenly space-y-6">
@@ -130,7 +130,7 @@ const Mission_VisionSection = () => {
 
           </div>       
       </div>
-      <div className='md:hidden pl-[4rem] sm:pl-[10rem] pr-[2rem] sm:pr-[4rem] mt-[2rem] flex flex-col items-end'>
+      <div className='md:hidden px-[2rem] sm:pl-[10rem] sm:pr-[4rem] mt-[2rem] flex flex-col items-end'>
         <p className='font-urbanist [font-style:oblique_6deg] text-end text-[1.5rem] font-bold text-[#2c2c2c]'>Our Vision</p>
         <p className={`font-inter font-semibold text-[0.75rem] text-end sm:text-[0.8rem] mb-[1rem] text-[#404040] }`} > {contents.vision.text1} </p>
           <div className="flex flex-col items-end justify-evenly space-y-6">

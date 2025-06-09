@@ -14,9 +14,9 @@ const OurAssociatedTrustsPage = () => {
         <Header />
 
         <main className='flex flex-col items-center sm:px-[7rem] md:px-[8rem] lg:px-[10.5rem]'>
-          <div className='rotate-[-90deg] flex flex-row fixed -right-[10.8rem] bottom-[13rem] z-50 space-x-4 text-white font-medium text-[1.3rem]'>
-            <Link to='../governance'><div className='hidden sm:block font-outfit bg-[#E76F51] px-5 py-2 rounded-[0.5rem_0.5rem_0rem_0rem] text-center w-fit cursor-pointer'>Governance</div></Link>
-            <Link to='../about-us'> <div className='hidden sm:block font-outfit bg-[#E76F51] px-5 py-2 rounded-[0.5rem_0.5rem_0rem_0rem] text-center w-fit cursor-pointer'>Our Associated Trusts</div></Link>
+          <div className='rotate-[-90deg] flex flex-row fixed -right-[8rem] sm:-right-[10rem] bottom-[13rem] z-50 space-x-4 text-white h-[1vh] font-medium sm:text-[1.3rem]'>
+            <Link to='../governance'><div className='font-outfit bg-[#E76F51] px-5 py-2 rounded-[0.5rem_0.5rem_0rem_0rem] text-center w-fit cursor-pointer'>Governance</div></Link>
+            <Link to='../about-us'> <div className='font-outfit bg-[#E76F51] px-5 py-2 rounded-[0.5rem_0.5rem_0rem_0rem] text-center w-fit cursor-pointer'>Our Associated Trusts</div></Link>
           </div>
 
           <div className='flex flex-col items-center '>

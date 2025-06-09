@@ -7,7 +7,6 @@ import BoardofTrusteesSection from './components/BoardofTrusteesSection';
 import LeadershipTeamSection from './components/LeadershipTeamSection';
 import OfficersSection from './components/OfficersSection';
 import ManagementTeamSection from './components/ManagementTeamSection';
-
 const GovernancePage = () => {
   return (
     <motion.div initial={{ x: '100%', opacity: 100 }} animate={{ x: 0, opacity: 1 }} exit={false} transition={{ duration: 0.4 }} className="page">
@@ -16,10 +15,10 @@ const GovernancePage = () => {
         <Header />
 
         <main className=''>
-          <div className='rotate-[-90deg] flex flex-row fixed -right-[10.8rem] bottom-[13rem] z-50 space-x-4 text-white font-medium text-[1.3rem]'>
-            <Link to='../about-us'><div className='hidden sm:block font-outfit bg-[#E76F51] px-5 py-2 rounded-[0.5rem_0.5rem_0rem_0rem] text-center w-fit cursor-pointer'>Governance</div></Link>
-            <Link to='../our-associated-trusts'> <div className='hidden sm:block font-outfit bg-[#E76F51] px-5 py-2 rounded-[0.5rem_0.5rem_0rem_0rem] text-center w-fit cursor-pointer'>Our Associated Trusts</div></Link>
-          </div>
+        <div className='rotate-[-90deg] flex flex-row fixed -right-[8rem] sm:-right-[10rem] bottom-[13rem] z-50 space-x-4 text-white h-[1vh] font-medium sm:text-[1.3rem]'>
+          <Link to='../about-us'><div className='font-outfit bg-[#E76F51] px-5 py-2 rounded-[0.5rem_0.5rem_0rem_0rem] text-center w-fit cursor-pointer'>Governance</div></Link>
+          <Link to='../our-associated-trusts'> <div className='font-outfit bg-[#E76F51] px-5 py-2 rounded-[0.5rem_0.5rem_0rem_0rem] text-center w-fit cursor-pointer'>Our Associated Trusts</div></Link>
+        </div>
           
           <div className='mb-[2rem] sm:mb-[3rem] md:mb-[4rem] flex flex-col items-center '>
             <p className='text-[#E76F51] font-urbanist font-bold text-[1.75rem] sm:text-[2.25rem] md:text-[2.75rem] lg:text-[3.25rem] mt-[3rem] sm:mt-[5.25rem] leading-0'>Our Trustees & <span className='text-[#F4A261]' > Leadership </span></p>
