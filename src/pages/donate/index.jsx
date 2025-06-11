@@ -12,7 +12,7 @@ import { motion } from 'framer-motion';
 
 const DonatePage = () => {
   const [selectedAmount, setSelectedAmount] = useState('5000');
-  const [showPaymentSuccess, setShowPaymentSuccess] = useState(true);
+  const [showPaymentSuccess, setShowPaymentSuccess] = useState(false);
   const [ha, setHa] = useState(false);
   const handleDonationClick = () => {
     setShowPaymentSuccess(true);
