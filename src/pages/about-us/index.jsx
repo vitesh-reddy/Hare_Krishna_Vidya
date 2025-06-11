@@ -8,7 +8,7 @@ import FounderSection from './components/FounderSection';
 import Mission_VisionSection from './components/Mission_VisionSection';
 import GallerySection from '@/components/common/GallerySection';
 import ExistanceSection from './components/ExistanceSection';
-import { Link, Links } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const AboutUsPage = () => {
   return (

@@ -1,7 +1,6 @@
 // src/components/common/Header.jsx
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import Button from '../ui/Button';
 
 const Header = () => {
   const location = useLocation();
@@ -29,7 +28,7 @@ const Header = () => {
             { path: '/', label: 'Home' },
             { path: '/about-us', label: 'About Us' },
             { path: '/our-initiative', label: 'Our Initiative' },
-            { path: '/gallery', label: 'Gallery' },
+            { path: '/gallery', label: 'Gallery' }, 
             { path: '/contact', label: 'Contact Us' },
           ].map((item) => (
             <Link
@@ -55,7 +54,7 @@ const Header = () => {
           </Link>
         </div>
 
-        {/* Mobile Menu Button (Animated Hamburger) */}
+        {/* Mobile Menu button (Animated Hamburger) */}
         <button
           onClick={toggleMobileMenu}
           className="lg:hidden relative w-[1.75rem] h-[2rem] p-[0.5rem] mr-3 text-accent-yellow"
@@ -122,12 +121,11 @@ const Header = () => {
             style={{ transitionDelay: '500ms' }}
           >
             <Link to="/donate" onClick={toggleMobileMenu}>
-              <Button
-                variant="primary"
+              <button
                 className="w-full bg-primary-blue text-white py-[0.75rem] rounded-[20px] font-semibold text-[0.9rem] shadow-custom-donate"
               >
                 Donate Now
-              </Button>
+              </button>
             </Link>
           </div>
         </nav>

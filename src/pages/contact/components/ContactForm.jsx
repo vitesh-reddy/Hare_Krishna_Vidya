@@ -96,15 +96,15 @@ const ContactForm = ({ onSubmit }) => {
         <div>
           <label className="mb-1 block text-[0.8rem] font-medium text-gray-700">Phone number</label>
           <div className="flex">
-            <select className="border-l border-t border-b border-gray-300 rounded-l-md bg-white pl-4 pr-2 text-[0.85rem] text-gray-700">
+            {/* <select className="border-l border-t border-b border-gray-300 rounded-l-md bg-white pl-4 pr-2 text-[0.85rem] text-gray-700">
               <option>US</option>
               <option>IN</option>
               <option>UK</option>
-            </select>
+            </select> */}
             <input
               type="tel"
-              placeholder="+1 (555) 000-0000"
-              className="flex-1 border border-l-0  px-[1rem] py-[0.65rem] text-[0.85rem] border-gray-300 rounded-r-md shadow-sm focus:ring-orange-500 focus:border-orange-500"
+              placeholder="+91 98765 43210"
+              className="flex-1 border px-[1rem] py-[0.65rem] text-[0.85rem] border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500"
             />
           </div>
         </div>
@@ -137,7 +137,7 @@ const ContactForm = ({ onSubmit }) => {
           <div className="ml-2 text-[0.85rem]">
             <label htmlFor="terms" className="font-medium text-[#344054]">
               You agree to our friendly{' '}
-              <a href="#" className="underline">
+              <a href="/privacy-policy" className="underline">
                 privacy policy
               </a>
               .

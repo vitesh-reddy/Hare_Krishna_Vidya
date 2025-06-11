@@ -33,7 +33,7 @@ const OurImpactSection = () => {
       <div className="border border-[#F4A261] rounded-[2rem] px-[4rem] py-6 grid grid-cols-1 sm:grid-cols-2 bg-white shadow-lg min-h-[14.5rem] max-w-[40rem]">
         {impacts.map((impact, idx) => {
           return (
-          <Card key={idx} {...impact}/>            
+          <ImpactCard key={idx} {...impact}/>            
         );
         })}
       </div>
@@ -41,7 +41,7 @@ const OurImpactSection = () => {
   );
 };
 
-const Card = ({emoji, metric, text}) => {
+const ImpactCard = ({emoji, metric, text}) => {
   return (
   <div className="flex items-center mb-[1rem] sm:mb-0">
     <img src={emoji} alt="Emoji" className='w-[3rem] sm:w-[3.75rem] mr-2' />
