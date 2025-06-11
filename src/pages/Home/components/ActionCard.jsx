@@ -1,6 +1,5 @@
-import DonateButton from '@/components/common/DonateButton'
-import Button from '@/components/ui/Button'
 import React from 'react'
+import DonateButton from '@/components/common/DonateButton' 
 
 const ActionCard = ({position}) => {
   return (

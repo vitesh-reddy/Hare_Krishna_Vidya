@@ -1,9 +1,7 @@
-// src/pages/hare-krishna-vidya-charity-and-education-foundation/index.jsx
-import React from 'react';
 import Header from '../../components/common/Header';
 import Footer from '../../components/common/Footer';
-import Card from '../../components/ui/Card';
-import Button from '../../components/ui/Button';
+
+import React from 'react';
 
 const HareKrishnaVidyaPage = () => {
   return (
@@ -31,12 +29,12 @@ const HareKrishnaVidyaPage = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button className="bg-[#f4a261] text-white px-8 py-4 rounded-[20px] font-semibold text-lg shadow-soft hover:bg-[#e89a5c] transition-colors">
+              <button className="rounded-[20px] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer inline-flex items-center justify-center bg-[#f4a261] text-white px-8 py-4 font-semibold text-lg shadow-md hover:bg-[#e89a5c] focus:ring-[#0b3954]">
                 Donate Now
-              </Button>
-              <Button className="bg-transparent border-2 border-[#0b3954] text-[#0b3954] px-8 py-4 rounded-[20px] font-semibold text-lg hover:bg-[#0b3954] hover:text-white transition-colors">
+              </button>
+              <button className="rounded-[20px] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer inline-flex items-center justify-center bg-transparent border-2 border-[#0b3954] text-[#0b3954] px-8 py-4 font-semibold text-lg hover:bg-[#0b3954] hover:text-white focus:ring-[#0b3954]">
                 Learn More
-              </Button>
+              </button>
             </div>
           </div>
         </section>
@@ -45,13 +43,13 @@ const HareKrishnaVidyaPage = () => {
         <section className="py-20 px-4">
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-              <Card className="bg-white rounded-[30px] p-0 shadow-[15px_15px_38px_rgba(209,213,215,0.9)] overflow-hidden">
+              <div className="rounded-[30px] overflow-hidden bg-white border border-[#cfcfcf] p-0 shadow-[15px_15px_38px_rgba(209,213,215,0.9)]">
                 <img 
                   src="https://assets.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
                   alt="Children receiving education and meals" 
                   className="w-full h-[400px] object-cover"
                 />
-              </Card>
+              </div>
               
               <div>
                 <h3 className="text-4xl font-bold text-[#2c2c2c] mb-6">
@@ -103,7 +101,7 @@ const HareKrishnaVidyaPage = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* Annadaan Program */}
-              <Card variant="gradient" className="rounded-[30px] p-8 border border-[#cfcfcf]">
+              <div className="rounded-[30px] overflow-hidden bg-gradient-to-br from-[#e1e6e8] to-[#f9feff] p-8 shadow-[15px_15px_38px_rgba(209,213,215,0.9)] border border-[#cfcfcf]">
                 <div className="bg-[rgba(244,162,97,0.5)] w-16 h-16 rounded-full flex items-center justify-center mb-6">
                   <img src="/assets/img_food_traced.svg" alt="Food icon" className="w-8 h-8" />
                 </div>
@@ -117,10 +115,10 @@ const HareKrishnaVidyaPage = () => {
                   <li>• Fresh, sanctified food preparation</li>
                   <li>• Community-based distribution centers</li>
                 </ul>
-              </Card>
+              </div>
 
               {/* Education Program */}
-              <Card variant="gradient" className="rounded-[30px] p-8 border border-[#cfcfcf]">
+              <div className="rounded-[30px] overflow-hidden bg-gradient-to-br from-[#e1e6e8] to-[#f9feff] p-8 shadow-[15px_15px_38px_rgba(209,213,215,0.9)] border border-[#cfcfcf]">
                 <div className="bg-[rgba(231,111,81,0.5)] w-16 h-16 rounded-full flex items-center justify-center mb-6">
                   <img src="/assets/img_books_traced.svg" alt="Books icon" className="w-8 h-8" />
                 </div>
@@ -134,10 +132,10 @@ const HareKrishnaVidyaPage = () => {
                   <li>• Free books and learning materials</li>
                   <li>• Character development focus</li>
                 </ul>
-              </Card>
+              </div>
 
               {/* Child Sponsorship Program */}
-              <Card variant="gradient" className="rounded-[30px] p-8 border border-[#cfcfcf]">
+              <div className="rounded-[30px] overflow-hidden bg-gradient-to-br from-[#e1e6e8] to-[#f9feff] p-8 shadow-[15px_15px_38px_rgba(209,213,215,0.9)] border border-[#cfcfcf]">
                 <div className="bg-[rgba(11,57,84,0.5)] w-16 h-16 rounded-full flex items-center justify-center mb-6">
                   <img src="/assets/img_heart_traced.svg" alt="Heart icon" className="w-8 h-8 filter brightness-0 invert" />
                 </div>
@@ -151,7 +149,7 @@ const HareKrishnaVidyaPage = () => {
                   <li>• Healthcare and nutrition</li>
                   <li>• Educational guidance</li>
                 </ul>
-              </Card>
+              </div>
             </div>
           </div>
         </section>
@@ -169,7 +167,7 @@ const HareKrishnaVidyaPage = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <Card className="bg-white rounded-[20px] p-0 overflow-hidden">
+              <div className="rounded-[20px] overflow-hidden bg-white border border-[#cfcfcf] p-0 shadow-[15px_15px_38px_rgba(209,213,215,0.9)]">
                 <img 
                   src="https://assets.pexels.com/photos/8923184/pexels-photo-8923184.jpeg?auto=compress&cs=tinysrgb&w=600" 
                   alt="Children enjoying meals" 
@@ -179,9 +177,9 @@ const HareKrishnaVidyaPage = () => {
                   <h4 className="text-lg font-bold text-[#2c2c2c] mb-2">Nutritious Meals</h4>
                   <p className="text-sm text-[#656565]">Daily meals bring smiles and energy</p>
                 </div>
-              </Card>
+              </div>
 
-              <Card className="bg-white rounded-[20px] p-0 overflow-hidden">
+              <div className="rounded-[20px] overflow-hidden bg-white border border-[#cfcfcf] p-0 shadow-[15px_15px_38px_rgba(209,213,215,0.9)]">
                 <img 
                   src="https://assets.unsplash.com/photo-1497486751825-1233686d5d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
                   alt="Children in classroom" 
@@ -191,9 +189,9 @@ const HareKrishnaVidyaPage = () => {
                   <h4 className="text-lg font-bold text-[#2c2c2c] mb-2">Quality Education</h4>
                   <p className="text-sm text-[#656565]">Building bright futures through learning</p>
                 </div>
-              </Card>
+              </div>
 
-              <Card className="bg-white rounded-[20px] p-0 overflow-hidden">
+              <div className="rounded-[20px] overflow-hidden bg-white border border-[#cfcfcf] p-0 shadow-[15px_15px_38px_rgba(209,213,215,0.9)]">
                 <img 
                   src="https://assets.pixabay.com/photo/2017/07/31/11/32/people-2557396_1280.jpg" 
                   alt="Community celebration" 
@@ -203,9 +201,9 @@ const HareKrishnaVidyaPage = () => {
                   <h4 className="text-lg font-bold text-[#2c2c2c] mb-2">Community Joy</h4>
                   <p className="text-sm text-[#656565]">Celebrating achievements together</p>
                 </div>
-              </Card>
+              </div>
 
-              <Card className="bg-white rounded-[20px] p-0 overflow-hidden">
+              <div className="rounded-[20px] overflow-hidden bg-white border border-[#cfcfcf] p-0 shadow-[15px_15px_38px_rgba(209,213,215,0.9)]">
                 <img 
                   src="https://assets.pexels.com/photos/8923058/pexels-photo-8923058.jpeg?auto=compress&cs=tinysrgb&w=600" 
                   alt="Happy children" 
@@ -215,7 +213,7 @@ const HareKrishnaVidyaPage = () => {
                   <h4 className="text-lg font-bold text-[#2c2c2c] mb-2">Bright Futures</h4>
                   <p className="text-sm text-[#656565]">Hope and happiness in every face</p>
                 </div>
-              </Card>
+              </div>
             </div>
           </div>
         </section>
@@ -223,7 +221,7 @@ const HareKrishnaVidyaPage = () => {
         {/* Call to Action */}
         <section className="py-20 px-4 bg-gradient-to-br from-[#edf2f7] to-[#f9feff]">
           <div className="max-w-4xl mx-auto text-center">
-            <Card variant="primary" className="rounded-[30px] p-12">
+            <div className="rounded-[30px] overflow-hidden bg-[#f4a261] p-12 shadow-[15px_15px_38px_rgba(209,213,215,0.9)]">
               <h2 className="text-4xl font-bold text-white mb-6">
                 Join Our Mission Today
               </h2>
@@ -231,14 +229,14 @@ const HareKrishnaVidyaPage = () => {
                 Your support can transform lives and create lasting change in communities. Every contribution matters, every action counts.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button className="bg-[#f4a261] text-white px-8 py-4 rounded-[20px] font-semibold text-lg shadow-soft hover:bg-[#e89a5c] transition-colors">
+                <button className="rounded-[20px] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer inline-flex items-center justify-center bg-[#f4a261] text-white px-8 py-4 font-semibold text-lg shadow-md hover:bg-[#e89a5c] focus:ring-[#0b3954]">
                   Donate Now
-                </Button>
-                <Button className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-[20px] font-semibold text-lg hover:bg-white hover:text-[#0b3954] transition-colors">
+                </button>
+                <button className="rounded-[20px] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer inline-flex items-center justify-center bg-transparent border-2 border-white text-white px-8 py-4 font-semibold text-lg hover:bg-white hover:text-[#0b3954] focus:ring-[#0b3954]">
                   Become a Volunteer
-                </Button>
+                </button>
               </div>
-            </Card>
+            </div>
           </div>
         </section>
       </main>
