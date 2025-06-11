@@ -47,7 +47,7 @@ const Header = () => {
 
         {/* Desktop Donate */}
         <div className="hidden lg:block">
-          <Link to="/donate">
+          <Link to="/donate-amount">
             <div className="font-medium font-inter rounded-[1.125rem] transition-colors duration-200 cursor-pointer inline-flex items-center justify-center bg-primary-blue shadow-custom-donate text-white px-[2.25rem] py-4 text-[0.95rem] hover:bg-primary-dark focus:ring-[#0b3954]">
               <p className="text-shadow-[0_100px_100px_rgba(71,187,255,0.30)]">Donate Now</p>
             </div>
@@ -120,7 +120,7 @@ const Header = () => {
             }`}
             style={{ transitionDelay: '500ms' }}
           >
-            <Link to="/donate" onClick={toggleMobileMenu}>
+            <Link to="/donate-amount" onClick={toggleMobileMenu}>
               <button
                 className="w-full bg-primary-blue text-white py-[0.75rem] rounded-[20px] font-semibold text-[0.9rem] shadow-custom-donate"
               >
