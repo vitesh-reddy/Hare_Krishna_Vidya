@@ -1,5 +1,3 @@
-import Footer from '@/components/common/Footer'
-import Header from '@/components/common/Header'
 import React from 'react'
 
 const TnCPage = () => {
@@ -164,7 +162,6 @@ const TnCPage = () => {
 
   return (
     <div>
-      <Header/>
       <main className='bg-[#F9F9F9] px-[1.5rem] sm:pl-[4.5rem] sm:pr-[14rem] pt-[3rem]'>
         <p className='text-[#005389] font-urbanist font-bold text-[2rem] lg:text-[3.25rem] mb-[1rem] sm:mb-[3rem]'>Terms & Conditions</p>
         <div className=''>{
@@ -179,7 +176,6 @@ const TnCPage = () => {
           }
         </div>
       </main>
-      <Footer/>
     </div>
   )
 }

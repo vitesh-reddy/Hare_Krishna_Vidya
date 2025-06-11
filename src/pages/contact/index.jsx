@@ -1,7 +1,5 @@
 // src/pages/contact/index.jsx
 import React, { useState } from 'react';
-import Header from '../../components/common/Header';
-import Footer from '../../components/common/Footer';
 import ContactInfo from './components/ContactInfo';
 import ContactForm from './components/ContactForm';
 
@@ -17,12 +15,10 @@ const ContactPage = () => {
 
   return (
     <div>
-      <Header />
       <section className='flex flex-wrap-reverse w-full justify-center items-center gap-[4rem] px-[2rem] sm:px-0  sm:pt-[2.5rem] mb-[5rem] bg-[#F9F9F9] '>
         <ContactInfo/>
         <ContactForm onSubmit={onSubmit}/>        
       </section>
-      <Footer />
 
       {formSubmitted && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">

@@ -6,8 +6,6 @@ import React from 'react';
 const HareKrishnaVidyaPage = () => {
   return (
     <div className="min-h-screen bg-[#f9f9f9]">
-      <Header />
-      
       <main>
         {/* Hero Section */}
         <section className="py-20 px-4 bg-gradient-to-br from-[#edf2f7] to-[#f9feff]">
@@ -240,8 +238,6 @@ const HareKrishnaVidyaPage = () => {
           </div>
         </section>
       </main>
-
-      <Footer />
     </div>
   );
 };

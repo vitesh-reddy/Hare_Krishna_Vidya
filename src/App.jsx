@@ -15,12 +15,17 @@ import PrivacyPolicyPage from './pages/privacy-policy';
 import RefundPolicyPage from './pages/refund-policy';
 import OurAssociatedTrustsPage from './pages/our-associated-trusts';
 import GovernancePage from './pages/governance';
+import Footer from './components/common/Footer';
+import Header from './components/common/Header';
 
 const App = () => {
   const location = useLocation();
   const animatedRoutes = ["/our-associated-trusts", "/governance", '/donate-amou'];
   const isAnimated = animatedRoutes.includes(location.pathname);
   return (
+    <div>
+      <Header/>
+      <div className='py-[2.59rem]'></div>
     <AnimatePresence mode="wait">
       <Routes location={location} key={isAnimated ? location.pathname : undefined}>
         <Route path="/" element={<HomePage />} />
@@ -37,6 +42,8 @@ const App = () => {
         <Route path='/privacy-policy' element= {<PrivacyPolicyPage/> } />        
       </Routes>
     </AnimatePresence>
+      <Footer/>
+    </div>
   );
 };
 

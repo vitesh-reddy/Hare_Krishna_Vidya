@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import Header from '../../components/common/Header';
-import Footer from '../../components/common/Footer';
 import HeroSection from './components/HeroSection';
 import GallerySection from '@/components/common/GallerySection';
 import StatsCard from './components/StatsCard';
@@ -22,7 +20,6 @@ const DonatePage = () => {
   return (
     <motion.div initial={{ x: '100%', opacity: 100 }} animate={{ x: 0, opacity: 1 }} exit={false} transition={{ duration: 0.4 }} className="page">
     <div className="min-h-screen bg-[#F9F9F9]">
-      <Header />
 
       <main className='flex flex-col gap-[4rem] items-center'>
         <HeroSection />
@@ -33,8 +30,6 @@ const DonatePage = () => {
         <BankDetailsSection/>
         <GallerySection/>
       </main>
-
-      <Footer />
 
       {/* Payment Success Modal */}
       {showPaymentSuccess && (

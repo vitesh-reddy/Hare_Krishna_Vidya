@@ -19,7 +19,6 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen bg-neutral-background">
-      <Header />
       <main className='flex flex-col items-center'>
         <HeroSection />
         <ActionCard position={"outside"} />
@@ -29,8 +28,6 @@ const HomePage = () => {
         <TestimonialSection />
         <GallerySection/>
       </main>
-
-      <Footer />
     </div>
   );
 };

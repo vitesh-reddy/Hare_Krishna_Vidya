@@ -1,13 +1,9 @@
-import Footer from '@/components/common/Footer'
-import Header from '@/components/common/Header'
-import WhiteGlowDiv from '@/components/common/WhiteGlowDiv'
 import React from 'react'
 
 const RefundPolicyPage = () => {
 
   return (
     <div className='min-h-screen flex flex-col'>
-      <Header/>
       <main className='bg-[#F9F9F9]  px-[1.5rem] sm:pl-[4.5rem] sm:px-0 pt-[3rem]'>
         <p className='text-[#005389] font-urbanist font-bold text-[2rem] lg:text-[3.25rem] mb-[1rem] sm:mb-[3rem]'>Refund Policy</p>
         <div className='sm:pr-[10rem] md:pr-[25rem] lg:pr-[32rem] text-[#2C2C2C] font-inter flex flex-col space-y-[1rem] sm:space-y-[2rem] pb-[2rem]'>
@@ -28,7 +24,6 @@ const RefundPolicyPage = () => {
         </div>
       </main>
       <div className='self-end' >
-        <Footer/>
       </div>
     </div>
   )

@@ -11,7 +11,7 @@ const Header = () => {
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   return (
-    <header className="bg-neutral-background py-6 px-6 sm:px-16 top-0 z-40 relative">
+    <header className="fixed top-0 left-0 right-0 bg-neutral-background py-6 px-6 sm:px-16 z-40">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center">
