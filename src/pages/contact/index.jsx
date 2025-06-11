@@ -2,8 +2,6 @@
 import React, { useState } from 'react';
 import Header from '../../components/common/Header';
 import Footer from '../../components/common/Footer';
-import Card from '../../components/ui/Card';
-import Button from '../../components/ui/Button';
 import ContactInfo from './components/ContactInfo';
 import ContactForm from './components/ContactForm';
 
@@ -14,7 +12,7 @@ const ContactPage = () => {
     console.log('Form submitted:', formData)
     setTimeout(() => {
       setFormSubmitted(true);
-    }, 100);
+    }, 1000);
   };
 
   return (
@@ -26,25 +24,20 @@ const ContactPage = () => {
       </section>
       <Footer />
 
-      {/* Success Message */}
       {formSubmitted && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <Card variant="default" className="p-8 max-w-md mx-4">
-            <div className="text-center">
+          <div className="rounded-lg overflow-hidden bg-white border border-[#cfcfcf] p-[1.75rem] max-w-md mx-4 card-shadow">
+            <div className="text-center font-inter">
               <div className="text-6xl mb-4">📧</div>
-              <h3 className="text-2xl font-bold text-neutral-dark mb-4">Message Sent!</h3>
-              <p className="text-text-muted mb-6">
-                Thank you for reaching out. We'll get back to you within 24 hours.
+              <p className="text-2xl font-bold  text-gray-900 mb-4">Message Sent!</p>
+              <p className="text-gray-500 mb-6">
+                Thank you for reaching out <br></br> We'll get back to you within 24 hours.
               </p>
-              <Button
-                onClick={() => setFormSubmitted(false)}
-                variant="primary"
-                className="rounded-[20px]"
-              >
+              <button onClick={() => setFormSubmitted(false)} className="font-semibold rounded-[25px] transition-colors duration-200 cursor-pointer inline-flex items-center justify-center bg-[#e76f51] text-white text-[0.7rem] sm:text-[1rem] px-[2rem] py-[0.5rem] hover:bg-[#d65a3f] focus:ring-[#e76f51]">
                 Close
-              </Button>
+              </button>
             </div>
-          </Card>
+          </div>
         </div>
       )}
     </div>
