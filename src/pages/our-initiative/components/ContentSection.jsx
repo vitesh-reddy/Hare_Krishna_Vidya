@@ -36,7 +36,7 @@ const ContentSection = () => {
 
 const Card = ({id, heading, texts, imgUrl}) => {
   return (
-    <div key={id} className={'relative w-[14rem] md:w-[25rem] rounded-[2rem] px-[1rem] md:pl-[3rem] md:pr-[4rem] pt-5 md:pt-10 pb-5 bg-[#EDF2F7] border-2 flex flex-col md:items-start space-y-5 shadow-custom-content-card items-' + ((id % 2) ? 'end' : 'start')}>
+    <div key={id} className={'relative w-[14rem] md:w-[22rem] rounded-[2rem] px-[1rem] md:pl-[3rem] md:pr-[4rem] pt-5 md:pt-10 pb-5 bg-[#EDF2F7] border-2 flex flex-col md:items-start space-y-5 shadow-custom-content-card items-' + ((id % 2) ? 'end' : 'start')}>
       <div className='absolute -top-[2rem] md:-top-[3rem] bg-[#F4A261]/60 md:bg-[#F4A261] p-[1rem] md:p-[1.5rem] rounded-full'><img className='w-[1.5rem] md:w-[2.5rem]' src={imgUrl} alt="Emoji" /></div>
       <p className='text-[#233876] text-[1.25rem] sm:text-[1.35rem] md:text-[1.5rem] lg:text-[1.75rem] font-urbanist font-bold'>{heading}</p>
       <div className={'flex flex-col justify-evenly space-y-1'}>
