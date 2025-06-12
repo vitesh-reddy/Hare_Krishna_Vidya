@@ -1,22 +1,49 @@
 import React, { useState } from 'react';
+import { ThreeDot } from 'react-loading-indicators';
 
-const ContactForm = ({ onSubmit }) => {
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    message: '',
+const ContactForm = ({ formState, onSubmit }) => {
+  const [formData, setFormData] = useState(() => {
+    const storedContactDetails = localStorage.getItem('contactDetails');
+    try {
+      if (storedContactDetails) {
+        const parsedData = JSON.parse(storedContactDetails);
+        return { ...parsedData, message: '' };
+      }
+    } catch (error) {
+      console.error('Error parsing stored contact details:', error);
+    }
+    return {
+      firstName: '',
+      lastName: '',
+      email: '',
+      countryCode: '',
+      phone: '',
+      message: '',
+    };
   });
 
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {
     const newErrors = {};
+    const phoneRegex = /^[0-9]{7,15}$/;
+
     if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
     if (!formData.email.trim()) newErrors.email = 'Email is required';
     else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Invalid email';
+
+    if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
+    else if (!phoneRegex.test(formData.phone)) newErrors.phone = 'Invalid phone number';
+
+    
+    if (!formData.countryCode.trim()) {
+      newErrors.countryCode = 'Country code is required';
+    } else if (!/^\+\d+$/.test(formData.countryCode.trim())) {
+      newErrors.countryCode = 'Invalid country code format';
+    }
+
     if (!formData.message.trim()) newErrors.message = 'Message is required';
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -24,20 +51,22 @@ const ContactForm = ({ onSubmit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
+      localStorage.setItem('contactDetails', JSON.stringify(formData));
       if (onSubmit) onSubmit(formData);
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        message: '',
-      });
+      setFormData((prev) => ({ ...prev, message: '' }));
     }
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (name === 'countryCode') {
+      // Ensure country code always starts with '+'
+      const sanitized = value.startsWith('+') ? value : '+' + value.replace(/[^0-9]/g, '');
+      setFormData((prev) => ({ ...prev, [name]: sanitized }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
+
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: '' }));
     }
@@ -51,6 +80,7 @@ const ContactForm = ({ onSubmit }) => {
         <p className="text-[2rem] font-semibold text-[#101828] leading-[3.5rem]">Get in touch</p>
         <p className="text-[1.125rem] text-[#667085]">We’d love to hear from you. Please fill out this form.</p>
       </div>
+
       <form onSubmit={handleSubmit} className="mt-10 lg:mt-0 flex flex-col space-y-6 w-[95%] font-inter text-[#344054]">
         <div className="grid gap-[1.75rem] sm:grid-cols-2">
           <div>
@@ -96,18 +126,34 @@ const ContactForm = ({ onSubmit }) => {
         <div>
           <label className="mb-1 block text-[0.8rem] font-medium text-gray-700">Phone number</label>
           <div className="flex">
-            {/* <select className="border-l border-t border-b border-gray-300 rounded-l-md bg-white pl-4 pr-2 text-[0.85rem] text-gray-700">
-              <option>US</option>
-              <option>IN</option>
-              <option>UK</option>
-            </select> */}
+            <input
+              type="text"
+              name="countryCode"
+              value={formData.countryCode}
+              onChange={handleChange}
+              placeholder="+91"
+              className={`border px-[0.5rem] text-[0.85rem] w-[4rem] rounded-l-md shadow-sm focus:border-orange-500 focus:ring-orange-500 focus:outline-none ${
+                errors.countryCode ? 'border-red-500' : 'border-gray-300'
+              }`}
+            />
             <input
               type="tel"
-              placeholder="+91 98765 43210"
-              className="flex-1 border px-[1rem] py-[0.65rem] text-[0.85rem] border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder="Your phone number"
+              className={`flex-1 border px-[1rem] py-[0.65rem] text-[0.85rem] border-gray-300 rounded-r-md shadow-sm focus:border-orange-500 focus:ring-orange-500 focus:outline-none ${
+                errors.phone ? 'border-red-500' : ''
+              }`}
             />
           </div>
+          {(errors.countryCode || errors.phone) && (
+            <p className="mt-1 text-sm text-red-500">
+              {errors.countryCode || errors.phone}
+            </p>
+          )}
         </div>
+        
 
         <div>
           <label className="mb-1 block text-[0.8rem] font-medium text-gray-700">Message</label>
@@ -147,9 +193,14 @@ const ContactForm = ({ onSubmit }) => {
 
         <button
           type="submit"
-          className="w-full bg-[#E76F51] hover:bg-orange-600 text-white font-semibold py-3 px-6 text-[0.85rem] rounded-[0.5rem]"
+          disabled={formState === 'submitting'}
+          className="w-full bg-[#E76F51] hover:bg-orange-600 text-white font-semibold py-3 px-6 text-[0.85rem] rounded-[0.5rem] flex items-center justify-center"
         >
-          Send message
+          {formState === 'submitting' ? (
+            <ThreeDot key={'loading'} color="#fff" size="small" text="" textColor="" />
+          ) : (
+            <p key={'sendMessage'}>Send message</p>
+          )}
         </button>
       </form>
     </div>

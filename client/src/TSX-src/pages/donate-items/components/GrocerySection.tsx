@@ -29,7 +29,7 @@ const GrocerySection = () => {
       title: 'Masoor Dal 5Kg',
       description: 'High protein lentils for nutritious meals',
       price: 350,
-      image: 'https://images.unsplash.com/photo-1599909533353-dc6d5e8b52b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+      image: 'https://images.jdmagicbox.com/quickquotes/images_main/fresh-masoor-dal-80-kg-bag-2216949466-dx3crq2s.jpg',
       category: 'grocery',
       unit: 'bag',
       serves: 'Family meals for 3 weeks'
