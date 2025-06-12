@@ -17,7 +17,7 @@ const Cart = () => {
   };
 
   // Breadcrumb component
-  const Breadcrumb = () => (
+  const Breadcrumb = () => (  
     <div className="flex items-center space-x-2 text-sm text-gray-600 mb-6">
       <Button 
         variant="ghost" 

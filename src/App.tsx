@@ -1,8 +1,9 @@
+import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TooltipProvider } from "./TSX-src/components/ui/tooltip";
-import { Toaster } from "./TSX-src/components/ui/toaster";
+// import { Toaster } from "./TSX-src/components/ui/toaster";
 import { Toaster as Sonner } from "./TSX-src/components/ui/sonner";
 import { CartProvider } from "./TSX-src/contexts/CartContext";
 
@@ -33,6 +34,7 @@ import DonationFlow from "./TSX-src/pages/DonationFlow";
 import DonationSuccess from "./TSX-src/pages/DonationSuccess";
 import AdminDashboard from "./TSX-src/pages/admin/AdminDashboard";
 import NotFound from "./TSX-src/pages/NotFound";
+import { Toaster } from "react-hot-toast";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +45,7 @@ const AnimatedRoutes = () => {
 
   return (
     <AnimatePresence mode="wait">
+      <ScrollToTop/>
       <Routes location={location} key={isAnimated ? location.pathname : undefined}>
         {/* JSX Routes */}
         <Route path="/" element={<HomePage />} />
@@ -66,7 +69,7 @@ const AnimatedRoutes = () => {
         <Route path="/donation-success" element={ <DonationSuccess /> }/>
         <Route path="/admin" element={  <AdminDashboard /> }/>
         <Route path="*" element={  <NotFound /> }/>
-      </Routes>
+      </Routes>    
     </AnimatePresence>
   );
 };
@@ -87,4 +90,16 @@ const App = () => (
   </QueryClientProvider>
 );
 
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0); // force scroll to top on route change
+  }, [pathname]);
+
+  return null;
+}
+
+
 export default App;
+
+

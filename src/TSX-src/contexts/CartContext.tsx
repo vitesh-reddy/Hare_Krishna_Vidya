@@ -1,5 +1,11 @@
-
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode
+} from 'react';
+import toast from 'react-hot-toast';
 
 interface CartItem {
   id: string;
@@ -13,7 +19,7 @@ interface CartItem {
 
 interface CartContextType {
   cartItems: CartItem[];
-  addToCart: (kit: Omit<CartItem, 'quantity'>) => void;
+  addToCart: (kit: Omit<CartItem, 'quantity'>, quality: number) => void;
   removeFromCart: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
@@ -32,26 +38,37 @@ export const useCart = () => {
 };
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+    const storedCart = localStorage.getItem('cart');
+    return storedCart ? JSON.parse(storedCart) : [];
+  });
 
-  const addToCart = (kit: Omit<CartItem, 'quantity'>) => {
+  // Save to localStorage on every change
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  const addToCart = (kit: Omit<CartItem, 'quantity'>, quantity: number) => {
     setCartItems(prev => {
       const existingItem = prev.find(item => item.id === kit.id);
       if (existingItem) {
+        toast.success('Added to cart');
         return prev.map(item =>
           item.id === kit.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
+          ? { ...item, quantity: item.quantity + quantity }
+          : item
         );
       }
-      return [...prev, { ...kit, quantity: 1 }];
+      toast.success('Added to cart');
+      return [...prev, { ...kit, quantity: quantity }];
     });
   };
-
+  
   const removeFromCart = (id: string) => {
     setCartItems(prev => prev.filter(item => item.id !== id));
+    toast.success('Removed from cart');
   };
-
+  
   const updateQuantity = (id: string, quantity: number) => {
     if (quantity <= 0) {
       removeFromCart(id);
@@ -62,9 +79,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         item.id === id ? { ...item, quantity } : item
       )
     );
+    toast.success('Updated the quantity');
   };
 
   const clearCart = () => {
+    toast.success("Cart cleared");
     setCartItems([]);
   };
 
@@ -73,19 +92,21 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const getTotalPrice = () => {
-    return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
   return (
-    <CartContext.Provider value={{
-      cartItems,
-      addToCart,
-      removeFromCart,
-      updateQuantity,
-      clearCart,
-      getTotalItems,
-      getTotalPrice
-    }}>
+    <CartContext.Provider
+      value={{
+        cartItems,
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        clearCart,
+        getTotalItems,
+        getTotalPrice
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

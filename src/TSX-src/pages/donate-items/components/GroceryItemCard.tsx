@@ -27,7 +27,6 @@ const GroceryItemCard: React.FC<GroceryItemCardProps> = ({ item }) => {
   const [quantity, setQuantity] = useState(1);
 
   const handleAddToCart = () => {
-    for (let i = 0; i < quantity; i++) {
       addToCart({
         id: item.id,
         title: item.title,
@@ -35,19 +34,13 @@ const GroceryItemCard: React.FC<GroceryItemCardProps> = ({ item }) => {
         image: item.image,
         items: [item.serves],
         description: item.description
-      });
-    }
-    console.log(`Added ${quantity} ${item.title}(s) to cart`);
+      }, quantity);
     
-    // Show success feedback and redirect to cart
-    setTimeout(() => {
-      navigate('/cart');
-    }, 500);
+    console.log(`Added ${quantity} ${item.title}(s) to cart`);  
   };
 
   const handleDonateNow = () => {
     // Add to cart first
-    for (let i = 0; i < quantity; i++) {
       addToCart({
         id: item.id,
         title: item.title,
@@ -55,9 +48,8 @@ const GroceryItemCard: React.FC<GroceryItemCardProps> = ({ item }) => {
         image: item.image,
         items: [item.serves],
         description: item.description
-      });
-    }
-    
+      }, quantity);
+        
     // Navigate directly to donation flow
     navigate(`/donate?kit=${item.id}`);
   };

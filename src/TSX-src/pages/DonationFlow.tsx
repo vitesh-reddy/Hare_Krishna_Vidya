@@ -14,7 +14,9 @@ const DonationFlow = () => {
   const { cartItems, clearCart } = useCart();
   const kitId = searchParams.get('kit');
   const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState(() => {
+    const storedData = JSON.parse(localStorage.getItem('donorData'));
+    return storedData || {
     firstName: '',
     lastName: '',
     email: '',
@@ -24,6 +26,7 @@ const DonationFlow = () => {
     state: '',
     pincode: '',
     panCard: ''
+  }
   });
 
   const kits = {
@@ -64,6 +67,7 @@ const DonationFlow = () => {
       ...prev,
       [e.target.name]: e.target.value
     }));
+    localStorage.setItem('donorData', JSON.stringify(formData));
   };
 
   const handleContinue = async () => {
@@ -97,7 +101,7 @@ const DonationFlow = () => {
       if (isCartMode) {
         navigate('/cart');
       } else {
-        navigate('donate-items/donate-items/?scrollTo=kits');
+        navigate('../donate-items/?scrollTo=kits');
       }
     } else {
       setStep(step - 1);

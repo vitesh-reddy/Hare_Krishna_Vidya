@@ -5,6 +5,7 @@ import { Input } from '../../../components/ui/input';
 import { useCart } from '../../../contexts/CartContext';
 import { ShoppingCart, Plus, Minus, Eye } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 
 interface Kit {
   id: string;
@@ -26,7 +27,6 @@ const KitCard: React.FC<KitCardProps> = ({ kit }) => {
   const [showDetails, setShowDetails] = useState(false);
 
   const handleAddToCart = () => {
-    for (let i = 0; i < quantity; i++) {
       addToCart({
         id: kit.id,
         title: kit.title,
@@ -34,17 +34,8 @@ const KitCard: React.FC<KitCardProps> = ({ kit }) => {
         image: kit.image,
         items: kit.items,
         description: kit.description
-      });
-    }
-    console.log(`Added ${quantity} ${kit.title}(s) to cart`);
-    
-    // Show success feedback and redirect to cart
-    setTimeout(() => {
-      navigate('/cart');
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-      }, 100);
-    }, 500);
+      }, quantity);
+    console.log(`Added ${quantity} ${kit.title}(s) to cart`);  
   };
 
   const handleViewDetails = () => {
