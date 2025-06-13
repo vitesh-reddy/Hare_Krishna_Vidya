@@ -2,7 +2,8 @@ import dotenv from "dotenv";
 import express from "express";
 import connectDB from "./config/db.js";
 import morgan from "morgan";
-import groceryItemRoutes from "./routes/groceryItem.js"
+import groceryItemRoutes from "./routes/groceryItemRoutes.js"
+import kitsRoutes from "./routes/kitsRoutes.js"
 // console.clear();
 
 dotenv.config();
@@ -20,7 +21,8 @@ app.use(express.json());
 app.get("/", async (req, res) => {
 });
 
-app.use("/api/grocery-items", groceryItemRoutes)
+app.use("/api/grocery-items", groceryItemRoutes);
+app.use("/api/kits", kitsRoutes);
 
 app.listen(PORT, () =>
   console.log(`server is running at http://localhost:${PORT}`)

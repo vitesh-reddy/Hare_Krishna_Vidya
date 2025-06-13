@@ -27,6 +27,16 @@ export const updateGroceryItem = async (id, updates) => {
   return await GroceryItem.findByIdAndUpdate(id, updates, { new: true, runValidators: true });
 };
 
+export const toggleGroceryActiveStatus = async (groceryId, active) => {
+  const grocery = await GroceryItem.findById(groceryId);
+  if (!grocery) throw new Error('Grocery item not found');
+
+  grocery.active = active;
+  await grocery.save();
+
+  return true;
+};
+
 // DELETE
 export const deleteGroceryItem = async (id) => {
   return await GroceryItem.findByIdAndDelete(id);

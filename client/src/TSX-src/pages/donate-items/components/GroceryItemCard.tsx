@@ -73,9 +73,6 @@ const GroceryItemCard: React.FC<GroceryItemCardProps> = ({ item }) => {
         <div className="absolute top-[1rem] right-[1rem] bg-[#16A34A] text-[#F5F7FD] px-[0.75rem] py-[0.25rem] rounded-full text-[0.875rem] font-semibold">
           ₹{item.price.toLocaleString()}
         </div>
-        <div className="absolute top-[1rem] left-[1rem] bg-[#FFFFFF]/90 text-[#16A34A] px-[0.5rem] py-[0.25rem] rounded-full text-[0.75rem] font-medium dark:bg-[#0F172A]/90 dark:text-[#16A34A]">
-          per {item.unit}
-        </div>
       </div>
       
       <CardContent className="p-[1.5rem]">
