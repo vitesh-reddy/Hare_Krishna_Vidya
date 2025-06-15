@@ -58,6 +58,7 @@ const MainLayout = ({ children }) => (
 const HeaderOnlyLayout = ({ children }) => (
   <>
     <Header />
+    <div className="pb-[4.5rem] sm:pb-[5rem] lg:pb-[5.25rem]"></div>
     {children}
   </>
 );
