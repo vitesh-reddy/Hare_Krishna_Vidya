@@ -6,6 +6,7 @@ import HowItWorks from './components/HowItWorks';
 import TransparencySection from './components/TransparencySection';
 import { useData } from '../../../contexts/DataContext';
 import { useEffect } from 'react';
+import Loader from '../../../components/common/Loader';
 
 const DonateItemsPage = () => {
   const { kits, groceryItems, fetchKits, fetchGroceryItems, isLoading, error } = useData();
@@ -13,7 +14,7 @@ const DonateItemsPage = () => {
     if (!kits.length) fetchKits();
     if (!groceryItems.length) fetchGroceryItems();
   }, []);
-  if (isLoading.kits || isLoading.groceryItems) return <div>Loading...</div>;
+  if (isLoading.kits || isLoading.groceryItems) return <Loader/> ;
   if (error.kits || error.groceryItems) return <div>Error: {error.kits || error.groceryItems}</div>;
   return (
     <div className="min-h-screen bg-white">
