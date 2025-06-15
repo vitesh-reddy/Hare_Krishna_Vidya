@@ -4,7 +4,7 @@ const StatsCard = ({position}) => {
   return (
     <>
     {position == 'inside' &&
-     (<div onClick={() => window.location.href = '/donate'} className="hidden md:block absolute left-10 bottom-14 bg-[#edf2f7cc] rounded-[40px] p-6 shadow-[0px_4px_12px_rgba(136,136,136,1)] max-w-[18rem] lg:max-w-[23.4375rem] h-[14rem] cursor-pointer">
+     (<div onClick={() => window.location.href = '/donate-amount'} className="hidden md:block absolute left-10 bottom-14 bg-[#edf2f7cc] rounded-[40px] p-6 shadow-[0px_4px_12px_rgba(136,136,136,1)] max-w-[18rem] lg:max-w-[23.4375rem] h-[14rem] cursor-pointer">
           {/* Karma Insights Header */}
           <div className="flex flex-row items-center mb-3 lg:mb-6 gap-3 relative">
             <div className="bg-gradient-to-r from-[#e8e8e8] to-white rounded-[24px] p-4 shadow-custom-numKeys">
@@ -51,7 +51,7 @@ const StatsCard = ({position}) => {
     </div>)}
 
     {position == 'outside' &&
-     (<div onClick={() => window.location.href = '/donate'} className="block md:hidden bg-[#edf2f7cc] rounded-[40px] p-6 mb-[2rem] w-[80%] sm:w-[60%] h-[14rem] cursor-pointer">
+     (<div onClick={() => window.location.href = '/donate-amount'} className="block md:hidden bg-[#edf2f7cc] rounded-[40px] p-6 mb-[2rem] w-[80%] sm:w-[60%] h-[14rem] cursor-pointer">
           {/* Karma Insights Header */}
           <div className="flex flex-row items-center mb-6 gap-3 relative">
             <div className="bg-gradient-to-r from-[#e8e8e8] to-white rounded-[24px] p-4 shadow-custom-numKeys">
