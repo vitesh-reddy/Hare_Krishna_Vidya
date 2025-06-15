@@ -1,13 +1,14 @@
 import WhiteGlowDiv from '@/components/common/WhiteGlowDiv';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const sponsorData = [
-  {children: 1, amount: '₹ 12,000' },
-  {children: 2, amount: '₹ 24,000' },
-  {children: 4, amount: '₹ 48,000' },
-  {children: 8, amount: '₹ 98,000' },
-  {children: 9, amount: '₹ 1,08,000' },
-  {note: 'Donate Any amount', amount: '———' },
+  { children: 1, amount: '₹ 12,000' },
+  { children: 2, amount: '₹ 24,000' },
+  { children: 4, amount: '₹ 48,000' },
+  { children: 8, amount: '₹ 98,000' },
+  { children: 9, amount: '₹ 1,08,000' },
+  { note: 'Donate Any amount', amount: '———' },
 ];
 
 const SponsorChildSection = () => {
@@ -21,7 +22,6 @@ const SponsorChildSection = () => {
           “Gift a child a future filled with wisdom and opportunity.“
         </p>
       </div>
-
       <div className="flex flex-wrap justify-center gap-[3rem] w-full">
         {sponsorData.map((data, idx) => {
           if (idx === 5) {
@@ -31,7 +31,6 @@ const SponsorChildSection = () => {
               </div>
             );
           }
-
           return <SponsorChildCard key={idx} {...data} />;
         })}
       </div>
@@ -39,9 +38,14 @@ const SponsorChildSection = () => {
   );
 };
 
-export default SponsorChildSection;
-
 const SponsorChildCard = ({ children, amount, note }) => {
+  const navigate = useNavigate();
+  const handleDonate = () => {
+    const amountValue = amount === '———' ? '0' : amount;
+    const editable = amount === '———' ? 'true' : 'false';
+    navigate(`/amount-donation-flow?type=sponsorchild&amount=${encodeURIComponent(amountValue)}&editable=${editable}`);
+  };
+
   return (
     <div className="relative w-full font-inter max-w-[260px] rounded-[20px] border border-[#009309] bg-gradient-to-b from-white via-white to-[#009309]/10 shadow-sm px-6 py-8 text-center">
       <p className="text-[#2C2C2C] font-semibold text-lg mb-1">
@@ -57,12 +61,16 @@ const SponsorChildCard = ({ children, amount, note }) => {
         <p className="text-sm text-[#555] font-medium mb-2">Food and Education for 1 Years</p>
       )}
       <p className="text-3xl font-bold text-[#2C2C2C] mb-[0.75rem]">{amount}</p>
-
       <div className="absolute -bottom-[1.25rem] left-1/2 transform -translate-x-1/2">
-        <button className="bg-[#009309] hover:bg-[#008f4c] text-white text-[0.9rem] font-semibold px-6 py-3 rounded-full shadow-md transition duration-300">
+        <button 
+          onClick={handleDonate}
+          className="bg-[#009309] hover:bg-[#008f4c] text-white text-[0.9rem] font-semibold px-6 py-3 rounded-full shadow-md transition duration-300"
+        >
           Donate Now
         </button>
       </div>
     </div>
   );
 };
+
+export default SponsorChildSection;

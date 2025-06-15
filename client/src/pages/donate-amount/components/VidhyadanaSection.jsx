@@ -1,5 +1,6 @@
 import React from 'react';
 import WhiteGlowDiv from '@/components/common/WhiteGlowDiv';
+import { useNavigate } from 'react-router-dom';
 
 const vidhyaData = [
   { children: 1, period: '1 Academic Year', amount: '₹ 5000' },
@@ -30,7 +31,6 @@ const VidhyadanaSection = () => {
           “Through your support, children gain not just education, but purpose and inner strength.”
         </p>
       </div>
-
       <div className="flex flex-wrap justify-center gap-[3rem] w-full">
         {vidhyaData.map((data, idx) => {
           if (idx >= 12) {
@@ -47,9 +47,14 @@ const VidhyadanaSection = () => {
   );
 };
 
-export default VidhyadanaSection;
-
 const VidhyadanCard = ({ children, period, amount, note }) => {
+  const navigate = useNavigate();
+  const handleDonate = () => {
+    const amountValue = amount === '———' ? '0' : amount;
+    const editable = amount === '———' ? 'true' : 'false';
+    navigate(`/amount-donation-flow?type=vidhyadana&amount=${encodeURIComponent(amountValue)}&editable=${editable}`);
+  };
+
   return (
     <div className="relative w-full font-inter max-w-[260px] rounded-[20px] border border-[#0075C9] bg-gradient-to-b from-white via-white to-[#0075C9]/10 shadow-sm px-6 py-8 text-center">
       <p className="text-[#2C2C2C] font-semibold text-lg mb-1">
@@ -64,12 +69,16 @@ const VidhyadanCard = ({ children, period, amount, note }) => {
         )}
       </p>
       <p className="text-3xl font-bold text-[#2C2C2C] mb-[0.75rem]">{amount}</p>
-
       <div className="absolute -bottom-[1.25rem] left-1/2 transform -translate-x-1/2">
-        <button className="bg-[#0075C9] hover:bg-[#005dcf] text-white text-[0.9rem] font-semibold px-6 py-3 rounded-full shadow-md transition duration-300">
+        <button 
+          onClick={handleDonate}
+          className="bg-[#0075C9] hover:bg-[#005dcf] text-white text-[0.9rem] font-semibold px-6 py-3 rounded-full shadow-md transition duration-300"
+        >
           Donate Now
         </button>
       </div>
     </div>
   );
 };
+
+export default VidhyadanaSection;

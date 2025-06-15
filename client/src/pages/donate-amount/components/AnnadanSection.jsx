@@ -1,5 +1,6 @@
 import WhiteGlowDiv from '@/components/common/WhiteGlowDiv';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const donateData = [
   { children: 100, amount: '₹ 2700' },
@@ -31,12 +32,9 @@ const AnnadanSection = () => {
       <div className="w-full px-4 sm:px-6 md:px-12 lg:px-32 py-12 flex flex-col items-center gap-12">
         <div className="flex flex-wrap justify-center gap-[3rem] w-full">
           {donateData.map((data, idx) => {
-            // Row 1-3: Cards 0-8
             if (idx <= 8) {
               return <AnnadanCard key={idx} {...data} />;
             }
-
-            // Row 4: Card 9 (centered single)
             if (idx === 9) {
               return (
                 <div key={idx} className="basis-full flex justify-center mt-4">
@@ -44,8 +42,6 @@ const AnnadanSection = () => {
                 </div>
               );
             }
-
-            // Row 5: Cards 10-11 (last row, 2 cards)
             return <AnnadanCard key={idx} {...data} />;
           })}
         </div>
@@ -54,10 +50,14 @@ const AnnadanSection = () => {
   );
 };
 
-export default AnnadanSection;
-
-
 const AnnadanCard = ({ children, amount, note }) => {
+  const navigate = useNavigate();
+  const handleDonate = () => {
+    const amountValue = amount === '———' ? '0' : amount;
+    const editable = amount === '———' ? 'true' : 'false';
+    navigate(`/amount-donation-flow?type=annadan&amount=${encodeURIComponent(amountValue)}&editable=${editable}`);
+  };
+
   return (
     <div className="relative w-full font-inter max-w-[260px] rounded-[20px] border border-[#f4a261] bg-gradient-to-b from-white via-white to-[#F4A261]/20 shadow-sm px-6 py-8 text-center">
       <p className="text-[#656565] font-semibold text-lg mb-2">
@@ -71,10 +71,15 @@ const AnnadanCard = ({ children, amount, note }) => {
       </p>
       <p className="text-3xl font-bold text-[#2C2C2C] mb-[0.75rem]">{amount}</p>
       <div className="absolute -bottom-[1.25rem] left-1/2 transform -translate-x-1/2">
-        <button className="bg-[#E76F51] hover:bg-[#d45f44] text-white text-[0.9rem] font-semibold px-6 py-3 rounded-full shadow-md transition duration-300">
+        <button 
+          onClick={handleDonate}
+          className="bg-[#E76F51] hover:bg-[#d45f44] text-white text-[0.9rem] font-semibold px-6 py-3 rounded-full shadow-md transition duration-300"
+        >
           Donate Now
         </button>
       </div>
     </div>
   );
 };
+
+export default AnnadanSection;

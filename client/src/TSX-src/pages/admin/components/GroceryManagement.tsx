@@ -9,6 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '.
 import { PlusCircle, Edit3, Trash2, Save, X, Grid2X2, Upload, ToggleLeft, ToggleRight, Eye, Users } from 'lucide-react';
 import { useGroceryItemsAdmin } from '../../../../contexts/GroceryItemAdminContext';
 import Loader from '../../../../components/common/Loader';
+import imageCompression from 'browser-image-compression';
 
 const GroceryManagement = () => {
   const {
@@ -40,14 +41,41 @@ const GroceryManagement = () => {
     fetchGroceryItems();
   }, [fetchGroceryItems]);
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setFormData({ ...formData, image: imageUrl });
-      setImageFile(file);
+const handleImageUpload = async (file) => {
+  if (!file || !file.type.startsWith('image/')) {
+    toast.error('Please select a valid image file.');
+    return;
+  }
+
+  try {
+    console.log(`📷 Original file size: ${(file.size / 1024).toFixed(2)} KB`);
+
+    let finalFile = file;
+
+    // Compress only if file is larger than 800KB
+    if (file.size > 800 * 1024) {
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1024,
+        useWebWorker: true,
+        initialQuality: 0.8,
+      };
+      finalFile = await imageCompression(file, options);
+      console.log(`🗜️ Compressed file size: ${(finalFile.size / 1024).toFixed(2)} KB`);
+      toast.success('Image uploaded.');
+    } else {
+      console.log('⚠️ Skipped compression due to small file size.');
     }
-  };
+
+    const imageUrl = URL.createObjectURL(finalFile);
+    setFormData(prev => ({ ...prev, image: imageUrl }));
+    setImageFile(finalFile);
+  } catch (error) {
+    console.error('❌ Image compression failed:', error);
+    toast.error('Failed to process image.');
+  }
+};
+
 
   const handleEdit = (item) => {
     setFormData({
@@ -307,7 +335,10 @@ const GroceryManagement = () => {
                         <input
                           type="file"
                           accept="image/*"
-                          onChange={handleImageUpload}
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) handleImageUpload(file);
+                          }}
                           className="hidden"
                         />
                       </label>

@@ -11,6 +11,7 @@ import MediumStyleEditor from './MediumStyleEditor';
 import toast from 'react-hot-toast';
 import { useBlogsAdmin } from '../../../../contexts/BlogAdminContext';
 import Loader from '../../../../components/common/Loader';
+import imageCompression from 'browser-image-compression';
 
 const BlogManagement = () => {
   const {
@@ -66,15 +67,41 @@ const BlogManagement = () => {
     return true;
   };
 
-  const handleImageUpload = (file) => {
-    if (!file) {
-      toast.error('Please select a valid image file.');
-      return;
+const handleImageUpload = async (file) => {
+  if (!file || !file.type.startsWith('image/')) {
+    toast.error('Please select a valid image file.');
+    return;
+  }
+
+  try {
+    console.log(`📷 Original file size: ${(file.size / 1024).toFixed(2)} KB`);
+
+    let finalFile = file;
+
+    // Compress only if file is larger than 800KB
+    if (file.size > 800 * 1024) {
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1024,
+        useWebWorker: true,
+        initialQuality: 0.8,
+      };
+      finalFile = await imageCompression(file, options);
+      console.log(`🗜️ Compressed file size: ${(finalFile.size / 1024).toFixed(2)} KB`);
+      toast.success('Image uploaded.');
+    } else {
+      console.log('⚠️ Skipped compression due to small file size.');
     }
-    const imageUrl = URL.createObjectURL(file);
-    setFormData({ ...formData, image: imageUrl });
-    setImageFile(file);
-  };
+
+    const imageUrl = URL.createObjectURL(finalFile);
+    setFormData(prev => ({ ...prev, image: imageUrl }));
+    setImageFile(finalFile);
+  } catch (error) {
+    console.error('❌ Image compression failed:', error);
+    toast.error('Failed to process image.');
+  }
+};
+
 
   const handleSave = async () => {
     if (!validateForm()) {

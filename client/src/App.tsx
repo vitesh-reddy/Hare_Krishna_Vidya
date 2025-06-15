@@ -20,7 +20,8 @@ import HareKrishnaVidyaPage from "./pages/hare-krishna-vidya-charity-and-educati
 import OurInitiativePage from "./pages/our-initiative";
 import GalleryPage from "./pages/gallery";
 import ContactPage from "./pages/contact";
-import DonatePage from "./pages/donate";
+import DonatePage from "./pages/donate-amount";
+import AmountDonationFlow from './pages/donate-amount/AmountDonationFlow';
 import TnCPage from "./pages/terms-and-conditions";
 import PrivacyPolicyPage from "./pages/privacy-policy";
 import RefundPolicyPage from "./pages/refund-policy";
@@ -35,6 +36,8 @@ import DonationFlow from "./TSX-src/pages/DonationFlow";
 import DonationSuccess from "./TSX-src/pages/DonationSuccess";
 import AdminDashboard from "./TSX-src/pages/admin/AdminDashboard";
 import NotFound from "./TSX-src/pages/NotFound";
+
+
 import { GroceryItemAdminProvider } from './contexts/GroceryItemAdminContext';
 import { KitAdminProvider } from './contexts/KitAdminContext';
 import { BlogAdminProvider } from './contexts/BlogAdminContext';
@@ -88,6 +91,7 @@ const AnimatedRoutes = () => {
           {/* Routes with only Header */}
           <Route path="/cart" element={<HeaderOnlyLayout><Cart /></HeaderOnlyLayout>} />
           <Route path="/donate" element={<HeaderOnlyLayout><DonationFlow /></HeaderOnlyLayout>} />
+          <Route path="/amount-donation-flow" element={<HeaderOnlyLayout><AmountDonationFlow /></HeaderOnlyLayout>} />
           <Route path="/donation-success" element={<HeaderOnlyLayout><DonationSuccess /></HeaderOnlyLayout>} />
           <Route path="*" element={<HeaderOnlyLayout><NotFound /></HeaderOnlyLayout>} />
           
