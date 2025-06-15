@@ -14,19 +14,19 @@ return (
   <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-[#FFF7ED] to-[#FEF3C7] overflow-hidden dark:from-[#7C2D12] dark:to-[#B45309]">
     <div className="absolute inset-0 bg-[#000000]/20"></div>
     <div 
-      className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
+      className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-50"
       style={{
         backgroundImage: "url('https://images.unsplash.com/photo-1497486751825-1233686d5d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')"
       }}
     ></div>
     
     <div className="relative z-10 text-center px-[1.5rem] max-w-[64rem] mx-auto">
-      <h1 className="text-[3rem] md:text-[4.5rem] font-bold text-[#1F2937] mb-[1.5rem] leading-tight dark:text-[#F5F7FD]">
+      <h1 className="text-[2.75rem] md:text-[3.5rem] font-bold text-[#1F2937] mb-[1.5rem] leading-[1.125] dark:text-[#F5F7FD]">
         Support Lives with
         <span className="text-[#F97316] block dark:text-[#FDBA74]">Essential Kits</span>
       </h1>
       
-      <p className="text-[1.25rem] md:text-[1.5rem] text-[#374151] mb-[2rem] max-w-[32rem] mx-auto leading-relaxed dark:text-[#D1D5DB]">
+      <p className="text-[1.125rem] md:text-[1.25rem] text-[#374151] mb-[2rem] max-w-[32rem] mx-auto leading-relaxed dark:text-[#D1D5DB]">
         Empower underprivileged communities through meaningful contributions. 
         Every kit you donate creates lasting change in someone's life.
       </p>
