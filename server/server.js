@@ -5,6 +5,7 @@ import morgan from "morgan";
 import cors from "cors";
 import blogRoutes from "./routes/blogRoutes.js"
 import kitsRoutes from "./routes/kitsRoutes.js"
+import paymentRoutes from "./routes/paymentRoutes.js"
 import groceryItemRoutes from "./routes/groceryItemRoutes.js"
 import fileUpload from "express-fileupload";
 // console.clear();
@@ -35,6 +36,7 @@ app.get("/", async (req, res) => {
 
 app.use("/api/blogs", blogRoutes);
 app.use("/api/kits", kitsRoutes);
+app.use('/api/payments', paymentRoutes);
 app.use("/api/grocery-items", groceryItemRoutes);
 
 app.listen(PORT, () =>

@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import { Button } from '../../TSX-src/components/ui/button';
 import { Input } from '../../TSX-src/components/ui/input';
 import { Label } from '../../TSX-src/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '../../TSX-src/components/ui/card';
 import { ArrowLeft, CreditCard, Home, User, Mail, Phone, Heart } from 'lucide-react';
-import { Button } from '../../TSX-src/components/ui/button';
+import { initiateRazorpayPayment } from '../../PaymentService.jsx'; // Updated extension
+import { toast } from 'react-hot-toast';
 
 const AmountDonationFlow = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const donationType = searchParams.get('type'); // e.g., 'annadan', 'sponsorchild', 'vidhyadana'
-  const initialAmount = searchParams.get('amount') || '0'; // Default to 0 if not provided
-  const isEditable = searchParams.get('editable') === 'true'; // Determine if amount is editable
+  const initialAmount = searchParams.get('amount') || '0';
+  const isEditable = searchParams.get('editable') === 'true';
   const [step, setStep] = useState(1);
   const [amount, setAmount] = useState(parseFloat(initialAmount.replace(/[^0-9]/g, '')) || 0);
   const [customAmount, setCustomAmount] = useState(isEditable ? '' : amount.toString());
@@ -30,8 +32,8 @@ const AmountDonationFlow = () => {
     return storedData;
   });
   const [paymentCompleted, setPaymentCompleted] = useState(false);
+  const [paymentError, setPaymentError] = useState(null);
 
-  // Format donation type for display
   const formatDonationType = () => {
     switch (donationType) {
       case 'annadan':
@@ -45,17 +47,29 @@ const AmountDonationFlow = () => {
     }
   };
 
-  // Calculate impact based on donation type and amount
+  const mapDonationTypeToSchema = () => {
+    switch (donationType) {
+      case 'annadan':
+        return 'Annadaan';
+      case 'sponsorchild':
+        return 'Sponsor a Child';
+      case 'vidhyadana':
+        return 'Vidyadaan';
+      default:
+        return null;
+    }
+  };
+
   const calculateImpact = () => {
     let impact = {};
     if (donationType === 'annadan') {
-      const childrenFed = Math.floor(amount / 27); // ₹27 feeds 1 child
+      const childrenFed = Math.floor(amount / 27);
       impact = { label: 'Children Fed', value: childrenFed };
     } else if (donationType === 'sponsorchild') {
-      const childrenSponsored = Math.floor(amount / 12000); // ₹12,000 sponsors 1 child for 1 year
+      const childrenSponsored = Math.floor(amount / 12000);
       impact = { label: 'Children Sponsored', value: childrenSponsored };
     } else if (donationType === 'vidhyadana') {
-      const childrenEducated = Math.floor(amount / 500); // ₹500 educates 1 child for 1 month
+      const childrenEducated = Math.floor(amount / 500);
       impact = { label: 'Children Educated (1 Month)', value: childrenEducated };
     } else {
       impact = { label: 'Impact', value: 'Your donation will make a difference!' };
@@ -78,14 +92,94 @@ const AmountDonationFlow = () => {
     setAmount(numericValue);
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     if (step < 3) {
       setStep(step + 1);
     } else {
-      // Simulate payment processing
-      setTimeout(() => {
-        setPaymentCompleted(true);
-      }, 2000);
+      try {
+        const response = await fetch('/api/payments/create-order', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            amount: amount * 100,
+            currency: 'INR',
+            donationType: 'amount',
+          }),
+        });
+
+        const orderData = await response.json();
+        if (!response.ok) {
+          throw new Error(orderData.error || 'Failed to create payment order');
+        }
+
+        initiateRazorpayPayment(
+          {
+            orderId: orderData.orderId,
+            amount: amount * 100,
+            donorName: `${formData.firstName} ${formData.lastName}`,
+            email: formData.email,
+            phone: formData.phone,
+          },
+          async (paymentResponse) => {
+            const verifyResponse = await fetch('/api/payments/verify-payment', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                orderId: orderData.orderId,
+                paymentId: paymentResponse.razorpay_payment_id,
+                signature: paymentResponse.razorpay_signature,
+                donationData: {
+                  donorInfo: {
+                    firstName: formData.firstName,
+                    lastName: formData.lastName,
+                    email: formData.email,
+                    phone: formData.phone,
+                    address: formData.address,
+                    city: formData.city,
+                    state: formData.state,
+                    pincode: formData.pincode,
+                  },
+                  donationType: 'amount',
+                  donatedFor: mapDonationTypeToSchema(),
+                  amount: amount,
+                  paymentDetails: {
+                    orderId: orderData.orderId,
+                    paymentId: paymentResponse.razorpay_payment_id,
+                    signature: paymentResponse.razorpay_signature,
+                  },
+                },
+              }),
+            });
+
+            const verifyResult = await verifyResponse.json();
+            if (!verifyResponse.ok) {
+              throw new Error(verifyResult.error || 'Payment verification failed');
+            }
+
+            setPaymentCompleted(true);
+            navigate('/donation-success', {
+              state: {
+                amount: amount,
+                donationType: formatDonationType(),
+                donorName: `${formData.firstName} ${formData.lastName}`,
+                impact: calculateImpact(),
+                paymentId: paymentResponse.razorpay_payment_id,
+              },
+            });
+          },
+          (error) => {
+            setPaymentError(error);
+            toast.error(error || 'Payment failed. Please try again.');
+          }
+        );
+      } catch (error) {
+        setPaymentError(error.message);
+        toast.error(error.message || 'An error occurred during payment.');
+      }
     }
   };
 
@@ -102,7 +196,7 @@ const AmountDonationFlow = () => {
   const Breadcrumb = () => (
     <div className="flex items-center space-x-[0.5rem] text-[0.875rem] text-[#4B5563] mb-[1.5rem] dark:text-[#9CA3AF]">
       <Button
-        variant="ghost" 
+        variant="ghost"
         size="sm"
         onClick={() => navigate('/')}
         className="p-0 h-auto text-[#F97316] hover:text-[#EA580C]"
@@ -111,8 +205,8 @@ const AmountDonationFlow = () => {
         Home
       </Button>
       <span>›</span>
-      <Button 
-        variant="ghost" 
+      <Button
+        variant="ghost"
         size="sm"
         onClick={() => navigate('/donate-amount')}
         className="p-0 h-auto text-[#F97316] hover:text-[#EA580C]"
@@ -265,7 +359,7 @@ const AmountDonationFlow = () => {
         </div>
         <div className="bg-[#EFF6FF] p-[1rem] rounded-[0.5rem] dark:bg-[#1E3A8A]">
           <p className="text-[0.875rem] text-[#1E40AF] dark:text-[#BFDBFE]">
-            🔒 Your payment is secured with 256-bit SSL encryption. 
+            🔒 Your payment is secured with 256-bit SSL encryption.
             You'll be redirected to our secure payment gateway.
           </p>
         </div>
@@ -276,6 +370,11 @@ const AmountDonationFlow = () => {
           </p>
         </div>
       </div>
+      {paymentError && (
+        <div className="text-red-600 text-center">
+          {paymentError}
+        </div>
+      )}
     </div>
   );
 
@@ -300,7 +399,7 @@ const AmountDonationFlow = () => {
             </p>
           </CardContent>
         </Card>
-        <Button 
+        <Button
           onClick={() => navigate('/donate-amount')}
           className="bg-[#F97316] hover:bg-[#EA580C] px-[2rem] py-[0.75rem] text-[1.125rem]"
         >
@@ -332,8 +431,8 @@ const AmountDonationFlow = () => {
       <div className="container mx-auto px-[1.5rem] max-w-[48rem]">
         <div className="mb-[2rem]">
           <Breadcrumb />
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             onClick={handleBackNavigation}
             className="mb-[1rem]"
           >
@@ -344,14 +443,20 @@ const AmountDonationFlow = () => {
             <div className="flex items-center justify-center space-x-[1rem] mb-[2rem]">
               {[1, 2, 3].map((stepNum) => (
                 <div key={stepNum} className="flex items-center">
-                  <div className={`w-[2rem] h-[2rem] rounded-full flex items-center justify-center text-[0.875rem] font-semibold ${
-                    stepNum <= step ? 'bg-[#F97316] text-[#FFFFFF]' : 'bg-[#E5E7EB] text-[#4B5563]'
-                  }`}>
+                  <div
+                    className={`w-[2rem] h-[2rem] rounded-full flex items-center justify-center text-[0.875rem] font-semibold ${
+                      stepNum <= step ? 'bg-[#F97316] text-[#FFFFFF]' : 'bg-[#E5E7EB] text-[#4B5563]'
+                    }`}
+                  >
                     {stepNum}
                   </div>
-                  {stepNum < 3 && <div className={`w-[3rem] h-[0.125rem] ${
-                    stepNum < step ? 'bg-[#F97316]' : 'bg-[#E5E7EB]'
-                  }`} />}
+                  {stepNum < 3 && (
+                    <div
+                      className={`w-[3rem] h-[0.125rem] ${
+                        stepNum < step ? 'bg-[#F97316]' : 'bg-[#E5E7EB]'
+                      }`}
+                    />
+                  )}
                 </div>
               ))}
             </div>
@@ -367,7 +472,7 @@ const AmountDonationFlow = () => {
             : renderStep3()}
           {!paymentCompleted && (
             <div className="mt-[2rem] flex justify-center">
-              <Button 
+              <Button
                 onClick={handleContinue}
                 className="bg-[#F97316] hover:bg-[#EA580C] px-[2rem] py-[0.75rem] text-[1.125rem]"
                 disabled={
