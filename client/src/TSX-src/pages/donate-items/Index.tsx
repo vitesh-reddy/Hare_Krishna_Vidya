@@ -4,8 +4,17 @@ import GrocerySection from './components/GrocerySection';
 import ImpactSection from './components/ImpactSection';
 import HowItWorks from './components/HowItWorks';
 import TransparencySection from './components/TransparencySection';
+import { useData } from '../../../contexts/DataContext';
+import { useEffect } from 'react';
 
 const DonateItemsPage = () => {
+  const { kits, groceryItems, fetchKits, fetchGroceryItems, isLoading, error } = useData();
+  useEffect(() => {
+    if (!kits.length) fetchKits();
+    if (!groceryItems.length) fetchGroceryItems();
+  }, []);
+  if (isLoading.kits || isLoading.groceryItems) return <div>Loading...</div>;
+  if (error.kits || error.groceryItems) return <div>Error: {error.kits || error.groceryItems}</div>;
   return (
     <div className="min-h-screen bg-white">
       <HeroSection />

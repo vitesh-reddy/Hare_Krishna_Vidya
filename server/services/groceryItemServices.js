@@ -1,4 +1,5 @@
 import GroceryItem from '../models/GroceryItem.js';
+import {uploadToCloudinary} from '../config/cloudinaryConfig.js'
 
 // CREATE
 export const createGroceryItem = async (data) => {
@@ -27,11 +28,11 @@ export const updateGroceryItem = async (id, updates) => {
   return await GroceryItem.findByIdAndUpdate(id, updates, { new: true, runValidators: true });
 };
 
-export const toggleGroceryActiveStatus = async (groceryId, active) => {
+export const toggleGroceryActiveStatus = async (groceryId) => {
   const grocery = await GroceryItem.findById(groceryId);
   if (!grocery) throw new Error('Grocery item not found');
 
-  grocery.active = active;
+  grocery.active = !grocery.active ;
   await grocery.save();
 
   return true;

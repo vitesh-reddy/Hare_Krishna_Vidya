@@ -2,12 +2,12 @@ import WhiteGlowDiv from '@/components/common/WhiteGlowDiv';
 import React from 'react';
 
 const sponsorData = [
-  { children: 1, amount: '₹ 12,000' },
-  { children: 2, amount: '₹ 24,000' },
-  { children: 4, amount: '₹ 48,000' },
-  { children: 8, amount: '₹ 98,000' },
-  { children: 9, amount: '₹ 1,08,000' },
-  { note: 'Donate Any amount', amount: '———' },
+  {children: 1, amount: '₹ 12,000' },
+  {children: 2, amount: '₹ 24,000' },
+  {children: 4, amount: '₹ 48,000' },
+  {children: 8, amount: '₹ 98,000' },
+  {children: 9, amount: '₹ 1,08,000' },
+  {note: 'Donate Any amount', amount: '———' },
 ];
 
 const SponsorChildSection = () => {

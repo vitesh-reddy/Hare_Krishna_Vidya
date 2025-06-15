@@ -9,7 +9,7 @@ import toast from 'react-hot-toast';
 
 interface CartItem {
   id: string;
-  title: string;
+  name: string;
   price: number;
   quantity: number;
   image: string;

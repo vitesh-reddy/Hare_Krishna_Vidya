@@ -1,81 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle
-} from '../../../components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
 import { Button } from '../../../components/ui/button';
 import { Input } from '../../../components/ui/input';
 import { Textarea } from '../../../components/ui/textarea';
 import { Label } from '../../../components/ui/label';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from '../../../components/ui/table';
-import {
-  PlusCircle,
-  Edit3,
-  Trash2,
-  Save,
-  X,
-  Grid2X2,
-  Upload,
-  ToggleLeft,
-  ToggleRight,
-  Eye,
-  Users
-} from 'lucide-react';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../../components/ui/table';
+import { PlusCircle, Edit3, Trash2, Save, X, Grid2X2, Upload, ToggleLeft, ToggleRight, Eye, Users } from 'lucide-react';
+import { useGroceryItemsAdmin } from '../../../../contexts/GroceryItemAdminContext';
+import Loader from '../../../../components/common/Loader';
 
 const GroceryManagement = () => {
-  const mockGroceryItems = [
-  {
-    id: 'rice-10kg',
-    name: 'Rice 10Kg',
-    price: 400,
-    image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
-    description: 'Premium quality basmati rice, ideal for daily meals',
-    serve: '4-5 people for 2 weeks',
-    active: true,
-    lastUpdated: '2024-05-20'
-  },
-  {
-    id: 'desi-ghee-1l',
-    name: 'Desi Ghee',
-    price: 600,
-    image: 'https://images.unsplash.com/photo-1598373182123-374ef12d5e4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
-    description: 'Pure desi ghee made from cow milk',
-    serve: 'Family of 4 for 1 month',
-    active: true,
-    lastUpdated: '2024-05-20'
-  },
-  {
-    id: 'masoor-dal-5kg',
-    name: 'Masoor Dal',
-    price: 350,
-    image: 'https://images.unsplash.com/photo-1615897649723-5e2ad59e9321?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
-    description: 'High-protein red lentils for nutritious meals',
-    serve: 'Family meals for 3 weeks',
-    active: true,
-    lastUpdated: '2024-05-19'
-  },
-  {
-    id: 'cooking-oil-1l',
-    name: 'Cooking Oil',
-    price: 180,
-    image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
-    description: 'Refined sunflower oil for healthy cooking',
-    serve: 'Family cooking for 2 weeks',
-    active: true,
-    lastUpdated: '2024-05-18'
-  }
-];
-  const [groceryItems, setGroceryItems] = useState(mockGroceryItems);
+  const {
+    groceryItems,
+    fetchGroceryItems,
+    createGroceryItem,
+    updateGroceryItem,
+    deleteGroceryItem,
+    toggleGroceryActiveStatus,
+    loading,
+  } = useGroceryItemsAdmin();
 
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState(null);
@@ -85,15 +29,23 @@ const GroceryManagement = () => {
     price: 0,
     image: '',
     description: '',
-    serve: '',
-    active: true
+    serves: '',
+    active: true,
   });
+  const [imageFile, setImageFile] = useState(null);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
+
+  useEffect(() => {
+    fetchGroceryItems();
+  }, [fetchGroceryItems]);
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setFormData({ ...formData, image: imageUrl });
+      setImageFile(file);
     }
   };
 
@@ -103,15 +55,17 @@ const GroceryManagement = () => {
       price: item.price,
       image: item.image,
       description: item.description,
-      serve: item.serve,
-      active: item.active
+      serves: item.serves,
+      active: item.active,
     });
-    setEditingId(item.id);
+    setEditingId(item._id);
     setIsEditing(true);
+    setImageFile(null);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     // Validate required fields
+    console.log('Hi');
     if (!formData.name.trim()) {
       toast.error('Item name is required');
       return;
@@ -128,54 +82,63 @@ const GroceryManagement = () => {
       toast.error('Description is required');
       return;
     }
-    if (!formData.serve.trim()) {
-      toast.error('Serve information is required');
+    if (!formData.serves.trim()) {
+      toast.error('serves information is required');
       return;
     }
 
-    if (editingId) {
-      setGroceryItems(groceryItems.map(item =>
-        item.id === editingId
-          ? { ...item, ...formData, lastUpdated: new Date().toISOString().split('T')[0] }
-          : item
-      ));
-      toast.success('Grocery item updated successfully');
-      setEditingId(null);
-    } else {
-      const newItem = {
-        id: `${formData.name.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`,
-        ...formData,
-        lastUpdated: new Date().toISOString().split('T')[0]
-      };
-      setGroceryItems([...groceryItems, newItem]);
-      toast.success('Grocery item added successfully');
+    try {
+      if (editingId) {
+        await updateGroceryItem(editingId, formData, imageFile);
+        setEditingId(null);
+      } else {
+        await createGroceryItem(formData, imageFile);
+      }
+      setIsEditing(false);
+      setFormData({ name: '', price: 0, image: '', description: '', serves: '', active: true });
+      setImageFile(null);
+    } catch (error) {
+      // Error is already handled in context
     }
-    setIsEditing(false);
-    setFormData({ name: '', price: 0, image: '', description: '', serve: '', active: true });
   };
 
-  const handleDelete = (id) => {
-    setGroceryItems(groceryItems.filter(item => item.id !== id));
+  const handleDeleteClick = (id) => {
+    setItemToDelete(id);
+    setShowDeleteDialog(true);
+  };
+
+  const confirmDelete = async () => {
+    if (itemToDelete) {
+      await deleteGroceryItem(itemToDelete);
+      setShowDeleteDialog(false);
+      setItemToDelete(null);
+    }
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteDialog(false);
+    setItemToDelete(null);
   };
 
   const handleCancel = () => {
     setIsEditing(false);
     setEditingId(null);
     setPreviewItem(null);
-    setFormData({ name: '', price: 0, image: '', description: '', serve: '', active: true });
+    setFormData({ name: '', price: 0, image: '', description: '', serves: '', active: true });
+    setImageFile(null);
   };
 
-  const toggleItemStatus = (id) => {
-    setGroceryItems(groceryItems.map(item =>
-      item.id === id
-        ? { ...item, active: !item.active }
-        : item
-    ));
+  const toggleItemStatus = async (id) => {
+    await toggleGroceryActiveStatus(id);
   };
 
   const handlePreview = (item) => {
     setPreviewItem(item);
   };
+
+  if (loading) {
+    return <Loader/>;
+  }
 
   // Preview View
   if (previewItem) {
@@ -206,7 +169,7 @@ const GroceryManagement = () => {
             <div className="mb-[1rem] p-[0.75rem] bg-[#ECFDF5] rounded-lg border border-[#BBF7D0] dark:bg-[#1A3C34] dark:border-[#15803D]">
               <div className="flex items-center text-[#15803D] text-[0.875rem] dark:text-[#16A34A]">
                 <Users className="w-[1rem] h-[1rem] mr-[0.5rem]" />
-                <span className="font-medium">{previewItem.serve}</span>
+                <span className="font-medium">{previewItem.serves}</span>
               </div>
             </div>
             <Button
@@ -223,8 +186,38 @@ const GroceryManagement = () => {
 
   return (
     <div className="space-y-6">
+      {/* Delete Confirmation Dialog */}
+      {showDeleteDialog && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md shadow-lg">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              Confirm Deletion
+            </h3>
+            <p className="text-gray-600 dark:text-gray-300 mb-6">
+              Are you sure you want to delete this grocery item? This action cannot be undone.
+            </p>
+            <div className="flex justify-end gap-2">
+              <Button
+                variant="outline"
+                onClick={cancelDelete}
+                className="text-gray-600 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                No
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={confirmDelete}
+                className="bg-red-600 hover:bg-red-700 text-white"
+              >
+                Yes
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <Card>
-        <CardHeader className="flex flex-row itemsennes-center justify-between">
+        <CardHeader className="flex flex-row items-center justify-between">
           <div className="flex items-center space-x-3">
             <Grid2X2 className="w-6 h-6 text-purple-600" />
             <div>
@@ -264,11 +257,11 @@ const GroceryManagement = () => {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="serve">Serve</Label>
+                  <Label htmlFor="serves">serves</Label>
                   <Input
-                    id="serve"
-                    value={formData.serve}
-                    onChange={(e) => setFormData({ ...formData, serve: e.target.value })}
+                    id="serves"
+                    value={formData.serves}
+                    onChange={(e) => setFormData({ ...formData, serves: e.target.value })}
                     placeholder="e.g., 20 people"
                   />
                 </div>
@@ -290,13 +283,16 @@ const GroceryManagement = () => {
                         <img
                           src={formData.image}
                           alt="Grocery item"
-                          className="w-full h-48 object-cover rounded-lg"
+                          className="w-[20rem] h-fit mx-auto object-cover rounded-lg"
                         />
                         <Button
                           size="sm"
                           variant="destructive"
                           className="absolute top-2 right-2"
-                          onClick={() => setFormData({ ...formData, image: '' })}
+                          onClick={() => {
+                            setFormData({ ...formData, image: '' });
+                            setImageFile(null);
+                          }}
                         >
                           <X className="w-4 h-4" />
                         </Button>
@@ -306,6 +302,7 @@ const GroceryManagement = () => {
                         <div className="text-center">
                           <Upload className="w-8 h-8 mx-auto text-gray-400 mb-2" />
                           <p className="text-gray-600">Click to upload item image</p>
+                          <p className="text-gray-600 text-[0.75rem]">Upload less than 5MB </p>
                         </div>
                         <input
                           type="file"
@@ -324,12 +321,14 @@ const GroceryManagement = () => {
                   Save
                 </Button>
                 <Button
-                  onClick={() => handlePreview({
-                    ...formData,
-                    id: Date.now(),
-                    active: true,
-                    lastUpdated: new Date().toISOString().split('T')[0]
-                  })}
+                  onClick={() =>
+                    handlePreview({
+                      ...formData,
+                      _id: editingId || Date.now(),
+                      active: true,
+                      lastUpdated: new Date().toISOString().split('T')[0],
+                    })
+                  }
                   variant="outline"
                 >
                   <Eye className="w-4 h-4 mr-2" />
@@ -349,7 +348,7 @@ const GroceryManagement = () => {
                 <TableHead>Image</TableHead>
                 <TableHead>Item Name</TableHead>
                 <TableHead>Price (₹)</TableHead>
-                <TableHead>Serve</TableHead>
+                <TableHead>Serves</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Last Updated</TableHead>
                 <TableHead>Actions</TableHead>
@@ -357,7 +356,7 @@ const GroceryManagement = () => {
             </TableHeader>
             <TableBody>
               {groceryItems.map((item) => (
-                <TableRow key={item.id}>
+                <TableRow key={item._id}>
                   <TableCell>
                     <img
                       src={item.image}
@@ -367,12 +366,12 @@ const GroceryManagement = () => {
                   </TableCell>
                   <TableCell className="font-medium">{item.name}</TableCell>
                   <TableCell>₹{item.price}</TableCell>
-                  <TableCell>{item.serve}</TableCell>
+                  <TableCell>{item.serves}</TableCell>
                   <TableCell>
                     <Button
                       size="sm"
                       variant="outline"
-                      onClick={() => toggleItemStatus(item.id)}
+                      onClick={() => toggleItemStatus(item._id)}
                       className="flex items-center gap-2"
                     >
                       {item.active ? (
@@ -388,7 +387,9 @@ const GroceryManagement = () => {
                       )}
                     </Button>
                   </TableCell>
-                  <TableCell className="text-sm text-gray-500">{item.lastUpdated}</TableCell>
+                  <TableCell className="text-sm text-gray-500">
+                    {new Date(item.lastUpdated).toLocaleDateString()}
+                  </TableCell>
                   <TableCell>
                     <div className="flex gap-2">
                       <Button
@@ -408,7 +409,7 @@ const GroceryManagement = () => {
                       <Button
                         size="sm"
                         variant="destructive"
-                        onClick={() => handleDelete(item.id)}
+                        onClick={() => handleDeleteClick(item._id)}
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
@@ -421,7 +422,6 @@ const GroceryManagement = () => {
         </CardContent>
       </Card>
 
-      {/* Bulk Actions */}
       <Card>
         <CardHeader>
           <CardTitle>Bulk Actions</CardTitle>

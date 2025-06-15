@@ -91,11 +91,11 @@ const Cart = () => {
                 <div className="flex flex-col md:flex-row items-start space-y-4 md:space-y-0 md:space-x-6">
                   <img 
                     src={item.image} 
-                    alt={item.title}
+                    alt={item.name}
                     className="w-full md:w-32 h-32 object-cover rounded-lg"
                   />
                   <div className="flex-1">
-                    <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+                    <h3 className="text-xl font-semibold mb-2">{item.name}</h3>
                     <p className="text-gray-600 mb-3">{item.description}</p>
                     <p className="text-orange-600 font-semibold">₹{item.price.toLocaleString()} each</p>
                   </div>
@@ -153,7 +153,7 @@ const Cart = () => {
                 <div className="space-y-2">
                   {cartItems.map((item) => (
                     <div key={item.id} className="flex justify-between text-sm">
-                      <span>{item.title} × {item.quantity}</span>
+                      <span>{item.name} × {item.quantity}</span>
                       <span>₹{(item.price * item.quantity).toLocaleString()}</span>
                     </div>
                   ))}

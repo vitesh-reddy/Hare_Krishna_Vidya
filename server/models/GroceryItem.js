@@ -5,7 +5,7 @@ const groceryItemSchema = new mongoose.Schema({
   price: { type: Number, required: true, min: 0, },
   image: { type: String, required: true, },
   description: { type: String, trim: true, },
-  serve: { type: String, trim: true, },
+  serves: { type: String, trim: true, },
   active: { type: Boolean, default: true, },
   lastUpdated: {  type: Date,  default: Date.now, },
 });

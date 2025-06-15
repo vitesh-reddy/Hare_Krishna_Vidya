@@ -1,79 +1,118 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
 import { Button } from '../../../components/ui/button';
 import { Input } from '../../../components/ui/input';
 import { Label } from '../../../components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../../components/ui/table';
-import { PlusCircle, Edit3, Trash2, Save, X, Eye, Upload, ArrowLeft, Calendar, User, Tag, Camera, FileText } from 'lucide-react';
+import { PlusCircle, Edit3, Trash2, Save, X, Eye, Upload, ArrowLeft, Calendar, User, Tag, FileText } from 'lucide-react';
 import MediumStyleEditor from './MediumStyleEditor';
+import toast from 'react-hot-toast';
+import { useBlogsAdmin } from '../../../../contexts/BlogAdminContext';
+import Loader from '../../../../components/common/Loader';
 
 const BlogManagement = () => {
-  const [posts, setPosts] = useState([
-    {
-      id: 1,
-      title: 'The Impact of Your Donations',
-      author: 'Hare Krishna Vidya Team',
-      date: '2024-05-20',
-      status: 'Published',
-      content: 'Discover how your contributions are making a real difference in communities across India. Through our comprehensive donation programs, we have been able to reach thousands of families.',
-      excerpt: 'Discover how your contributions are making a real difference in communities across India.',
-      image: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-      category: 'Impact Stories'
-    },
-    {
-      id: 2,
-      title: 'Sustainable Food Distribution',
-      author: 'Dr. Radha Sharma',
-      date: '2024-05-15',
-      status: 'Draft',
-      content: 'Learn about our sustainable methods for ensuring food reaches those who need it most. Our distribution network spans across multiple states.',
-      excerpt: 'Learn about our sustainable methods for ensuring food reaches those who need it most.',
-      image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-      category: 'Methodology'
-    }
-  ]);
+  const {
+    posts,
+    fetchBlogs,
+    createBlog,
+    updateBlog,
+    deleteBlog,
+    toggleBlogStatus,
+    loading,
+  } = useBlogsAdmin();
 
   const [isCreating, setIsCreating] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [previewPost, setPreviewPost] = useState(null);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [postToDelete, setPostToDelete] = useState(null);
   const [formData, setFormData] = useState({
     title: '',
     author: '',
     excerpt: '',
     content: '',
     category: '',
-    image: ''
+    image: '',
   });
+  const [imageFile, setImageFile] = useState(null);
 
-  const handleImageUpload = (file: File) => {
-    // In a real app, you'd upload to a server
+  useEffect(() => {
+    fetchBlogs();
+  }, [fetchBlogs]);
+
+  const validateForm = () => {
+    if (!formData.title.trim()) {
+      toast.error('Title is required.');
+      return false;
+    }
+    if (!formData.author.trim()) {
+      toast.error('Author is required.');
+      return false;
+    }
+    if (!formData.content.trim()) {
+      toast.error('Content is required.');
+      return false;
+    }
+    if (!formData.category.trim()) {
+      toast.error('Category is required.');
+      return false;
+    }
+    if (!formData.image.trim()) {
+      toast.error('An image is required.');
+      return false;
+    }
+    return true;
+  };
+
+  const handleImageUpload = (file) => {
+    if (!file) {
+      toast.error('Please select a valid image file.');
+      return;
+    }
     const imageUrl = URL.createObjectURL(file);
     setFormData({ ...formData, image: imageUrl });
+    setImageFile(file);
   };
 
-  const handleSave = () => {
-    if (editingId) {
-      setPosts(posts.map(post => 
-        post.id === editingId 
-          ? { ...post, ...formData, date: new Date().toISOString().split('T')[0] }
-          : post
-      ));
-      setEditingId(null);
-    } else {
-      const newPost = {
-        id: Date.now(),
-        ...formData,
-        date: new Date().toISOString().split('T')[0],
-        status: 'Draft'
-      };
-      setPosts([...posts, newPost]);
-      setIsCreating(false);
+  const handleSave = async () => {
+    if (!validateForm()) {
+      return;
     }
-    setFormData({ title: '', author: '', excerpt: '', content: '', category: '', image: '' });
+
+    try {
+      const blogData = { ...formData };
+      if (editingId) {
+        await updateBlog(editingId, blogData, imageFile);
+        setEditingId(null);
+      } else {
+        await createBlog(blogData, imageFile);
+      }
+      setIsCreating(false);
+      setFormData({ title: '', author: '', excerpt: '', content: '', category: '', image: '' });
+      setImageFile(null);
+    } catch (error) {
+      // Error is already handled in context
+    }
   };
 
-  const handleDelete = (id) => {
-    setPosts(posts.filter(post => post.id !== id));
+  const handleDeleteClick = (id) => {
+    setPostToDelete(id);
+    setShowDeleteDialog(true);
+  };
+
+  const confirmDelete = async () => {
+    if (postToDelete) {
+      await deleteBlog(postToDelete);
+      setShowDeleteDialog(false);
+      setPostToDelete(null);
+    }
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteDialog(false);
+    setPostToDelete(null);
   };
 
   const handleEdit = (post) => {
@@ -83,10 +122,11 @@ const BlogManagement = () => {
       excerpt: post.excerpt || '',
       content: post.content || '',
       category: post.category || '',
-      image: post.image || ''
+      image: post.image || '',
     });
-    setEditingId(post.id);
+    setEditingId(post._id);
     setIsCreating(true);
+    setImageFile(null);
   };
 
   const handleCancel = () => {
@@ -94,88 +134,156 @@ const BlogManagement = () => {
     setEditingId(null);
     setPreviewPost(null);
     setFormData({ title: '', author: '', excerpt: '', content: '', category: '', image: '' });
+    setImageFile(null);
   };
 
   const handlePreview = (post) => {
     setPreviewPost(post);
   };
 
-  const togglePublishStatus = (id) => {
-    setPosts(posts.map(post => 
-      post.id === id 
-        ? { ...post, status: post.status === 'Published' ? 'Draft' : 'Published' }
-        : post
-    ));
-  };
+  if (loading) {
+    return (
+      <Loader/>
+    );
+  }
 
   if (previewPost) {
     return (
-      <div className="space-y-6 bg-gray-50 min-h-screen">
-        <div className="bg-white border-b border-gray-200 px-6 py-4">
-          <div className="flex items-center justify-between max-w-6xl mx-auto">
-            <h2 className="text-2xl font-bold text-gray-900">Blog Preview</h2>
-            <Button onClick={() => setPreviewPost(null)} variant="outline" className="flex items-center gap-2">
-              <ArrowLeft className="w-4 h-4" />
-              Back to Editor
+      <div className="relative min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+        {/* Gradient Header with Floating Back Button */}
+        <header className="sticky top-0 z-50 bg-gradient-to-r from-orange-400 to-amber-300 shadow-lg">
+          <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+            <h2 className="text-3xl font-bold text-white tracking-tight">
+              Blog Preview: {previewPost.title.slice(0, 55)}{previewPost.title.length > 55 && <span>...</span>}
+            </h2>
+            <Button
+              onClick={() => setPreviewPost(null)}
+              variant="outline"
+              className="flex items-center gap-2 bg-white/90 hover:bg-white text-orange-600 border-orange-200 shadow-md hover:shadow-lg transition-all duration-300 rounded-full px-4 py-2"
+            >
+              <ArrowLeft className="w-5 h-5" />
+              <span className="font-medium">Back to Editor</span>
             </Button>
           </div>
-        </div>
-        
-        {/* Enhanced Blog Preview */}
-        <div className="max-w-4xl mx-auto px-6">
-          <Card className="shadow-lg border-0">
+        </header>
+
+        {/* Main Content */}
+        <main className="max-w-4xl mx-auto px-6 py-12">
+          <Card className="shadow-2xl border-0 rounded-3xl overflow-hidden bg-white/95 backdrop-blur-sm">
+            {/* Hero Image */}
             {previewPost.image && (
-              <div className="aspect-[16/9] overflow-hidden rounded-t-lg">
+              <div className="relative aspect-[16/9] overflow-hidden">
                 <img
                   src={previewPost.image}
                   alt={previewPost.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500 ease-in-out"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
               </div>
             )}
-            <CardContent className="p-12">
-              <div className="mb-6">
-                <span className="bg-orange-100 text-orange-700 px-4 py-2 rounded-full text-sm font-medium">
+
+            {/* Blog Content */}
+            <CardContent className="p-10 md:p-14 space-y-8">
+              {/* Category Tag */}
+              <div className="flex justify-start">
+                <span className="inline-block bg-orange-100 text-orange-700 px-5 py-2 rounded-full text-sm font-semibold tracking-wide shadow-sm hover:bg-orange-200 transition-colors duration-300">
                   {previewPost.category}
                 </span>
               </div>
-              <h1 className="text-5xl font-bold text-gray-900 mb-6 leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
+
+              {/* Title */}
+              <h1
+                className="text-[1.5rem] md:text-[2.25rem] font-extrabold text-gray-900 tracking-tight"
+                style={{ fontFamily: "'Georgia', serif" }}
+              >
                 {previewPost.title}
               </h1>
+
+              {/* Excerpt */}
               {previewPost.excerpt && (
-                <p className="text-xl text-gray-600 mb-8 leading-relaxed font-light" style={{ fontFamily: 'Georgia, serif' }}>
+                <p
+                  className="text-lg md:text-xl text-gray-600 leading-relaxed font-light italic border-l-4 border-orange-400 pl-4"
+                  style={{ fontFamily: "'Georgia', serif" }}
+                >
                   {previewPost.excerpt}
                 </p>
               )}
-              <div className="flex items-center text-gray-600 mb-8 text-lg">
-                <User className="w-5 h-5 mr-2" />
-                <span className="font-medium">{previewPost.author}</span>
-                <span className="mx-3">•</span>
-                <Calendar className="w-5 h-5 mr-2" />
-                <span>{new Date(previewPost.date).toLocaleDateString('en-US', { 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
-                })}</span>
-              </div>
-              <div className="prose prose-lg max-w-none">
-                <div className="text-xl text-gray-800 leading-relaxed whitespace-pre-wrap" style={{ fontFamily: 'Georgia, serif' }}>
-                  {previewPost.content}
+
+              {/* Meta Information */}
+              <div className="flex items-center text-gray-500 text-base md:text-lg space-x-4">
+                <div className="flex items-center">
+                  <User className="w-5 h-5 mr-2 text-orange-600" />
+                  <span className="font-medium text-gray-800">{previewPost.author}</span>
+                </div>
+                <span className="text-gray-300">•</span>
+                <div className="flex items-center">
+                  <Calendar className="w-5 h-5 mr-2 text-orange-600" />
+                  <span>
+                    {new Date(previewPost.date).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </span>
                 </div>
               </div>
+
+              {/* Blog Content with Markdown Rendering */}
+              <article className="prose prose-lg max-w-none text-gray-800 leading-loose tracking-wide">
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    h1: ({ node, ...props }) => (
+                      <h1 className="text-4xl font-bold text-gray-900 mb-4" style={{ fontFamily: "'Georgia', serif" }} {...props} />
+                    ),
+                    h2: ({ node, ...props }) => (
+                      <h2 className="text-3xl font-bold text-gray-900 mb-3" style={{ fontFamily: "'Georgia', serif" }} {...props} />
+                    ),
+                    h3: ({ node, ...props }) => (
+                      <h3 className="text-2xl font-bold text-gray-900 mb-2" style={{ fontFamily: "'Georgia', serif" }} {...props} />
+                    ),
+                    p: ({ node, ...props }) => (
+                      <p className="text-lg md:text-xl text-gray-800 leading-loose" style={{ fontFamily: "'Georgia', serif" }} {...props} />
+                    ),
+                    ul: ({ node, ...props }) => (
+                      <ul className="list-disc pl-6 mb-4 text-lg text-gray-800" style={{ fontFamily: "'Georgia', serif" }} {...props} />
+                    ),
+                    ol: ({ node, ...props }) => (
+                      <ol className="list-decimal pl-6 mb-4 text-lg text-gray-800" style={{ fontFamily: "'Georgia', serif" }} {...props} />
+                    ),
+                    blockquote: ({ node, ...props }) => (
+                      <blockquote className="border-l-4 border-orange-400 pl-4 italic text-gray-600 mb-4" style={{ fontFamily: "'Georgia', serif" }} {...props} />
+                    ),
+                    a: ({ node, ...props }) => (
+                      <a className="text-orange-600 hover:underline" {...props} />
+                    ),
+                  }}
+                >
+                  {previewPost.content}
+                </ReactMarkdown>
+              </article>
             </CardContent>
           </Card>
+        </main>
+
+        {/* Floating Back Button on Scroll */}
+        <div className="fixed bottom-6 right-6 z-50 hidden md:block">
+          <Button
+            onClick={() => setPreviewPost(null)}
+            variant="outline"
+            className="bg-orange-500 text-white hover:bg-orange-600 border-none rounded-full p-4 shadow-lg hover:shadow-xl transition-all duration-300"
+          >
+            <ArrowLeft className="w-6 h-6" />
+          </Button>
         </div>
       </div>
     );
   }
 
-  // Enhanced Medium-style editor view
   if (isCreating) {
     return (
       <div className="min-h-screen bg-white">
-        {/* Enhanced Header */}
-        <div className="border-b border-gray-200 bg-white/95 backdrop-blur-sm sticky top-0 z-40">
+        <div className="border-b border-gray-200 bg-white/95 backdrop-blur-sm top-0 z-40">
           <div className="px-6 py-4">
             <div className="flex items-center justify-between max-w-6xl mx-auto">
               <div className="flex items-center gap-4">
@@ -199,8 +307,8 @@ const BlogManagement = () => {
                 <Button 
                   onClick={() => handlePreview({ 
                     ...formData, 
-                    id: Date.now(), 
-                    date: new Date().toISOString().split('T')[0],
+                    _id: editingId || Date.now(),
+                    date: new Date().toISOString(),
                     status: 'Draft'
                   })} 
                   variant="outline"
@@ -216,7 +324,7 @@ const BlogManagement = () => {
                   size="sm"
                 >
                   <Save className="w-4 h-4 mr-2" />
-                  Publish
+                  Save Blog
                 </Button>
               </div>
             </div>
@@ -224,7 +332,6 @@ const BlogManagement = () => {
         </div>
 
         <div className="max-w-5xl mx-auto">
-          {/* Enhanced Cover Image Section */}
           <div className="px-6 py-12">
             {formData.image ? (
               <div className="relative mb-12 group">
@@ -238,7 +345,10 @@ const BlogManagement = () => {
                     size="sm"
                     variant="destructive"
                     className="opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                    onClick={() => setFormData({ ...formData, image: '' })}
+                    onClick={() => {
+                      setFormData({ ...formData, image: '' });
+                      setImageFile(null);
+                    }}
                   >
                     <X className="w-4 h-4 mr-2" />
                     Remove Cover
@@ -249,7 +359,7 @@ const BlogManagement = () => {
               <label className="block mb-12 border-2 border-dashed border-gray-300 rounded-xl p-12 cursor-pointer hover:border-orange-400 hover:bg-orange-50/50 transition-all duration-200 group">
                 <div className="text-center">
                   <div className="mx-auto w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-orange-100 transition-colors">
-                    <Camera className="w-8 h-8 text-gray-400 group-hover:text-orange-500" />
+                    <Upload className="w-8 h-8 text-gray-400 group-hover:text-orange-500" />
                   </div>
                   <p className="text-xl text-gray-700 mb-2 font-medium">Add a cover image</p>
                   <p className="text-sm text-gray-500">Drag and drop an image, or click to browse</p>
@@ -267,7 +377,6 @@ const BlogManagement = () => {
               </label>
             )}
 
-            {/* Medium Style Editor */}
             <MediumStyleEditor
               title={formData.title}
               content={formData.content}
@@ -278,7 +387,6 @@ const BlogManagement = () => {
               onImageUpload={handleImageUpload}
             />
 
-            {/* Enhanced Metadata Section */}
             <div className="mt-16 pt-8 border-t border-gray-200">
               <div className="bg-gray-50 rounded-xl p-8">
                 <div className="flex items-center gap-3 mb-6">
@@ -328,6 +436,36 @@ const BlogManagement = () => {
 
   return (
     <div className="space-y-6">
+      {/* Delete Confirmation Dialog */}
+      {showDeleteDialog && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md shadow-lg">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              Confirm Deletion
+            </h3>
+            <p className="text-gray-600 dark:text-gray-300 mb-6">
+              Are you sure you want to delete this blog post? This action cannot be undone.
+            </p>
+            <div className="flex justify-end gap-2">
+              <Button
+                variant="outline"
+                onClick={cancelDelete}
+                className="text-gray-600 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                No
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={confirmDelete}
+                className="bg-red-600 hover:bg-red-700 text-white"
+              >
+                Yes
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <Card className="border-0 shadow-lg">
         <CardHeader className="bg-gradient-to-r from-orange-50 to-amber-50 border-b border-orange-100">
           <div className="flex flex-row items-center justify-between">
@@ -360,11 +498,26 @@ const BlogManagement = () => {
             </TableHeader>
             <TableBody>
               {posts.map((post) => (
-                <TableRow key={post.id}>
-                  <TableCell className="font-medium">{post.title}</TableCell>
-                  <TableCell>{post.author}</TableCell>
-                  <TableCell>{post.date}</TableCell>
-                  <TableCell>{post.category}</TableCell>
+                <TableRow key={post._id}>
+                  <TableCell className="font-medium">
+                    {post.title.slice(0, 55)}
+                    {post.title.length > 55 && <span>...</span>}
+                  </TableCell>
+                  <TableCell>
+                    {post.author.slice(0, 30)}
+                    {post.author.length > 30 && <span>...</span>}
+                  </TableCell>
+                  <TableCell>
+                    {new Date(post.date).toLocaleDateString('en-US', { 
+                      year: 'numeric', 
+                      month: 'short', 
+                      day: 'numeric' 
+                    })}
+                  </TableCell>
+                  <TableCell>
+                    {post.category.slice(0, 30)}
+                    {post.category.length > 30 && <span>...</span>}
+                  </TableCell>
                   <TableCell>
                     <Button
                       size="sm"
@@ -374,7 +527,7 @@ const BlogManagement = () => {
                           ? 'bg-green-100 text-green-600 hover:bg-green-200' 
                           : 'bg-yellow-100 text-yellow-600 hover:bg-yellow-200'
                       }`}
-                      onClick={() => togglePublishStatus(post.id)}
+                      onClick={() => toggleBlogStatus(post._id)}
                     >
                       {post.status}
                     </Button>
@@ -398,7 +551,7 @@ const BlogManagement = () => {
                       <Button
                         size="sm"
                         variant="destructive"
-                        onClick={() => handleDelete(post.id)}
+                        onClick={() => handleDeleteClick(post._id)}
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>

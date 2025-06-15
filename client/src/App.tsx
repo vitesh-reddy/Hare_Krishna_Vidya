@@ -1,16 +1,17 @@
 import { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TooltipProvider } from "./TSX-src/components/ui/tooltip";
-// import { Toaster } from "./TSX-src/components/ui/toaster";
 import { Toaster as Sonner } from "./TSX-src/components/ui/sonner";
 import { CartProvider } from "./TSX-src/contexts/CartContext";
+import { DataProvider } from './contexts/DataContext';
+import { Toaster } from "react-hot-toast";
+import { BlogProvider } from './contexts/BlogContext';
 
 // Common Components
 import Header from "./components/common/Header";
 import Footer from "./components/common/Footer";
-// import Navigation from "./components/Navigation";
 
 // JSX Pages
 import HomePage from "./pages/Home";
@@ -34,9 +35,29 @@ import DonationFlow from "./TSX-src/pages/DonationFlow";
 import DonationSuccess from "./TSX-src/pages/DonationSuccess";
 import AdminDashboard from "./TSX-src/pages/admin/AdminDashboard";
 import NotFound from "./TSX-src/pages/NotFound";
-import { Toaster } from "react-hot-toast";
+import { GroceryItemAdminProvider } from './contexts/GroceryItemAdminContext';
+import { KitAdminProvider } from './contexts/KitAdminContext';
+import { BlogAdminProvider } from './contexts/BlogAdminContext';
 
 const queryClient = new QueryClient();
+
+// Layout component for routes with Header and Footer
+const MainLayout = ({ children }) => (
+  <>
+    <Header />
+    <div className="pb-[4.5rem] sm:pb-[5rem] lg:pb-[5.25rem]"></div>
+    {children}
+    <Footer />
+  </>
+);
+
+// Layout component for routes with only Header
+const HeaderOnlyLayout = ({ children }) => (
+  <>
+    <Header />
+    {children}
+  </>
+);
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -44,51 +65,74 @@ const AnimatedRoutes = () => {
   const isAnimated = animatedRoutes.includes(location.pathname);
 
   return (
-    <AnimatePresence mode="wait">
-      <ScrollToTop/>
-      <Routes location={location} key={isAnimated ? location.pathname : undefined}>
-        {/* JSX Routes */}
-        <Route path="/" element={<HomePage />} />
-        <Route path="/about-us" element={<AboutUsPage />} />
-        <Route path="/hare-krishna-vidya-charity-and-education-foundation" element={<HareKrishnaVidyaPage />} />
-        <Route path="/our-initiative" element={<OurInitiativePage />} />
-        <Route path="/gallery" element={<GalleryPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/donate-amount" element={<DonatePage />} />
-        <Route path="/terms&conditions" element={<TnCPage />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-        <Route path="/refund-policy" element={<RefundPolicyPage />} />
-        <Route path="/our-associated-trusts" element={<OurAssociatedTrustsPage />} />
-        <Route path="/governance" element={<GovernancePage />} />
-
-        {/* TSX Routes */}
-        <Route path="/donate-items" element={ <DonateItemsPage />}  />
-        <Route path="/blog" element={<Blog /> }/>
-        <Route path="/cart" element={<Cart /> }/>
-        <Route path="/donate" element={ <DonationFlow /> }/>
-        <Route path="/donation-success" element={ <DonationSuccess /> }/>
-        <Route path="/admin" element={  <AdminDashboard /> }/>
-        <Route path="*" element={  <NotFound /> }/>
-      </Routes>    
-    </AnimatePresence>
+    <>
+      <ScrollToTop />
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={isAnimated ? location.pathname : undefined}>
+          {/* Routes with Header and Footer */}
+          <Route path="/" element={<MainLayout><HomePage /></MainLayout>} />
+          <Route path="/about-us" element={<MainLayout><AboutUsPage /></MainLayout>} />
+          <Route path="/hare-krishna-vidya-charity-and-education-foundation" element={<MainLayout><HareKrishnaVidyaPage /></MainLayout>} />
+          <Route path="/our-initiative" element={<MainLayout><OurInitiativePage /></MainLayout>} />
+          <Route path="/gallery" element={<MainLayout><GalleryPage /></MainLayout>} />
+          <Route path="/contact" element={<MainLayout><ContactPage /></MainLayout>} />
+          <Route path="/donate-amount" element={<MainLayout><DonatePage /></MainLayout>} />
+          <Route path="/terms&conditions" element={<MainLayout><TnCPage /></MainLayout>} />
+          <Route path="/privacy-policy" element={<MainLayout><PrivacyPolicyPage /></MainLayout>} />
+          <Route path="/refund-policy" element={<MainLayout><RefundPolicyPage /></MainLayout>} />
+          <Route path="/our-associated-trusts" element={<MainLayout><OurAssociatedTrustsPage /></MainLayout>} />
+          <Route path="/governance" element={<MainLayout><GovernancePage /></MainLayout>} />
+          <Route path="/blog" element={<MainLayout><Blog /></MainLayout>} />
+          <Route path="/donate-items" element={<MainLayout><DonateItemsPage /></MainLayout>} />
+          
+          {/* Routes with only Header */}
+          <Route path="/cart" element={<HeaderOnlyLayout><Cart /></HeaderOnlyLayout>} />
+          <Route path="/donate" element={<HeaderOnlyLayout><DonationFlow /></HeaderOnlyLayout>} />
+          <Route path="/donation-success" element={<HeaderOnlyLayout><DonationSuccess /></HeaderOnlyLayout>} />
+          <Route path="*" element={<HeaderOnlyLayout><NotFound /></HeaderOnlyLayout>} />
+          
+          {/* Route without any layout or contexts */}
+          <Route path="/admin" element={ <AdminDashboard />} />
+        </Routes>
+      </AnimatePresence>
+    </>
   );
 };
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <CartProvider>
-        <Toaster />
-        <Sonner />
-          <Header />
-          {/* <Navigation /> */}
-          <div className="pb-[4.5rem] sm:pb-[5rem] lg:pb-[5.25rem]"></div>
-          <AnimatedRoutes />
-          <Footer />
-      </CartProvider>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  const location = useLocation();
+
+  // Render AdminDashboard without context providers for /admin route
+  if (location.pathname === "/admin") {
+    return (
+      <GroceryItemAdminProvider>
+        <KitAdminProvider>
+        <BlogAdminProvider>
+        <Toaster/>
+        <AnimatedRoutes />
+        </BlogAdminProvider>
+        </KitAdminProvider>
+      </GroceryItemAdminProvider>
+    )
+  }
+
+  // Render all other routes with context providers
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <CartProvider>
+          <DataProvider>
+            <BlogProvider>
+              <Toaster />
+              <Sonner />
+              <AnimatedRoutes />
+            </BlogProvider>
+          </DataProvider>
+        </CartProvider>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -97,9 +141,6 @@ const ScrollToTop = () => {
   }, [pathname]);
 
   return null;
-}
-
+};
 
 export default App;
-
-

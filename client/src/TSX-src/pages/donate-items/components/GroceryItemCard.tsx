@@ -7,8 +7,8 @@ import { ShoppingCart, Plus, Minus, Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 interface GroceryItem {
-  id: string;
-  title: string;
+  _id: string;
+  name: string;
   description: string;
   price: number;
   image: string;
@@ -28,30 +28,20 @@ const GroceryItemCard: React.FC<GroceryItemCardProps> = ({ item }) => {
 
   const handleAddToCart = () => {
       addToCart({
-        id: item.id,
-        title: item.title,
+        id: item._id,
+        name: item.name,
         price: item.price,
         image: item.image,
         items: [item.serves],
         description: item.description
       }, quantity);
     
-    console.log(`Added ${quantity} ${item.title}(s) to cart`);  
+    console.log(`Added ${quantity} ${item.name}(s) to cart`);  
   };
 
   const handleDonateNow = () => {
-    // Add to cart first
-      addToCart({
-        id: item.id,
-        title: item.title,
-        price: item.price,
-        image: item.image,
-        items: [item.serves],
-        description: item.description
-      }, quantity);
-        
-    // Navigate directly to donation flow
-    navigate(`/donate?kit=${item.id}`);
+    console.log("j", item._id);
+    navigate(`/donate?kit=${item._id}`);
   };
 
   const incrementQuantity = () => {
@@ -67,8 +57,8 @@ const GroceryItemCard: React.FC<GroceryItemCardProps> = ({ item }) => {
       <div className="relative overflow-hidden">
         <img 
           src={item.image} 
-          alt={item.title}
-          className="w-full h-[12rem] object-cover group-hover:scale-105 transition-transform duration-300"
+          alt={item.name}
+          className="w-full h-[20rem] object-cover group-hover:scale-105 transition-transform duration-300"
         />
         <div className="absolute top-[1rem] right-[1rem] bg-[#16A34A] text-[#F5F7FD] px-[0.75rem] py-[0.25rem] rounded-full text-[0.875rem] font-semibold">
           ₹{item.price.toLocaleString()}
@@ -76,7 +66,7 @@ const GroceryItemCard: React.FC<GroceryItemCardProps> = ({ item }) => {
       </div>
       
       <CardContent className="p-[1.5rem]">
-        <h3 className="text-[1.25rem] font-bold text-[#1F2937] mb-[0.5rem] dark:text-[#F5F7FD]">{item.title}</h3>
+        <h3 className="text-[1.25rem] font-bold text-[#1F2937] mb-[0.5rem] dark:text-[#F5F7FD]">{item.name}</h3>
         <p className="text-[#4B5563] mb-[1rem] text-[0.875rem] leading-relaxed dark:text-[#9CA3AF]">{item.description}</p>
         
         <div className="mb-[1rem] p-[0.75rem] bg-[#ECFDF5] rounded-lg border border-[#BBF7D0] dark:bg-[#1A3C34] dark:border-[#15803D]">

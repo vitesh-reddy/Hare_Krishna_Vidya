@@ -6,12 +6,14 @@ import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { ArrowLeft, CreditCard, User, Mail, Phone, Package, Home, ShoppingCart } from 'lucide-react';
+import { useData } from '../../contexts/DataContext';
 
 const DonationFlow = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
   const { cartItems, clearCart } = useCart();
+  const {getKitById, getGroceryItemById} = useData();
   const kitId = searchParams.get('kit');
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState(() => {
@@ -29,38 +31,18 @@ const DonationFlow = () => {
   }
   });
 
-  const kits = {
-    education: { 
-      title: 'Education Kit', 
-      price: 790, 
-      image: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-      items: ['3-5 Recycled Notebooks', '2 Blue Pens', 'Pencils & Eraser', 'Geometry Box', 'Pencil Pouch', 'Hygiene Kit'],
-      description: 'Complete educational supplies to support a child\'s learning journey for an entire academic year.'
-    },
-    grocery: { 
-      title: 'Grocery Kit', 
-      price: 1200, 
-      image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-      items: ['Rice 10Kg', 'Desi Ghee 1L', 'Masoor Dal 5Kg', 'Cooking Oil', 'Spices & Essentials'],
-      description: 'Essential food items to nourish a family of 4-5 members for 2-3 weeks.'
-    },
-    center: { 
-      title: 'Center Kit', 
-      price: 35000, 
-      image: 'https://images.unsplash.com/photo-1497486751825-1233686d5d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-      items: ['Green Board & Stand', 'Charts & Teaching Materials', 'Steel Plates & Glasses', 'Center Board', 'Books & References'],
-      description: 'Complete setup for establishing a community learning center to educate 30-40 children.'
-    }
-  };
-
   // Determine if we're processing cart items or single kit
   const isCartMode = location.state?.cartItems && location.state.cartItems.length > 0;
   const selectedCartItems = location.state?.cartItems || [];
-  const selectedKit = kitId && kits[kitId as keyof typeof kits];
+
+  console.log(kitId);
+  const selectedKit = getKitById(kitId)
+  const selectedGroceryItem = getGroceryItemById(kitId);
+  console.log(selectedKit, selectedGroceryItem);
   
   const totalAmount = isCartMode 
     ? selectedCartItems.reduce((total: number, item: any) => total + (item.price * item.quantity), 0)
-    : selectedKit?.price || 0;
+    : selectedKit?.price || (selectedGroceryItem?.price || 0);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({
@@ -157,7 +139,7 @@ const Breadcrumb = () => (
 const renderStep1 = () => (
   <div className="space-y-[1.5rem]">
     <h2 className="text-[1.5rem] font-bold text-center">
-      {isCartMode ? 'Your Selected Kits' : 'Kit Details & Donation Amount'}
+      {isCartMode ? 'Your Selected Items' : 'Kit Details & Donation Amount'}
     </h2>
     
     {isCartMode ? (
@@ -165,9 +147,9 @@ const renderStep1 = () => (
         {selectedCartItems.map((item: any) => (
           <Card key={item.id} className="p-[1.5rem]">
             <div className="flex flex-col md:flex-row items-start space-y-[1rem] md:space-y-0 md:space-x-[1.5rem]">
-              <img src={item.image} alt={item.title} className="w-full md:w-[6rem] h-[6rem] object-cover rounded-[0.5rem]" />
+              <img src={item.image} alt={item.name} className="w-full md:w-[6rem] h-[6rem] object-cover rounded-[0.5rem]" />
               <div className="flex-1">
-                <h3 className="text-[1.125rem] font-semibold">{item.title}</h3>
+                <h3 className="text-[1.125rem] font-semibold">{item.name}</h3>
                 <p className="text-[#4B5563] text-[0.875rem] dark:text-[#9CA3AF]">{item.description}</p>
                 <div className="flex justify-between items-center mt-[0.5rem]">
                   <span className="text-[#F97316] font-semibold">
@@ -190,15 +172,15 @@ const renderStep1 = () => (
         </Card>
       </div>
     ) : (
-      selectedKit && (
+      selectedKit ? (
         <div className="space-y-[1.5rem]">
           {/* Kit Overview Card */}
           <Card className="mb-[1.5rem]">
             <CardContent className="p-[1.5rem]">
               <div className="flex flex-col md:flex-row items-start space-y-[1rem] md:space-y-0 md:space-x-[1.5rem]">
-                <img src={selectedKit.image} alt={selectedKit.title} className="w-full md:w-[8rem] h-[8rem] object-cover rounded-[0.5rem]" />
+                <img src={selectedKit.image} alt={selectedKit.name} className="w-full md:w-[8rem] h-[8rem] object-cover rounded-[0.5rem]" />
                 <div className="flex-1">
-                  <h3 className="text-[1.5rem] font-semibold mb-[0.5rem]">{selectedKit.title}</h3>
+                  <h3 className="text-[1.5rem] font-semibold mb-[0.5rem]">{selectedKit.name}</h3>
                   <p className="text-[#4B5563] mb-[0.75rem] dark:text-[#9CA3AF]">{selectedKit.description}</p>
                   <div className="flex items-center text-[#F97316] font-semibold">
                     <Package className="w-[1.25rem] h-[1.25rem] mr-[0.5rem]" />
@@ -233,6 +215,27 @@ const renderStep1 = () => (
               </div>
             </CardContent>
           </Card>
+        </div>
+      ) : selectedGroceryItem && (
+        <div className="space-y-[1.5rem]">
+          {/* Kit Overview Card */}
+          <Card className="mb-[1.5rem]">
+            <CardContent className="p-[1.5rem]">
+              <div className="flex flex-col md:flex-row items-start space-y-[1rem] md:space-y-0 md:space-x-[1.5rem]">
+                <img src={selectedGroceryItem.image} alt={selectedGroceryItem.name} className="w-full md:w-[8rem] h-[8rem] object-cover rounded-[0.5rem]" />
+                <div className="flex-1">
+                  <h3 className="text-[1.5rem] font-semibold mb-[0.5rem]">{selectedGroceryItem.name}</h3>
+                  <p className="text-[#4B5563] mb-[0.75rem] dark:text-[#9CA3AF]">{selectedGroceryItem.description}</p>
+                  <p className="text-[#4B5563] mb-[0.75rem] dark:text-[#9CA3AF]">Serves: {selectedGroceryItem.serves}</p>
+                  <div className="flex items-center text-[#F97316] font-semibold">
+                    <Package className="w-[1.25rem] h-[1.25rem] mr-[0.5rem]" />
+                    Suggested: ₹{selectedGroceryItem.price.toLocaleString()}
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
         </div>
       )
     )}
@@ -342,12 +345,14 @@ const renderStep3 = () => (
         {isCartMode ? (
           selectedCartItems.map((item: any) => (
             <div key={item.id} className="flex justify-between">
-              <span className="font-medium">{item.title} × {item.quantity}:</span>
+              <span className="font-medium">{item.name} × {item.quantity}:</span>
               <span>₹{(item.price * item.quantity).toLocaleString()}</span>
             </div>
           ))
         ) : (
-          selectedKit && <p><span className="font-medium">Kit:</span> {selectedKit.title}</p>
+          selectedKit ? (
+          <p><span className="font-medium">Kit:</span> {selectedKit.name}</p>
+          ) : selectedGroceryItem && (<p><span className="font-medium">Grocery Item:</span> {selectedGroceryItem.name}</p>)
         )}
         <div className="border-t pt-[0.5rem] mt-[0.5rem]">
           <div className="flex justify-between font-bold text-[1.125rem]">
@@ -383,7 +388,7 @@ const renderStep3 = () => (
   </div>
 )
 
-if (!isCartMode && !selectedKit) {
+if (!isCartMode && !selectedKit && !selectedGroceryItem) {
   return (
     <div className="min-h-screen bg-[#F9FAFB] flex items-center justify-center dark:bg-[#1F2937]">
       <Card className="p-[2rem] text-center">

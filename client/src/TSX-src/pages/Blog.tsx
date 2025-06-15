@@ -1,40 +1,34 @@
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
-import { Calendar, User, ArrowRight } from 'lucide-react';
+import { Calendar, User, ArrowRight, ArrowLeft } from 'lucide-react';
+import { useBlogs } from '../../contexts/BlogContext';
+import ViewBlog from './ViewBlog';
+import Loader from '../../components/common/Loader';
 
 const Blog = () => {
-  const blogPosts = [
-    {
-      id: 1,
-      title: 'The Impact of Your Donations: Stories from the Field',
-      excerpt: 'Discover how your contributions are making a real difference in communities across India.',
-      author: 'Hare Krishna Vidya Team',
-      date: '2024-05-20',
-      image: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-      category: 'Impact Stories'
-    },
-    {
-      id: 2,
-      title: 'Sustainable Food Distribution: Our Approach',
-      excerpt: 'Learn about our sustainable methods for ensuring food reaches those who need it most.',
-      author: 'Dr. Radha Sharma',
-      date: '2024-05-15',
-      image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-      category: 'Methodology'
-    },
-    {
-      id: 3,
-      title: 'Building Community Through Nutrition Programs',
-      excerpt: 'How our nutrition programs are strengthening communities and creating lasting change.',
-      author: 'Krishna Das',
-      date: '2024-05-10',
-      image: 'https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-      category: 'Community'
-    }
-  ];
+  const { blogs, fetchPublishedBlogs, loading, getBlogById } = useBlogs();
+  const [selectedBlogId, setSelectedBlogId] = useState(null);
 
+  useEffect(() => {
+    if (!blogs.length) {
+      fetchPublishedBlogs();
+    }
+  }, [blogs, fetchPublishedBlogs]);
+
+  const selectedBlog = selectedBlogId ? getBlogById(selectedBlogId) : null;
+
+  if (loading) {
+    return (
+      <Loader/>
+    );
+  }
+
+  // Individual Blog Post View
+  if (selectedBlog) 
+    return <ViewBlog selectedBlog={selectedBlog} setSelectedBlogId={setSelectedBlogId} />
+
+  // Blog List View
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-6 py-20">
@@ -48,8 +42,8 @@ const Blog = () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {blogPosts.map((post) => (
-            <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+          {blogs.map((post) => (
+            <Card key={post._id} className="overflow-hidden hover:shadow-lg transition-shadow flex flex-col min-h-[450px]">
               <div className="aspect-video overflow-hidden">
                 <img
                   src={post.image}
@@ -57,32 +51,46 @@ const Blog = () => {
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                 />
               </div>
-              <CardHeader>
+              <CardHeader className="flex-0">
                 <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
                   <span className="bg-orange-100 text-orange-600 px-2 py-1 rounded-full text-xs">
-                    {post.category}
+                    {post.category.slice(0, 30)}
+                    {post.category.length > 30 && <span>...</span>}
                   </span>
                 </div>
-                <CardTitle className="text-xl hover:text-orange-600 transition-colors cursor-pointer">
-                  {post.title}
+                <CardTitle className="text-xl hover:text-orange-600 transition-colors cursor-pointer line-clamp-2">
+                  {post.title.slice(0, 55)}
+                  {post.title.length > 55 && <span>...</span>}
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 mb-4">{post.excerpt}</p>
-                <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                  <div className="flex items-center gap-1">
-                    <User className="w-4 h-4" />
-                    <span>{post.author}</span>
+              <CardContent className="flex-1 flex flex-col justify-between">
+                <p className="text-gray-600 mb-4 line-clamp-3">
+                  {post.excerpt.slice(0, 100)}
+                  {post.excerpt.length > 100 && <span>...</span>}
+                </p>
+                <div>
+                  <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+                    <div className="flex items-center gap-1">
+                      <User className="w-4 h-4" />
+                      <span>
+                        {post.author.slice(0, 30)}
+                        {post.author.length > 30 && <span>...</span>}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Calendar className="w-4 h-4" />
+                      <span>{new Date(post.date).toLocaleDateString()}</span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <Calendar className="w-4 h-4" />
-                    <span>{new Date(post.date).toLocaleDateString()}</span>
-                  </div>
+                  <Button
+                    variant="outline"
+                    className="w-full group"
+                    onClick={() => setSelectedBlogId(post._id)}
+                  >
+                    Read More
+                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </Button>
                 </div>
-                <Button variant="outline" className="w-full group">
-                  Read More
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Button>
               </CardContent>
             </Card>
           ))}

@@ -26,6 +26,7 @@ const MediumStyleEditor: React.FC<MediumStyleEditorProps> = ({
   const [toolbarPosition, setToolbarPosition] = useState({ top: 0, left: 0 });
   const [showSideToolbar, setShowSideToolbar] = useState(false);
   const [sideToolbarTop, setSideToolbarTop] = useState(0);
+  const [activeFormats, setActiveFormats] = useState<string[]>([]);
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const [currentLine, setCurrentLine] = useState(0);
 
@@ -34,6 +35,28 @@ const MediumStyleEditor: React.FC<MediumStyleEditorProps> = ({
     if (file) {
       onImageUpload(file);
     }
+  };
+
+  const detectActiveFormats = () => {
+    if (!contentRef.current) return;
+
+    const textarea = contentRef.current;
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const selectedText = content.substring(start, end);
+
+    const formats: string[] = [];
+    if (selectedText.match(/\*\*[^\*]+\*\*/)) formats.push('bold');
+    if (selectedText.match(/\*[^\*]+\*/)) formats.push('italic');
+    if (selectedText.match(/\[.*\]\(url\)/)) formats.push('link');
+    if (selectedText.match(/^> /m)) formats.push('quote');
+    if (selectedText.match(/^(-|\*|\+) /m)) formats.push('list');
+    if (selectedText.match(/^\d+\. /m)) formats.push('ordered-list');
+    if (content.substring(0, start).match(/^(# )[^#]/m)) formats.push('h1');
+    if (content.substring(0, start).match(/^(## )[^#]/m)) formats.push('h2');
+    if (content.substring(0, start).match(/^(### )[^#]/m)) formats.push('h3');
+
+    setActiveFormats(formats);
   };
 
   const formatText = (format: string) => {
@@ -89,6 +112,9 @@ const MediumStyleEditor: React.FC<MediumStyleEditorProps> = ({
 
     const newContent = content.substring(0, start) + formattedText + content.substring(end);
     onContentChange(newContent);
+    
+    // Update active formats
+    detectActiveFormats();
     
     // Hide floating toolbar after formatting
     setShowFloatingToolbar(false);
@@ -149,6 +175,7 @@ const MediumStyleEditor: React.FC<MediumStyleEditorProps> = ({
         left: rect.left + (lines[currentLineIndex].length * 8) // Approximate character width
       });
       setShowFloatingToolbar(true);
+      detectActiveFormats();
     } else {
       setShowFloatingToolbar(false);
     }
@@ -174,11 +201,11 @@ const MediumStyleEditor: React.FC<MediumStyleEditorProps> = ({
   };
 
   return (
-    <div className="max-w-4xl mx-auto bg-white relative">
+    <div className="max-w-4xl mx-auto bg-white relative shadow-lg rounded-xl p-6 border border-gray-200">
       {/* Floating Selection Toolbar */}
       {showFloatingToolbar && (
         <div 
-          className="fixed bg-gray-900 text-white px-3 py-2 rounded-lg shadow-xl z-50 flex gap-1"
+          className="fixed bg-gray-800 text-white px-4 py-2 rounded-full shadow-xl z-50 flex gap-2 border border-gray-700"
           style={{ 
             top: `${toolbarPosition.top}px`, 
             left: `${toolbarPosition.left}px`,
@@ -189,7 +216,7 @@ const MediumStyleEditor: React.FC<MediumStyleEditorProps> = ({
             size="sm"
             variant="ghost"
             onClick={() => formatText('bold')}
-            className="text-white hover:bg-gray-700 h-8 w-8 p-0"
+            className={`text-white hover:bg-gray-700 h-8 w-8 p-0 ${activeFormats.includes('bold') ? 'bg-orange-500 hover:bg-orange-600' : ''}`}
             title="Bold"
           >
             <Bold className="w-4 h-4" />
@@ -198,7 +225,7 @@ const MediumStyleEditor: React.FC<MediumStyleEditorProps> = ({
             size="sm"
             variant="ghost"
             onClick={() => formatText('italic')}
-            className="text-white hover:bg-gray-700 h-8 w-8 p-0"
+            className={`text-white hover:bg-gray-700 h-8 w-8 p-0 ${activeFormats.includes('italic') ? 'bg-orange-500 hover:bg-orange-600' : ''}`}
             title="Italic"
           >
             <Italic className="w-4 h-4" />
@@ -207,7 +234,7 @@ const MediumStyleEditor: React.FC<MediumStyleEditorProps> = ({
             size="sm"
             variant="ghost"
             onClick={() => formatText('link')}
-            className="text-white hover:bg-gray-700 h-8 w-8 p-0"
+            className={`text-white hover:bg-gray-700 h-8 w-8 p-0 ${activeFormats.includes('link') ? 'bg-orange-500 hover:bg-orange-600' : ''}`}
             title="Link"
           >
             <Link className="w-4 h-4" />
@@ -216,7 +243,7 @@ const MediumStyleEditor: React.FC<MediumStyleEditorProps> = ({
             size="sm"
             variant="ghost"
             onClick={() => formatText('quote')}
-            className="text-white hover:bg-gray-700 h-8 w-8 p-0"
+            className={`text-white hover:bg-gray-700 h-8 w-8 p-0 ${activeFormats.includes('quote') ? 'bg-orange-500 hover:bg-orange-600' : ''}`}
             title="Quote"
           >
             <Quote className="w-4 h-4" />
@@ -237,41 +264,41 @@ const MediumStyleEditor: React.FC<MediumStyleEditorProps> = ({
             <Button
               size="sm"
               variant="outline"
-              className="w-8 h-8 p-0 hover:bg-green-50"
+              className="w-8 h-8 p-0 hover:bg-green-100"
               onClick={() => document.getElementById('image-upload')?.click()}
               title="Add Image"
             >
-              <Image className="w-4 h-4" />
+              <Image className="w-4 h-4 text-green-600" />
             </Button>
             
             <Button
               size="sm"
               variant="outline"
-              className="w-8 h-8 p-0 hover:bg-blue-50"
+              className="w-8 h-8 p-0 hover:bg-blue-100"
               onClick={() => insertElement('divider')}
               title="Add Divider"
             >
-              <Minus className="w-4 h-4" />
+              <Minus className="w-4 h-4 text-blue-600" />
             </Button>
             
             <Button
               size="sm"
               variant="outline"
-              className="w-8 h-8 p-0 hover:bg-purple-50"
+              className="w-8 h-8 p-0 hover:bg-purple-100"
               onClick={() => formatText('list')}
               title="Bullet List"
             >
-              <List className="w-4 h-4" />
+              <List className="w-4 h-4 text-purple-600" />
             </Button>
             
             <Button
               size="sm"
               variant="outline"
-              className="w-8 h-8 p-0 hover:bg-orange-50"
+              className="w-8 h-8 p-0 hover:bg-orange-100"
               onClick={() => formatText('ordered-list')}
               title="Numbered List"
             >
-              <ListOrdered className="w-4 h-4" />
+              <ListOrdered className="w-4 h-4 text-orange-600" />
             </Button>
           </div>
         </div>
@@ -292,7 +319,7 @@ const MediumStyleEditor: React.FC<MediumStyleEditorProps> = ({
           value={title}
           onChange={(e) => onTitleChange(e.target.value)}
           placeholder="Title"
-          className="w-full text-5xl font-bold border-none outline-none text-gray-900 placeholder-gray-400 leading-tight tracking-tight"
+          className="w-full text-5xl font-bold border-none outline-none text-gray-900 placeholder-gray-400 leading-tight tracking-tight focus:ring-0"
           style={{ 
             fontFamily: '"Georgia", "Times New Roman", serif',
             fontWeight: '700'
@@ -307,7 +334,7 @@ const MediumStyleEditor: React.FC<MediumStyleEditorProps> = ({
           value={excerpt}
           onChange={(e) => onExcerptChange(e.target.value)}
           placeholder="Tell your story..."
-          className="w-full text-2xl text-gray-600 border-none outline-none placeholder-gray-400 leading-relaxed font-light"
+          className="w-full text-2xl text-gray-600 border-none outline-none placeholder-gray-400 leading-relaxed font-light focus:ring-0"
           style={{ 
             fontFamily: '"Georgia", "Times New Roman", serif'
           }}
@@ -324,7 +351,7 @@ const MediumStyleEditor: React.FC<MediumStyleEditorProps> = ({
           onSelect={handleTextSelection}
           onMouseMove={handleMouseMove}
           placeholder="Write your story..."
-          className="w-full min-h-[600px] text-xl leading-relaxed border-none outline-none resize-none text-gray-800 placeholder-gray-400 font-light tracking-wide"
+          className="w-full min-h-[400px] text-xl leading-relaxed border border-gray-200 rounded-lg p-4 outline-none resize-none text-gray-800 placeholder-gray-400 font-light tracking-wide focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
           style={{ 
             fontFamily: '"Georgia", "Times New Roman", serif',
             lineHeight: '2',
@@ -342,7 +369,7 @@ const MediumStyleEditor: React.FC<MediumStyleEditorProps> = ({
               size="sm"
               variant="outline"
               onClick={() => formatText('h1')}
-              className="text-sm font-semibold hover:bg-gray-50"
+              className={`text-sm font-semibold hover:bg-gray-50 ${activeFormats.includes('h1') ? 'bg-orange-100 text-orange-600' : ''}`}
             >
               H1
             </Button>
@@ -350,7 +377,7 @@ const MediumStyleEditor: React.FC<MediumStyleEditorProps> = ({
               size="sm"
               variant="outline"
               onClick={() => formatText('h2')}
-              className="text-sm font-semibold hover:bg-gray-50"
+              className={`text-sm font-semibold hover:bg-gray-50 ${activeFormats.includes('h2') ? 'bg-orange-100 text-orange-600' : ''}`}
             >
               H2
             </Button>
@@ -358,7 +385,7 @@ const MediumStyleEditor: React.FC<MediumStyleEditorProps> = ({
               size="sm"
               variant="outline"
               onClick={() => formatText('h3')}
-              className="text-sm font-semibold hover:bg-gray-50"
+              className={`text-sm font-semibold hover:bg-gray-50 ${activeFormats.includes('h3') ? 'bg-orange-100 text-orange-600' : ''}`}
             >
               H3
             </Button>
@@ -370,7 +397,7 @@ const MediumStyleEditor: React.FC<MediumStyleEditorProps> = ({
               size="sm"
               variant="outline"
               onClick={() => formatText('bold')}
-              className="hover:bg-gray-50"
+              className={`hover:bg-gray-50 ${activeFormats.includes('bold') ? 'bg-orange-100 text-orange-600' : ''}`}
               title="Bold"
             >
               <Bold className="w-4 h-4" />
@@ -379,7 +406,7 @@ const MediumStyleEditor: React.FC<MediumStyleEditorProps> = ({
               size="sm"
               variant="outline"
               onClick={() => formatText('italic')}
-              className="hover:bg-gray-50"
+              className={`hover:bg-gray-50 ${activeFormats.includes('italic') ? 'bg-orange-100 text-orange-600' : ''}`}
               title="Italic"
             >
               <Italic className="w-4 h-4" />
@@ -388,7 +415,7 @@ const MediumStyleEditor: React.FC<MediumStyleEditorProps> = ({
               size="sm"
               variant="outline"
               onClick={() => formatText('quote')}
-              className="hover:bg-gray-50"
+              className={`hover:bg-gray-50 ${activeFormats.includes('quote') ? 'bg-orange-100 text-orange-600' : ''}`}
               title="Quote"
             >
               <Quote className="w-4 h-4" />
@@ -401,7 +428,7 @@ const MediumStyleEditor: React.FC<MediumStyleEditorProps> = ({
               size="sm"
               variant="outline"
               onClick={() => formatText('list')}
-              className="hover:bg-gray-50"
+              className={`hover:bg-gray-50 ${activeFormats.includes('list') ? 'bg-orange-100 text-orange-600' : ''}`}
               title="Bullet List"
             >
               <List className="w-4 h-4" />
@@ -410,7 +437,7 @@ const MediumStyleEditor: React.FC<MediumStyleEditorProps> = ({
               size="sm"
               variant="outline"
               onClick={() => formatText('ordered-list')}
-              className="hover:bg-gray-50"
+              className={`hover:bg-gray-50 ${activeFormats.includes('ordered-list') ? 'bg-orange-100 text-orange-600' : ''}`}
               title="Numbered List"
             >
               <ListOrdered className="w-4 h-4" />

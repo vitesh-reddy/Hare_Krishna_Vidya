@@ -34,9 +34,9 @@ const Header = () => {
               { path: '/admin', label: 'Admin' }, 
               { path: '/blog', label: 'Blogs' }, 
               { path: '/contact', label: 'Contact Us' },
-            ].map((item) => (
+            ].map((item, idx) => (
               <Link
-                key={item.path}
+                key={idx}
                 to={item.path}
                 className={`font-medium font-inter text-[0.9rem] transition-colors ${
                   isActive(item.path)

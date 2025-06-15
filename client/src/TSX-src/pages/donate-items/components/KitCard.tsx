@@ -8,8 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 
 interface Kit {
-  id: string;
-  title: string;
+  _id: string;
+  name: string;
   description: string;
   price: number;
   image: string;
@@ -28,18 +28,18 @@ const KitCard: React.FC<KitCardProps> = ({ kit }) => {
 
   const handleAddToCart = () => {
       addToCart({
-        id: kit.id,
-        title: kit.title,
+        id: kit._id,
+        name: kit.name,
         price: kit.price,
         image: kit.image,
         items: kit.items,
         description: kit.description
       }, quantity);
-    console.log(`Added ${quantity} ${kit.title}(s) to cart`);  
+    console.log(`Added ${quantity} ${kit.name}(s) to cart`);  
   };
 
   const handleViewDetails = () => {
-    navigate(`/donate?kit=${kit.id}`);
+    navigate(`/donate?kit=${kit._id}`);
   };
 
   const incrementQuantity = () => {
@@ -55,7 +55,7 @@ const KitCard: React.FC<KitCardProps> = ({ kit }) => {
       <div className="relative overflow-hidden">
         <img 
           src={kit.image} 
-          alt={kit.title}
+          alt={kit.name}
           className="w-full h-[16rem] object-cover group-hover:scale-105 transition-transform duration-300"
         />
         <div className="absolute top-[1rem] right-[1rem] bg-[#F97316] text-[#FFFFFF] px-[0.75rem] py-[0.25rem] rounded-full text-[0.875rem] font-semibold dark:bg-[#FDBA74]">
@@ -64,7 +64,7 @@ const KitCard: React.FC<KitCardProps> = ({ kit }) => {
       </div>
       
       <CardContent className="p-[1.5rem]">
-        <h3 className="text-[1.5rem] font-bold text-[#1F2937] mb-[0.75rem] dark:text-[#F5F7FD]">{kit.title}</h3>
+        <h3 className="text-[1.5rem] font-bold text-[#1F2937] mb-[0.75rem] dark:text-[#F5F7FD]">{kit.name}</h3>
         <p className="text-[#4B5563] mb-[1rem] leading-relaxed dark:text-[#9CA3AF]">{kit.description}</p>
         
         <div className="mb-[1.5rem]">
