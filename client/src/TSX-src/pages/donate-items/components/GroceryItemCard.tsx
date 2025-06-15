@@ -33,7 +33,8 @@ const GroceryItemCard: React.FC<GroceryItemCardProps> = ({ item }) => {
         price: item.price,
         image: item.image,
         items: [item.serves],
-        description: item.description
+        description: item.description,
+        type: 'GroceryItem'
       }, quantity);
     
     console.log(`Added ${quantity} ${item.name}(s) to cart`);  

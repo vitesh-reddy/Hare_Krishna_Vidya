@@ -7,7 +7,7 @@ import { Label } from '../components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { ArrowLeft, CreditCard, User, Mail, Phone, Package, Home, ShoppingCart } from 'lucide-react';
 import { useData } from '../../contexts/DataContext';
-import { initiateRazorpayPayment } from '../../PaymentService.jsx'; // Updated extension
+import { initiateRazorpayPayment } from '../../PaymentService.jsx';
 import { toast } from 'react-hot-toast';
 
 const DonationFlow = () => {
@@ -28,7 +28,7 @@ const DonationFlow = () => {
       city: '',
       state: '',
       pincode: '',
-      panCard: ''
+      // Removed panCard as it's not used in the UI or backend
     };
     return storedData;
   });
@@ -44,11 +44,16 @@ const DonationFlow = () => {
     : selectedKit?.price || selectedGroceryItem?.price || 0;
 
   const handleInputChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
-    localStorage.setItem('donorData', JSON.stringify(formData));
+    const { name, value } = e.target;
+    setFormData((prev) => {
+      const updatedFormData = {
+        ...prev,
+        [name]: value,
+      };
+      // Update localStorage with the latest state
+      localStorage.setItem('donorData', JSON.stringify(updatedFormData));
+      return updatedFormData;
+    });
   };
 
   const handleContinue = async () => {
@@ -56,13 +61,14 @@ const DonationFlow = () => {
       setStep(step + 1);
     } else {
       try {
-        const response = await fetch('/api/payments/create-order', {
+        const baseUrl = import.meta.env.VITE_BACKEND_URL;
+        const response = await fetch(`${baseUrl}/api/payments/create-order`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            amount: totalAmount * 100,
+            amount: totalAmount * 100, // Convert to paise
             currency: 'INR',
             donationType: 'items',
           }),
@@ -83,16 +89,16 @@ const DonationFlow = () => {
           },
           async (paymentResponse) => {
             const items = isCartMode
-              ? selectedCartItems.map((item) => ({
+              ? selectedCartItems.map((item) => { console.log(item.type); return ({
                   itemId: item.id,
-                  itemType: item.type === 'kit' ? 'Kit' : 'GroceryItem',
+                  itemType: item.type,
                   itemName: item.name,
                   quantity: item.quantity,
                   price: item.price,
-                }))
+                })})
               : [
                   {
-                    itemId: selectedKit ? selectedKit.id : selectedGroceryItem.id,
+                    itemId: kitId,
                     itemType: selectedKit ? 'Kit' : 'GroceryItem',
                     itemName: selectedKit ? selectedKit.name : selectedGroceryItem.name,
                     quantity: 1,
@@ -100,7 +106,7 @@ const DonationFlow = () => {
                   },
                 ];
 
-            const verifyResponse = await fetch('/api/payments/verify-payment', {
+            const verifyResponse = await fetch(`${baseUrl}/api/payments/verify-payment`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

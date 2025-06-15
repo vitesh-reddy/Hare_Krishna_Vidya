@@ -15,6 +15,7 @@ interface CartItem {
   image: string;
   items: string[];
   description: string;
+  type: string;
 }
 
 interface CartContextType {
@@ -48,7 +49,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem('cart', JSON.stringify(cartItems));
   }, [cartItems]);
 
-  const addToCart = (kit: Omit<CartItem, 'quantity'>, quantity: number) => {
+  const addToCart = (kit: Omit<CartItem, 'quantity'>, quantity: number, itemType: string = null) => {
     setCartItems(prev => {
       const existingItem = prev.find(item => item.id === kit.id);
       if (existingItem) {

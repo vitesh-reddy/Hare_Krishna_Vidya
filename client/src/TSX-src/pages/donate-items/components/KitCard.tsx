@@ -33,7 +33,8 @@ const KitCard: React.FC<KitCardProps> = ({ kit }) => {
         price: kit.price,
         image: kit.image,
         items: kit.items,
-        description: kit.description
+        description: kit.description,
+        type: 'Kit'
       }, quantity);
     console.log(`Added ${quantity} ${kit.name}(s) to cart`);  
   };

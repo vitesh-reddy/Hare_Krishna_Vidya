@@ -22,8 +22,8 @@ const DonationSuccess = () => {
 
   const handleShare = () => {
     const shareText = donationType
-      ? `I donated ₹${amount?.toLocaleString()} for ${donationType} to Hare Krishna Vidya! Join me in making a difference.`
-      : `I donated ₹${amount?.toLocaleString()} for ${kit?.name || cartItems?.map(item => item.name).join(', ')} to Hare Krishna Vidya! Join me in making a difference.`;
+      ? `I donated ₹${(amount || 0).toLocaleString()} for ${donationType} to Hare Krishna Vidya! Join me in making a difference.`
+      : `I donated ₹${(amount || 0).toLocaleString()} for ${kit?.name || cartItems?.map(item => item.name).join(', ')} to Hare Krishna Vidya! Join me in making a difference.`;
 
     if (navigator.share) {
       navigator.share({
@@ -67,21 +67,21 @@ const DonationSuccess = () => {
 
         <Card className="p-[2rem] text-center">
           <div className="mb-[2rem]">
-            <div className="w-[6rem] h-[6rem] bg-[#16A34A] rounded-full flex items-center justify-center mx-auto mb-[1.5rem]">
-              <Check className="w-[3rem] h-[3rem] text-[#FFFFFF]" />
+            <div className="w-[4rem] h-[4rem] bg-[#16A34A] rounded-full flex items-center justify-center mx-auto mb-[1.5rem]">
+              <Check className="w-[2.5rem] h-[2.5rem] text-[#FFFFFF]" />
             </div>
-            <h1 className="text-[1.875rem] font-bold text-[#1F2937] mb-[1rem] dark:text-[#F5F7FD]">
+            <h1 className="text-[1.5rem] font-bold text-[#1F2937] mb-[0.25rem] dark:text-[#F5F7FD]">
               Thank You for Your Donation!
             </h1>
-            <p className="text-[1.25rem] text-[#4B5563] dark:text-[#9CA3AF]">
+            <p className="text-[1rem] text-[#4B5563] dark:text-[#9CA3AF]">
               Your generosity will make a real difference in someone's life.
             </p>
           </div>
 
           <Card className="mb-[2rem] bg-[#FFF7ED] border-[#FED7AA] dark:bg-[#7C2D12] dark:border-[#EA580C]">
             <CardContent className="p-[1.5rem]">
-              <h2 className="text-[1.25rem] font-semibold mb-[1rem]">Donation Details</h2>
-              <div className="space-y-[0.5rem] text-left max-w-[28rem] mx-auto">
+              <h2 className="text-[1.125rem] font-semibold mb-[1rem]">Donation Details</h2>
+              <div className="space-y-[0.5rem] text-left text-[0.8rem] max-w-[28rem] mx-auto">
                 {donationType ? (
                   <div className="flex justify-between">
                     <span className="font-medium">Donation Type:</span>
@@ -90,19 +90,19 @@ const DonationSuccess = () => {
                 ) : cartItems ? (
                   cartItems.map((item, index) => (
                     <div key={index} className="flex justify-between">
-                      <span className="font-medium">{item.type === 'kit' ? 'Kit' : 'Grocery Item'}:</span>
+                      <span className="font-medium">{item.type === 'Kit' ? 'Kit' : 'Grocery Item'}:</span>
                       <span>{item.name} (x{item.quantity})</span>
                     </div>
                   ))
                 ) : (
                   <div className="flex justify-between">
-                    <span className="font-medium">{kit?.type === 'kit' ? 'Kit' : 'Grocery Item'}:</span>
+                    <span className="font-medium">{kit?.type === 'Kit' ? 'Kit' : 'Grocery Item'}:</span>
                     <span>{kit?.name}</span>
                   </div>
                 )}
                 <div className="flex justify-between">
                   <span className="font-medium">Amount:</span>
-                  <span>₹{amount?.toLocaleString()}</span>
+                  <span>₹{(amount || 0).toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="font-medium">Donor:</span>
@@ -110,7 +110,7 @@ const DonationSuccess = () => {
                 </div>
                 <div className="flex justify-between">
                   <span className="font-medium">Transaction ID:</span>
-                  <span className="text-[0.875rem]">{paymentId || `TXN${Date.now()}`}</span>
+                  <span className="text-[0.875rem]">{paymentId}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="font-medium">Date:</span>

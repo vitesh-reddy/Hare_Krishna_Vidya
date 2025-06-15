@@ -15,6 +15,7 @@ router.post('/create-order', async (req, res) => {
     const order = await createOrder(amount, currency, donationType);
     res.status(200).json({ orderId: order.orderId });
   } catch (error) {
+    console.error('Error creating order:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -23,6 +24,11 @@ router.post('/create-order', async (req, res) => {
 router.post('/verify-payment', async (req, res) => {
   try {
     const { orderId, paymentId, signature, donationData } = req.body;
+
+    // Validate required fields
+    if (!orderId || !paymentId || !signature || !donationData) {
+      return res.status(400).json({ error: 'Order ID, payment ID, signature, and donation data are required' });
+    }
 
     // Verify the payment signature
     const isValidSignature = verifyPaymentSignature(orderId, paymentId, signature);
@@ -35,6 +41,7 @@ router.post('/verify-payment', async (req, res) => {
 
     res.status(200).json({ message: 'Payment verified and donation saved successfully' });
   } catch (error) {
+    console.error('Error verifying payment:', error);
     res.status(500).json({ error: error.message });
   }
 });

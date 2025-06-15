@@ -1,4 +1,6 @@
 const initiateRazorpayPayment = async (orderData, onSuccess, onError) => {
+  // Actual Razorpay Logic (Commented out for testing)
+  /*
   // Load Razorpay script dynamically
   const script = document.createElement('script');
   script.src = 'https://checkout.razorpay.com/v1/checkout.js';
@@ -8,7 +10,7 @@ const initiateRazorpayPayment = async (orderData, onSuccess, onError) => {
       key: process.env.REACT_APP_RAZORPAY_KEY_ID, // Razorpay key_id (store in .env)
       amount: orderData.amount, // Amount in paise
       currency: 'INR',
-      name: 'Your Charity Name',
+      name: 'Hare Krishna Vidya',
       description: 'Donation Payment',
       order_id: orderData.orderId, // Razorpay order ID from backend
       handler: (response) => {
@@ -21,7 +23,7 @@ const initiateRazorpayPayment = async (orderData, onSuccess, onError) => {
         contact: orderData.phone,
       },
       theme: {
-        color: '#F97316', // Customize to match your theme
+        color: '#F97316', // Match your theme
       },
       modal: {
         ondismiss: () => {
@@ -40,6 +42,18 @@ const initiateRazorpayPayment = async (orderData, onSuccess, onError) => {
     onError('Failed to load Razorpay SDK');
   };
   document.body.appendChild(script);
+  */
+
+  // Mock Logic: Simulate a successful Razorpay payment
+  setTimeout(() => {
+    const mockResponse = {
+      razorpay_payment_id: `pay_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+      razorpay_order_id: orderData.orderId,
+      razorpay_signature: 'mock-signature', // Not used in mock verification
+    };
+    console.log('Mock Razorpay Payment Successful:', mockResponse);
+    onSuccess(mockResponse); // Call the success callback with mock response
+  }, 1000); // Simulate a 1-second delay for payment processing
 };
 
 export { initiateRazorpayPayment };

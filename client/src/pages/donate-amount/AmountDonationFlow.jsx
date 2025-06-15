@@ -5,8 +5,8 @@ import { Input } from '../../TSX-src/components/ui/input';
 import { Label } from '../../TSX-src/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '../../TSX-src/components/ui/card';
 import { ArrowLeft, CreditCard, Home, User, Mail, Phone, Heart } from 'lucide-react';
-import { initiateRazorpayPayment } from '../../PaymentService.jsx'; // Updated extension
-import { toast } from 'react-hot-toast';
+import { initiateRazorpayPayment } from '../../PaymentService.jsx';
+import { toast, ToastBar } from 'react-hot-toast';
 
 const AmountDonationFlow = () => {
   const [searchParams] = useSearchParams();
@@ -27,7 +27,7 @@ const AmountDonationFlow = () => {
       city: '',
       state: '',
       pincode: '',
-      panCard: ''
+      // Removed panCard as it's not used in the UI or backend
     };
     return storedData;
   });
@@ -78,11 +78,16 @@ const AmountDonationFlow = () => {
   };
 
   const handleInputChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
-    localStorage.setItem('donorData', JSON.stringify(formData));
+    const { name, value } = e.target;
+    setFormData((prev) => {
+      const updatedFormData = {
+        ...prev,
+        [name]: value,
+      };
+      // Update localStorage with the latest state
+      localStorage.setItem('donorData', JSON.stringify(updatedFormData));
+      return updatedFormData;
+    });
   };
 
   const handleAmountChange = (e) => {
@@ -97,19 +102,36 @@ const AmountDonationFlow = () => {
       setStep(step + 1);
     } else {
       try {
-        const response = await fetch('/api/payments/create-order', {
+        const baseUrl = import.meta.env.VITE_BACKEND_URL;
+        const response = await fetch(`${baseUrl}/api/payments/create-order`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            amount: amount * 100,
+            amount: amount * 100, // Convert to paise
             currency: 'INR',
             donationType: 'amount',
           }),
         });
 
-        const orderData = await response.json();
+        // Debug: Log the response status and headers
+        console.log('Create Order Response Status:', response.status);
+        console.log('Create Order Response Headers:', response.headers);
+
+        // Debug: Log the raw response body
+        const responseText = await response.text();
+        console.log('Create Order Response Body:', responseText);
+
+        // Parse the response body as JSON
+        let orderData;
+        try {
+          orderData = JSON.parse(responseText);
+        } catch (parseError) {
+          console.error('JSON Parse Error:', parseError);
+          throw new Error('Failed to parse create-order response: ' + parseError.message);
+        }
+
         if (!response.ok) {
           throw new Error(orderData.error || 'Failed to create payment order');
         }
@@ -123,7 +145,7 @@ const AmountDonationFlow = () => {
             phone: formData.phone,
           },
           async (paymentResponse) => {
-            const verifyResponse = await fetch('/api/payments/verify-payment', {
+            const verifyResponse = await fetch(`${baseUrl}/api/payments/verify-payment`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -155,7 +177,19 @@ const AmountDonationFlow = () => {
               }),
             });
 
-            const verifyResult = await verifyResponse.json();
+            // Debug: Log the verify response
+            console.log('Verify Payment Response Status:', verifyResponse.status);
+            const verifyResponseText = await verifyResponse.text();
+            console.log('Verify Payment Response Body:', verifyResponseText);
+
+            let verifyResult;
+            try {
+              verifyResult = JSON.parse(verifyResponseText);
+            } catch (parseError) {
+              console.error('JSON Parse Error (Verify):', parseError);
+              throw new Error('Failed to parse verify-payment response: ' + parseError.message);
+            }
+
             if (!verifyResponse.ok) {
               throw new Error(verifyResult.error || 'Payment verification failed');
             }
@@ -177,6 +211,7 @@ const AmountDonationFlow = () => {
           }
         );
       } catch (error) {
+        console.error('HandleContinue Error:', error);
         setPaymentError(error.message);
         toast.error(error.message || 'An error occurred during payment.');
       }
