@@ -27,6 +27,7 @@ import PrivacyPolicyPage from "./pages/privacy-policy";
 import RefundPolicyPage from "./pages/refund-policy";
 import OurAssociatedTrustsPage from "./pages/our-associated-trusts";
 import GovernancePage from "./pages/governance";
+import CreateCampaign from "./pages/campaign";
 
 // TSX Pages
 import DonateItemsPage from "./TSX-src/pages/donate-items/Index";
@@ -76,6 +77,8 @@ const AnimatedRoutes = () => {
           {/* Routes with Header and Footer */}
           <Route path="/" element={<MainLayout><HomePage /></MainLayout>} />
           <Route path="/about-us" element={<MainLayout><AboutUsPage /></MainLayout>} />
+          <Route path="/CreateCampaign" element={<CreateCampaign />} />
+          
           <Route path="/hare-krishna-vidya-charity-and-education-foundation" element={<MainLayout><HareKrishnaVidyaPage /></MainLayout>} />
           <Route path="/our-initiative" element={<MainLayout><OurInitiativePage /></MainLayout>} />
           <Route path="/gallery" element={<MainLayout><GalleryPage /></MainLayout>} />

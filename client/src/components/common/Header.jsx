@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import CartButton from '../../TSX-src/components/CartButton';
+import CreateCampaignButton from './CreateCampaignButton';
 
 const Header = () => {
   const location = useLocation();
@@ -64,6 +65,7 @@ const Header = () => {
               </div>
             </div>
           </div>
+          <CreateCampaignButton />
         </div>
 
         {/* Mobile Menu button (Hamburger) */}
