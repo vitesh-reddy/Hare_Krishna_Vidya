@@ -14,15 +14,10 @@ import Loader from '../../../../components/common/Loader';
 import imageCompression from 'browser-image-compression';
 
 const BlogManagement = () => {
-  const {
-    posts,
-    fetchBlogs,
-    createBlog,
-    updateBlog,
-    deleteBlog,
-    toggleBlogStatus,
-    loading,
-  } = useBlogsAdmin();
+    useEffect(() => {
+    console.log("Blog Management Rendered");
+  }, [])
+  const { posts, createBlog, updateBlog, deleteBlog, toggleBlogStatus, loading } = useBlogsAdmin();
 
   const [isCreating, setIsCreating] = useState(false);
   const [editingId, setEditingId] = useState(null);
@@ -38,10 +33,6 @@ const BlogManagement = () => {
     image: '',
   });
   const [imageFile, setImageFile] = useState(null);
-
-  useEffect(() => {
-    fetchBlogs();
-  }, [fetchBlogs]);
 
   const validateForm = () => {
     if (!formData.title.trim()) {

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
@@ -11,9 +11,14 @@ export const GroceryItemAdminProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
 
   const BASE_URL = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'}/api`;
+  
+  useEffect(() => {
+    fetchGroceryItems();
+  }, [BASE_URL]);
 
   // Fetch all grocery items
   const fetchGroceryItems = useCallback(async () => {
+    console.log('Groceries Fetched');
     setLoading(true);
     try {
       const response = await axios.get(`${BASE_URL}/grocery-items`);

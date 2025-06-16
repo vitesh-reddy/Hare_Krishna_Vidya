@@ -1,33 +1,39 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
 import { Book, Briefcase, Gift, Grid2X2 } from 'lucide-react';
+import { useBlogsAdmin } from '../../../../contexts/BlogAdminContext';
+import { useKitsAdmin } from '../../../../contexts/KitAdminContext';
+import { useGroceryItemsAdmin } from '../../../../contexts/GroceryItemAdminContext';
 
 const DashboardOverview = () => {
+  const { posts } = useBlogsAdmin();
+  const { kits } = useKitsAdmin();
+  const { groceryItems } = useGroceryItemsAdmin();
   const stats = [
     {
       title: 'Total Blog Posts',
-      value: '24',
+      value: posts.length,
       change: '+3 this month',
       icon: Book,
       color: 'bg-[#3B82F6]'
     },
     {
       title: 'Active Jobs',
-      value: '8',
+      value: '5',
       change: '+2 new openings',
       icon: Briefcase,
       color: 'bg-[#16A34A]'
     },
     {
       title: 'Donation Kits',
-      value: '12',
+      value: kits.length,
       change: '3 kit types',
       icon: Gift,
       color: 'bg-[#F97316]'
     },
     {
       title: 'Grocery Items',
-      value: '45',
+      value: groceryItems.length,
       change: 'Updated prices',
       icon: Grid2X2,
       color: 'bg-[#8B5CF6]'

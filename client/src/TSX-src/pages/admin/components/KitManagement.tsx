@@ -12,15 +12,11 @@ import Loader from '../../../../components/common/Loader';
 import imageCompression from 'browser-image-compression';
 
 const KitManagement = () => {
-  const {
-    kits,
-    fetchKits,
-    createKit,
-    updateKit,
-    deleteKit,
-    toggleKitActiveStatus,
-    loading,
-  } = useKitsAdmin();
+  const { kits, createKit, updateKit, deleteKit, toggleKitActiveStatus, loading } = useKitsAdmin();
+  useEffect(() => {
+    console.log("Kit Management Rendered");
+  }, [])
+  
 
   const [isCreating, setIsCreating] = useState(false);
   const [editingId, setEditingId] = useState(null);
@@ -38,10 +34,6 @@ const KitManagement = () => {
   const [imageFile, setImageFile] = useState(null);
   const [newItem, setNewItem] = useState('');
   const [editingItemIndex, setEditingItemIndex] = useState(null);
-
-  useEffect(() => {
-    fetchKits();
-  }, [fetchKits]);
 
 const handleImageUpload = async (file) => {
   if (!file || !file.type.startsWith('image/')) {

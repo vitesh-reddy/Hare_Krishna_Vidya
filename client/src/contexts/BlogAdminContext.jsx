@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
@@ -11,6 +11,10 @@ export const BlogAdminProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
 
   const BASE_URL = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'}/api`;
+
+  useEffect(() => {
+    fetchBlogs();
+  }, [BASE_URL]);
 
   // Fetch all blog posts
   const fetchBlogs = useCallback(async () => {
