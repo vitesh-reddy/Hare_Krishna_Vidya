@@ -28,6 +28,8 @@ import RefundPolicyPage from "./pages/refund-policy";
 import OurAssociatedTrustsPage from "./pages/our-associated-trusts";
 import GovernancePage from "./pages/governance";
 import CreateCampaign from "./pages/campaign";
+import FundraisingCampaigns from "./pages/advertforcampaign";
+
 
 // TSX Pages
 import DonateItemsPage from "./TSX-src/pages/donate-items/Index";
@@ -78,7 +80,7 @@ const AnimatedRoutes = () => {
           <Route path="/" element={<MainLayout><HomePage /></MainLayout>} />
           <Route path="/about-us" element={<MainLayout><AboutUsPage /></MainLayout>} />
           <Route path="/CreateCampaign" element={<CreateCampaign />} />
-          
+
           <Route path="/hare-krishna-vidya-charity-and-education-foundation" element={<MainLayout><HareKrishnaVidyaPage /></MainLayout>} />
           <Route path="/our-initiative" element={<MainLayout><OurInitiativePage /></MainLayout>} />
           <Route path="/gallery" element={<MainLayout><GalleryPage /></MainLayout>} />
@@ -91,16 +93,18 @@ const AnimatedRoutes = () => {
           <Route path="/governance" element={<MainLayout><GovernancePage /></MainLayout>} />
           <Route path="/blog" element={<MainLayout><Blog /></MainLayout>} />
           <Route path="/donate-items" element={<MainLayout><DonateItemsPage /></MainLayout>} />
-          
-          {/* Routes with only Header */}
-          <Route path="/cart" element={<HeaderOnlyLayout><Cart /></HeaderOnlyLayout>} />
+          <Route path="/advertforcampaign" element={<FundraisingCampaigns />} / >
+
+
+            {/* Routes with only Header */ }
+            < Route path="/cart" element={<HeaderOnlyLayout><Cart /></HeaderOnlyLayout>} />
           <Route path="/donate" element={<HeaderOnlyLayout><DonationFlow /></HeaderOnlyLayout>} />
           <Route path="/amount-donation-flow" element={<HeaderOnlyLayout><AmountDonationFlow /></HeaderOnlyLayout>} />
           <Route path="/donation-success" element={<HeaderOnlyLayout><DonationSuccess /></HeaderOnlyLayout>} />
           <Route path="*" element={<HeaderOnlyLayout><NotFound /></HeaderOnlyLayout>} />
-          
+
           {/* Route without any layout or contexts */}
-          <Route path="/admin" element={ <AdminDashboard />} />
+          <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
       </AnimatePresence>
     </>
@@ -115,10 +119,10 @@ const App = () => {
     return (
       <GroceryItemAdminProvider>
         <KitAdminProvider>
-        <BlogAdminProvider>
-        <Toaster/>
-        <AnimatedRoutes />
-        </BlogAdminProvider>
+          <BlogAdminProvider>
+            <Toaster />
+            <AnimatedRoutes />
+          </BlogAdminProvider>
         </KitAdminProvider>
       </GroceryItemAdminProvider>
     )

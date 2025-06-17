@@ -33,6 +33,7 @@ const Footer = () => {
                   { to: 'Privacy Policy', path: "privacy-policy"},
                   { to: 'Certificates', path: "certificates"},
                   { to: 'Careers', path: "careers"},
+                  { to: 'Campaign', path: "/advertforcampaign"},
                 ].map(({to, path}, idx) => (
                   <li key={idx} className="flex items-center mx-auto sm:mx-0">
                     <a
