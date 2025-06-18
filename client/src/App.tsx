@@ -41,6 +41,10 @@ import NotFound from "./TSX-src/pages/NotFound";
 import { GroceryItemAdminProvider } from './contexts/GroceryItemAdminContext';
 import { KitAdminProvider } from './contexts/KitAdminContext';
 import { BlogAdminProvider } from './contexts/BlogAdminContext';
+import BlogPage from './pages/blogs';
+import CareersPage from './pages/careers';
+import { CareerProvider } from './contexts/CareerContext';
+import { JobAdminProvider } from './contexts/JobContextAdmin';
 
 const queryClient = new QueryClient();
 
@@ -87,10 +91,12 @@ const AnimatedRoutes = () => {
           <Route path="/our-associated-trusts" element={<MainLayout><OurAssociatedTrustsPage /></MainLayout>} />
           <Route path="/governance" element={<MainLayout><GovernancePage /></MainLayout>} />
           <Route path="/blog" element={<MainLayout><Blog /></MainLayout>} />
+          <Route path="/blog2" element={<MainLayout><BlogPage /></MainLayout>} />
           <Route path="/donate-items" element={<MainLayout><DonateItemsPage /></MainLayout>} />
           
           {/* Routes with only Header */}
           <Route path="/cart" element={<HeaderOnlyLayout><Cart /></HeaderOnlyLayout>} />
+          <Route path="/careers" element={<HeaderOnlyLayout><CareersPage /></HeaderOnlyLayout>} />
           <Route path="/donate" element={<HeaderOnlyLayout><DonationFlow /></HeaderOnlyLayout>} />
           <Route path="/amount-donation-flow" element={<HeaderOnlyLayout><AmountDonationFlow /></HeaderOnlyLayout>} />
           <Route path="/donation-success" element={<HeaderOnlyLayout><DonationSuccess /></HeaderOnlyLayout>} />
@@ -114,7 +120,9 @@ const App = () => {
         <KitAdminProvider>
         <BlogAdminProvider>
         <Toaster/>
+        <JobAdminProvider>
         <AnimatedRoutes />
+        </JobAdminProvider>
         </BlogAdminProvider>
         </KitAdminProvider>
       </GroceryItemAdminProvider>
@@ -128,9 +136,11 @@ const App = () => {
         <CartProvider>
           <DataProvider>
             <BlogProvider>
+              <CareerProvider>              
               <Toaster />
               <Sonner />
               <AnimatedRoutes />
+              </CareerProvider>
             </BlogProvider>
           </DataProvider>
         </CartProvider>
