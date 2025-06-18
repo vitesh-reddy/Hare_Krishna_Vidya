@@ -3,12 +3,13 @@ import express from "express";
 import connectDB from "./config/db.js";
 import morgan from "morgan";
 import cors from "cors";
-import blogRoutes from "./routes/blogRoutes.js"
+import jobRoutes from "./routes/jobRoutes.js"
 import kitsRoutes from "./routes/kitsRoutes.js"
+import blogRoutes from "./routes/blogRoutes.js"
 import paymentRoutes from "./routes/paymentRoutes.js"
+import applicationRoutes from "./routes/applicationRoutes.js"
 import groceryItemRoutes from "./routes/groceryItemRoutes.js"
 import fileUpload from "express-fileupload";
-
 // console.clear();
 
 dotenv.config();
@@ -26,6 +27,14 @@ app.use(cors({
   origin: FRONTEND_URL,
 }));
 
+// app.use(cors({
+//   origin: [
+//     'http://localhost:5173', 
+//     'http://192.168.10.180:5173'
+//   ],
+//   credentials: true
+// }));
+
 app.use(morgan("tiny", {
   skip: (req) => req.url.match(/\.(css|js|png|jpg|ico|svg|woff2?)$/)
 }));
@@ -35,11 +44,16 @@ app.use(express.json());
 app.get("/", async (req, res) => {
 });
 
-app.use("/api/blogs", blogRoutes);
+app.use('/api/applications', applicationRoutes);
+app.use('/api/jobs', jobRoutes);
 app.use("/api/kits", kitsRoutes);
+app.use("/api/blogs", blogRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use("/api/grocery-items", groceryItemRoutes);
 
 app.listen(PORT, () =>
   console.log(`server is running at http://localhost:${PORT}`)
 );
+// app.listen(PORT, '0.0.0.0', () =>
+//   console.log(`server is running at http://localhost:${PORT}`)
+// );
