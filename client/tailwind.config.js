@@ -67,6 +67,8 @@ module.exports = {
         inter: ['Inter', 'sans-serif'],
         urbanist: ['Urbanist', 'sans-serif'],
         outfit: ['Outfit', 'sans-serif'],
+        playfair: ['"Playfair Display"', 'serif'],
+        yeseva: ['"Yeseva One"', 'cursive'],
       },
       boxShadow: {
         'custom-light': '6px 6px 15px rgba(185,185,185,0.9)',
