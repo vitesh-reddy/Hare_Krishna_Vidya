@@ -11,10 +11,6 @@ export const KitAdminProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
 
   const BASE_URL = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'}/api`;
-    
-  useEffect(() => {
-    fetchKits();
-  }, [BASE_URL]);
 
   // Fetch all kits
   const fetchKits = useCallback(async () => {

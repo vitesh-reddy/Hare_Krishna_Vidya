@@ -12,8 +12,10 @@ import Loader from '../../../../components/common/Loader';
 import imageCompression from 'browser-image-compression';
 
 const KitManagement = () => {
-  const { kits, createKit, updateKit, deleteKit, toggleKitActiveStatus, loading } = useKitsAdmin();
+  const { kits, createKit, updateKit, deleteKit, toggleKitActiveStatus, loading, fetchKits } = useKitsAdmin();
   useEffect(() => {
+    if(!kits.length)
+      fetchKits();    
     console.log("Kit Management Rendered");
   }, [])
   

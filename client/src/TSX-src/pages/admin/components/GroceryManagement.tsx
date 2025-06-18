@@ -12,10 +12,12 @@ import Loader from '../../../../components/common/Loader';
 import imageCompression from 'browser-image-compression';
 
 const GroceryManagement = () => {
-    useEffect(() => {
+  const { groceryItems, createGroceryItem, updateGroceryItem, deleteGroceryItem, toggleGroceryActiveStatus, loading, fetchGroceryItems } = useGroceryItemsAdmin();
+  useEffect(() => {
+    if(!groceryItems.length)
+      fetchGroceryItems();
     console.log("Grocery Management Rendered");
   }, [])
-  const { groceryItems, createGroceryItem, updateGroceryItem, deleteGroceryItem, toggleGroceryActiveStatus, loading } = useGroceryItemsAdmin();
 
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState(null);

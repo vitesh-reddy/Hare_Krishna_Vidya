@@ -11,10 +11,6 @@ export const GroceryItemAdminProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
 
   const BASE_URL = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'}/api`;
-  
-  useEffect(() => {
-    fetchGroceryItems();
-  }, [BASE_URL]);
 
   // Fetch all grocery items
   const fetchGroceryItems = useCallback(async () => {

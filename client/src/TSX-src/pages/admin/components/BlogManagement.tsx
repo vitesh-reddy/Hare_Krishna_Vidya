@@ -14,11 +14,13 @@ import Loader from '../../../../components/common/Loader';
 import imageCompression from 'browser-image-compression';
 
 const BlogManagement = () => {
-    useEffect(() => {
+  const { posts, createBlog, updateBlog, deleteBlog, toggleBlogStatus, loading, fetchBlogs} = useBlogsAdmin();
+  useEffect(() => {
+    if(!posts.length)
+      fetchBlogs();
     console.log("Blog Management Rendered");
   }, [])
-  const { posts, createBlog, updateBlog, deleteBlog, toggleBlogStatus, loading } = useBlogsAdmin();
-
+  
   const [isCreating, setIsCreating] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [previewPost, setPreviewPost] = useState(null);

@@ -12,12 +12,9 @@ export const BlogAdminProvider = ({ children }) => {
 
   const BASE_URL = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'}/api`;
 
-  useEffect(() => {
-    fetchBlogs();
-  }, [BASE_URL]);
-
   // Fetch all blog posts
   const fetchBlogs = useCallback(async () => {
+    console.log('admin fetchblogs called');
     setLoading(true);
     try {
       const response = await axios.get(`${BASE_URL}/blogs/all`);
