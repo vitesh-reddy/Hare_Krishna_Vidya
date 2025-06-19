@@ -45,6 +45,10 @@ import BlogPage from './pages/blogs';
 import CareersPage from './pages/careers';
 import { CareerProvider } from './contexts/CareerContext';
 import { JobAdminProvider } from './contexts/JobContextAdmin';
+import ResetPassword from './TSX-src/pages/admin/auth-pages/ResetPassword';
+import AuthPage from './TSX-src/pages/admin/auth-pages/AuthPage';
+import AdminProtectedRoute from './TSX-src/pages/admin/routes/AdminProtectedRoute.jsx';
+import { AdminAuthProvider } from './contexts/AdminAuthContext';
 
 const queryClient = new QueryClient();
 
@@ -103,7 +107,9 @@ const AnimatedRoutes = () => {
           <Route path="*" element={<HeaderOnlyLayout><NotFound /></HeaderOnlyLayout>} />
           
           {/* Route without any layout or contexts */}
-          <Route path="/admin" element={ <AdminDashboard />} />
+          <Route path="/admin/login" element={<AuthPage />} />
+          <Route path="/admin/reset-password" element={ <ResetPassword/> } />
+          <Route path="/admin" element={ <AdminProtectedRoute> <AdminDashboard /></AdminProtectedRoute>} />
         </Routes>
       </AnimatePresence>
     </>
@@ -114,18 +120,21 @@ const App = () => {
   const location = useLocation();
 
   // Render AdminDashboard without context providers for /admin route
-  if (location.pathname === "/admin") {
+  if (location.pathname.startsWith("/admin")) {
+    console.log(location.pathname)
     return (
+      <AdminAuthProvider>
       <GroceryItemAdminProvider>
-        <KitAdminProvider>
-        <BlogAdminProvider>
-        <Toaster/>
-        <JobAdminProvider>
-        <AnimatedRoutes />
-        </JobAdminProvider>
-        </BlogAdminProvider>
-        </KitAdminProvider>
+      <KitAdminProvider>
+      <BlogAdminProvider>
+      <Toaster/>
+      <JobAdminProvider>
+          <AnimatedRoutes />
+      </JobAdminProvider>
+      </BlogAdminProvider>
+      </KitAdminProvider>
       </GroceryItemAdminProvider>
+      </AdminAuthProvider> 
     )
   }
 
