@@ -27,18 +27,9 @@ app.use(cors({
   origin: FRONTEND_URL,
 }));
 
-// app.use(cors({
-//   origin: [
-//     'http://localhost:5173', 
-//     'http://192.168.10.180:5173'
-//   ],
-//   credentials: true
-// }));
-
 app.use(morgan("tiny", {
   skip: (req) => req.url.match(/\.(css|js|png|jpg|ico|svg|woff2?)$/)
 }));
-
 
 app.use(express.json());
 app.get("/", async (req, res) => {
@@ -54,6 +45,3 @@ app.use("/api/grocery-items", groceryItemRoutes);
 app.listen(PORT, () =>
   console.log(`server is running at http://localhost:${PORT}`)
 );
-// app.listen(PORT, '0.0.0.0', () =>
-//   console.log(`server is running at http://localhost:${PORT}`)
-// );

@@ -6,12 +6,33 @@ export const getActiveJobCount = async () => {
 };
 
 export const getAllJobs = async (skip = 0, limit = 10) => {
-  const jobs = await Job.find()
-    .sort({ createdAt: -1, _id: 1 }) // Add _id as secondary sort for stability
-    .skip(skip)
-    .limit(limit)
-    .select('title location type status noOfApplications createdAt description requirements skills');
-  return jobs;
+  try {
+    if (skip < 0 || limit <= 0) 
+      throw new Error('Invalid skip or limit values');
+
+    const [jobs, totalCount] = await Promise.all([
+      Job.find()
+        .sort({ createdAt: -1, _id: 1 })
+        .skip(skip)
+        .limit(limit)
+        .select('title location type status noOfApplications createdAt description requirements skills'),
+      Job.countDocuments()
+    ]);
+
+    return {
+      data: jobs,
+      metadata: {
+        totalCount,
+        lastUpdated: new Date().toISOString(), // Timestamp for cache invalidation
+        page: Math.floor(skip / limit) + 1,
+        pageSize: limit,
+        totalPages: Math.ceil(totalCount / limit)
+      }
+    };
+  } catch (error) {
+    console.error('Error fetching jobs:', error.message);
+    throw new Error(`Failed to fetch jobs: ${error.message}`);
+  }
 };
 
 
@@ -101,9 +122,13 @@ export const getActiveJobs = async (skip = 0, limit = 10, search = '') => {
 
   // Return paginated job objects only
   const data = filtered.slice(skip, skip + limit).map(item => item.job);
-  console.log(data);
   return data;
 };
+
+export const getApplicantsCountByJobId = async (jobId) => {
+  console.log('hi');
+  return await Job.findById(jobId).select('noOfApplications');
+}
 
 
 

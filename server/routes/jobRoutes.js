@@ -7,7 +7,8 @@ import {
   updateJob,
   deleteJob,
   getJobById,
-  toggleJobStatus
+  toggleJobStatus,
+  getApplicantsCountByJobId
 } from '../services/JobServices.js';
 
 const router = express.Router();
@@ -20,12 +21,25 @@ router.get('/active-count', async (req, res) => {
     res.status(500).json({ error: 'Failed to get active job count' });
   }
 });
+
+router.get('/applicants-count/:id', async(req, res) => {
+  try {
+    const { id : jobId} = req.params;
+    console.log(jobId);
+    const applicants = await getApplicantsCountByJobId(jobId);
+    console.log(applicants.noOfApplications);
+    return res.status(200).json( {applicantsCount : applicants.noOfApplications});
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to Applicants Count' });
+  }
+})
+
 router.get('/all', async (req, res) => {
   try {
     const skip = parseInt(req.query.skip) || 0;
     const limit = parseInt(req.query.limit) || 10;
     const data = await getAllJobs(skip, limit);
-    res.status(200).json({ jobs: data });
+    res.status(200).json(data);
   } catch (error) {
     res.status(500).json({ error: 'Failed to get jobs' });
   }

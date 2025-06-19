@@ -4,7 +4,7 @@ import {
   getApplicationById,
   updateApplicationStatus,
   createApplication
-} from '../services/ApplicationServices.js';
+} from '../services/applicationServices.js';
 
 const router = express.Router();
 
@@ -14,7 +14,7 @@ router.get('/:jobId', async (req, res) => {
     const skip = parseInt(req.query.skip) || 0;
     const limit = parseInt(req.query.limit) || 10;
     const data = await getApplicationsByJobId(jobId, skip, limit);
-    res.status(200).json({ applicants: data });
+    res.status(200).json(data);
   } catch (error) {
     res.status(500).json({ error: 'Failed to get applications' });
   }
