@@ -7,6 +7,7 @@ import blogRoutes from "./routes/blogRoutes.js"
 import kitsRoutes from "./routes/kitsRoutes.js"
 import paymentRoutes from "./routes/paymentRoutes.js"
 import groceryItemRoutes from "./routes/groceryItemRoutes.js"
+import campaignRoutes from "./routes/campaignRoutes.js"
 import fileUpload from "express-fileupload";
 
 // console.clear();
@@ -39,6 +40,7 @@ app.use("/api/blogs", blogRoutes);
 app.use("/api/kits", kitsRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use("/api/grocery-items", groceryItemRoutes);
+app.use("/api/campaigns", campaignRoutes);
 
 app.listen(PORT, () =>
   console.log(`server is running at http://localhost:${PORT}`)

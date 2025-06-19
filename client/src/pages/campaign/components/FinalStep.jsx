@@ -1,6 +1,7 @@
 import { ArrowLeft, Heart } from "lucide-react";
+import moment from "moment";
 
-const FinalStep = ({handleBack}) => (
+const FinalStep = ({ formData, handleBack, onCampaignSubmit }) => (
     <div className="max-w-2xl">
 
 
@@ -15,29 +16,28 @@ const FinalStep = ({handleBack}) => (
                     className="w-full h-full object-cover"
                 />
                 <div className="absolute top-4 left-4 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                    Mid Day Meal
+                    {formData.campaignType.label}
                 </div>
             </div>
 
             <div className="p-6">
-                <h3 className="text-xl font-bold mb-4">Help nourish 1,000 children in Bhubaneswar</h3>
+                <h3 className="text-xl font-bold mb-4">{formData.campaignName}</h3>
 
                 <div className="grid grid-cols-2 gap-6 mb-4">
                     <div>
                         <div className="text-sm text-gray-600">Goal Amount</div>
-                        <div className="font-semibold">₹250,000</div>
+                        <div className="font-semibold">₹{formData.goalAmount}</div>
                     </div>
                     <div>
                         <div className="text-sm text-gray-600">Duration</div>
-                        <div className="font-semibold">June 15, 2023 - August 15, 2023</div>
+                        <div className="font-semibold">{moment(formData.startDate).format('MMMM D, YYYY')} - {moment(formData.endDate).format('MMMM D, YYYY')}</div>
                     </div>
                 </div>
 
                 <div className="mb-4">
                     <div className="text-sm text-gray-600 mb-2">Description</div>
                     <p className="text-gray-800">
-                        This campaign aims to provide nutritious meals to underprivileged children in Bhubaneswar. The funds will be used to
-                        purchase ingredients, cooking equipment, and to pay for transportation of meals to schools.
+                        {formData.description}
                     </p>
                 </div>
             </div>
@@ -73,7 +73,7 @@ const FinalStep = ({handleBack}) => (
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Edit Details
             </button>
-            <button className="flex-1 bg-orange-500 hover:bg-orange-600 text-white py-3 px-6 rounded-lg font-medium transition-colors flex items-center justify-center">
+            <button onClick={onCampaignSubmit} className="flex-1 bg-orange-500 hover:bg-orange-600 text-white py-3 px-6 rounded-lg font-medium transition-colors flex items-center justify-center">
                 <Heart className="w-4 h-4 mr-2" />
                 Jai! Submit Campaign for Review
             </button>

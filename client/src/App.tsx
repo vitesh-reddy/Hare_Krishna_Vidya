@@ -44,6 +44,7 @@ import NotFound from "./TSX-src/pages/NotFound";
 import { GroceryItemAdminProvider } from './contexts/GroceryItemAdminContext';
 import { KitAdminProvider } from './contexts/KitAdminContext';
 import { BlogAdminProvider } from './contexts/BlogAdminContext';
+import { CampaignProvider } from './contexts/CampaignContext';
 
 const queryClient = new QueryClient();
 
@@ -93,11 +94,11 @@ const AnimatedRoutes = () => {
           <Route path="/governance" element={<MainLayout><GovernancePage /></MainLayout>} />
           <Route path="/blog" element={<MainLayout><Blog /></MainLayout>} />
           <Route path="/donate-items" element={<MainLayout><DonateItemsPage /></MainLayout>} />
-          <Route path="/advertforcampaign" element={<FundraisingCampaigns />} / >
+          <Route path="/advertforcampaign" element={<FundraisingCampaigns />} />
 
 
-            {/* Routes with only Header */ }
-            < Route path="/cart" element={<HeaderOnlyLayout><Cart /></HeaderOnlyLayout>} />
+          {/* Routes with only Header */}
+          < Route path="/cart" element={<HeaderOnlyLayout><Cart /></HeaderOnlyLayout>} />
           <Route path="/donate" element={<HeaderOnlyLayout><DonationFlow /></HeaderOnlyLayout>} />
           <Route path="/amount-donation-flow" element={<HeaderOnlyLayout><AmountDonationFlow /></HeaderOnlyLayout>} />
           <Route path="/donation-success" element={<HeaderOnlyLayout><DonationSuccess /></HeaderOnlyLayout>} />
@@ -135,9 +136,11 @@ const App = () => {
         <CartProvider>
           <DataProvider>
             <BlogProvider>
-              <Toaster />
-              <Sonner />
-              <AnimatedRoutes />
+              <CampaignProvider>
+                <Toaster />
+                <Sonner />
+                <AnimatedRoutes />
+              </CampaignProvider>
             </BlogProvider>
           </DataProvider>
         </CartProvider>
