@@ -10,29 +10,17 @@ const ThankYouDialogBox = () => {
       setStatus('viewing');    
   }, [selectedJob, setStatus]);
 
-  const handleBack = () => {
-    setStatus('applying');
-  };
-
   const handleBackToCareers = () => {
     setStatus('viewing');
   };
 
   // Render nothing if no selectedJob, as useEffect handles navigation
   if (!selectedJob)
-    return null;
-  
+    return null;  
 
   return (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 rounded-[0.75rem] -translate-y-[59%] flex justify-center items-center bg-gray-100">
       <div className="bg-white p-[1.75rem] rounded-[0.75rem] shadow-lg w-[20rem] md:w-full max-w-[28rem] border border-gray-200 text-[#EA580C]">
-        {/* Back Button */}
-        <button
-          onClick={handleBack}
-          className="text-[0.65rem] mb-[0.25rem] flex items-center"
-        >
-          <span className="mr-[0.5rem] font-bold">←</span> Back
-        </button>
 
         {/* Title */}
         <h2 className="text-[1.25rem] font-bold mb-[0.25rem]">
