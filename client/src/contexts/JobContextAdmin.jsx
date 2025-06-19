@@ -9,6 +9,7 @@ export const JobAdminProvider = ({ children }) => {
   const [applications, setApplications] = useState([]);
   const [jobCount, setJobCount] = useState(0);
   const [isLoadingJobs, setIsLoadingJobs] = useState(false);
+  const [isLoadingApplications, setIsLoadingApplications] = useState(false);
   const [hasMoreJobs, setHasMoreJobs] = useState(true);
   const [hasMoreApplications, setHasMoreApplications] = useState(true);
   const [lastSkip, setLastSkip] = useState(-10); // Track last skip to prevent redundant fetches
@@ -46,6 +47,7 @@ const fetchJobs = useCallback(async (skip = 0, limit = 10) => {
 
   const fetchApplications = useCallback(async (jobId, skip = 0, limit = 10) => {
     try {
+      setIsLoadingApplications(true);
       const response = await axios.get(`${BASE_URL}/applications/${jobId}?skip=${skip}&limit=${limit}`);
       const newApplications = response.data.applicants || [];
       setApplications(prev => skip === 0 ? newApplications : [...prev, ...newApplications]);
@@ -53,6 +55,8 @@ const fetchJobs = useCallback(async (skip = 0, limit = 10) => {
     } catch (error) {
       console.error('Error fetching applications:', error);
       toast.error('Failed to fetch applications');
+    } finally {
+      setIsLoadingApplications(false);
     }
   }, []);
 
@@ -142,6 +146,7 @@ const fetchJobs = useCallback(async (skip = 0, limit = 10) => {
       hasMoreJobs,
       hasMoreApplications,
       isLoadingJobs,
+      isLoadingApplications,
       setApplications,
       fetchJobs,
       fetchApplications,

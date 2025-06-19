@@ -4,146 +4,29 @@ import { Button } from '../../../components/ui/button';
 import { Input } from '../../../components/ui/input';
 import { Textarea } from '../../../components/ui/textarea';
 import { Label } from '../../../components/ui/label';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../../components/ui/table';
-import { PlusCircle, Edit3, Trash2, Save, X, Users, Eye, ToggleRight, ToggleLeft } from 'lucide-react';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '../../../components/ui/table';
+import {
+  PlusCircle,
+  Edit3,
+  Trash2,
+  Save,
+  X,
+  Users,
+  Eye,
+  ToggleRight,
+  ToggleLeft,
+} from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useJobAdminContext } from '../../../../contexts/JobContextAdmin';
-
-const ApplicationDialog = ({ open, setOpen, updateApplicationStatus }) => {
-  const { getApplicationById } = useJobAdminContext();
-  const [application, setApplication] = useState(null);
-
-  useEffect(() => {
-    if (!open || !open.id) {
-      setApplication(null);
-      return;
-    }
-
-    const fetchApplication = async () => {
-      try {
-        const data = await getApplicationById(open.id);
-        setApplication(data);
-      } catch (error) {
-        console.error('Error fetching application:', error);
-        toast.error('Failed to fetch application');
-      }
-    };
-
-    fetchApplication();
-  }, [open, getApplicationById]);
-
-  const handleStatusChange = async (status) => {
-    if (!application) return;
-    try {
-      await updateApplicationStatus(application._id, status);
-      setApplication((prev) => ({ ...prev, status }));
-    } catch (error) {
-      console.error('Error updating application status:', error);
-      toast.error('Failed to update application status');
-    }
-  };
-
-  if (!application) return null;
-  return (
-      <div className="fixed inset-0 z-[100] flex items-center justify-center px-[1rem] transition-all duration-300">
-        <div className="bg-white rounded-[1rem] shadow-[0_5px_20px_rgba(0,0,0,0.1)] w-full max-w-[600px] p-[1.5rem] border border-gray-100">
-          <div className="mb-[1.25rem] border-b border-gray-100 pb-[0.75rem]">
-            <h2 className="text-[1.5rem] font-[700] text-gray-900 mb-[0.15rem]">Application Details</h2>
-            <p className="text-gray-500 text-[0.85rem]">Review applicant information</p>
-          </div>
-  
-          <div className="space-y-[1rem] text-[0.9rem]">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-[1rem]">
-              <div>
-                <label className="block font-[600] mb-[0.25rem] text-gray-600 text-[0.8rem] uppercase tracking-[0.3px]">Full Name</label>
-                <p className="text-gray-800 text-[0.95rem] font-[500]">{application.fullname}</p>
-              </div>
-              <div>
-                <label className="block font-[600] mb-[0.25rem] text-gray-600 text-[0.8rem] uppercase tracking-[0.3px]">Email</label>
-                <a 
-                  href={`mailto:${application.email}`} 
-                  className="text-blue-600 hover:underline text-[0.95rem] font-[500] transition-colors duration-200"
-                >
-                  {application.email}
-                </a>
-              </div>
-            </div>
-  
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-[1rem]">
-              <div>
-                <label className="block font-[600] mb-[0.25rem] text-gray-600 text-[0.8rem] uppercase tracking-[0.3px]">Job Title</label>
-                <p className="text-gray-800 text-[0.95rem] font-[500]">{application.jobId?.title || 'N/A'}</p>
-              </div>
-              <div>
-                <label className="block font-[600] mb-[0.25rem] text-gray-600 text-[0.8rem] uppercase tracking-[0.3px]">Applied Date</label>
-                <p className="text-gray-800 text-[0.95rem] font-[500]">
-                  {new Date(application.appliedDate).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric'
-                  })}
-                </p>
-              </div>
-            </div>
-                
-            <div>
-              <label className="block font-[600] mb-[0.25rem] text-gray-600 text-[0.8rem] uppercase tracking-[0.3px]">Profile URL</label>
-              {application.profileUrl ? (
-                <a
-                  href={application.profileUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline text-[0.95rem] font-[500] transition-colors duration-200 break-all"
-                >
-                  {application.profileUrl}
-                </a>
-              ) : (
-                <p className="text-gray-500 text-[0.95rem]">Not provided</p>
-              )}
-            </div>
-            
-            <div>
-              <label className="block font-[600] mb-[0.25rem] text-gray-600 text-[0.8rem] uppercase tracking-[0.3px]">Cover Letter</label>
-              <div className="bg-gray-50 rounded-[0.5rem] p-[1rem] border border-gray-200">
-                <p className="text-gray-700 leading-[1.6] whitespace-pre-line text-[0.9rem]">
-                  {application.coverLetter || 'Not provided'}
-                </p>
-              </div>
-            </div>
-            
-            <div>
-              <label className="block font-[600] mb-[0.25rem] text-gray-600 text-[0.8rem] uppercase tracking-[0.3px]">Status</label>
-              <select
-                value={application.status}
-                onChange={(e) => handleStatusChange(e.target.value)}
-                className={`px-[0.8rem] py-[0.5rem] rounded-[0.4rem] text-[0.85rem] text-center border-[1.5px] appearance-none font-[600] cursor-pointer transition-all duration-200
-                  ${
-                    application.status === 'shortlisted'
-                      ? 'bg-green-50 text-green-700 border-green-200 hover:bg-green-100'
-                      : application.status === 'rejected'
-                      ? 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100'
-                      : 'bg-yellow-50 text-yellow-700 border-yellow-200 hover:bg-yellow-100'
-                  }`}
-              >
-                <option value="pending">Pending</option>
-                <option value="shortlisted">Shortlisted</option>
-                <option value="rejected">Rejected</option>
-              </select>
-            </div>
-          </div>
-                
-          <div className="mt-[1.75rem] pt-[0.75rem] border-t border-gray-100 flex justify-end">
-            <button
-              onClick={() => setOpen(null)}
-              className="px-[1.25rem] py-[0.5rem] border border-gray-300 text-gray-700 rounded-[0.4rem] hover:bg-gray-50 transition-all duration-200 font-[600] text-[0.9rem]"
-            >
-              Back
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  };
+import Loader from '../../../../components/common/Loader';
+import { ThreeDot } from 'react-loading-indicators';
 
 const JobManagement = () => {
   const {
@@ -152,6 +35,7 @@ const JobManagement = () => {
     hasMoreJobs,
     hasMoreApplications,
     isLoadingJobs,
+    isLoadingApplications,
     fetchJobs,
     fetchApplications,
     createJob,
@@ -167,7 +51,7 @@ const JobManagement = () => {
   const [viewingApplications, setViewingApplications] = useState(null);
   const [jobSkip, setJobSkip] = useState(0);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const [jobToDelete, setJobToDelete] = useState(null);  
+  const [jobToDelete, setJobToDelete] = useState(null);
   const [applicationSkip, setApplicationSkip] = useState(0);
   const [formData, setFormData] = useState({
     title: '',
@@ -181,9 +65,8 @@ const JobManagement = () => {
   const [viewingApplication, setViewingApplication] = useState(null);
 
   useEffect(() => {
-    if (jobs.length === 0 && !isLoadingJobs)
-      fetchJobs(0, 10);
-    console.log('Job Management Rendered')
+    if (jobs.length === 0 && !isLoadingJobs) fetchJobs(0, 10);
+    console.log('Job Management Rendered');
   }, []);
 
   const addSkill = () => {
@@ -239,7 +122,7 @@ const JobManagement = () => {
 
   const handleDelete = async (id) => {
     setJobToDelete(id);
-    setShowDeleteDialog(true);    
+    setShowDeleteDialog(true);
   };
 
   const confirmDelete = async () => {
@@ -249,14 +132,14 @@ const JobManagement = () => {
         setShowDeleteDialog(false);
       } catch (error) {
         console.error('Error deleting job:', error);
-      }      
+      }
       setJobToDelete(null);
     }
   };
   const cancelDelete = () => {
     setShowDeleteDialog(false);
     setJobToDelete(null);
-  };  
+  };
 
   const handleEdit = (job) => {
     setFormData({
@@ -275,7 +158,14 @@ const JobManagement = () => {
     setIsCreating(false);
     setEditingId(null);
     setViewingApplications(null);
-    setFormData({ title: '', location: '', type: '', description: '', requirements: '', skills: [] });
+    setFormData({
+      title: '',
+      location: '',
+      type: '',
+      description: '',
+      requirements: '',
+      skills: [],
+    });
   };
 
   const handleToggleStatus = async (id, currentStatus) => {
@@ -310,7 +200,7 @@ const JobManagement = () => {
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-bold">Applications for {viewingApplications.title}</h2>
-            <p className="text-gray-600">{jobApplications.length} applications received</p>
+            <p className="text-gray-600">{viewingApplications.noOfApplications} applications received</p>
           </div>
           <Button
             onClick={() => {
@@ -327,8 +217,14 @@ const JobManagement = () => {
 
         <Card>
           <CardContent>
-            {jobApplications.length === 0 ? (
-              <div className="text-center py-6 text-gray-500">No applications received for this job</div>
+            {!jobApplications.length && !isLoadingApplications ? (
+              <div className="text-center py-6 text-gray-500">
+                No applications received for this job
+              </div>
+            ) : !jobApplications.length && isLoadingApplications ? (
+              <div className="w-full flex items-center justify-center mt-[2rem] h-[5rem] ">
+                <ThreeDot color="#fa7000" size="medium" text="" textColor="" />
+              </div>
             ) : (
               <Table>
                 <TableHeader>
@@ -354,8 +250,8 @@ const JobManagement = () => {
                             applicant.status === 'shortlisted'
                               ? 'bg-green-100 text-green-600'
                               : applicant.status === 'rejected'
-                              ? 'bg-red-100 text-red-600'
-                              : 'bg-yellow-100 text-yellow-600'
+                                ? 'bg-red-100 text-red-600'
+                                : 'bg-yellow-100 text-yellow-600'
                           }`}
                         >
                           <option value="pending">Pending</option>
@@ -385,9 +281,12 @@ const JobManagement = () => {
           <div className="w-full flex justify-center pb-[2rem]">
             <button
               onClick={loadMoreApplications}
-              className="font-semibold rounded-[0.5rem] transition-colors duration-200 cursor-pointer inline-flex items-center shadow-xl justify-center bg-[#fefefe]/80 backdrop-blur-3xl text-[#111] text-[0.75rem] sm:text-lg px-[2rem] py-4 space-x-2 hover:bg-[#eee] focus:ring-[#e76f51]"
+              disabled={isLoadingApplications}
+              className={`font-semibold rounded-[0.5rem] transition-colors duration-200 cursor-pointer inline-flex items-center shadow-xl justify-center bg-[#fefefe]/80 backdrop-blur-3xl text-[#111] text-[0.75rem] sm:text-lg px-[2rem] py-4 space-x-2 hover:bg-[#eee] focus:ring-[#e76f51] ${
+                isLoadingJobs ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
             >
-              Load More
+              {isLoadingApplications ? 'Loading...' : 'Load More'}
             </button>
           </div>
         )}
@@ -402,7 +301,7 @@ const JobManagement = () => {
 
   return (
     <div className="space-y-6">
-     {/* Delete Confirmation Dialog */}
+      {/* Delete Confirmation Dialog */}
       {showDeleteDialog && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md shadow-lg">
@@ -430,7 +329,7 @@ const JobManagement = () => {
             </div>
           </div>
         </div>
-      )}      
+      )}
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Job Postings</CardTitle>
@@ -442,7 +341,9 @@ const JobManagement = () => {
         <CardContent>
           {isCreating && (
             <div className="mb-6 p-6 border rounded-lg bg-gray-50">
-              <h3 className="text-lg font-semibold mb-4">{editingId ? 'Edit Job' : 'Create New Job'}</h3>
+              <h3 className="text-lg font-semibold mb-4">
+                {editingId ? 'Edit Job' : 'Create New Job'}
+              </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="jobTitle">Job Title</Label>
@@ -539,8 +440,12 @@ const JobManagement = () => {
             </div>
           )}
 
-          {jobs.length === 0 ? (
+          {!jobs.length && !isLoadingJobs ? (
             <div className="text-center py-6 text-gray-500">No jobs available</div>
+          ) : !jobs.length && isLoadingJobs ? (
+            <div className="w-full flex items-center justify-center h-[7rem] ">
+              <ThreeDot color="#fa7000" size="medium" text="" textColor="" />
+            </div>
           ) : (
             <Table>
               <TableHeader>
@@ -563,7 +468,10 @@ const JobManagement = () => {
                     <TableCell>
                       <div className="flex flex-wrap gap-1 justify-center">
                         {job.skills?.slice(0, 1).map((skill, index) => (
-                          <span key={index} className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">
+                          <span
+                            key={index}
+                            className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs"
+                          >
                             {skill}
                           </span>
                         ))}
@@ -571,7 +479,9 @@ const JobManagement = () => {
                           <span className="text-gray-500 text-xs">+{job.skills.length - 1}</span>
                         )}
                         {!job?.skills?.length && (
-                          <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">No Skills</span>
+                          <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">
+                            No Skills
+                          </span>
                         )}
                       </div>
                     </TableCell>
@@ -615,7 +525,11 @@ const JobManagement = () => {
                         <Button size="sm" variant="outline" onClick={() => handleEdit(job)}>
                           <Edit3 className="w-4 h-4" />
                         </Button>
-                        <Button size="sm" variant="destructive" onClick={() => handleDelete(job._id)}>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => handleDelete(job._id)}
+                        >
                           <Trash2 className="w-4 h-4" />
                         </Button>
                       </div>
@@ -645,3 +559,157 @@ const JobManagement = () => {
 };
 
 export default JobManagement;
+
+const ApplicationDialog = ({ open, setOpen, updateApplicationStatus }) => {
+  const { getApplicationById } = useJobAdminContext();
+  const [application, setApplication] = useState(null);
+
+  useEffect(() => {
+    if (!open || !open.id) {
+      setApplication(null);
+      return;
+    }
+
+    const fetchApplication = async () => {
+      try {
+        const data = await getApplicationById(open.id);
+        setApplication(data);
+      } catch (error) {
+        console.error('Error fetching application:', error);
+        toast.error('Failed to fetch application');
+      }
+    };
+
+    fetchApplication();
+  }, [open, getApplicationById]);
+
+  const handleStatusChange = async (status) => {
+    if (!application) return;
+    try {
+      await updateApplicationStatus(application._id, status);
+      setApplication((prev) => ({ ...prev, status }));
+    } catch (error) {
+      console.error('Error updating application status:', error);
+      toast.error('Failed to update application status');
+    }
+  };
+
+  if (!application) return null;
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center px-[1rem] transition-all duration-300">
+      <div className="bg-white rounded-[1rem] shadow-[0_5px_20px_rgba(0,0,0,0.1)] w-full max-w-[600px] p-[1.5rem] border border-gray-100">
+        <div className="mb-[1.25rem] border-b border-gray-100 pb-[0.75rem]">
+          <h2 className="text-[1.5rem] font-[700] text-gray-900 mb-[0.15rem]">
+            Application Details
+          </h2>
+          <p className="text-gray-500 text-[0.85rem]">Review applicant information</p>
+        </div>
+
+        <div className="space-y-[1rem] text-[0.9rem]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-[1rem]">
+            <div>
+              <label className="block font-[600] mb-[0.25rem] text-gray-600 text-[0.8rem] uppercase tracking-[0.3px]">
+                Full Name
+              </label>
+              <p className="text-gray-800 text-[0.95rem] font-[500]">{application.fullname}</p>
+            </div>
+            <div>
+              <label className="block font-[600] mb-[0.25rem] text-gray-600 text-[0.8rem] uppercase tracking-[0.3px]">
+                Email
+              </label>
+              <a
+                href={`mailto:${application.email}`}
+                className="text-blue-600 hover:underline text-[0.95rem] font-[500] transition-colors duration-200"
+              >
+                {application.email}
+              </a>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-[1rem]">
+            <div>
+              <label className="block font-[600] mb-[0.25rem] text-gray-600 text-[0.8rem] uppercase tracking-[0.3px]">
+                Job Title
+              </label>
+              <p className="text-gray-800 text-[0.95rem] font-[500]">
+                {application.jobId?.title || 'N/A'}
+              </p>
+            </div>
+            <div>
+              <label className="block font-[600] mb-[0.25rem] text-gray-600 text-[0.8rem] uppercase tracking-[0.3px]">
+                Applied Date
+              </label>
+              <p className="text-gray-800 text-[0.95rem] font-[500]">
+                {new Date(application.appliedDate).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                })}
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <label className="block font-[600] mb-[0.25rem] text-gray-600 text-[0.8rem] uppercase tracking-[0.3px]">
+              Profile URL
+            </label>
+            {application.profileUrl ? (
+              <a
+                href={application.profileUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 hover:underline text-[0.95rem] font-[500] transition-colors duration-200 break-all"
+              >
+                {application.profileUrl}
+              </a>
+            ) : (
+              <p className="text-gray-500 text-[0.95rem]">Not provided</p>
+            )}
+          </div>
+
+          <div>
+            <label className="block font-[600] mb-[0.25rem] text-gray-600 text-[0.8rem] uppercase tracking-[0.3px]">
+              Cover Letter
+            </label>
+            <div className="bg-gray-50 rounded-[0.5rem] p-[1rem] border border-gray-200">
+              <p className="text-gray-700 leading-[1.6] whitespace-pre-line text-[0.9rem]">
+                {application.coverLetter || 'Not provided'}
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <label className="block font-[600] mb-[0.25rem] text-gray-600 text-[0.8rem] uppercase tracking-[0.3px]">
+              Status
+            </label>
+            <select
+              value={application.status}
+              onChange={(e) => handleStatusChange(e.target.value)}
+              className={`px-[0.8rem] py-[0.5rem] rounded-[0.4rem] text-[0.85rem] flex justify-center border-[1.5px] appearance-none font-[600] cursor-pointer transition-all duration-200
+                  ${
+                    application.status === 'shortlisted'
+                      ? 'bg-green-50 text-green-700 border-green-200 hover:bg-green-100'
+                      : application.status === 'rejected'
+                        ? 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100'
+                        : 'bg-yellow-50 text-yellow-700 border-yellow-200 hover:bg-yellow-100'
+                  }`}
+            >
+              <option value="pending">Pending</option>
+              <option value="shortlisted">Shortlisted</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="mt-[1.75rem] pt-[0.75rem] border-t border-gray-100 flex justify-end">
+          <button
+            onClick={() => setOpen(null)}
+            className="px-[1.25rem] py-[0.5rem] border border-gray-300 text-gray-700 rounded-[0.4rem] hover:bg-gray-50 transition-all duration-200 font-[600] text-[0.9rem]"
+          >
+            Back
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
