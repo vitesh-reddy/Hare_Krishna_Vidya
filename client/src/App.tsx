@@ -86,6 +86,7 @@ const AnimatedRoutes = () => {
           <Route path="/our-initiative" element={<MainLayout><OurInitiativePage /></MainLayout>} />
           <Route path="/gallery" element={<MainLayout><GalleryPage /></MainLayout>} />
           <Route path="/contact" element={<MainLayout><ContactPage /></MainLayout>} />
+          <Route path="/advertforcampaign" element={<MainLayout><FundraisingCampaigns /></MainLayout>} />
           <Route path="/donate-amount" element={<MainLayout><DonatePage /></MainLayout>} />
           <Route path="/terms&conditions" element={<MainLayout><TnCPage /></MainLayout>} />
           <Route path="/privacy-policy" element={<MainLayout><PrivacyPolicyPage /></MainLayout>} />
