@@ -26,7 +26,7 @@ export const CareerProvider = ({ children }) => {
   const LIMIT = 10;
 
   // Fetch jobs
-  const fetchJobs = useCallback(async (newSkip = 0, query = '') => {
+ const fetchJobs = useCallback(async (newSkip = 0, query = '') => {
     if (!isCareersPageActiveRef.current || isFetchingRef.current || newSkip < lastFetchedSkipRef.current + LIMIT) return;
     console.log('client fetch jobs', query);
     if (isFetchingRef.current) return; // Double-check to prevent overlap
@@ -38,11 +38,11 @@ export const CareerProvider = ({ children }) => {
       });
       const newJobs = response.data.jobs || [];
       setJobs(prev => {
+        if (newSkip === 0) {
+          return newJobs; // Reset jobs to full backend response for new search
+        }
         const existingIds = new Set(prev.map(job => job._id.toString()));
         const uniqueNewJobs = newJobs.filter(job => !existingIds.has(job._id.toString()));
-        if (newSkip === 0) {
-          return uniqueNewJobs.length > 0 ? uniqueNewJobs : prev; // Preserve prev if no new jobs
-        }
         return [...prev, ...uniqueNewJobs];
       });
       setHasMoreJobs(newJobs.length === LIMIT);

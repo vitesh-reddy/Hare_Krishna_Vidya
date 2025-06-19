@@ -29,6 +29,7 @@ const CareersPage = () => {
     }
     debouncedSearch(searchQuery);
   }, [searchQuery, debouncedSearch]);
+  console.log('jobs rendered for search query', searchQuery, '\n', jobs);
   return (
     <div className='relative flex bg-[#F8F0E3] overflow-hidden'>
       <LeftSection />
