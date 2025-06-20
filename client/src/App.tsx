@@ -2,8 +2,6 @@ import { useEffect } from 'react';
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { TooltipProvider } from "./TSX-src/components/ui/tooltip";
-import { Toaster as Sonner } from "./TSX-src/components/ui/sonner";
 import { CartProvider } from "./TSX-src/contexts/CartContext";
 import { DataProvider } from './contexts/DataContext';
 import { Toaster } from "react-hot-toast";
@@ -86,6 +84,7 @@ const AnimatedRoutes = () => {
     <>
       <ScrollToTop />
       <AnimatePresence mode="wait">
+        <Toaster/>
         <Routes location={location} key={isAnimated ? location.pathname : undefined}>
           {/* Routes with Header and Footer */}
           <Route path="/" element={<MainLayout><HomePage /></MainLayout>} />
@@ -144,7 +143,6 @@ const App = () => {
         
       <KitAdminProvider>
       <BlogAdminProvider>
-      <Toaster/>
       <JobAdminProvider>
           <AnimatedRoutes />
       </JobAdminProvider>
@@ -159,24 +157,17 @@ const App = () => {
   // Render all other routes with context providers
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
         <CartProvider>
           <DataProvider>
             <BlogProvider>
-
               <CampaignProvider>
                  <CareerProvider> 
-                <Toaster />
-                <Sonner />
-                <AnimatedRoutes />
-                    </CareerProvider>
-              </CampaignProvider>
-        
-
+                  <AnimatedRoutes />
+                </CareerProvider>
+              </CampaignProvider>    
             </BlogProvider>
           </DataProvider>
         </CartProvider>
-      </TooltipProvider>
     </QueryClientProvider>
   );
 };
