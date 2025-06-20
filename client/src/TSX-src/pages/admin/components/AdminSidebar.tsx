@@ -1,20 +1,18 @@
-
-import React from 'react';
 import { Button } from '../../../components/ui/button';
 import { Separator } from '../../../components/ui/separator';
-import { 
-  Home, 
-  Book, 
-  Briefcase, 
-  Gift, 
-  Settings,
-  Grid2X2
-} from 'lucide-react';
+import {  Home,  Book,  Briefcase,  Gift,  Settings, Grid2X2, LogOut } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useAdminAuth } from '../../../../contexts/AdminAuthContext'
 
 const AdminSidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const { setShowLogoutDialog } = useAdminAuth();
+
+  const handleLogout = () => {
+    setShowLogoutDialog(true);
+  }  
 
   const navigationItems = [
     { label: 'Dashboard Overview', icon: Home, path: '/admin', section: 'dashboard' },
@@ -34,7 +32,7 @@ const AdminSidebar = () => {
   const getCurrentSection = () => {
     const searchParams = new URLSearchParams(location.search);
     return searchParams.get('section') || 'dashboard';
-  };
+  };      
 
   return (
     <div className="w-[16rem] bg-gradient-to-b from-[#FFF7ED] to-[#FEF3C7] border-r border-[#FED7AA] min-h-screen dark:from-[#7C2D12] dark:to-[#B45309] dark:border-[#EA580C]">
@@ -78,7 +76,7 @@ const AdminSidebar = () => {
 
         <Separator className="my-[1.5rem] bg-[#FED7AA] dark:bg-[#EA580C]" />
 
-        {/* Admin Profile Section */}
+        {/* // Admin Profile Section
         <div className="space-y-[0.5rem]">
           <div className="flex items-center space-x-[0.75rem] p-[0.75rem] bg-[#FFF7ED] rounded-[0.5rem] dark:bg-[#7C2D12]">
             <div className="w-[2rem] h-[2rem] bg-[#F97316] rounded-full flex items-center justify-center dark:bg-[#FDBA74]">
@@ -89,6 +87,12 @@ const AdminSidebar = () => {
               <p className="text-[0.75rem] text-[#4B5563] dark:text-[#9CA3AF]">admin@harekrishnavidya.org</p>
             </div>
           </div>
+        </div> */}
+        <div className='flex items-center w-full'>
+          <Button onClick={handleLogout} className="w-full mx-[3rem] bg-orange-600 hover:bg-orange-700">
+            <LogOut />
+            Logout
+          </Button>
         </div>
       </div>
 

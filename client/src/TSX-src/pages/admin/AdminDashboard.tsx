@@ -1,6 +1,5 @@
 
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import AdminSidebar from './components/AdminSidebar';
 import DashboardOverview from './components/DashboardOverview';
 import BlogManagement from './components/BlogManagement';
@@ -8,11 +7,14 @@ import JobManagement from './components/JobManagement';
 import DonationSettings from './components/DonationSettings';
 import KitManagement from './components/KitManagement';
 import GroceryManagement from './components/GroceryManagement';
+import { Button } from '../../components/ui/button';
+import { useAdminAuth } from '../../../contexts/AdminAuthContext';
 
 const AdminDashboard = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const currentSection = searchParams.get('section') || 'dashboard';
+  const { showLogoutDialog } = useAdminAuth();
 
   const renderContent = () => {
     switch (currentSection) {
@@ -73,7 +75,7 @@ const AdminDashboard = () => {
             <div className="flex items-center space-x-[1rem]">
               <div className="text-right">
                 <p className="text-[0.875rem] font-medium text-[#374151] dark:text-[#D1D5DB]">Admin User</p>
-                <p className="text-[0.75rem] text-[#6B7280] dark:text-[#9CA3AF]">Super Administrator</p>
+                <p className="text-[0.75rem] text-[#6B7280] dark:text-[#9CA3AF]">admin@harekrishnavidya.org</p>
               </div>
               <div className="w-[2.5rem] h-[2.5rem] bg-[#F97316] rounded-full flex items-center justify-center dark:bg-[#FDBA74]">
                 <span className="text-[#FFFFFF] font-semibold">A</span>
@@ -84,6 +86,7 @@ const AdminDashboard = () => {
 
         {/* Main Content */}
         <div className="p-[1.5rem] overflow-y-auto h-[calc(100vh-5rem)]">
+          {showLogoutDialog && <LogoutDialog />} 
           {renderContent()}
         </div>
       </div>
@@ -93,3 +96,47 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
+
+
+ const LogoutDialog = () => {
+  const { logout, setShowLogoutDialog } = useAdminAuth();
+  const navigate = useNavigate();
+  
+  const confirmLogout = () => {
+    logout();
+    navigate('/admin/login');
+    setShowLogoutDialog(false);
+  }
+  
+  const cancelLogout = () => {
+    setShowLogoutDialog(false);
+  }    
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md shadow-lg">
+          <h3 className="text-[1.25rem] font-semibold text-red-500 dark:text-white mb-2">
+            Confirm Logout
+          </h3>
+          <p className="text-gray-600 dark:text-gray-300 mb-6">
+            Are you sure you want to Logout ?
+          </p>
+          <div className="flex justify-end gap-2">
+            <Button
+              variant="outline"
+              onClick={cancelLogout}
+              className="text-gray-600 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700"
+            >
+              No
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={confirmLogout}
+              className="bg-red-600 hover:bg-red-700 text-white"
+            >
+              Yes
+            </Button>
+          </div>
+        </div>
+      </div>        
+    )
+}

@@ -6,6 +6,8 @@ const AdminAuthContext = createContext({
   login: () => {},
   logout: () => {},
   loading: true,
+  showLogoutDialog: false,
+  setShowLogoutDialog: (state) => {}
 });
 
 export const useAdminAuth = () => useContext(AdminAuthContext);
@@ -28,11 +30,12 @@ export const AdminAuthProvider = ({ children }) => {
     }
   };
 
-
     checkAuth();
   }, []);
 
   const login = () => setIsAuthenticated(true);
+
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
 
   const logout = async () => {
     await axios.get(`${BASE_URL}/admin/logout`, { withCredentials: true });
@@ -40,7 +43,7 @@ export const AdminAuthProvider = ({ children }) => {
   };
 
   return (
-    <AdminAuthContext.Provider value={{ isAuthenticated, login, logout, loading }}>
+    <AdminAuthContext.Provider value={{ isAuthenticated, login, logout, loading, showLogoutDialog, setShowLogoutDialog }}>
       {children}
     </AdminAuthContext.Provider>
   );
