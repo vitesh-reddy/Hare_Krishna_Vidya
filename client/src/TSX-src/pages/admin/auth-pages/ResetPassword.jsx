@@ -14,6 +14,7 @@ const ResetPassword = () => {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
+  const BASE_URL = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'}/api`;
 
   const handleReset = async (e) => {
     e.preventDefault();
@@ -21,13 +22,14 @@ const ResetPassword = () => {
     if (newPassword !== confirmPassword) {
       setError('Passwords do not match');
       return;
-    }
+    }    
 
     try {
-      await axios.post(`${BASE_URL}/admin/reset-password`, {
+      const res = await axios.post(`${BASE_URL}/admin/reset-password`, {
         token,
         newPassword,
-      });
+      }); 
+
       toast.success('Password reset successfully. Redirecting to login...');
       setTimeout(() => navigate('/admin/login'), 3000);
     } catch (err) {
