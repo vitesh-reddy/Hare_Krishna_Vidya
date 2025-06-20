@@ -27,6 +27,9 @@ import PrivacyPolicyPage from "./pages/privacy-policy";
 import RefundPolicyPage from "./pages/refund-policy";
 import OurAssociatedTrustsPage from "./pages/our-associated-trusts";
 import GovernancePage from "./pages/governance";
+import CreateCampaign from "./pages/campaign";
+import FundraisingCampaigns from "./pages/advertforcampaign";
+
 
 // TSX Pages
 import DonateItemsPage from "./TSX-src/pages/donate-items/Index";
@@ -41,6 +44,8 @@ import NotFound from "./TSX-src/pages/NotFound";
 import { GroceryItemAdminProvider } from './contexts/GroceryItemAdminContext';
 import { KitAdminProvider } from './contexts/KitAdminContext';
 import { BlogAdminProvider } from './contexts/BlogAdminContext';
+
+import { CampaignProvider } from './contexts/CampaignContext';
 import BlogPage from './pages/blogs';
 import CareersPage from './pages/careers';
 import { CareerProvider } from './contexts/CareerContext';
@@ -49,6 +54,7 @@ import ResetPassword from './TSX-src/pages/admin/auth-pages/ResetPassword';
 import AuthPage from './TSX-src/pages/admin/auth-pages/AuthPage';
 import AdminProtectedRoute from './TSX-src/pages/admin/routes/AdminProtectedRoute.jsx';
 import { AdminAuthProvider } from './contexts/AdminAuthContext';
+
 
 const queryClient = new QueryClient();
 
@@ -84,10 +90,13 @@ const AnimatedRoutes = () => {
           {/* Routes with Header and Footer */}
           <Route path="/" element={<MainLayout><HomePage /></MainLayout>} />
           <Route path="/about-us" element={<MainLayout><AboutUsPage /></MainLayout>} />
+          <Route path="/CreateCampaign" element={<CreateCampaign />} />
+
           <Route path="/hare-krishna-vidya-charity-and-education-foundation" element={<MainLayout><HareKrishnaVidyaPage /></MainLayout>} />
           <Route path="/our-initiative" element={<MainLayout><OurInitiativePage /></MainLayout>} />
           <Route path="/gallery" element={<MainLayout><GalleryPage /></MainLayout>} />
           <Route path="/contact" element={<MainLayout><ContactPage /></MainLayout>} />
+          <Route path="/advertforcampaign" element={<MainLayout><FundraisingCampaigns /></MainLayout>} />
           <Route path="/donate-amount" element={<MainLayout><DonatePage /></MainLayout>} />
           <Route path="/terms&conditions" element={<MainLayout><TnCPage /></MainLayout>} />
           <Route path="/privacy-policy" element={<MainLayout><PrivacyPolicyPage /></MainLayout>} />
@@ -97,19 +106,25 @@ const AnimatedRoutes = () => {
           <Route path="/blog" element={<MainLayout><Blog /></MainLayout>} />
           <Route path="/blog2" element={<MainLayout><BlogPage /></MainLayout>} />
           <Route path="/donate-items" element={<MainLayout><DonateItemsPage /></MainLayout>} />
-          
+          <Route path="/advertforcampaign" element={<FundraisingCampaigns />} />
+
+
           {/* Routes with only Header */}
+
           <Route path="/cart" element={<HeaderOnlyLayout><Cart /></HeaderOnlyLayout>} />
           <Route path="/careers" element={<HeaderOnlyLayout><CareersPage /></HeaderOnlyLayout>} />
+
           <Route path="/donate" element={<HeaderOnlyLayout><DonationFlow /></HeaderOnlyLayout>} />
           <Route path="/amount-donation-flow" element={<HeaderOnlyLayout><AmountDonationFlow /></HeaderOnlyLayout>} />
           <Route path="/donation-success" element={<HeaderOnlyLayout><DonationSuccess /></HeaderOnlyLayout>} />
           <Route path="*" element={<HeaderOnlyLayout><NotFound /></HeaderOnlyLayout>} />
-          
+
           {/* Route without any layout or contexts */}
+
           <Route path="/admin/login" element={<AuthPage />} />
           <Route path="/admin/reset-password" element={ <ResetPassword/> } />
           <Route path="/admin" element={ <AdminProtectedRoute> <AdminDashboard /></AdminProtectedRoute>} />
+
         </Routes>
       </AnimatePresence>
     </>
@@ -125,6 +140,8 @@ const App = () => {
     return (
       <AdminAuthProvider>
       <GroceryItemAdminProvider>
+
+        
       <KitAdminProvider>
       <BlogAdminProvider>
       <Toaster/>
@@ -133,6 +150,7 @@ const App = () => {
       </JobAdminProvider>
       </BlogAdminProvider>
       </KitAdminProvider>
+
       </GroceryItemAdminProvider>
       </AdminAuthProvider> 
     )
@@ -145,11 +163,16 @@ const App = () => {
         <CartProvider>
           <DataProvider>
             <BlogProvider>
-              <CareerProvider>              
-              <Toaster />
-              <Sonner />
-              <AnimatedRoutes />
-              </CareerProvider>
+
+              <CampaignProvider>
+                 <CareerProvider> 
+                <Toaster />
+                <Sonner />
+                <AnimatedRoutes />
+                    </CareerProvider>
+              </CampaignProvider>
+        
+
             </BlogProvider>
           </DataProvider>
         </CartProvider>

@@ -9,7 +9,10 @@ import blogRoutes from "./routes/blogRoutes.js"
 import paymentRoutes from "./routes/paymentRoutes.js"
 import applicationRoutes from "./routes/applicationRoutes.js"
 import groceryItemRoutes from "./routes/groceryItemRoutes.js"
+
+  import campaignRoutes from "./routes/campaignRoutes.js"
 import adminRoutes from "./routes/adminRoutes.js";
+
 import fileUpload from "express-fileupload";
 import cookieParser from "cookie-parser";
 import Admin from "./models/Admin.js";
@@ -47,6 +50,7 @@ app.use("/api/kits", kitsRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use("/api/grocery-items", groceryItemRoutes);
+app.use("/api/campaigns", campaignRoutes);
 
 app.listen(PORT, () =>
   console.log(`server is running at http://localhost:${PORT}`)

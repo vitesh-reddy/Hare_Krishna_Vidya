@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import CartButton from '../../TSX-src/components/CartButton';
+import CreateCampaignButton from './CreateCampaignButton';
 
 const Header = () => {
   const location = useLocation();
@@ -34,6 +35,7 @@ const Header = () => {
               { path: '/admin', label: 'Admin' }, 
               { path: '/blog', label: 'Blogs' }, 
               { path: '/contact', label: 'Contact Us' },
+              { path: '/advertforcampaign', label: 'Campaign' }
             ].map((item, idx) => (
               <Link
                 key={idx}
@@ -50,7 +52,7 @@ const Header = () => {
           </nav>
 
           {/* Cart + Donate */}
-          <div className="hidden lg:flex items-center gap-[0.5rem]">
+          <div className="hidden lg:flex items-center gap-[0.5rem] ">
             <CartButton />
             <div className="relative group font-medium font-inter rounded-[1.125rem] transition-colors duration-200 cursor-pointer inline-flex items-center justify-center bg-primary-blue shadow-custom-donate text-white px-[2.25rem] py-4 text-[0.95rem] hover:bg-primary-dark focus:ring-[#0b3954]">
               <p className="text-shadow-[0_100px_100px_rgba(71,187,255,0.30)]">Donate Now</p>
@@ -64,6 +66,7 @@ const Header = () => {
               </div>
             </div>
           </div>
+          <CreateCampaignButton />
         </div>
 
         {/* Mobile Menu button (Hamburger) */}
@@ -108,6 +111,7 @@ const Header = () => {
             { path: '/admin', label: 'Admin' }, 
             { path: '/blog', label: 'Blogs' },             
             { path: '/contact', label: 'Contact Us' },
+            { path: '/advertforcampaign', label: 'Campaigns' }
           ].map((item, index) => (
             <Link
               key={item.path}
