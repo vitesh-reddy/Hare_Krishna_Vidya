@@ -5,13 +5,13 @@ import { sendResetEmail } from "../utils/sendMail.js";
 import bcrypt from "bcryptjs";
 
 const generateToken = (res, userId) => {
-  const token = jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: "7d" });
+  const token = jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: "1hr" });
 
   res.cookie("adminToken", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "Lax",
-    maxAge: 7 * 24 * 60 * 60 * 1000,
+    maxAge: 60 * 60 * 1000,
   });
 
   return token;
