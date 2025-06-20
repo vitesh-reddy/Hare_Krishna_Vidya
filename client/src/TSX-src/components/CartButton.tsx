@@ -16,13 +16,13 @@ const CartButton = () => {
       onClick={() => navigate('/cart')}
       className="relative"
     >
-      <ShoppingCart style={{ width: '1rem', height: '1rem' }} />
+      <ShoppingCart style={{ width: '1rem', height: '1rem'}} />
       {itemCount > 0 && (
         <span className="absolute -top-2 -right-2 bg-orange-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
           {itemCount}
         </span>
       )}
-      <span className="ml-2 hidden md:inline text-[0.9rem] hover:text-orange-400">Cart</span>
+      <span className="hidden md:inline text-[0.8rem] text-neutral-dark hover:text-orange-400">Cart</span>
     </Button>
   );
 };
