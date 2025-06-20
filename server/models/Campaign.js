@@ -16,10 +16,10 @@ const campaignSchema = new mongoose.Schema({
   },
   campaignName: { type: String, required: true },
   goalAmount: { type: Number, required: true },
-  startDate: { type: Date, required: true },
-  endDate: { type: Date, required: true },
+  startDate: { type: Number, required: true },
+  endDate: { type: Number ,required: true },
   description: { type: String, required: true },
-  uploadedImage: { type: String, default: null }
+  uploadedImage: { type: String, required: true }
 });
 
 // Model Definitions

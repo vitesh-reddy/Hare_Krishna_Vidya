@@ -100,16 +100,14 @@ const FundraisingCampaigns = () => {
                   </div>
                 </div>
 
-                {/* Campaign Images Grid */}
-                <div className="h-48 bg-gradient-to-r from-blue-100 to-purple-100 p-4">
-                  <div className="grid grid-cols-3 gap-2 h-full">
-                    <div className="bg-white rounded-lg shadow-sm"></div>
-                    <div className="bg-white rounded-lg shadow-sm"></div>
-                    <div className="bg-white rounded-lg shadow-sm"></div>
-                    <div className="bg-white rounded-lg shadow-sm"></div>
-                    <div className="bg-white rounded-lg shadow-sm"></div>
-                    <div className="bg-white rounded-lg shadow-sm"></div>
-                  </div>
+                
+                {/* Campaign Image */}
+                <div className="h-48 w-full overflow-hidden">
+                  <img
+                    src={campaign.uploadedImage}
+                    alt={campaign.campaignName}
+                    className="object-cover w-full h-full"
+                  />
                 </div>
 
                 {/* Campaign Content */}

@@ -23,17 +23,18 @@ router.post('/create', async (req, res) => {
             goalAmount,
             startDate,        // should be in milliseconds
             endDate,          // should be in milliseconds
-            description
+            description,
+            uploadedImage
         } = req.body;
 
         const newCampaign = new Campaign({
             campaignType,
             campaignName,
             goalAmount,
-            startDate: new Date(startDate),
-            endDate: new Date(endDate),
+            startDate,
+            endDate,
             description,
-            uploadedImage: null // default null
+            uploadedImage // default null
         });
 
         const saved = await newCampaign.save();
