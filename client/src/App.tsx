@@ -14,7 +14,6 @@ import Footer from "./components/common/Footer";
 // JSX Pages
 import HomePage from "./pages/Home";
 import AboutUsPage from "./pages/about-us";
-import HareKrishnaVidyaPage from "./pages/hare-krishna-vidya-charity-and-education-foundation";
 import OurInitiativePage from "./pages/our-initiative";
 import GalleryPage from "./pages/gallery";
 import ContactPage from "./pages/contact";
@@ -60,7 +59,7 @@ const queryClient = new QueryClient();
 const MainLayout = ({ children }) => (
   <>
     <Header />
-    <div className="pb-[4.5rem] sm:pb-[5rem] lg:pb-[5.25rem]"></div>
+    <div className="pb-[4.5rem] sm:pb-[4.55rem] bg-neutral-background lg:pb-[4.95rem]"></div>
     {children}
     <Footer />
   </>
@@ -70,7 +69,7 @@ const MainLayout = ({ children }) => (
 const HeaderOnlyLayout = ({ children }) => (
   <>
     <Header />
-    <div className="pb-[4.5rem] sm:pb-[5rem] lg:pb-[5.25rem]"></div>
+    <div className="pb-[4.5rem] sm:pb-[4.55rem] bg-neutral-background lg:pb-[4.95rem]"></div>
     {children}
   </>
 );
@@ -89,23 +88,20 @@ const AnimatedRoutes = () => {
           {/* Routes with Header and Footer */}
           <Route path="/" element={<MainLayout><HomePage /></MainLayout>} />
           <Route path="/about-us" element={<MainLayout><AboutUsPage /></MainLayout>} />
-          <Route path="/CreateCampaign" element={<CreateCampaign />} />
-
-          <Route path="/hare-krishna-vidya-charity-and-education-foundation" element={<MainLayout><HareKrishnaVidyaPage /></MainLayout>} />
           <Route path="/our-initiative" element={<MainLayout><OurInitiativePage /></MainLayout>} />
           <Route path="/gallery" element={<MainLayout><GalleryPage /></MainLayout>} />
           <Route path="/contact" element={<MainLayout><ContactPage /></MainLayout>} />
-          <Route path="/advertforcampaign" element={<MainLayout><FundraisingCampaigns /></MainLayout>} />
           <Route path="/donate-amount" element={<MainLayout><DonatePage /></MainLayout>} />
           <Route path="/terms&conditions" element={<MainLayout><TnCPage /></MainLayout>} />
           <Route path="/privacy-policy" element={<MainLayout><PrivacyPolicyPage /></MainLayout>} />
           <Route path="/refund-policy" element={<MainLayout><RefundPolicyPage /></MainLayout>} />
           <Route path="/our-associated-trusts" element={<MainLayout><OurAssociatedTrustsPage /></MainLayout>} />
           <Route path="/governance" element={<MainLayout><GovernancePage /></MainLayout>} />
+          <Route path="/donate-items" element={<MainLayout><DonateItemsPage /></MainLayout>} />
           <Route path="/blog" element={<MainLayout><Blog /></MainLayout>} />
           <Route path="/blog2" element={<MainLayout><BlogPage /></MainLayout>} />
-          <Route path="/donate-items" element={<MainLayout><DonateItemsPage /></MainLayout>} />
-          <Route path="/advertforcampaign" element={<FundraisingCampaigns />} />
+          <Route path="/CreateCampaign" element={<MainLayout><CreateCampaign /> </MainLayout>} />
+          <Route path="/advertforcampaign" element={<MainLayout><FundraisingCampaigns /></MainLayout>} />
 
 
           {/* Routes with only Header */}
@@ -137,37 +133,34 @@ const App = () => {
   if (location.pathname.startsWith("/admin")) {
     console.log(location.pathname)
     return (
+      <GroceryItemAdminProvider>        
       <AdminAuthProvider>
-      <GroceryItemAdminProvider>
-
-        
       <KitAdminProvider>
       <BlogAdminProvider>
       <JobAdminProvider>
-          <AnimatedRoutes />
+        <AnimatedRoutes />
       </JobAdminProvider>
       </BlogAdminProvider>
       </KitAdminProvider>
-
-      </GroceryItemAdminProvider>
       </AdminAuthProvider> 
+      </GroceryItemAdminProvider>
     )
   }
 
   // Render all other routes with context providers
   return (
     <QueryClientProvider client={queryClient}>
-        <CartProvider>
-          <DataProvider>
-            <BlogProvider>
-              <CampaignProvider>
-                 <CareerProvider> 
-                  <AnimatedRoutes />
-                </CareerProvider>
-              </CampaignProvider>    
-            </BlogProvider>
-          </DataProvider>
-        </CartProvider>
+    <CartProvider>
+    <DataProvider>
+    <BlogProvider>
+    <CampaignProvider>
+    <CareerProvider> 
+      <AnimatedRoutes />
+    </CareerProvider>
+    </CampaignProvider>    
+    </BlogProvider>
+    </DataProvider>
+    </CartProvider>
     </QueryClientProvider>
   );
 };
