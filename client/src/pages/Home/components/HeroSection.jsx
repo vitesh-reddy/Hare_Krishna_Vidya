@@ -24,7 +24,6 @@ const HeroSection = () => {
           alt="Children receiving food"
           className="w-full h-full object-cover rounded-[40px]"
         />
-        <div className="absolute inset-0 bg-black/10 rounded-[40px]"></div>
       </div>
       {/* Donation Notification */}
       <div

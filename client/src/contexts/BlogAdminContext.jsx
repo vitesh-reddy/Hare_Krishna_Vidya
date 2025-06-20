@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
@@ -14,6 +14,7 @@ export const BlogAdminProvider = ({ children }) => {
 
   // Fetch all blog posts
   const fetchBlogs = useCallback(async () => {
+    console.log('admin fetchblogs called');
     setLoading(true);
     try {
       const response = await axios.get(`${BASE_URL}/blogs/all`);

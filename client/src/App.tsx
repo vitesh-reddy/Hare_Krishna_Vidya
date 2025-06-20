@@ -44,7 +44,17 @@ import NotFound from "./TSX-src/pages/NotFound";
 import { GroceryItemAdminProvider } from './contexts/GroceryItemAdminContext';
 import { KitAdminProvider } from './contexts/KitAdminContext';
 import { BlogAdminProvider } from './contexts/BlogAdminContext';
+
 import { CampaignProvider } from './contexts/CampaignContext';
+import BlogPage from './pages/blogs';
+import CareersPage from './pages/careers';
+import { CareerProvider } from './contexts/CareerContext';
+import { JobAdminProvider } from './contexts/JobContextAdmin';
+import ResetPassword from './TSX-src/pages/admin/auth-pages/ResetPassword';
+import AuthPage from './TSX-src/pages/admin/auth-pages/AuthPage';
+import AdminProtectedRoute from './TSX-src/pages/admin/routes/AdminProtectedRoute.jsx';
+import { AdminAuthProvider } from './contexts/AdminAuthContext';
+
 
 const queryClient = new QueryClient();
 
@@ -94,19 +104,27 @@ const AnimatedRoutes = () => {
           <Route path="/our-associated-trusts" element={<MainLayout><OurAssociatedTrustsPage /></MainLayout>} />
           <Route path="/governance" element={<MainLayout><GovernancePage /></MainLayout>} />
           <Route path="/blog" element={<MainLayout><Blog /></MainLayout>} />
+          <Route path="/blog2" element={<MainLayout><BlogPage /></MainLayout>} />
           <Route path="/donate-items" element={<MainLayout><DonateItemsPage /></MainLayout>} />
           <Route path="/advertforcampaign" element={<FundraisingCampaigns />} />
 
 
           {/* Routes with only Header */}
-          < Route path="/cart" element={<HeaderOnlyLayout><Cart /></HeaderOnlyLayout>} />
+
+          <Route path="/cart" element={<HeaderOnlyLayout><Cart /></HeaderOnlyLayout>} />
+          <Route path="/careers" element={<HeaderOnlyLayout><CareersPage /></HeaderOnlyLayout>} />
+
           <Route path="/donate" element={<HeaderOnlyLayout><DonationFlow /></HeaderOnlyLayout>} />
           <Route path="/amount-donation-flow" element={<HeaderOnlyLayout><AmountDonationFlow /></HeaderOnlyLayout>} />
           <Route path="/donation-success" element={<HeaderOnlyLayout><DonationSuccess /></HeaderOnlyLayout>} />
           <Route path="*" element={<HeaderOnlyLayout><NotFound /></HeaderOnlyLayout>} />
 
           {/* Route without any layout or contexts */}
-          <Route path="/admin" element={<AdminDashboard />} />
+
+          <Route path="/admin/login" element={<AuthPage />} />
+          <Route path="/admin/reset-password" element={ <ResetPassword/> } />
+          <Route path="/admin" element={ <AdminProtectedRoute> <AdminDashboard /></AdminProtectedRoute>} />
+
         </Routes>
       </AnimatePresence>
     </>
@@ -117,16 +135,24 @@ const App = () => {
   const location = useLocation();
 
   // Render AdminDashboard without context providers for /admin route
-  if (location.pathname === "/admin") {
+  if (location.pathname.startsWith("/admin")) {
+    console.log(location.pathname)
     return (
+      <AdminAuthProvider>
       <GroceryItemAdminProvider>
-        <KitAdminProvider>
-          <BlogAdminProvider>
-            <Toaster />
-            <AnimatedRoutes />
-          </BlogAdminProvider>
-        </KitAdminProvider>
+
+        
+      <KitAdminProvider>
+      <BlogAdminProvider>
+      <Toaster/>
+      <JobAdminProvider>
+          <AnimatedRoutes />
+      </JobAdminProvider>
+      </BlogAdminProvider>
+      </KitAdminProvider>
+
       </GroceryItemAdminProvider>
+      </AdminAuthProvider> 
     )
   }
 
@@ -137,11 +163,16 @@ const App = () => {
         <CartProvider>
           <DataProvider>
             <BlogProvider>
+
               <CampaignProvider>
+                 <CareerProvider> 
                 <Toaster />
                 <Sonner />
                 <AnimatedRoutes />
+                    </CareerProvider>
               </CampaignProvider>
+        
+
             </BlogProvider>
           </DataProvider>
         </CartProvider>

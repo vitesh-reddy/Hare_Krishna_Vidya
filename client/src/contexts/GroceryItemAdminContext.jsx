@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
@@ -14,6 +14,7 @@ export const GroceryItemAdminProvider = ({ children }) => {
 
   // Fetch all grocery items
   const fetchGroceryItems = useCallback(async () => {
+    console.log('Groceries Fetched');
     setLoading(true);
     try {
       const response = await axios.get(`${BASE_URL}/grocery-items`);
