@@ -56,9 +56,7 @@ const DonationSuccess = () => {
       <span>›</span>
       <span className="text-[#1F2937] font-medium dark:text-[#F5F7FD]">Donation Success</span>
     </div>
-  );
-
-  const currentDate = new Date('2025-06-15'); // Use system date: June 15, 2025
+  );  
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#ECFDF5] to-[#EFF6FF] py-[2rem] dark:from-[#1A3C34] dark:to-[#1E3A8A]">
@@ -114,7 +112,7 @@ const DonationSuccess = () => {
                 </div>
                 <div className="flex justify-between">
                   <span className="font-medium">Date:</span>
-                  <span>{currentDate.toLocaleDateString()}</span>
+                  <span>{new Date().toLocaleDateString()}</span>
                 </div>
               </div>
             </CardContent>

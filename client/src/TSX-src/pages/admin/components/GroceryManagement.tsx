@@ -12,15 +12,12 @@ import Loader from '../../../../components/common/Loader';
 import imageCompression from 'browser-image-compression';
 
 const GroceryManagement = () => {
-  const {
-    groceryItems,
-    fetchGroceryItems,
-    createGroceryItem,
-    updateGroceryItem,
-    deleteGroceryItem,
-    toggleGroceryActiveStatus,
-    loading,
-  } = useGroceryItemsAdmin();
+  const { groceryItems, createGroceryItem, updateGroceryItem, deleteGroceryItem, toggleGroceryActiveStatus, loading, fetchGroceryItems } = useGroceryItemsAdmin();
+  useEffect(() => {
+    if(!groceryItems.length)
+      fetchGroceryItems();
+    console.log("Grocery Management Rendered");
+  }, [])
 
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState(null);
@@ -37,9 +34,6 @@ const GroceryManagement = () => {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
 
-  useEffect(() => {
-    fetchGroceryItems();
-  }, [fetchGroceryItems]);
 
 const handleImageUpload = async (file) => {
   if (!file || !file.type.startsWith('image/')) {
