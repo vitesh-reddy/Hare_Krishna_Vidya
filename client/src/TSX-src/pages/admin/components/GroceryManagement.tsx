@@ -87,7 +87,6 @@ const handleImageUpload = async (file) => {
 
   const handleSave = async () => {
     // Validate required fields
-    console.log('Hi');
     if (!formData.name.trim()) {
       toast.error('Item name is required');
       return;
