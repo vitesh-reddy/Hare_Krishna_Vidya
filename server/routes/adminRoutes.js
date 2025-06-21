@@ -19,8 +19,8 @@ router.post('/create-default-admin', async (req, res) => {
     }
 
     const admin = new Admin({
-      email: 'rtyqwe71450@gmail.com',
-      password: '1234', 
+      email: req.body.email,
+      password: req.body.password, 
     });
 
     await admin.save();
