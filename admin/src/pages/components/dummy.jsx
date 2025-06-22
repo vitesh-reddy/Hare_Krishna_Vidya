@@ -8,12 +8,13 @@ import { useJobAdminContext } from '../../contexts/JobContextAdmin';
 
 const DashboardOverview = () => {
   const { publishedBlogsCount } = useBlogsAdmin();
+  const { kits } = useKitsAdmin();
   const { activeGroceryItemsCount } = useGroceryItemsAdmin();
   const { activeJobsCount } = useJobAdminContext();
   const {activeKitsCount} = useKitsAdmin();
   const stats = [
     {
-      title: 'Total Blog Posts',
+      title: 'Published Blogs',
       value: publishedBlogsCount,
       change: '+3 this month',
       icon: Book,
@@ -27,14 +28,14 @@ const DashboardOverview = () => {
       color: 'bg-[#16A34A]'
     },
     {
-      title: 'Donation Kits',
+      title: 'Active Kits',
       value: activeKitsCount,
       change: 'Updated prices',
       icon: Gift,
       color: 'bg-[#F97316]'
     },
     {
-      title: 'Grocery Items',
+      title: 'Active Groceries',
       value: activeGroceryItemsCount,
       change: 'Updated prices',
       icon: Grid2X2,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Card, CardContent, CardHeader, CardTitle } from '../../TSX-src/components/ui/card';
@@ -7,20 +7,26 @@ import { Input } from '../../TSX-src/components/ui/input';
 import { Label } from '../../TSX-src/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../TSX-src/components/ui/table';
 import { PlusCircle, Edit3, Trash2, Save, X, Eye, Upload, ArrowLeft, Calendar, User, Tag, FileText } from 'lucide-react';
-import MediumStyleEditor from './MediumStyleEditor';
 import toast from 'react-hot-toast';
 import { useBlogsAdmin } from '../../contexts/BlogAdminContext';
 import Loader from '../../components/common/Loader';
 import imageCompression from 'browser-image-compression';
+import BlogEditor from './BlogEditor';
+
 
 const BlogManagement = () => {
-  const { posts, createBlog, updateBlog, deleteBlog, toggleBlogStatus, loading, fetchBlogs} = useBlogsAdmin();
+  const { posts, createBlog, updateBlog, deleteBlog, toggleBlogStatus, loading, fetchBlogs } = useBlogsAdmin();
+  const editorRef = useRef(null);
+  const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+  const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+
+
   useEffect(() => {
-    if(!posts.length)
-      fetchBlogs();
+    if (!posts.length) fetchBlogs();
     console.log("Blog Management Rendered");
-  }, [])
-  
+  }, []);
+
+
   const [isCreating, setIsCreating] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [previewPost, setPreviewPost] = useState(null);
@@ -33,8 +39,10 @@ const BlogManagement = () => {
     content: '',
     category: '',
     image: '',
+    tags: [],
   });
   const [imageFile, setImageFile] = useState(null);
+  const [tagInput, setTagInput] = useState('');
 
   const validateForm = () => {
     if (!formData.title.trim()) {
@@ -60,41 +68,69 @@ const BlogManagement = () => {
     return true;
   };
 
-const handleImageUpload = async (file) => {
-  if (!file || !file.type.startsWith('image/')) {
-    toast.error('Please select a valid image file.');
-    return;
-  }
-
-  try {
-    console.log(`📷 Original file size: ${(file.size / 1024).toFixed(2)} KB`);
-
-    let finalFile = file;
-
-    // Compress only if file is larger than 800KB
-    if (file.size > 800 * 1024) {
-      const options = {
-        maxSizeMB: 1,
-        maxWidthOrHeight: 1024,
-        useWebWorker: true,
-        initialQuality: 0.8,
-      };
-      finalFile = await imageCompression(file, options);
-      console.log(`🗜️ Compressed file size: ${(finalFile.size / 1024).toFixed(2)} KB`);
-      toast.success('Image uploaded.');
-    } else {
-      console.log('⚠️ Skipped compression due to small file size.');
+  const handleImageUpload = async (file) => {
+    if (!file || !file.type.startsWith('image/')) {
+      toast.error('Please select a valid image file.');
+      return;
     }
 
-    const imageUrl = URL.createObjectURL(finalFile);
-    setFormData(prev => ({ ...prev, image: imageUrl }));
-    setImageFile(finalFile);
-  } catch (error) {
-    console.error('❌ Image compression failed:', error);
-    toast.error('Failed to process image.');
-  }
-};
+    try {
+      console.log(`📷 Original file size: ${(file.size / 1024).toFixed(2)} KB`);
+      let compressedFile = file;
 
+      if (file.size > 800 * 1024) {
+        const options = {
+          maxSizeMB: 1,
+          maxWidthOrHeight: 1024,
+          useWebWorker: true,
+          initialQuality: 0.8,
+        };
+        compressedFile = await imageCompression(file, options);
+        console.log(`🗜️ Compressed file size: ${(compressedFile.size / 1024).toFixed(2)} KB`);
+        toast.success('Image compressed and uploaded.');
+      } else {
+        console.log('⚠️ Skipped compression due to small file size.');
+      }
+
+      const formDataToUpload = new FormData();
+      formDataToUpload.append('file', compressedFile);
+      formDataToUpload.append('upload_preset', uploadPreset);
+      formDataToUpload.append('cloud_name', cloudName);
+
+      const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+        method: 'POST',
+        body: formDataToUpload,
+      });
+      
+      const result = await response.json();
+      if (result.secure_url) {
+        setFormData(prev => ({ ...prev, image: result.secure_url }));
+        setImageFile(compressedFile);
+      } else {
+        throw new Error('Image upload failed');
+      }
+    } catch (error) {
+      console.error('❌ Image upload failed:', error);
+      toast.error('Failed to upload image to Cloudinary.');
+    }
+  };
+
+  const addTag = () => {
+    if (tagInput.trim() && !formData.tags.includes(tagInput.trim())) {
+      setFormData((prev) => ({
+        ...prev,
+        tags: [...prev.tags, tagInput.trim()],
+      }));
+      setTagInput('');
+    }
+  };
+
+  const removeTag = (tag) => {
+    setFormData((prev) => ({
+      ...prev,
+      tags: prev.tags.filter((t) => t !== tag),
+    }));
+  };
 
   const handleSave = async () => {
     if (!validateForm()) {
@@ -110,8 +146,17 @@ const handleImageUpload = async (file) => {
         await createBlog(blogData, imageFile);
       }
       setIsCreating(false);
-      setFormData({ title: '', author: '', excerpt: '', content: '', category: '', image: '' });
+      setFormData({
+        title: '',
+        author: '',
+        excerpt: '',
+        content: '',
+        category: '',
+        image: '',
+        tags: [],
+      });
       setImageFile(null);
+      setTagInput('');
     } catch (error) {
       // Error is already handled in context
     }
@@ -143,18 +188,29 @@ const handleImageUpload = async (file) => {
       content: post.content || '',
       category: post.category || '',
       image: post.image || '',
+      tags: post.tags || [],
     });
     setEditingId(post._id);
     setIsCreating(true);
     setImageFile(null);
+    setTagInput('');
   };
 
   const handleCancel = () => {
     setIsCreating(false);
     setEditingId(null);
     setPreviewPost(null);
-    setFormData({ title: '', author: '', excerpt: '', content: '', category: '', image: '' });
+    setFormData({
+      title: '',
+      author: '',
+      excerpt: '',
+      content: '',
+      category: '',
+      image: '',
+      tags: [],
+    });
     setImageFile(null);
+    setTagInput('');
   };
 
   const handlePreview = (post) => {
@@ -162,19 +218,17 @@ const handleImageUpload = async (file) => {
   };
 
   if (loading) {
-    return (
-      <Loader/>
-    );
+    return <Loader />;
   }
 
   if (previewPost) {
     return (
       <div className="relative min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
-        {/* Gradient Header with Floating Back Button */}
         <header className="sticky top-0 z-50 bg-gradient-to-r from-orange-400 to-amber-300 shadow-lg">
           <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
             <h2 className="text-3xl font-bold text-white tracking-tight">
-              Blog Preview: {previewPost.title.slice(0, 55)}{previewPost.title.length > 55 && <span>...</span>}
+              Blog Preview: {previewPost.title.slice(0, 55)}
+              {previewPost.title.length > 55 && <span>...</span>}
             </h2>
             <Button
               onClick={() => setPreviewPost(null)}
@@ -187,10 +241,8 @@ const handleImageUpload = async (file) => {
           </div>
         </header>
 
-        {/* Main Content */}
         <main className="max-w-4xl mx-auto px-6 py-12">
           <Card className="shadow-2xl border-0 rounded-3xl overflow-hidden bg-white/95 backdrop-blur-sm">
-            {/* Hero Image */}
             {previewPost.image && (
               <div className="relative aspect-[16/9] overflow-hidden">
                 <img
@@ -202,16 +254,13 @@ const handleImageUpload = async (file) => {
               </div>
             )}
 
-            {/* Blog Content */}
             <CardContent className="p-10 md:p-14 space-y-8">
-              {/* Category Tag */}
               <div className="flex justify-start">
                 <span className="inline-block bg-orange-100 text-orange-700 px-5 py-2 rounded-full text-sm font-semibold tracking-wide shadow-sm hover:bg-orange-200 transition-colors duration-300">
                   {previewPost.category}
                 </span>
               </div>
 
-              {/* Title */}
               <h1
                 className="text-[1.5rem] md:text-[2.25rem] font-extrabold text-gray-900 tracking-tight"
                 style={{ fontFamily: "'Georgia', serif" }}
@@ -219,7 +268,6 @@ const handleImageUpload = async (file) => {
                 {previewPost.title}
               </h1>
 
-              {/* Excerpt */}
               {previewPost.excerpt && (
                 <p
                   className="text-lg md:text-xl text-gray-600 leading-relaxed font-light italic border-l-4 border-orange-400 pl-4"
@@ -229,7 +277,6 @@ const handleImageUpload = async (file) => {
                 </p>
               )}
 
-              {/* Meta Information */}
               <div className="flex items-center text-gray-500 text-base md:text-lg space-x-4">
                 <div className="flex items-center">
                   <User className="w-5 h-5 mr-2 text-orange-600" />
@@ -248,34 +295,62 @@ const handleImageUpload = async (file) => {
                 </div>
               </div>
 
-              {/* Blog Content with Markdown Rendering */}
               <article className="prose prose-lg max-w-none text-gray-800 leading-loose tracking-wide">
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   components={{
                     h1: ({ node, ...props }) => (
-                      <h1 className="text-4xl font-bold text-gray-900 mb-4" style={{ fontFamily: "'Georgia', serif" }} {...props} />
+                      <h1
+                        className="text-4xl font-bold text-gray-900 mb-4"
+                        style={{ fontFamily: "'Georgia', serif" }}
+                        {...props}
+                      />
                     ),
                     h2: ({ node, ...props }) => (
-                      <h2 className="text-3xl font-bold text-gray-900 mb-3" style={{ fontFamily: "'Georgia', serif" }} {...props} />
+                      <h2
+                        className="text-3xl font-bold text-gray-900 mb-3"
+                        style={{ fontFamily: "'Georgia', serif" }}
+                        {...props}
+                      />
                     ),
                     h3: ({ node, ...props }) => (
-                      <h3 className="text-2xl font-bold text-gray-900 mb-2" style={{ fontFamily: "'Georgia', serif" }} {...props} />
+                      <h3
+                        className="text-2xl font-bold text-gray-900 mb-2"
+                        style={{ fontFamily: "'Georgia', serif" }}
+                        {...props}
+                      />
                     ),
                     p: ({ node, ...props }) => (
-                      <p className="text-lg md:text-xl text-gray-800 leading-loose" style={{ fontFamily: "'Georgia', serif" }} {...props} />
+                      <p
+                        className="text-lg md:text-xl text-gray-800 leading-loose"
+                        style={{ fontFamily: "'Georgia', serif" }}
+                        {...props}
+                      />
                     ),
                     ul: ({ node, ...props }) => (
-                      <ul className="list-disc pl-6 mb-4 text-lg text-gray-800" style={{ fontFamily: "'Georgia', serif" }} {...props} />
+                      <ul
+                        className="list-disc pl-6 mb-4 text-lg text-gray-800"
+                        style={{ fontFamily: "'Georgia', serif" }}
+                        {...props}
+                      />
                     ),
                     ol: ({ node, ...props }) => (
-                      <ol className="list-decimal pl-6 mb-4 text-lg text-gray-800" style={{ fontFamily: "'Georgia', serif" }} {...props} />
+                      <ol
+                        className="list-decimal pl-6 mb-4 text-lg text-gray-800"
+                        style={{ fontFamily: "'Georgia', serif" }}
+                        {...props}
+                      />
                     ),
                     blockquote: ({ node, ...props }) => (
-                      <blockquote className="border-l-4 border-orange-400 pl-4 italic text-gray-600 mb-4" style={{ fontFamily: "'Georgia', serif" }} {...props} />
+                      <blockquote
+                        className="border-l-4 border-orange-400 pl-4 italic text-gray-600 mb-4"
+                        style={{ fontFamily: "'Georgia', serif" }}
+                        {...props}
+                      />
                     ),
-                    a: ({ node, ...props }) => (
-                      <a className="text-orange-600 hover:underline" {...props} />
+                    a: ({ node, ...props }) => <a className="text-orange-600 hover:underline" {...props} />,
+                    img: ({ node, ...props }) => (
+                      <img className="max-w-full h-auto rounded-lg my-4" {...props} />
                     ),
                   }}
                 >
@@ -286,7 +361,6 @@ const handleImageUpload = async (file) => {
           </Card>
         </main>
 
-        {/* Floating Back Button on Scroll */}
         <div className="fixed bottom-6 right-6 z-50 hidden md:block">
           <Button
             onClick={() => setPreviewPost(null)}
@@ -321,16 +395,16 @@ const handleImageUpload = async (file) => {
                 </h1>
               </div>
               <div className="flex items-center gap-3">
-                <span className="text-sm text-gray-500">
-                  Draft auto-saved
-                </span>
-                <Button 
-                  onClick={() => handlePreview({ 
-                    ...formData, 
-                    _id: editingId || Date.now(),
-                    date: new Date().toISOString(),
-                    status: 'Draft'
-                  })} 
+                <span className="text-sm text-gray-500">Draft auto-saved</span>
+                <Button
+                  onClick={() =>
+                    handlePreview({
+                      ...formData,
+                      _id: editingId || Date.now(),
+                      date: new Date().toISOString(),
+                      status: 'Draft',
+                    })
+                  }
                   variant="outline"
                   size="sm"
                   className="flex items-center gap-2"
@@ -338,8 +412,8 @@ const handleImageUpload = async (file) => {
                   <Eye className="w-4 h-4" />
                   Preview
                 </Button>
-                <Button 
-                  onClick={handleSave} 
+                <Button
+                  onClick={handleSave}
                   className="bg-green-600 hover:bg-green-700 text-white"
                   size="sm"
                 >
@@ -397,14 +471,14 @@ const handleImageUpload = async (file) => {
               </label>
             )}
 
-            <MediumStyleEditor
+            <BlogEditor
+              ref={editorRef}
               title={formData.title}
               content={formData.content}
               excerpt={formData.excerpt}
               onTitleChange={(title) => setFormData({ ...formData, title })}
               onContentChange={(content) => setFormData({ ...formData, content })}
               onExcerptChange={(excerpt) => setFormData({ ...formData, excerpt })}
-              onImageUpload={handleImageUpload}
             />
 
             <div className="mt-16 pt-8 border-t border-gray-200">
@@ -445,6 +519,42 @@ const handleImageUpload = async (file) => {
                       className="bg-white border-gray-300 focus:border-orange-400 focus:ring-orange-400"
                     />
                   </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="tags" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                      <Tag className="w-4 h-4" />
+                      Tags
+                    </Label>
+                    <div className="flex gap-2 mb-2">
+                      <Input
+                        id="tags"
+                        value={tagInput}
+                        onChange={(e) => setTagInput(e.target.value)}
+                        placeholder="Add a tag"
+                        onKeyPress={(e) => e.key === 'Enter' && addTag()}
+                        className="bg-white border-gray-300 focus:border-orange-400 focus:ring-orange-400"
+                      />
+                      <Button type="button" onClick={addTag} variant="outline">
+                        Add
+                      </Button>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {formData.tags.map((tag, index) => (
+                        <span
+                          key={index}
+                          className="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm flex items-center gap-2"
+                        >
+                          {tag}
+                          <button
+                            type="button"
+                            onClick={() => removeTag(tag)}
+                            className="text-orange-400 hover:text-orange-600"
+                          >
+                            <X className="w-3 h-3" />
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -456,7 +566,6 @@ const handleImageUpload = async (file) => {
 
   return (
     <div className="space-y-6">
-      {/* Delete Confirmation Dialog */}
       {showDeleteDialog && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md shadow-lg">
@@ -498,7 +607,10 @@ const handleImageUpload = async (file) => {
               </CardTitle>
               <p className="text-gray-600 mt-2">Create, edit, and manage your blog content</p>
             </div>
-            <Button onClick={() => setIsCreating(true)} className="bg-orange-600 hover:bg-orange-700 text-white shadow-md">
+            <Button
+              onClick={() => setIsCreating(true)}
+              className="bg-orange-600 hover:bg-orange-700 text-white shadow-md"
+            >
               <PlusCircle className="w-4 h-4 mr-2" />
               Write New Story
             </Button>
@@ -528,10 +640,10 @@ const handleImageUpload = async (file) => {
                     {post.author.length > 30 && <span>...</span>}
                   </TableCell>
                   <TableCell>
-                    {new Date(post.date).toLocaleDateString('en-US', { 
-                      year: 'numeric', 
-                      month: 'short', 
-                      day: 'numeric' 
+                    {new Date(post.date).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric',
                     })}
                   </TableCell>
                   <TableCell>
@@ -543,8 +655,8 @@ const handleImageUpload = async (file) => {
                       size="sm"
                       variant="outline"
                       className={`text-xs ${
-                        post.status === 'Published' 
-                          ? 'bg-green-100 text-green-600 hover:bg-green-200' 
+                        post.status === 'Published'
+                          ? 'bg-green-100 text-green-600 hover:bg-green-200'
                           : 'bg-yellow-100 text-yellow-600 hover:bg-yellow-200'
                       }`}
                       onClick={() => toggleBlogStatus(post._id)}
@@ -554,18 +666,10 @@ const handleImageUpload = async (file) => {
                   </TableCell>
                   <TableCell>
                     <div className="flex gap-2">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handlePreview(post)}
-                      >
+                      <Button size="sm" variant="outline" onClick={() => handlePreview(post)}>
                         <Eye className="w-4 h-4" />
                       </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleEdit(post)}
-                      >
+                      <Button size="sm" variant="outline" onClick={() => handleEdit(post)}>
                         <Edit3 className="w-4 h-4" />
                       </Button>
                       <Button

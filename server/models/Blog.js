@@ -8,7 +8,8 @@ const blogSchema = new mongoose.Schema({
   content: { type: String, required: true },
   excerpt: { type: String },
   image: { type: String },
-  category: { type: String }
+  category: { type: String },
+  tags: { type: [String] },
 });
 
 blogSchema.index({ status: 1 });
