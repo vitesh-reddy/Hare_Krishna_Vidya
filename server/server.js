@@ -3,11 +3,9 @@ import express from "express";
 import connectDB from "./config/db.js";
 import morgan from "morgan";
 import cors from "cors";
-import jobRoutes from "./routes/jobRoutes.js"
-import kitsRoutes from "./routes/kitsRoutes.js"
 import blogRoutes from "./routes/blogRoutes.js"
+import kitsRoutes from "./routes/kitsRoutes.js"
 import paymentRoutes from "./routes/paymentRoutes.js"
-import applicationRoutes from "./routes/applicationRoutes.js"
 import groceryItemRoutes from "./routes/groceryItemRoutes.js"
 
 import campaignRoutes from "./routes/campaignRoutes.js"
@@ -22,6 +20,7 @@ const CLIENT_URL = process.env.CLIENT_URL;
 const ADMIN_URL = process.env.ADMIN_URL;
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/";
 
+
 const app = express();
 app.use(fileUpload());
 connectDB(MONGODB_URI);
@@ -32,24 +31,21 @@ app.use(cors({
   credentials: true
 }));
 
-
 app.use(morgan("tiny", {
   skip: (req) => req.url.match(/\.(css|js|png|jpg|ico|svg|woff2?)$/)
 }));
 
+
 app.use(express.json());
-app.use(cookieParser());
 app.get("/", async (req, res) => {
 });
 
-app.use('/api/admin', adminRoutes);
-app.use('/api/applications', applicationRoutes);
-app.use('/api/jobs', jobRoutes);
-app.use("/api/kits", kitsRoutes);
 app.use("/api/blogs", blogRoutes);
+app.use("/api/kits", kitsRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use("/api/grocery-items", groceryItemRoutes);
 app.use("/api/campaigns", campaignRoutes);
+app.use('/uploads', express.static('uploads'));
 
 app.listen(PORT, () =>
   console.log(`server is running at http://localhost:${PORT}`)
