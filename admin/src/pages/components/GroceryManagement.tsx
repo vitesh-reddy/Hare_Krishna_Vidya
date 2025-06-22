@@ -446,21 +446,6 @@ const handleImageUpload = async (file) => {
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Bulk Actions</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex gap-4">
-            <Button variant="outline">📥 Import CSV</Button>
-            <Button variant="outline">📤 Export Data</Button>
-            <Button variant="outline">🔄 Sync Prices</Button>
-          </div>
-          <p className="text-sm text-gray-600 mt-2">
-            Last bulk update: May 15, 2024 by Admin User
-          </p>
-        </CardContent>
-      </Card>
     </div>
   );
 };
