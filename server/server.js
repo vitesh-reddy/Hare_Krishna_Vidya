@@ -3,10 +3,12 @@ import express from "express";
 import connectDB from "./config/db.js";
 import morgan from "morgan";
 import cors from "cors";
+import jobRoutes from "./routes/jobRoutes.js"
 import blogRoutes from "./routes/blogRoutes.js"
 import kitsRoutes from "./routes/kitsRoutes.js"
 import paymentRoutes from "./routes/paymentRoutes.js"
 import groceryItemRoutes from "./routes/groceryItemRoutes.js"
+import applicationRoutes from "./routes/applicationRoutes.js"
 
 import campaignRoutes from "./routes/campaignRoutes.js"
 import adminRoutes from "./routes/adminRoutes.js";
@@ -41,11 +43,13 @@ app.use(express.json());
 app.get("/", async (req, res) => {
 });
 
-app.use("/api/admin", adminRoutes);
+app.use("/api/jobs", jobRoutes);
 app.use("/api/blogs", blogRoutes);
+app.use("/api/admin", adminRoutes);
 app.use("/api/kits", kitsRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use("/api/grocery-items", groceryItemRoutes);
+app.use('/api/applications', applicationRoutes);
 app.use("/api/campaigns", campaignRoutes);
 app.use('/uploads', express.static('uploads'));
 
