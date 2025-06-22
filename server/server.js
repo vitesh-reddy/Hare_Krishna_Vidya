@@ -23,6 +23,7 @@ const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/";
 
 const app = express();
 app.use(fileUpload());
+app.use(cookieParser())
 connectDB(MONGODB_URI);
 
 // Enable CORS for frontend URL
@@ -40,6 +41,7 @@ app.use(express.json());
 app.get("/", async (req, res) => {
 });
 
+app.use("/api/admin", adminRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/kits", kitsRoutes);
 app.use('/api/payments', paymentRoutes);
