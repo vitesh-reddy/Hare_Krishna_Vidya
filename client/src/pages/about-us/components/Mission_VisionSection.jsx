@@ -51,7 +51,7 @@ const Mission_VisionSection = () => {
 
   return (
     <section className="flex flex-col items-start mb-[4rem]">
-      <div className="hidden md:block relative w-[480px] bg-blackz">
+      <div className="hidden md:block relative w-[480px] bg-black">
         <div
           onClick={() => handleStatusChange('mission')}
           className={'absolute left-0 cursor-pointer' + transition + (status === 'mission' ? ' z-10' : ' z-0')}
@@ -66,7 +66,7 @@ const Mission_VisionSection = () => {
         </div>
       </div>
 
-      <div className="hidden md:flex w-[96.5%] mt-14 h-[550px]">
+      <div className="hidden md:flex w-[96.5%] mt-[2.6rem] h-[550px]">
         {/* Left section with bg color */}
         <div
           className={`w-[50%] p-[3rem] rounded-[0px_0px_0px_30px] flex flex-col justify-evenly transition-all duration-500`}

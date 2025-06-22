@@ -10,17 +10,16 @@ import paymentRoutes from "./routes/paymentRoutes.js"
 import applicationRoutes from "./routes/applicationRoutes.js"
 import groceryItemRoutes from "./routes/groceryItemRoutes.js"
 
-  import campaignRoutes from "./routes/campaignRoutes.js"
+import campaignRoutes from "./routes/campaignRoutes.js"
 import adminRoutes from "./routes/adminRoutes.js";
 
 import fileUpload from "express-fileupload";
 import cookieParser from "cookie-parser";
-import Admin from "./models/Admin.js";
-// console.clear();
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
-const FRONTEND_URL = process.env.FRONTEND_URL;
+const CLIENT_URL = process.env.CLIENT_URL;
+const ADMIN_URL = process.env.ADMIN_URL;
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/";
 
 const app = express();
@@ -29,7 +28,7 @@ connectDB(MONGODB_URI);
 
 // Enable CORS for frontend URL
 app.use(cors({
-  origin: FRONTEND_URL,
+  origin: [CLIENT_URL, ADMIN_URL],
   credentials: true
 }));
 

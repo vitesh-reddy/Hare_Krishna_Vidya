@@ -34,24 +34,12 @@ import Blog from "./TSX-src/pages/Blog";
 import Cart from "./TSX-src/pages/Cart";
 import DonationFlow from "./TSX-src/pages/DonationFlow";
 import DonationSuccess from "./TSX-src/pages/DonationSuccess";
-import AdminDashboard from "./TSX-src/pages/admin/AdminDashboard";
 import NotFound from "./TSX-src/pages/NotFound";
-
-
-import { GroceryItemAdminProvider } from './contexts/GroceryItemAdminContext';
-import { KitAdminProvider } from './contexts/KitAdminContext';
-import { BlogAdminProvider } from './contexts/BlogAdminContext';
 
 import { CampaignProvider } from './contexts/CampaignContext';
 import BlogPage from './pages/blogs';
 import CareersPage from './pages/careers';
 import { CareerProvider } from './contexts/CareerContext';
-import { JobAdminProvider } from './contexts/JobContextAdmin';
-import ResetPassword from './TSX-src/pages/admin/auth-pages/ResetPassword';
-import AuthPage from './TSX-src/pages/admin/auth-pages/AuthPage';
-import AdminProtectedRoute from './TSX-src/pages/admin/routes/AdminProtectedRoute.jsx';
-import { AdminAuthProvider } from './contexts/AdminAuthContext';
-
 
 const queryClient = new QueryClient();
 
@@ -114,12 +102,6 @@ const AnimatedRoutes = () => {
           <Route path="/donation-success" element={<HeaderOnlyLayout><DonationSuccess /></HeaderOnlyLayout>} />
           <Route path="*" element={<HeaderOnlyLayout><NotFound /></HeaderOnlyLayout>} />
 
-          {/* Route without any layout or contexts */}
-
-          <Route path="/admin/login" element={<AuthPage />} />
-          <Route path="/admin/reset-password" element={ <ResetPassword/> } />
-          <Route path="/admin" element={ <AdminProtectedRoute> <AdminDashboard /></AdminProtectedRoute>} />
-
         </Routes>
       </AnimatePresence>
     </>
@@ -127,25 +109,7 @@ const AnimatedRoutes = () => {
 };
 
 const App = () => {
-  const location = useLocation();
 
-  // Render AdminDashboard without context providers for /admin route
-  if (location.pathname.startsWith("/admin")) {
-    console.log(location.pathname)
-    return (
-      <GroceryItemAdminProvider>        
-      <AdminAuthProvider>
-      <KitAdminProvider>
-      <BlogAdminProvider>
-      <JobAdminProvider>
-        <AnimatedRoutes />
-      </JobAdminProvider>
-      </BlogAdminProvider>
-      </KitAdminProvider>
-      </AdminAuthProvider> 
-      </GroceryItemAdminProvider>
-    )
-  }
 
   // Render all other routes with context providers
   return (
