@@ -49,6 +49,7 @@ router.get('/published', async (req, res) => {
     try {
         const publishedCampaigns = await Campaign.find({}).populate('campaignType');
         return res.status(200).json(publishedCampaigns);
+        
     } catch (error) {
         console.error("Error fetching published campaigns:", error);
         return res.status(500).json({ error: 'Failed to fetch published campaigns' });

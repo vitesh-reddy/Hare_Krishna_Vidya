@@ -107,7 +107,7 @@ const FundraisingCampaigns = () => {
                     src={campaign.uploadedImage}
                     alt={campaign.campaignName}
                     className="object-cover w-full h-full"
-                  />
+                  />    
                 </div>
 
                 {/* Campaign Content */}
