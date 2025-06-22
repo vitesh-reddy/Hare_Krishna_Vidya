@@ -23,17 +23,18 @@ router.post('/create', async (req, res) => {
             goalAmount,
             startDate,        // should be in milliseconds
             endDate,          // should be in milliseconds
-            description
+            description,
+            uploadedImage
         } = req.body;
 
         const newCampaign = new Campaign({
             campaignType,
             campaignName,
             goalAmount,
-            startDate: new Date(startDate),
-            endDate: new Date(endDate),
+            startDate,
+            endDate,
             description,
-            uploadedImage: null // default null
+            uploadedImage // default null
         });
 
         const saved = await newCampaign.save();
@@ -48,6 +49,7 @@ router.get('/published', async (req, res) => {
     try {
         const publishedCampaigns = await Campaign.find({}).populate('campaignType');
         return res.status(200).json(publishedCampaigns);
+        
     } catch (error) {
         console.error("Error fetching published campaigns:", error);
         return res.status(500).json({ error: 'Failed to fetch published campaigns' });
