@@ -63,13 +63,13 @@ const AmountDonationFlow = () => {
   const calculateImpact = () => {
     let impact = {};
     if (donationType === 'annadan') {
-      const childrenFed = Math.floor(amount / 27);
+      const childrenFed = Math.ceil(amount / 27);
       impact = { label: 'Children Fed', value: childrenFed };
     } else if (donationType === 'sponsorchild') {
-      const childrenSponsored = Math.floor(amount / 12000);
+      const childrenSponsored = Math.ceil(amount / 12000);
       impact = { label: 'Children Sponsored', value: childrenSponsored };
     } else if (donationType === 'vidhyadana') {
-      const childrenEducated = Math.floor(amount / 500);
+      const childrenEducated = Math.ceil(amount / 500);
       impact = { label: 'Children Educated (1 Month)', value: childrenEducated };
     } else {
       impact = { label: 'Impact', value: 'Your donation will make a difference!' };
