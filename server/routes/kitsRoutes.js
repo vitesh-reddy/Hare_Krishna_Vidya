@@ -6,6 +6,7 @@ import {
   updateKit,
   deleteKit,
   toggleKitActiveStatus,
+  getActiveKitsCount,
 } from '../services/kitsServices.js';
 import { deleteFromCloudinary, uploadToCloudinary } from '../config/cloudinaryConfig.js';
 import Kit from '../models/Kit.js'; // Add this import
@@ -44,6 +45,15 @@ router.get('/active', async (req, res) => {
     return res.status(200).json(kits);
   } catch (error) {
     return res.status(500).json({ message: 'Failed to fetch active kits.', error: error.message });
+  }
+});
+
+router.get('/active-count', async (req, res) => {
+  try { 
+    const count = await getActiveKitsCount();
+    return res.status(200).json({ count });
+  } catch (error) {
+    return res.status(500).json({ message: 'Failed to fetch active kits count.', error: error.message });
   }
 });
 

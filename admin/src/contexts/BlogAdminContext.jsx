@@ -9,8 +9,27 @@ export const useBlogsAdmin = () => useContext(BlogAdminContext);
 export const BlogAdminProvider = ({ children }) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [publishedBlogsCount, setPublishedBlogsCount] = useState(0);
 
   const BASE_URL = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'}/api`;
+
+  //fetch published blogs
+  const fetchpublishedBlogsCount = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${BASE_URL}/blogs/published-count`);
+      setPublishedBlogsCount(response.data.count);
+    } catch (error) {
+      toast.error('Failed to fetch Published Blogs .');
+    } finally {
+      setLoading(false);
+    }    
+  }, [BASE_URL])
+
+  useEffect(() => {
+    fetchpublishedBlogsCount();  
+  }, [])
+  
 
   // Fetch all blog posts
   const fetchBlogs = useCallback(async () => {
@@ -117,6 +136,7 @@ export const BlogAdminProvider = ({ children }) => {
     <BlogAdminContext.Provider
       value={{
         posts,
+        publishedBlogsCount,
         fetchBlogs,
         createBlog,
         updateBlog,

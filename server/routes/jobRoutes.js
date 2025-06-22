@@ -27,7 +27,6 @@ router.get('/applicants-count/:id', async(req, res) => {
     const { id : jobId} = req.params;
     console.log(jobId);
     const applicants = await getApplicantsCountByJobId(jobId);
-    console.log(applicants.noOfApplications);
     return res.status(200).json( {applicantsCount : applicants.noOfApplications});
   } catch (err) {
     res.status(500).json({ error: 'Failed to Applicants Count' });

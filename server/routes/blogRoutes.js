@@ -5,6 +5,7 @@ import {
   getAllBlogs,
   getPublishedBlogs,
   toggleBlogStatus,
+  getPublishedBlogsCount,
 } from '../services/blogServices.js';
 import { deleteFromCloudinary, uploadToCloudinary } from '../config/cloudinaryConfig.js';
 import Blog from '../models/Blog.js';
@@ -55,6 +56,15 @@ router.get('/all', async (_req, res) => {
     return res.status(200).json(blogs);
   } catch (error) {
     return res.status(500).json({ error: 'Failed to fetch blogs' });
+  }
+});
+
+router.get('/published-count', async (_req, res) => {
+  try {
+    const count = await getPublishedBlogsCount();
+    return res.status(200).json({ count });
+  } catch (error) {
+    return res.status(500).json({ error: 'Failed to fetch published blogs count' });
   }
 });
 

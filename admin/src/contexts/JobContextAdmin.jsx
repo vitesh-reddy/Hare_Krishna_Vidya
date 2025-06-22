@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback, useRef } from "react";
+import React, { createContext, useContext, useState, useCallback, useRef, useEffect } from "react";
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
@@ -6,6 +6,7 @@ const JobAdminContext = createContext();
 
 export const JobAdminProvider = ({ children }) => {
   const [jobs, setJobs] = useState([]);
+  const [activeJobsCount, setActiveJobsCount] = useState(0);
   const [applications, setApplications] = useState([]);
   const [jobCount, setJobCount] = useState(0);
   const [applicationCounts, setApplicationCounts] = useState({}); // Store counts per jobId
@@ -45,6 +46,23 @@ export const JobAdminProvider = ({ children }) => {
     } finally {
       setIsLoadingJobs(false);
     }
+  }, []);
+
+  const fetchActiveJobsCount = useCallback(async () => {
+    setIsLoadingJobs(true);
+    try {
+      const response = await axios.get(`${BASE_URL}/jobs/active-count`);
+      setActiveJobsCount(response.data.count);
+    } catch (error) {
+      console.error('Error fetching active jobs count:', error);
+      toast.error('Failed to fetch active jobs count');
+    } finally {
+      setIsLoadingJobs(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchActiveJobsCount();
   }, []);
 
   const fetchApplications = useCallback(async (jobId, page = 1) => {
@@ -212,6 +230,7 @@ export const JobAdminProvider = ({ children }) => {
       hasMoreApplications,
       isLoadingJobs,
       isLoadingApplications,
+      activeJobsCount,
       setApplications,
       fetchJobs,
       fetchApplications,

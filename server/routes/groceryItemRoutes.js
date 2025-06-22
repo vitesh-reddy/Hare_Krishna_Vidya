@@ -7,6 +7,7 @@ import {
   updateGroceryItem,
   toggleGroceryActiveStatus,
   deleteGroceryItem,
+  getActiveGroceryItemsCount,
 } from '../services/groceryItemServices.js';
 import { deleteFromCloudinary, uploadToCloudinary } from '../config/cloudinaryConfig.js';
 
@@ -34,6 +35,15 @@ router.get('/', async (req, res) => {
     return res.status(200).json(groceries);
   } catch (error) {
     return res.status(500).json({ message: 'Failed to fetch grocery items.' });
+  }
+});
+
+router.get('/active-count', async (req, res) => {
+  try {
+    const count = await getActiveGroceryItemsCount();
+    return res.status(200).json({ count });
+  } catch (error) {
+    return res.status(500).json({ message: 'Failed to fetch active grocery items count.' });
   }
 });
 

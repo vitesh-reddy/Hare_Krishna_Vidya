@@ -4,36 +4,39 @@ import { Book, Briefcase, Gift, Grid2X2 } from 'lucide-react';
 import { useBlogsAdmin } from '../../contexts/BlogAdminContext';
 import { useKitsAdmin } from '../../contexts/KitAdminContext';
 import { useGroceryItemsAdmin } from '../../contexts/GroceryItemAdminContext';
+import { useJobAdminContext } from '../../contexts/JobContextAdmin';
 
 const DashboardOverview = () => {
-  const { posts } = useBlogsAdmin();
+  const { publishedBlogsCount } = useBlogsAdmin();
   const { kits } = useKitsAdmin();
-  const { groceryItems } = useGroceryItemsAdmin();
+  const { activeGroceryItemsCount } = useGroceryItemsAdmin();
+  const { activeJobsCount } = useJobAdminContext();
+  const {activeKitsCount} = useKitsAdmin();
   const stats = [
     {
       title: 'Total Blog Posts',
-      value: posts.length,
+      value: publishedBlogsCount,
       change: '+3 this month',
       icon: Book,
       color: 'bg-[#3B82F6]'
     },
     {
       title: 'Active Jobs',
-      value: '5',
+      value: activeJobsCount,
       change: '+2 new openings',
       icon: Briefcase,
       color: 'bg-[#16A34A]'
     },
     {
       title: 'Donation Kits',
-      value: kits.length,
-      change: '3 kit types',
+      value: activeKitsCount,
+      change: 'Updated prices',
       icon: Gift,
       color: 'bg-[#F97316]'
     },
     {
       title: 'Grocery Items',
-      value: groceryItems.length,
+      value: activeGroceryItemsCount,
       change: 'Updated prices',
       icon: Grid2X2,
       color: 'bg-[#8B5CF6]'

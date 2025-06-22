@@ -8,6 +8,7 @@ export const useKitsAdmin = () => useContext(KitAdminContext);
 
 export const KitAdminProvider = ({ children }) => {
   const [kits, setKits] = useState([]);
+  const [activeKitsCount, setActiveKitsCount] = useState(0);
   const [loading, setLoading] = useState(false);
 
   const BASE_URL = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'}/api`;
@@ -25,6 +26,22 @@ export const KitAdminProvider = ({ children }) => {
       setLoading(false);
     }
   }, [BASE_URL]);
+
+  const fetchActiveKitsCount = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${BASE_URL}/kits/active-count`);
+      setActiveKitsCount(response.data.count);
+    } catch (error) {
+      toast.error('Failed to fetch active kits count.');
+    } finally {
+      setLoading(false);
+    }
+  }, [BASE_URL]);
+
+  useEffect(() => {
+    fetchActiveKitsCount();
+  }, []);
 
   // Create a new kit
   const createKit = async (data, imageFile) => {
@@ -117,6 +134,7 @@ export const KitAdminProvider = ({ children }) => {
     <KitAdminContext.Provider
       value={{
         kits,
+        activeKitsCount,
         fetchKits,
         createKit,
         updateKit,

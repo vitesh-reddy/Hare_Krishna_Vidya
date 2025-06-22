@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect, act } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
@@ -9,6 +9,7 @@ export const useGroceryItemsAdmin = () => useContext(GroceryItemAdminContext);
 export const GroceryItemAdminProvider = ({ children }) => {
   const [groceryItems, setGroceryItems] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [activeGroceryItemsCount, setActiveGroceryItemsCount] = useState(0);
 
   const BASE_URL = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'}/api`;
 
@@ -21,6 +22,22 @@ export const GroceryItemAdminProvider = ({ children }) => {
       setGroceryItems(response.data);
     } catch (error) {
       toast.error('Failed to fetch grocery items.');
+    } finally {
+      setLoading(false);
+    }
+  }, [BASE_URL]);
+
+  useEffect(() => {
+    fetchActiveGroceryItemsCount();
+  }, []);
+
+  const fetchActiveGroceryItemsCount = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${BASE_URL}/grocery-items/active-count`);
+      setActiveGroceryItemsCount(response.data.count);
+    } catch (error) {
+      toast.error('Failed to fetch active grocery items count.');
     } finally {
       setLoading(false);
     }
@@ -117,6 +134,7 @@ export const GroceryItemAdminProvider = ({ children }) => {
     <GroceryItemAdminContext.Provider
       value={{
         groceryItems,
+        activeGroceryItemsCount,
         fetchGroceryItems,
         createGroceryItem,
         updateGroceryItem,

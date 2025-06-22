@@ -18,6 +18,10 @@ export const getAllBlogs = async () => {
   return await Blog.find().sort({ date: -1 }); // Newest first
 };
 
+export const getPublishedBlogsCount = async () => {
+  return await Blog.countDocuments({ status: 'Published' });
+}
+
 // Fetch only published blogs
 export const getPublishedBlogs = async () => {
   return await Blog.find({ status: 'Published' }).sort({ date: -1 });
