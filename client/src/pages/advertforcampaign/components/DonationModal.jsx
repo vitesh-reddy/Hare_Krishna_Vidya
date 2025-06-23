@@ -3,8 +3,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 
-import { X, Heart, CreditCard, Smartphone, Building } from 'lucide-react';
+import { X, Heart, CreditCard, Smartphone, Building, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { initiateRazorpayPayment } from '../../../PaymentService';
 
 export const DonationModal = ({ isOpen, onClose, campaign }) => {
   const [selectedAmount, setSelectedAmount] = useState(null);
@@ -17,6 +18,7 @@ export const DonationModal = ({ isOpen, onClose, campaign }) => {
     message: ''
   });
   const [step, setStep] = useState(1);
+  const [isSaving, setIsSaving] = useState(false);
 
   const predefinedAmounts = [100, 250, 500, 1000, 2500, 5000];
 
@@ -42,6 +44,121 @@ export const DonationModal = ({ isOpen, onClose, campaign }) => {
     if (step < 3) {
       setStep(step + 1);
     }
+  };
+  const handleContinue = async () => {
+    
+    try {
+      setIsSaving(true);
+      const baseUrl = import.meta.env.VITE_BACKEND_URL;
+      const response = await fetch(`${baseUrl}/api/payments/create-order`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: (selectedAmount || customAmount) * 100, // Convert to paise
+          currency: 'INR',
+          donationType: 'amount',
+        }),
+      });
+
+      // Debug: Log the response status and headers
+      console.log('Create Order Response Status:', response.status);
+      console.log('Create Order Response Headers:', response.headers);
+
+      // Debug: Log the raw response body
+      const responseText = await response.text();
+      console.log('Create Order Response Body:', responseText);
+
+      // Parse the response body as JSON
+      let orderData;
+      try {
+        orderData = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error('JSON Parse Error:', parseError);
+        throw new Error('Failed to parse create-order response: ' + parseError.message);
+      }
+
+      if (!response.ok) {
+        throw new Error(orderData.error || 'Failed to create payment order');
+      }
+
+      initiateRazorpayPayment(
+        {
+          orderId: orderData.orderId,
+          amount: (selectedAmount || customAmount) * 100,
+          donorName: donorInfo.name,
+          email: donorInfo.email,
+          phone: donorInfo.phone,
+        },
+        async (paymentResponse) => {
+          const verifyResponse = await fetch(`${baseUrl}/api/payments/verify-payment`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              orderId: orderData.orderId,
+              paymentId: paymentResponse.razorpay_payment_id,
+              signature: paymentResponse.razorpay_signature,
+              donationData: {
+                donorInfo: {
+                  firstName: donorInfo.name,
+                  lastName: "",
+                  email: donorInfo.email,
+                  phone: donorInfo.phone,
+                  address: "",
+                  city: "",
+                  state: "",
+                  pincode: "",
+                },
+                donationType: 'amount',
+                donatedFor: null,
+                campaignId: campaign._id,
+                amount: selectedAmount || customAmount,
+                paymentDetails: {
+                  orderId: orderData.orderId,
+                  paymentId: paymentResponse.razorpay_payment_id,
+                  signature: paymentResponse.razorpay_signature,
+                },
+              },
+            }),
+          });
+
+          // Debug: Log the verify response
+          console.log('Verify Payment Response Status:', verifyResponse.status);
+          const verifyResponseText = await verifyResponse.text();
+          console.log('Verify Payment Response Body:', verifyResponseText);
+
+          let verifyResult;
+          try {
+            verifyResult = JSON.parse(verifyResponseText);
+          } catch (parseError) {
+            console.error('JSON Parse Error (Verify):', parseError);
+            throw new Error('Failed to parse verify-payment response: ' + parseError.message);
+          }
+
+          if (!verifyResponse.ok) {
+            throw new Error(verifyResult.error || 'Payment verification failed');
+          }
+
+
+
+        },
+        (error) => {
+
+          toast.error(error || 'Payment failed. Please try again.');
+        }
+      );
+    } catch (error) {
+      console.error('HandleContinue Error:', error);
+
+      toast.error(error.message || 'An error occurred during payment.');
+    } finally {
+      setIsSaving(false);
+      onClose();
+    }
+
   };
 
   const handleDonate = () => {
@@ -111,8 +228,8 @@ export const DonationModal = ({ isOpen, onClose, campaign }) => {
                     key={amount}
                     onClick={() => handleAmountSelect(amount)}
                     className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${selectedAmount === amount
-                        ? 'border-orange-500 bg-orange-50 text-orange-600'
-                        : 'border-gray-200 hover:border-orange-300 text-gray-700'
+                      ? 'border-orange-500 bg-orange-50 text-orange-600'
+                      : 'border-gray-200 hover:border-orange-300 text-gray-700'
                       }`}
                   >
                     ₹{amount}
@@ -207,9 +324,22 @@ export const DonationModal = ({ isOpen, onClose, campaign }) => {
                   🔒 Your payment is secure and encrypted. You will receive a receipt via email.
                 </p>
               </div>
-              <Button onClick={handleDonate} className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white py-3 rounded-lg font-semibold transition-all">
-                Complete Donation ₹{getCurrentAmount()}
+              
+              <Button
+                onClick={handleContinue}
+                className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white py-3 rounded-lg font-semibold transition-all flex items-center justify-center"
+                disabled={isSaving} // Optional: disable button while saving
+              >
+                {isSaving ? (
+                  <>
+                    <Loader2 className="animate-spin h-5 w-5 mr-2" />
+                    Processing...
+                  </>
+                ) : (
+                  <>Complete Donation ₹{getCurrentAmount()}</>
+                )}
               </Button>
+
             </div>
           )}
         </div>

@@ -15,27 +15,7 @@ const FundraisingCampaigns = () => {
     fetchPublishedCampaigns();
   }, []);
 
-  const categories = [
-    { name: 'All', icon: null },
-    { name: 'Meal', icon: <Users className="w-4 h-4" /> },
-    { name: 'Education', icon: <GraduationCap className="w-4 h-4" /> },
-    { name: 'Temple', icon: <Home className="w-4 h-4" /> },
-    { name: 'Support', icon: <HelpingHand className="w-4 h-4" /> },
-    { name: 'Care', icon: <Heart className="w-4 h-4" /> }
-    // Add more as needed
-  ];
-
-  // Map display categories to actual campaign types
-  const categoryMapping = {
-    'Meal': 'Mid Day Meal',
-    'Care': 'Disaster Relief', 
-    'Support': 'Community Development',
-    'Education' : 'Education Support',
-    'Temple' : 'Temple Construction',
-    'Care' : 'Medical Aid'
-
-    // Add more mappings as needed
-  };
+  
 
   const formatCurrency = (amount) => {
     return `₹${amount.toLocaleString()}`;
@@ -58,31 +38,33 @@ const FundraisingCampaigns = () => {
     };
     return colors[category] || 'bg-gray-50 text-gray-700';
   };
+  const categoryOptions = ['All', ...new Set(
+    campaigns
+      .map(c => c.campaignType?.label || c.campaignType?.name || c.campaignType)
+      .filter(Boolean)
+  )];
 
-  
-  
+
   // Filter campaigns based on active category
-  const filteredCampaigns = activeCategory === 'All' 
-    ? campaigns 
-    : campaigns?.filter(campaign => {
-        // Handle different possible structures for campaign type
-        const campaignType = campaign.campaignType?.label || 
-                           campaign.campaignType?.name ||
-                           campaign.campaignType || 
-                           campaign.category || 
-                           campaign.type ||
-                           campaign.campaignCategory;
-        
-        // Use mapping to convert display category to actual campaign type
-        const targetType = categoryMapping[activeCategory] || activeCategory;
-        
-        
-        
-        // Exact match with the mapped campaign type values
-        return campaignType === targetType;
-      }) || [];
 
-  
+  // Handle different possible structures for campaign type
+  const filteredCampaigns = activeCategory === 'All'
+    ? campaigns
+    : campaigns?.filter(campaign => {
+      const campaignType = campaign.campaignType?.label ||
+        campaign.campaignType?.name ||
+        campaign.campaignType;
+
+      return campaignType === activeCategory;
+    }) || [];
+
+
+
+
+  // Exact match with the mapped campaign type values
+
+
+
   if (loading) {
     return <Loader />;
   }
@@ -109,21 +91,20 @@ const FundraisingCampaigns = () => {
 
           {/* Category Filter */}
           <div className="flex flex-wrap gap-2 mb-8">
-            {categories.map((category) => (
+            {categoryOptions.map((categoryName) => (
               <button
-                key={category.name}
-                onClick={() => setActiveCategory(category.name)}
-                className={`px-4 py-2 rounded-full flex items-center gap-2 transition-all duration-200 ${
-                  activeCategory === category.name
-                    ? 'bg-orange-500 text-white shadow-lg'
-                    : 'bg-white text-gray-600 hover:bg-gray-100'
-                } border border-gray-200`}
+                key={categoryName}
+                onClick={() => setActiveCategory(categoryName)}
+                className={`px-4 py-2 rounded-full flex items-center gap-2 transition-all duration-200 ${activeCategory === categoryName
+                  ? 'bg-orange-500 text-white shadow-lg'
+                  : 'bg-white text-gray-600 hover:bg-gray-100'
+                  } border border-gray-200`}
               >
-                {category.icon}
-                {category.name}
+                {categoryName}
               </button>
             ))}
           </div>
+
 
           {/* Campaign Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
@@ -133,7 +114,7 @@ const FundraisingCampaigns = () => {
                 const raisedAmount = campaign.raisedAmount || 0;
                 const goalAmount = campaign.goalAmount || 1;
                 const percentage = Math.round((raisedAmount / goalAmount) * 100);
-                
+
                 return (
                   <div key={campaign._id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                     {/* Category Badge */}
@@ -188,11 +169,11 @@ const FundraisingCampaigns = () => {
                       </div>
 
                       {/* Donate Button */}
-                      <button 
-                        onClick={() => { 
-                          setSelectedCampaign(campaign); 
-                          setOpenDialog(true); 
-                        }} 
+                      <button
+                        onClick={() => {
+                          setSelectedCampaign(campaign);
+                          setOpenDialog(true);
+                        }}
                         className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200 shadow-md hover:shadow-lg"
                       >
                         DONATE NOW
@@ -209,13 +190,19 @@ const FundraisingCampaigns = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Donation Modal */}
       {openDialog && (
-        <DonationModal 
-          onClose={() => { setOpenDialog(false) }} 
-          isOpen={openDialog} 
-          campaign={selectedCampaign} 
+        <DonationModal
+          onClose={() => {
+            setOpenDialog(false);
+            setTimeout(() => {
+              fetchPublishedCampaigns();
+            }, 3000); // 1000ms = 1 second delay
+          }
+          }
+          isOpen={openDialog}
+          campaign={selectedCampaign}
         />
       )}
     </div>
