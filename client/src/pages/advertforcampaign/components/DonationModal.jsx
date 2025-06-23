@@ -4,8 +4,8 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 
 import { X, Heart, CreditCard, Smartphone, Building, Loader2 } from 'lucide-react';
-import { toast } from 'sonner';
 import { initiateRazorpayPayment } from '../../../PaymentService';
+import toast from 'react-hot-toast';
 
 export const DonationModal = ({ isOpen, onClose, campaign }) => {
   const [selectedAmount, setSelectedAmount] = useState(null);
