@@ -22,28 +22,32 @@ const AdminRoutes = () => {
         <Routes>
           <Route path="/login" element={<AuthPage />} />
           <Route path="/reset-password" element={ <ResetPassword/> } />
-          <Route path="/" element={ <AdminProtectedRoute> <AdminDashboard /></AdminProtectedRoute>} />
+          <Route path="/" element={ <AdminMain/> } />
           <Route path="*" element={ <NotFound/>} />
         </Routes>
     </>
   );
 };
 
-const App = () => {
-    return (
+const App = () => <AdminRoutes />
+
+const AdminMain = () => {
+  return (
       <GroceryItemAdminProvider>        
       <AdminAuthProvider>
       <KitAdminProvider>
       <BlogAdminProvider>
       <JobAdminProvider>
-        <AdminRoutes />
+      <AdminProtectedRoute>
+          <AdminDashboard />
+      </AdminProtectedRoute>
       </JobAdminProvider>
       </BlogAdminProvider>
       </KitAdminProvider>
       </AdminAuthProvider> 
-      </GroceryItemAdminProvider>
-    )
-};
+      </GroceryItemAdminProvider>   
+  );
+}
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
