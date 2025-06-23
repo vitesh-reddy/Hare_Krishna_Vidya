@@ -37,7 +37,6 @@ const BlogManagement = () => {
     author: '',
     excerpt: '',
     content: '',
-    category: '',
     image: '',
     tags: [],
   });
@@ -55,10 +54,6 @@ const BlogManagement = () => {
     }
     if (!formData.content.trim()) {
       toast.error('Content is required.');
-      return false;
-    }
-    if (!formData.category.trim()) {
-      toast.error('Category is required.');
       return false;
     }
     if (!formData.image.trim()) {
@@ -151,7 +146,6 @@ const BlogManagement = () => {
         author: '',
         excerpt: '',
         content: '',
-        category: '',
         image: '',
         tags: [],
       });
@@ -186,7 +180,6 @@ const BlogManagement = () => {
       author: post.author,
       excerpt: post.excerpt || '',
       content: post.content || '',
-      category: post.category || '',
       image: post.image || '',
       tags: post.tags || [],
     });
@@ -205,7 +198,6 @@ const BlogManagement = () => {
       author: '',
       excerpt: '',
       content: '',
-      category: '',
       image: '',
       tags: [],
     });
@@ -226,10 +218,9 @@ const BlogManagement = () => {
       <div className="relative min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
         <header className="sticky top-0 z-50 bg-gradient-to-r from-orange-400 to-amber-300 shadow-lg">
           <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-            <h2 className="text-3xl font-bold text-white tracking-tight">
-              Blog Preview: {previewPost.title.slice(0, 55)}
-              {previewPost.title.length > 55 && <span>...</span>}
-            </h2>
+            <p className="text-3xl font-bold text-white tracking-tight line-clamp-1">
+              Blog Preview: {previewPost.title}
+            </p>
             <Button
               onClick={() => setPreviewPost(null)}
               variant="outline"
@@ -255,11 +246,6 @@ const BlogManagement = () => {
             )}
 
             <CardContent className="p-10 md:p-14 space-y-8">
-              <div className="flex justify-start">
-                <span className="inline-block bg-orange-100 text-orange-700 px-5 py-2 rounded-full text-sm font-semibold tracking-wide shadow-sm hover:bg-orange-200 transition-colors duration-300">
-                  {previewPost.category}
-                </span>
-              </div>
 
               <h1
                 className="text-[1.5rem] md:text-[2.25rem] font-extrabold text-gray-900 tracking-tight"
@@ -507,19 +493,6 @@ const BlogManagement = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="category" className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                      <Tag className="w-4 h-4" />
-                      Category
-                    </Label>
-                    <Input
-                      id="category"
-                      value={formData.category}
-                      onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                      placeholder="Enter story category"
-                      className="bg-white border-gray-300 focus:border-orange-400 focus:ring-orange-400"
-                    />
-                  </div>
-                  <div className="space-y-2">
                     <Label htmlFor="tags" className="text-sm font-medium text-gray-700 flex items-center gap-2">
                       <Tag className="w-4 h-4" />
                       Tags
@@ -620,10 +593,9 @@ const BlogManagement = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Title</TableHead>
+                <TableHead className='w-[35%]'>Title</TableHead>
                 <TableHead>Author</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Category</TableHead>
+                <TableHead>Created at</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
@@ -631,9 +603,8 @@ const BlogManagement = () => {
             <TableBody>
               {posts.map((post) => (
                 <TableRow key={post._id}>
-                  <TableCell className="font-medium">
-                    {post.title.slice(0, 55)}
-                    {post.title.length > 55 && <span>...</span>}
+                  <TableCell className="font-medium w-fit">
+                    <p className='line-clamp-2 w-[98%] mx-auto'> {post.title}</p>
                   </TableCell>
                   <TableCell>
                     {post.author.slice(0, 30)}
@@ -645,10 +616,6 @@ const BlogManagement = () => {
                       month: 'short',
                       day: 'numeric',
                     })}
-                  </TableCell>
-                  <TableCell>
-                    {post.category.slice(0, 30)}
-                    {post.category.length > 30 && <span>...</span>}
                   </TableCell>
                   <TableCell>
                     <Button

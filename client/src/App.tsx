@@ -4,7 +4,7 @@ import { AnimatePresence } from "framer-motion";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { CartProvider } from "./TSX-src/contexts/CartContext";
 import { DataProvider } from './contexts/DataContext';
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { BlogProvider } from './contexts/BlogContext';
 
 // Common Components
@@ -40,6 +40,7 @@ import { CampaignProvider } from './contexts/CampaignContext';
 import BlogPage from './pages/blogs';
 import CareersPage from './pages/careers';
 import { CareerProvider } from './contexts/CareerContext';
+import BlogView from './pages/blogs/components/BlogView';
 
 const queryClient = new QueryClient();
 
@@ -72,7 +73,7 @@ const AnimatedRoutes = () => {
       <ScrollToTop />
       <AnimatePresence mode="wait">
         <Toaster/>
-        <Routes location={location} key={isAnimated ? location.pathname : undefined}>
+        <Routes location={location} key={location.key}>
           {/* Routes with Header and Footer */}
           <Route path="/" element={<MainLayout><HomePage /></MainLayout>} />
           <Route path="/about-us" element={<MainLayout><AboutUsPage /></MainLayout>} />
@@ -87,7 +88,8 @@ const AnimatedRoutes = () => {
           <Route path="/governance" element={<MainLayout><GovernancePage /></MainLayout>} />
           <Route path="/donate-items" element={<MainLayout><DonateItemsPage /></MainLayout>} />
           <Route path="/blog" element={<MainLayout><Blog /></MainLayout>} />
-          <Route path="/blog2" element={<MainLayout><BlogPage /></MainLayout>} />
+          <Route path="/blogs" element={<MainLayout><BlogPage /></MainLayout>} />
+          <Route path="/blogs/:id" element={<MainLayout><BlogView /></MainLayout>} />
           <Route path="/CreateCampaign" element={<MainLayout><CreateCampaign /> </MainLayout>} />
           <Route path="/advertforcampaign" element={<MainLayout><FundraisingCampaigns /></MainLayout>} />
 
@@ -132,7 +134,9 @@ const App = () => {
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
-    window.scrollTo(0, 0); // force scroll to top on route change
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });// force scroll to top on route change    
+    }, 100);
   }, [pathname]);
 
   return null;

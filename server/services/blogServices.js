@@ -22,9 +22,39 @@ export const getPublishedBlogsCount = async () => {
   return await Blog.countDocuments({ status: 'Published' });
 }
 
+export const getRecentBlogs = async (limit = 3) => {
+  const blogs = await Blog.find({ status: 'Published' })
+  .select('title author date excerpt image tags')
+  .sort({ date: -1, _id: -1 })
+  .limit(limit)
+  .lean();
+  return { blogs };
+};
+
 // Fetch only published blogs
-export const getPublishedBlogs = async () => {
-  return await Blog.find({ status: 'Published' }).sort({ date: -1 });
+export const getPublishedBlogs = async (page = 1, limit = 6) => {
+  const skip = 3 + (page - 1) * limit; // Always skip the latest 3 blogs
+  const [blogs, totalCount] = await Promise.all([
+    Blog.find({ status: 'Published' })
+      .select('title author date excerpt image tags')
+      .sort({ date: -1, _id: -1 })
+      .skip(skip)
+      .limit(limit)
+      .lean(),
+    Blog.countDocuments({ status: 'Published' })
+  ]);
+  return { blogs, totalCount };
+};
+
+export const getBlogById = async (id) => {
+  return await Blog.findById(id)
+    .select('title author date content excerpt image tags')
+    .lean();
+};
+
+export const getTotalBlogsCount = async () => {
+  const totalCount = await Blog.countDocuments({ status: 'Published' });
+  return { totalCount };
 };
 
 // Toggle blog status (Draft <-> Published)
