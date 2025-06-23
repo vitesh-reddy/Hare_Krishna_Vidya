@@ -27,7 +27,17 @@ const FundraisingCampaigns = () => {
     return 'bg-red-500';
   };
 
-  
+  const getCategoryColor = (category) => {
+    const colors = {
+      'Mid Day Meal': 'bg-blue-50 text-blue-700',
+      'Disaster Relief': 'bg-red-50 text-red-700',
+      'Community Development': 'bg-purple-50 text-purple-700',
+      'Temple': 'bg-yellow-50 text-yellow-700',
+      'Support': 'bg-green-50 text-green-700',
+      'Care': 'bg-pink-50 text-pink-700'
+    };
+    return colors[category] || 'bg-gray-50 text-gray-700';
+  };
   const categoryOptions = ['All', ...new Set(
     campaigns
       .map(c => c.campaignType?.label || c.campaignType?.name || c.campaignType)
