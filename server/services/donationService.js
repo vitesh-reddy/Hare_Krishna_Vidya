@@ -8,24 +8,33 @@ const saveDonation = async (donationData) => {
     // Save the donation first
     const donation = new Donation(donationData);
     const savedDonation = await donation.save();
-
-    
-    // If the donation is linked to a campaign, update the campaign's raised amount
-    if (donationData.campaignId) {
-      const campaign = await Campaign.findById(donationData.campaignId);
-      if (campaign) {
-        const updatedRaisedAmount = (campaign.raisedAmount || 0) + donation.amount;
-
-        await Campaign.updateOne(
-          { _id: donationData.campaignId },
-          { $set: { raisedAmount: updatedRaisedAmount } }
-        );
-      }
-    }
-
     return savedDonation;
   } catch (error) {
     throw new Error('Failed to save donation: ' + error.message);
+  }
+};
+
+const saveCampaignDonation = async (campaignId, donationData) => {
+  try {
+    const campaign = await Campaign.findById(campaignId);
+    if (!campaign) {
+      throw new Error('Campaign not found');
+    }
+
+    // Push donation data into the embedded donations array
+    campaign.donations.push(donationData);
+
+    // Optionally update raisedAmount
+    if (donationData.amount) {
+      campaign.raisedAmount = (campaign.raisedAmount || 0) + donationData.amount;
+    }
+
+    // Save the campaign with the new donation
+    await campaign.save();
+
+    return { success: true, message: 'Donation saved successfully' };
+  } catch (error) {
+    throw new Error('Failed to save campaign donation: ' + error.message);
   }
 };
 
@@ -61,4 +70,4 @@ const getDonationById = async (donationId) => {
   }
 };
 
-export { saveDonation, getDonationById };
+export { saveDonation, saveCampaignDonation, getDonationById };

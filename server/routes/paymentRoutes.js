@@ -1,6 +1,6 @@
 import express from 'express';
 import { createOrder, verifyPaymentSignature } from '../services/paymentService.js';
-import { saveDonation } from '../services/donationService.js';
+import { saveCampaignDonation, saveDonation } from '../services/donationService.js';
 
 const router = express.Router();
 
@@ -23,7 +23,7 @@ router.post('/create-order', async (req, res) => {
 // Route to verify payment and store donation
 router.post('/verify-payment', async (req, res) => {
   try {
-    const { orderId, paymentId, signature, donationData } = req.body;
+    const { orderId, paymentId, signature, donationData, campaignId = null } = req.body;
 
     // Validate required fields
     if (!orderId || !paymentId || !signature || !donationData) {
@@ -36,8 +36,12 @@ router.post('/verify-payment', async (req, res) => {
       return res.status(400).json({ error: 'Invalid payment signature' });
     }
 
-    // Save the donation to the database using donationService
-    await saveDonation(donationData);
+    if (campaignId) {
+      await saveCampaignDonation(campaignId, donationData)
+    } else {
+      // Save the donation to the database using donationService
+      await saveDonation(donationData);
+    }
 
     res.status(200).json({ message: 'Payment verified and donation saved successfully' });
   } catch (error) {
