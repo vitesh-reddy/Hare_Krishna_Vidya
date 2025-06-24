@@ -34,10 +34,43 @@ export const logoutAdmin = (req, res) => {
   res.status(200).json({ message: "Logged out" });
 };
 
+// GET /api/admin/me
 export const getAdminProfile = async (req, res) => {
-  const admin = await Admin.findById(req.user.id).select("-password");
+  const admin = await Admin.findById(req.user.id).select("name email");
+  if (!admin) return res.status(404).json({ message: "Admin not found" });
   res.status(200).json(admin);
 };
+
+// PATCH /api/admin/update-profile
+export const updateAdminProfile = async (req, res) => {
+  const { name, email, currentPassword, newPassword } = req.body;
+
+  if (!currentPassword) {
+    return res.status(400).json({ message: "Current password is required" });
+  }
+
+  const admin = await Admin.findById(req.user.id);
+  if (!admin) return res.status(404).json({ message: "Admin not found" });
+
+  const isMatch = await admin.matchPassword(currentPassword);
+  if (!isMatch) {
+    return res.status(401).json({ message: "Incorrect current password" });
+  }
+
+  // Update name/email
+  admin.name = name || admin.name;
+  admin.email = email || admin.email;
+
+  // Optional: update password
+  if (newPassword) {
+    admin.password = newPassword; // will be hashed in pre-save hook
+  }
+
+  await admin.save();
+  res.status(200).json({ message: "Profile updated successfully", name: admin.name, email: admin.email });
+};
+
+
 
 export const forgotPassword = async (req, res) => {
   const { email } = req.body;

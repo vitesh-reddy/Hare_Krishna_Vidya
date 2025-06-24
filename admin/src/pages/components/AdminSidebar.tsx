@@ -1,5 +1,5 @@
 // import { Separator } from '../../../components/ui/separator';
-import {  Home,  Book,  Briefcase,  Gift,  Settings, Grid2X2, LogOut } from 'lucide-react';
+import {  Home,  Book,  Briefcase,  Gift, User, Grid2X2, LogOut } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Separator } from '../../TSX-src/components/ui/separator';
 import { Button } from '../../TSX-src/components/ui/button';
@@ -21,7 +21,7 @@ const AdminSidebar = () => {
     { label: 'Jobs & Applications', icon: Briefcase, path: '/', section: 'jobs' },
     { label: 'Donation Kits', icon: Gift, path: '/', section: 'donations' },
     { label: 'Grocery Items', icon: Grid2X2, path: '/', section: 'grocery' },
-    { label: 'Settings', icon: Settings, path: '/', section: 'settings' },
+    { label: 'Profile', icon: User, path: '/', section: 'profile' },
   ];
 
   const handleNavigation = (section: string) => {

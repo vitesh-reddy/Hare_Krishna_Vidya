@@ -6,6 +6,7 @@ import { Input } from '../../TSX-src/components/ui/input';
 import { Textarea } from '../../TSX-src/components/ui/textarea';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../TSX-src/components/ui/table';
 import { Save, RefreshCw, Settings } from 'lucide-react';
+import ProfilePage from './ProfilePage';
 
 const DonationSettings = () => {
   const [kits, setKits] = useState([
@@ -79,15 +80,17 @@ const DonationSettings = () => {
           <div className="flex items-center space-x-3">
             <Settings className="w-6 h-6 text-orange-600" />
             <div>
-              <CardTitle className="text-orange-800">Donation Settings</CardTitle>
-              <p className="text-sm text-orange-600 mt-1">Configure pricing and donation parameters</p>
+              <CardTitle className="text-orange-800">Profile Management</CardTitle>
+              <p className="text-sm text-orange-600 mt-2">Configure Profile Settings </p>
             </div>
           </div>
         </CardHeader>
       </Card>
 
+      <ProfilePage/>
+
       {/* Kit Pricing */}
-      <Card>
+      {/* <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Donation Kit Pricing</CardTitle>
           <div className="flex gap-2">
@@ -132,10 +135,10 @@ const DonationSettings = () => {
             </TableBody>
           </Table>
         </CardContent>
-      </Card>
+      </Card> */}
 
       {/* Grocery Item Pricing */}
-      <Card>
+      {/* <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Grocery Item Pricing</CardTitle>
           <div className="flex gap-2">
@@ -191,10 +194,10 @@ const DonationSettings = () => {
             </TableBody>
           </Table>
         </CardContent>
-      </Card>
+      </Card> */}
 
       {/* Pricing Guidelines */}
-      <Card>
+      {/* <Card>
         <CardHeader>
           <CardTitle>Pricing Guidelines & Audit Trail</CardTitle>
         </CardHeader>
@@ -225,7 +228,7 @@ const DonationSettings = () => {
             </div>
           </div>
         </CardContent>
-      </Card>
+      </Card> */}
     </div>
   );
 };

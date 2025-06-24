@@ -1,5 +1,5 @@
 import express from "express";
-import { loginAdmin, logoutAdmin, getAdminProfile, forgotPassword, resetPassword} from "../controllers/adminController.js";
+import { loginAdmin, logoutAdmin, getAdminProfile, forgotPassword, resetPassword, updateAdminProfile} from "../controllers/adminController.js";
 import { protectAdmin } from "../middleware/authMiddleware.js";
 import Admin from "../models/Admin.js";
 
@@ -8,6 +8,7 @@ const router = express.Router();
 router.post("/login", loginAdmin);
 router.get("/logout", logoutAdmin);
 router.get("/me", protectAdmin, getAdminProfile);
+router.patch("/update-profile", protectAdmin, updateAdminProfile);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
 

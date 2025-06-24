@@ -15,7 +15,7 @@ const AdminDashboard = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const currentSection = searchParams.get('section') || 'dashboard';
-  const { showLogoutDialog } = useAdminAuth();
+  const { adminInfo, showLogoutDialog } = useAdminAuth();
 
   const renderContent = () => {
     switch (currentSection) {
@@ -27,7 +27,7 @@ const AdminDashboard = () => {
         return <KitManagement />;
       case 'grocery':
         return <GroceryManagement />;
-      case 'settings':
+      case 'profile':
         return <DonationSettings />;
       default:
         return <DashboardOverview />;
@@ -44,8 +44,8 @@ const AdminDashboard = () => {
         return 'Donation Kits';
       case 'grocery':
         return 'Grocery Items';
-      case 'settings':
-        return 'Settings';
+      case 'profile':
+        return 'Profile Management';
       default:
         return 'Dashboard Overview';
     }
@@ -68,15 +68,15 @@ const AdminDashboard = () => {
                 {currentSection === 'jobs' && 'Post jobs and manage applications'}
                 {currentSection === 'donations' && 'Create and manage donation kits'}
                 {currentSection === 'grocery' && 'Manage grocery items and pricing'}
-                {currentSection === 'settings' && 'Configure donation settings and pricing'}
+                {currentSection === 'profile' && 'Configure Profile Settings'}
               </p>
             </div>
             
             {/* Admin Profile Dropdown */}
             <div className="flex items-center space-x-[1rem]">
               <div className="text-right">
-                <p className="text-[0.875rem] font-medium text-[#374151] dark:text-[#D1D5DB]">Admin User</p>
-                <p className="text-[0.75rem] text-[#6B7280] dark:text-[#9CA3AF]">admin@harekrishnavidya.org</p>
+                <p className="text-[0.875rem] font-medium text-[#374151] dark:text-[#D1D5DB]">{adminInfo.name}</p>
+                <p className="text-[0.75rem] text-[#6B7280] dark:text-[#9CA3AF]">{adminInfo.email}</p>
               </div>
               <div className="w-[2.5rem] h-[2.5rem] bg-[#F97316] rounded-full flex items-center justify-center dark:bg-[#FDBA74]">
                 <span className="text-[#FFFFFF] font-semibold">A</span>
