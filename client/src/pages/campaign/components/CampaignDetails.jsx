@@ -38,19 +38,13 @@ const CampaignDetails = ({ handleBack, handleNext, formData, handleInputChange, 
 
   const handleFileSelect = async (e) => {
     const file = e.target.files[0];
-    const maxSize = 5 * 1024 * 1024;
-
+    
     if (!file) return;
 
     if (!file.type.match(/^image\/(jpeg|jpg|png|gif)$/)) {
       alert(`${file.name} is not a valid format. Please upload JPG, PNG, or GIF.`);
       return;
-    }
-
-    if (file.size > maxSize) {
-      alert(`${file.name} is too large. Please upload files smaller than 5MB.`);
-      return;
-    }
+    }  
 
     await handleImageUpload(file); // Use parent function
   };
