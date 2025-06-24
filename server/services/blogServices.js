@@ -14,8 +14,17 @@ export const updateBlog = async (id, updatedData) => {
 };
 
 // Fetch all blogs
-export const getAllBlogs = async () => {
-  return await Blog.find().sort({ date: -1 }); // Newest first
+export const getAllBlogs = async (page = 1, limit = 10) => {
+  const skip = (page - 1) * limit;
+  const [blogs, totalCount] = await Promise.all([
+    Blog.find()
+      .sort({ date: -1 })
+      .skip(skip)
+      .limit(limit)
+      .lean(),
+    Blog.countDocuments()
+  ]);
+  return { blogs, totalCount };
 };
 
 export const getPublishedBlogsCount = async () => {

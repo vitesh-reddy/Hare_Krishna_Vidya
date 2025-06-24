@@ -1,3 +1,6 @@
+/// Original -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 import React, {
   useMemo,
   forwardRef,
@@ -62,6 +65,7 @@ const BlogEditor = forwardRef(({
       const file = input.files?.[0];
       if (file) {
         try {
+          toast.loading('Uploading image...');
           const compressedFile = await imageCompression(file, {
             maxSizeMB: 1,
             maxWidthOrHeight: 1024,
@@ -74,22 +78,20 @@ const BlogEditor = forwardRef(({
           formData.append('upload_preset', uploadPreset);
           formData.append('cloud_name', cloudName);
 
-          toast.loading('Uploading image...');
           const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
             method: 'POST',
             body: formData,
           });
 
           const result = await res.json();
-          toast.dismiss();
-
           if (result.secure_url && quillRef.current) {
             const editor = quillRef.current.getEditor();
             const range = editor.getSelection();
             editor.insertEmbed(range?.index ?? 0, 'image', result.secure_url, 'user');
             editor.formatLine(range?.index ?? 0, 1, { align: 'center' });
-
+            toast.dismiss();
             toast.success('Image uploaded!');
+
           } else {
             throw new Error('Upload failed');
           }
@@ -133,7 +135,7 @@ const BlogEditor = forwardRef(({
           value={title}
           onChange={(e) => onTitleChange(e.target.value)}
           placeholder="Title"
-          className="w-full text-5xl font-bold border-none outline-none text-gray-900 placeholder-gray-400 leading-tight tracking-tight focus:ring-0"
+          className="w-full text-[1.25rem] font-bold border-none outline-none text-gray-900 placeholder-gray-400 leading-tight tracking-tight focus:ring-0"
         />
       </div>
 
@@ -143,7 +145,7 @@ const BlogEditor = forwardRef(({
           value={excerpt}
           onChange={(e) => onExcerptChange(e.target.value)}
           placeholder="Tell your story..."
-          className="w-full text-2xl text-gray-600 border-none outline-none placeholder-gray-400 leading-relaxed font-light focus:ring-0"
+          className="w-full text-[1rem] text-gray-600 border-none outline-none placeholder-gray-400 leading-relaxed font-light focus:ring-0"
         />
       </div>
 
@@ -171,3 +173,6 @@ const BlogEditor = forwardRef(({
 
 BlogEditor.displayName = 'BlogEditor';
 export default BlogEditor;
+
+
+/// Original -----------------------------------------------------------------------------------------------------------------------------------------------------------------------

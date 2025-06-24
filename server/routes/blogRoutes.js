@@ -53,10 +53,11 @@ router.put('/update/:blogId', async (req, res) => {
 });
 
 // Fetch All Blogs
-router.get('/all', async (_req, res) => {
+router.get('/all', async (req, res) => {
   try {
-    const blogs = await getAllBlogs();
-    return res.status(200).json(blogs);
+    const { page = 1, limit = 10 } = req.query;
+    const { blogs, totalCount } = await getAllBlogs(parseInt(page), parseInt(limit));
+    return res.status(200).json({ blogs, totalCount });
   } catch (error) {
     return res.status(500).json({ error: 'Failed to fetch blogs' });
   }

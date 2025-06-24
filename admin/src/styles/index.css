@@ -56,3 +56,19 @@ img {
   margin: auto;
   max-width: 100%;
 }
+
+.ql-align-center img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ql-align-center {
+  text-align: center;
+}
+
+.ql-align-right {
+  width: 100%;
+  text-align: right;
+  margin-left: auto;
+}

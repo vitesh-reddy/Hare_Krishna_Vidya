@@ -488,33 +488,33 @@ const JobManagement = () => {
                 </TableBody>
               </Table>
             )}
+            {totalApplicationPages > 1 && (
+              <div className="w-full flex justify-center py-[1rem] gap-[0.25rem] items-center rounded-[0.5rem]">
+                <button
+                  onClick={() => loadApplications(viewingApplications._id, applicationPage - 1)}
+                  disabled={applicationPage === 1}
+                  className="flex items-center justify-center px-[0.75rem] py-[0.25rem] text-[0.875rem] bg-[#f8f3ec] text-[#404958] rounded-[0.25rem] hover:bg-[#fef3c7] disabled:opacity-50"
+                >
+                  <ArrowLeft className="w-4 h-4 mr-1 mt-[0.1rem]" /> Previous
+                </button>
+                {renderPagination()}
+                <button
+                  onClick={() => loadApplications(viewingApplications._id, applicationPage + 1)}
+                  disabled={applicationPage === totalApplicationPages}
+                  className="flex items-center justify-center px-[0.75rem] py-[0.25rem] text-[0.875rem] bg-[#f8f3ec] text-[#404958] rounded-[0.25rem] hover:bg-[#fef3c7] disabled:opacity-50"
+                >
+                  Next <ArrowRight className="w-4 h-4 ml-1 mt-[0.1rem]" />
+                </button>
+                <button
+                  onClick={handleApplicationsRefresh}
+                  className="group px-[0.75rem] py-[0.25rem] text-[0.875rem] bg-[#f8f3ec] text-[#404958] rounded-[0.25rem] hover:bg-[#fef3c7] flex items-center"
+                >
+                  <RefreshCcw className="w-[1rem] h-[1rem] mr-[0.25rem] group-hover:rotate-180 transition-all duration-300" /> Refresh
+                </button>
+              </div>
+            )}
           </CardContent>
         </Card>
-        {totalApplicationPages > 1 && (
-          <div className="w-full flex justify-center pb-[2rem] gap-[0.25rem] items-center p-[0.5rem] rounded-[0.5rem]">
-            <button
-              onClick={() => loadApplications(viewingApplications._id, applicationPage - 1)}
-              disabled={applicationPage === 1}
-              className="flex items-center justify-center px-[0.75rem] py-[0.25rem] text-[0.875rem] bg-[#f8f3ec] text-[#404958] rounded-[0.25rem] hover:bg-[#fef3c7] disabled:opacity-50"
-            >
-              <ArrowLeft className="w-4 h-4 mr-1 mt-[0.1rem]" /> Previous
-            </button>
-            {renderPagination()}
-            <button
-              onClick={() => loadApplications(viewingApplications._id, applicationPage + 1)}
-              disabled={applicationPage === totalApplicationPages}
-              className="flex items-center justify-center px-[0.75rem] py-[0.25rem] text-[0.875rem] bg-[#f8f3ec] text-[#404958] rounded-[0.25rem] hover:bg-[#fef3c7] disabled:opacity-50"
-            >
-              Next <ArrowRight className="w-4 h-4 ml-1 mt-[0.1rem]" />
-            </button>
-            <button
-              onClick={handleApplicationsRefresh}
-              className="group px-[0.75rem] py-[0.25rem] text-[0.875rem] bg-[#f8f3ec] text-[#404958] rounded-[0.25rem] hover:bg-[#fef3c7] flex items-center"
-            >
-              <RefreshCcw className="w-[1rem] h-[1rem] mr-[0.25rem] group-hover:rotate-180 transition-all duration-300" /> Refresh
-            </button>
-          </div>
-        )}
         <ApplicationDialog
           open={viewingApplication}
           setOpen={setViewingApplication}
@@ -847,27 +847,27 @@ const JobManagement = () => {
               </TableBody>
             </Table>
           )}
+          {totalJobPages > 1 && (
+            <div className="w-full flex justify-center py-[1rem] gap-[0.25rem] items-center rounded-[0.5rem]">
+              <button
+                onClick={() => setJobPage(jobPage - 1)}
+                disabled={jobPage === 1}
+                className="flex items-center justify-center px-[0.75rem] py-[0.25rem] text-[0.875rem] bg-[#f8f3ec] text-[#404958] rounded-[0.25rem] hover:bg-[#fef3c7] disabled:opacity-50"
+              >
+                <ArrowLeft className="w-4 h-4 mr-1 mt-[0.1rem]" /> Previous
+              </button>
+              {renderJobPagination()}
+              <button
+                onClick={() => setJobPage(jobPage + 1)}
+                disabled={jobPage === totalJobPages}
+                className="flex items-center justify-center px-[0.75rem] py-[0.25rem] text-[0.875rem] bg-[#f8f3ec] text-[#404958] rounded-[0.25rem] hover:bg-[#fef3c7] disabled:opacity-50"
+              >
+                Next <ArrowRight className="w-4 h-4 ml-1 mt-[0.1rem]" />
+              </button>
+            </div>
+          )}
         </CardContent>
       </Card>
-      {totalJobPages > 1 && (
-        <div className="w-full flex justify-center pb-[2rem] gap-[0.25rem] items-center  p-[0.5rem] rounded-[0.5rem]">
-          <button
-            onClick={() => setJobPage(jobPage - 1)}
-            disabled={jobPage === 1}
-            className="flex items-center justify-center px-[0.75rem] py-[0.25rem] text-[0.875rem] bg-[#f8f3ec] text-[#404958] rounded-[0.25rem] hover:bg-[#fef3c7] disabled:opacity-50"
-          >
-            <ArrowLeft className="w-4 h-4 mr-1 mt-[0.1rem]" /> Previous
-          </button>
-          {renderJobPagination()}
-          <button
-            onClick={() => setJobPage(jobPage + 1)}
-            disabled={jobPage === totalJobPages}
-            className="flex items-center justify-center px-[0.75rem] py-[0.25rem] text-[0.875rem] bg-[#f8f3ec] text-[#404958] rounded-[0.25rem] hover:bg-[#fef3c7] disabled:opacity-50"
-          >
-            Next <ArrowRight className="w-4 h-4 ml-1 mt-[0.1rem]" />
-          </button>
-        </div>
-      )}
     </div>
   );
 };

@@ -53,7 +53,7 @@ const BlogView = () => {
             <ArrowLeft className="w-[0.85rem]" /> Back to Blogs
           </p>
         </button>
-        <div className="relative z-10 px-[1.5rem]">
+        <div className="relative w-full z-10 px-[1.5rem]">
           <h1 className="w-[70%] mx-auto text-[1.75rem] md:text-[2.25rem] lg:text-[2.5rem] font-bold leading-tight line-clamp-4">
             {blog.title}
           </h1>

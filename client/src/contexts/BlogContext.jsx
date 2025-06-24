@@ -1,7 +1,8 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useRef } from 'react';
 import axios from 'axios';
 
 const BlogContext = createContext();
+export const useBlogs = () => useContext(BlogContext);
 
 export const BlogProvider = ({ children }) => {
   const [recentBlogs, setRecentBlogs] = useState([]);
@@ -12,12 +13,15 @@ export const BlogProvider = ({ children }) => {
 
   const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
 
+  // 🧠 Cache for paginated blogs
+  const blogPageCache = useRef({});
+
   const fetchRecentBlogs = async () => {
-    if(recentBlogs.length > 0) return; // Avoid fetching if already fetched
+    if (recentBlogs.length > 0) return;
     setLoadingRecent(true);
     try {
       const res = await axios.get(`${BASE_URL}/api/blogs/recent`, {
-        params: { limit: 3 }
+        params: { limit: 3 },
       });
       setRecentBlogs(res.data.blogs);
     } catch (err) {
@@ -29,8 +33,8 @@ export const BlogProvider = ({ children }) => {
 
   const fetchTotalBlogsCount = async () => {
     try {
-      if (totalBlogsCount !== -1) return; // Avoid fetching if already fetched
-      setTotalBlogsCount(0); // Reset count to 0 while fetching
+      if (totalBlogsCount !== -1) return;
+      setTotalBlogsCount(0);
       const res = await axios.get(`${BASE_URL}/api/blogs/count`);
       setTotalBlogsCount(res.data.totalCount);
     } catch (err) {
@@ -39,12 +43,25 @@ export const BlogProvider = ({ children }) => {
   };
 
   const fetchAllBlogs = async (page = 1, limit = 6) => {
+    const cacheKey = `${page}-${limit}`;
+
+    if (blogPageCache.current[cacheKey]) {
+      setAllBlogs(blogPageCache.current[cacheKey]);
+      return;
+    }
+
     setLoadingAll(true);
     try {
       const res = await axios.get(`${BASE_URL}/api/blogs/published`, {
-        params: { page, limit }
+        params: { page, limit },
       });
-      setAllBlogs(res.data.blogs);
+
+      const blogs = res.data.blogs;
+
+      // Cache the blogs for this page-limit combo
+      blogPageCache.current[cacheKey] = blogs;
+
+      setAllBlogs(blogs);
     } catch (err) {
       console.error('Error fetching all blogs:', err);
     } finally {
@@ -62,6 +79,11 @@ export const BlogProvider = ({ children }) => {
     }
   };
 
+  // Optional: function to clear the cache manually
+  const clearBlogCache = () => {
+    blogPageCache.current = {};
+  };
+
   return (
     <BlogContext.Provider
       value={{
@@ -74,60 +96,10 @@ export const BlogProvider = ({ children }) => {
         fetchBlogById,
         loadingRecent,
         loadingAll,
+        clearBlogCache, // exposed in case needed
       }}
     >
       {children}
     </BlogContext.Provider>
   );
 };
-
-export const useBlogs = () => useContext(BlogContext);
-
-
-// import React, { createContext, useContext, useState } from 'react';
-// import axios from 'axios';
-
-// const BlogContext = createContext();
-
-// export const BlogProvider = ({ children }) => {
-//   const [blogs, setBlogs] = useState({ data: [], totalCount: 0 });
-//   const [loading, setLoading] = useState(false);
-
-//   const BASE_URL = import.meta.env.VITE_BACKEND_URL;
-
-//   const fetchPublishedBlogs = async (page = 1, limit = 6) => {
-//     setLoading(true);
-//     try {
-//       const res = await axios.get(`${BASE_URL}/api/blogs/published`, {
-//         params: { page, limit }
-//       });
-//       setBlogs({
-//         data: res.data.blogs,
-//         totalCount: res.data.totalCount
-//       });
-//     } catch (err) {
-//       console.error('Error fetching blogs:', err);
-//     } finally {
-//       setTimeout(() => {
-//         setLoading(false);
-//       }, 1000); // Reduced timeout for better UX
-//     }
-//   };
-
-//   const getBlogById = (id) => blogs.data.find((blog) => blog._id === id) || null;
-
-//   return (
-//     <BlogContext.Provider
-//       value={{
-//         blogs,
-//         getBlogById,
-//         fetchPublishedBlogs,
-//         loading,
-//       }}
-//     >
-//       {children}
-//     </BlogContext.Provider>
-//   );
-// };
-
-// export const useBlogs = () => useContext(BlogContext);

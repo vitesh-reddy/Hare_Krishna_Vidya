@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -13,19 +14,20 @@ import Loader from '../../components/common/Loader';
 import imageCompression from 'browser-image-compression';
 import BlogEditor from './BlogEditor';
 
-
 const BlogManagement = () => {
-  const { posts, createBlog, updateBlog, deleteBlog, toggleBlogStatus, loading, fetchBlogs } = useBlogsAdmin();
+  const { posts, totalBlogsCount, createBlog, updateBlog, deleteBlog, toggleBlogStatus, loading, fetchBlogs } = useBlogsAdmin();
   const editorRef = useRef(null);
   const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
   const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
 
-  useEffect(() => {
-    if (!posts.length) fetchBlogs();
-    console.log("Blog Management Rendered");
-  }, []);
+  const postsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(totalBlogsCount / postsPerPage) || 1;
 
+  useEffect(() => {
+    fetchBlogs(currentPage, postsPerPage);
+  }, [currentPage]);
 
   const [isCreating, setIsCreating] = useState(false);
   const [editingId, setEditingId] = useState(null);
@@ -70,6 +72,7 @@ const BlogManagement = () => {
     }
 
     try {
+      toast.loading('Uploading image...');
       console.log(`📷 Original file size: ${(file.size / 1024).toFixed(2)} KB`);
       let compressedFile = file;
 
@@ -82,7 +85,6 @@ const BlogManagement = () => {
         };
         compressedFile = await imageCompression(file, options);
         console.log(`🗜️ Compressed file size: ${(compressedFile.size / 1024).toFixed(2)} KB`);
-        toast.success('Image compressed and uploaded.');
       } else {
         console.log('⚠️ Skipped compression due to small file size.');
       }
@@ -101,16 +103,24 @@ const BlogManagement = () => {
       if (result.secure_url) {
         setFormData(prev => ({ ...prev, image: result.secure_url }));
         setImageFile(compressedFile);
+        toast.dismiss();
+        toast.success('Image uploaded.');
       } else {
         throw new Error('Image upload failed');
       }
     } catch (error) {
+      toast.dismiss();
+      toast.error('Image upload failed. Please try again.');
       console.error('❌ Image upload failed:', error);
       toast.error('Failed to upload image to Cloudinary.');
     }
   };
 
   const addTag = () => {
+    if(formData.tags.length >= 3) {
+      toast.error('You can only add up to 3 tags.');
+      return;
+    }
     if (tagInput.trim() && !formData.tags.includes(tagInput.trim())) {
       setFormData((prev) => ({
         ...prev,
@@ -135,10 +145,10 @@ const BlogManagement = () => {
     try {
       const blogData = { ...formData };
       if (editingId) {
-        await updateBlog(editingId, blogData, imageFile);
+        await updateBlog(editingId, blogData, imageFile, currentPage, postsPerPage);
         setEditingId(null);
       } else {
-        await createBlog(blogData, imageFile);
+        await createBlog(blogData, imageFile, currentPage, postsPerPage);
       }
       setIsCreating(false);
       setFormData({
@@ -163,7 +173,7 @@ const BlogManagement = () => {
 
   const confirmDelete = async () => {
     if (postToDelete) {
-      await deleteBlog(postToDelete);
+      await deleteBlog(postToDelete, currentPage, postsPerPage);
       setShowDeleteDialog(false);
       setPostToDelete(null);
     }
@@ -209,143 +219,158 @@ const BlogManagement = () => {
     setPreviewPost(post);
   };
 
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const renderPagination = () => {
+    const pages = [];
+    const maxVisiblePages = 6; // Total 6 page buttons excluding dots
+    const siblingCount = 1;
+
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(
+          <button
+            key={i}
+            onClick={() => handlePageChange(i)}
+            className={`px-[0.5rem] py-[0.25rem] mx-[0.25rem] text-[0.875rem] rounded-[0.25rem] ${
+              currentPage === i ? 'bg-[#f97316] text-white' : 'bg-[#f8f3ec] text-[#404958] hover:bg-[#fef3c7]'
+            }`}
+            disabled={currentPage === i}
+          >
+            {i}
+          </button>
+        );
+      }
+    } else {
+      pages.push(
+        <button
+          key={1}
+          onClick={() => handlePageChange(1)}
+          className={`px-[0.5rem] py-[0.25rem] mx-[0.25rem] text-[0.875rem] rounded-[0.25rem] ${
+            currentPage === 1 ? 'bg-[#f97316] text-white' : 'bg-[#f8f3ec] text-[#404958] hover:bg-[#fef3c7]'
+          }`}
+          disabled={currentPage === 1}
+        >
+          1
+        </button>
+      );
+      if (totalPages > 1) {
+        pages.push(
+          <button
+            key={2}
+            onClick={() => handlePageChange(2)}
+            className={`px-[0.5rem] py-[0.25rem] mx-[0.25rem] text-[0.875rem] rounded-[0.25rem] ${
+              currentPage === 2 ? 'bg-[#f97316] text-white' : 'bg-[#f8f3ec] text-[#404958] hover:bg-[#fef3c7]'
+            }`}
+            disabled={currentPage === 2}
+          >
+            2
+          </button>
+        );
+      }
+
+      const leftSiblingIndex = Math.max(3, currentPage - siblingCount);
+      const rightSiblingIndex = Math.min(totalPages - 2, currentPage + siblingCount);
+
+      if (leftSiblingIndex > 3) {
+        pages.push(<span key="start-ellipsis" className="px-[0.5rem] py-[0.25rem] mx-[0.25rem] text-[0.875rem] text-[#6b7280]">...</span>);
+      }
+
+      for (let i = leftSiblingIndex; i <= rightSiblingIndex; i++) {
+        if (i > 2 && i < totalPages - 1) {
+          pages.push(
+            <button
+              key={i}
+              onClick={() => handlePageChange(i)}
+              className={`px-[0.5rem] py-[0.25rem] mx-[0.25rem] text-[0.875rem] rounded-[0.25rem] ${
+                currentPage === i ? 'bg-[#f97316] text-white' : 'bg-[#f8f3ec] text-[#404958] hover:bg-[#fef3c7]'
+              }`}
+              disabled={currentPage === i}
+            >
+              {i}
+            </button>
+          );
+        }
+      }
+
+      if (rightSiblingIndex < totalPages - 2) {
+        pages.push(<span key="end-ellipsis" className="px-[0.5rem] py-[0.25rem] mx-[0.25rem] text-[0.875rem] text-[#6b7280]">...</span>);
+      }
+
+      for (let i = Math.max(totalPages - 1, rightSiblingIndex + 1); i <= totalPages; i++) {
+        if (i > 2) {
+          pages.push(
+            <button
+              key={i}
+              onClick={() => handlePageChange(i)}
+              className={`px-[0.5rem] py-[0.25rem] mx-[0.25rem] text-[0.875rem] rounded-[0.25rem] ${
+                currentPage === i ? 'bg-[#f97316] text-white' : 'bg-[#f8f3ec] text-[#404958] hover:bg-[#fef3c7]'
+              }`}
+              disabled={currentPage === i}
+            >
+              {i}
+            </button>
+          );
+        }
+      }
+    }
+
+    return pages;
+  };
+
   if (loading) {
     return <Loader />;
   }
 
   if (previewPost) {
     return (
-      <div className="relative min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
-        <header className="sticky top-0 z-50 bg-gradient-to-r from-orange-400 to-amber-300 shadow-lg">
-          <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-            <p className="text-3xl font-bold text-white tracking-tight line-clamp-1">
-              Blog Preview: {previewPost.title}
+      <div className="w-full pb-[5rem] bg-[#fdfcf9] text-[#1f1f1f] min-h-screen">
+        <div
+          className="relative font-playfair w-full h-[30rem] bg-cover bg-center flex items-center justify-center text-center text-white"
+          style={{ backgroundImage: `url(${previewPost.image || '/assets/placeholder.png'})` }}
+        >
+          <button
+            onClick={() => setPreviewPost(null)}
+            className="z-50 absolute top-[1.5rem] md:top-[2rem] left-[1.5rem] md:left-[2rem] text-[0.75rem] md:text-[0.9rem] px-[0.6rem] md:px-[0.75rem] py-[0.4rem] md:py-[0.45rem] bg-white/10 rounded-full"
+          >
+            <p className="flex items-center justify-center gap-[0.25rem]">
+              <ArrowLeft className="w-[0.85rem]" /> Back to Editor
             </p>
-            <Button
-              onClick={() => setPreviewPost(null)}
-              variant="outline"
-              className="flex items-center gap-2 bg-white/90 hover:bg-white text-orange-600 border-orange-200 shadow-md hover:shadow-lg transition-all duration-300 rounded-full px-4 py-2"
-            >
-              <ArrowLeft className="w-5 h-5" />
-              <span className="font-medium">Back to Editor</span>
-            </Button>
-          </div>
-        </header>
-
-        <main className="max-w-4xl mx-auto px-6 py-12">
-          <Card className="shadow-2xl border-0 rounded-3xl overflow-hidden bg-white/95 backdrop-blur-sm">
-            {previewPost.image && (
-              <div className="relative aspect-[16/9] overflow-hidden">
-                <img
-                  src={previewPost.image}
-                  alt={previewPost.title}
-                  className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500 ease-in-out"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-              </div>
+          </button>
+          <div className="absolute inset-0 bg-black bg-opacity-50" />
+          <div className="relative z-10 px-[1.5rem]">
+            <h1 className="w-[70%] mx-auto text-[1.75rem] md:text-[2.25rem] lg:text-[2.5rem] font-bold leading-tight">
+              {previewPost.title}
+            </h1>
+            {previewPost.excerpt && (
+              <p className="w-[80%] mx-auto text-[1rem] lg:text-[1.125rem] mt-[0.5rem]">
+                {previewPost.excerpt}
+              </p>
             )}
+            <div className="text-[0.875rem] mt-[0.5rem] opacity-80">
+              <p className="leading-[1rem] text-[0.75rem] sm:text-[0.8rem] md:text-[0.9rem] lg:text-[1rem] flex items-center justify-center gap-[0.5rem]">
+                <img src="/assets/Profile Icon.svg" alt="" draggable={false} />
+                By {previewPost.author} &nbsp; • &nbsp;
+                <img src="/assets/Calendar Icon.svg" alt="" draggable={false} />
+                {new Date(previewPost.date).toLocaleDateString('en-US', {
+                  day: '2-digit',
+                  month: 'short',
+                  year: 'numeric',
+                })}
+              </p>
+            </div>
+          </div>
+        </div>
 
-            <CardContent className="p-10 md:p-14 space-y-8">
-
-              <h1
-                className="text-[1.5rem] md:text-[2.25rem] font-extrabold text-gray-900 tracking-tight"
-                style={{ fontFamily: "'Georgia', serif" }}
-              >
-                {previewPost.title}
-              </h1>
-
-              {previewPost.excerpt && (
-                <p
-                  className="text-lg md:text-xl text-gray-600 leading-relaxed font-light italic border-l-4 border-orange-400 pl-4"
-                  style={{ fontFamily: "'Georgia', serif" }}
-                >
-                  {previewPost.excerpt}
-                </p>
-              )}
-
-              <div className="flex items-center text-gray-500 text-base md:text-lg space-x-4">
-                <div className="flex items-center">
-                  <User className="w-5 h-5 mr-2 text-orange-600" />
-                  <span className="font-medium text-gray-800">{previewPost.author}</span>
-                </div>
-                <span className="text-gray-300">•</span>
-                <div className="flex items-center">
-                  <Calendar className="w-5 h-5 mr-2 text-orange-600" />
-                  <span>
-                    {new Date(previewPost.date).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })}
-                  </span>
-                </div>
-              </div>
-
-              <article className="prose prose-lg max-w-none text-gray-800 leading-loose tracking-wide">
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  components={{
-                    h1: ({ node, ...props }) => (
-                      <h1
-                        className="text-4xl font-bold text-gray-900 mb-4"
-                        style={{ fontFamily: "'Georgia', serif" }}
-                        {...props}
-                      />
-                    ),
-                    h2: ({ node, ...props }) => (
-                      <h2
-                        className="text-3xl font-bold text-gray-900 mb-3"
-                        style={{ fontFamily: "'Georgia', serif" }}
-                        {...props}
-                      />
-                    ),
-                    h3: ({ node, ...props }) => (
-                      <h3
-                        className="text-2xl font-bold text-gray-900 mb-2"
-                        style={{ fontFamily: "'Georgia', serif" }}
-                        {...props}
-                      />
-                    ),
-                    p: ({ node, ...props }) => (
-                      <p
-                        className="text-lg md:text-xl text-gray-800 leading-loose"
-                        style={{ fontFamily: "'Georgia', serif" }}
-                        {...props}
-                      />
-                    ),
-                    ul: ({ node, ...props }) => (
-                      <ul
-                        className="list-disc pl-6 mb-4 text-lg text-gray-800"
-                        style={{ fontFamily: "'Georgia', serif" }}
-                        {...props}
-                      />
-                    ),
-                    ol: ({ node, ...props }) => (
-                      <ol
-                        className="list-decimal pl-6 mb-4 text-lg text-gray-800"
-                        style={{ fontFamily: "'Georgia', serif" }}
-                        {...props}
-                      />
-                    ),
-                    blockquote: ({ node, ...props }) => (
-                      <blockquote
-                        className="border-l-4 border-orange-400 pl-4 italic text-gray-600 mb-4"
-                        style={{ fontFamily: "'Georgia', serif" }}
-                        {...props}
-                      />
-                    ),
-                    a: ({ node, ...props }) => <a className="text-orange-600 hover:underline" {...props} />,
-                    img: ({ node, ...props }) => (
-                      <img className="max-w-full h-auto rounded-lg my-4" {...props} />
-                    ),
-                  }}
-                >
-                  {previewPost.content}
-                </ReactMarkdown>
-              </article>
-            </CardContent>
-          </Card>
-        </main>
+        <div
+          className="w-[60vw] mt-[2rem] mx-auto"
+          dangerouslySetInnerHTML={{ __html: previewPost.content }}
+        />
 
         <div className="fixed bottom-6 right-6 z-50 hidden md:block">
           <Button
@@ -381,8 +406,8 @@ const BlogManagement = () => {
                 </h1>
               </div>
               <div className="flex items-center gap-3">
-                <span className="text-sm text-gray-500">Draft auto-saved</span>
-                <Button
+                <span className="text-sm text-gray-500">Drafted upon Save</span>
+                {/* <Button
                   onClick={() =>
                     handlePreview({
                       ...formData,
@@ -397,7 +422,7 @@ const BlogManagement = () => {
                 >
                   <Eye className="w-4 h-4" />
                   Preview
-                </Button>
+                </Button> */}
                 <Button
                   onClick={handleSave}
                   className="bg-green-600 hover:bg-green-700 text-white"
@@ -626,7 +651,7 @@ const BlogManagement = () => {
                           ? 'bg-green-100 text-green-600 hover:bg-green-200'
                           : 'bg-yellow-100 text-yellow-600 hover:bg-yellow-200'
                       }`}
-                      onClick={() => toggleBlogStatus(post._id)}
+                      onClick={() => toggleBlogStatus(post._id, currentPage, postsPerPage)}
                     >
                       {post.status}
                     </Button>
@@ -652,6 +677,23 @@ const BlogManagement = () => {
               ))}
             </TableBody>
           </Table>
+          <div className="flex items-center justify-between gap-[0.5rem] px-[2rem] pt-[1.5rem] pb-[2rem]">
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1 || loading}
+              className="px-[0.75rem] py-[0.25rem] text-[0.875rem] text-[#404958] disabled:opacity-50"
+            >
+              ← Previous
+            </button>
+            <div>{renderPagination()}</div>
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages || loading}
+              className="px-[0.75rem] py-[0.25rem] text-[0.875rem] text-[#404958] disabled:opacity-50"
+            >
+              Next →
+            </button>
+          </div>
         </CardContent>
       </Card>
     </div>
@@ -659,3 +701,6 @@ const BlogManagement = () => {
 };
 
 export default BlogManagement;
+
+/// Original -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
