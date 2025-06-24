@@ -1,5 +1,6 @@
 import express from 'express';
 import { CampaignType, Campaign } from '../models/Campaign.js';
+import { uploadToCloudinary } from '../config/cloudinaryConfig.js';
 
 
 const router = express.Router();
@@ -12,9 +13,22 @@ router.get('/types', async (req, res) => {
     } catch (error) {
         console.error("Error fetching campaign types:", error);
         return res.status(500).json({ error: 'Failed to fetch campaign types' });
-    }
+    }    
 });
 
+router.post('/upload-image', async (req, res) => {
+  try {
+    if (!req.files || !req.files.image) {
+      return res.status(400).json({ error: 'No image file provided' });
+    }
+
+    const fileBuffer = req.files.image.data;
+    const cloudinaryUrl = await uploadToCloudinary(fileBuffer, "Campaigns");
+    return res.status(200).json({ url: cloudinaryUrl });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+});
 router.post('/create', async (req, res) => {
     try {
         const {

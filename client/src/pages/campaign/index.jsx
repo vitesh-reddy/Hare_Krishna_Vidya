@@ -48,7 +48,7 @@ const CreateCampaign = () => {
       toast.error('Please select a valid image file.');
       return;
     }
-
+    toast.loading('Uploading image...');
     try {
       console.log(`📷 Original file size: ${(file.size / 1024).toFixed(2)} KB`);
 
@@ -64,15 +64,18 @@ const CreateCampaign = () => {
         };
         finalFile = await imageCompression(file, options);
         console.log(`🗜️ Compressed file size: ${(finalFile.size / 1024).toFixed(2)} KB`);
-        toast.success('Image uploaded.');
       } else {
         console.log('⚠️ Skipped compression due to small file size.');
       }
 
       const imageUrl = URL.createObjectURL(finalFile);
+      toast.dismiss();
+      toast.success('Image uploaded successfully.');
       setFormData(prev => ({ ...prev, uploadedImage: imageUrl }));
       setImageFile(finalFile);
     } catch (error) {
+      toast.dismiss();
+      toast.error('Image upload failed. Please try again.');
       console.error('❌ Image compression failed:', error);
       toast.error('Failed to process image.');
     }
@@ -95,10 +98,9 @@ const CreateCampaign = () => {
       if (imageFile) {
         const formData = new FormData();
         formData.append('image', imageFile);
-        const uploadResponse = await axios.post(`${BASE_URL}/blogs/upload-image`, formData);
+        const uploadResponse = await axios.post(`${BASE_URL}/campaigns/upload-image`, formData);
         imageUrl = uploadResponse.data.url;
       }
-
 
       form.append("uploadedImage", imageUrl);
       await axios.post(`${BASE_URL}/campaigns/create`, form, {

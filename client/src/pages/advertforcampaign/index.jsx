@@ -128,7 +128,7 @@ const FundraisingCampaigns = () => {
                     </div>
 
                     {/* Campaign Image */}
-                    <div className="h-48 w-full overflow-hidden">
+                    <div className="h-[14rem] w-full overflow-hidden">
                       <img
                         src={campaign.uploadedImage || '/placeholder-image.jpg'}
                         alt={campaign.campaignName}
