@@ -594,27 +594,17 @@ const BlogManagement = () => {
       )}
 
       <Card className="border-0 shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-orange-50 to-amber-50 border-b border-orange-100">
-          <div className="flex flex-row items-center justify-between">
-            <div>
-              <CardTitle className="text-2xl text-gray-900 flex items-center gap-3">
-                <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                  <FileText className="w-5 h-5 text-orange-600" />
-                </div>
-                Blog Posts Management
-              </CardTitle>
-              <p className="text-gray-600 mt-2">Create, edit, and manage your blog content</p>
-            </div>
-            <Button
-              onClick={() => setIsCreating(true)}
-              className="bg-orange-600 hover:bg-orange-700 text-white shadow-md"
-            >
-              <PlusCircle className="w-4 h-4 mr-2" />
-              Write New Story
-            </Button>
-          </div>
+        <CardHeader className="flex flex-row items-center justify-between">         
+          <CardTitle>Blog Posts </CardTitle>            
+          <Button
+            onClick={() => setIsCreating(true)}
+            className="bg-orange-600 hover:bg-orange-700 text-white shadow-md"
+          >
+            <PlusCircle className="w-4 h-4 mr-2" />
+            Write New Story
+          </Button>
         </CardHeader>
-        <CardContent className="p-0">
+        <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
