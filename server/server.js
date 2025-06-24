@@ -9,9 +9,15 @@ import kitsRoutes from "./routes/kitsRoutes.js"
 import paymentRoutes from "./routes/paymentRoutes.js"
 import groceryItemRoutes from "./routes/groceryItemRoutes.js"
 import applicationRoutes from "./routes/applicationRoutes.js"
-
 import campaignRoutes from "./routes/campaignRoutes.js"
+
+
 import adminRoutes from "./routes/adminRoutes.js";
+import jobAdminRoutes from "./routes/jobAdminRoutes.js";
+import blogAdminRoutes from "./routes/blogAdminRoutes.js";  
+import kitsAdminRoutes from "./routes/kitsAdminRoutes.js";
+import groceryItemAdminRoutes from "./routes/groceryItemAdminRoutes.js";
+import applicationAdminRoutes from "./routes/applicationAdminRoutes.js";
 
 import fileUpload from "express-fileupload";
 import cookieParser from "cookie-parser";
@@ -43,9 +49,16 @@ app.use(express.json());
 app.get("/", async (req, res) => {
 });
 
+app.use("/api/admin", adminRoutes);
+app.use("/api/admin/jobs", jobAdminRoutes);
+app.use("/api/admin/blogs", blogAdminRoutes);
+app.use("/api/admin/kits", kitsAdminRoutes);
+app.use("/api/admin/grocery-items", groceryItemAdminRoutes);
+app.use('/api/admin/applications', applicationAdminRoutes);
+
+
 app.use("/api/jobs", jobRoutes);
 app.use("/api/blogs", blogRoutes);
-app.use("/api/admin", adminRoutes);
 app.use("/api/kits", kitsRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use("/api/grocery-items", groceryItemRoutes);
