@@ -44,11 +44,10 @@ const DashboardOverview = () => {
 
   const recentActivity = [
     { action: 'New blog post published', time: '2 hours ago', type: 'blog' },
-    { action: 'Job application received', time: '4 hours ago', type: 'job' },
+    { action: 'New Job Post Created', time: '4 hours ago', type: 'job' },
     { action: 'Donation kit prices updated', time: '1 day ago', type: 'donation' },
     { action: 'New grocery items added', time: '2 days ago', type: 'grocery' }
   ];
-
   return (
     <div className="space-y-[1.5rem]">
       {/* Stats Grid */}
