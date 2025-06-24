@@ -3,6 +3,7 @@ import { Edit, Save, X } from "lucide-react";
 import axios from "axios";
 import { useAdminAuth } from "../../contexts/AdminAuthContext";
 import toast from "react-hot-toast";
+import axiosInstance from "../../api/axiosInstance";
 
 const ProfilePage = () => {
   const { adminInfo, setAdminInfo, setShowLogoutDialog } = useAdminAuth();
@@ -22,8 +23,6 @@ const ProfilePage = () => {
     incorrectPassword: "",
     serverError: "",
   });
-
-  const BASE_URL = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'}/api/admin`;
 
   useEffect(() => {
     if (adminInfo) {
@@ -65,16 +64,12 @@ const ProfilePage = () => {
     }
 
     try {
-      const res = await axios.patch(
-        `${BASE_URL}/update-profile`,
-        {
-          name: formState.name,
-          email: formState.email,
-          currentPassword: formState.currentPassword,
-          newPassword: formState.newPassword || undefined,
-        },
-        { withCredentials: true }
-      );
+      const res = await axiosInstance.patch("/update-profile",{
+        name: formState.name,
+        email: formState.email,
+        currentPassword: formState.currentPassword,
+        newPassword: formState.newPassword || undefined,
+      });
 
       setAdminData({ name: res.data.name, email: res.data.email });
       setAdminInfo({ name: res.data.name, email: res.data.email });

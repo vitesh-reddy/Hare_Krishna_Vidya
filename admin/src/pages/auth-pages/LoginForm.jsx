@@ -2,23 +2,20 @@ import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useAdminAuth } from "../../contexts/AdminAuthContext";
+import axiosInstance from "../../api/axiosInstance";
 
 const LoginForm = ({ switchToForgot }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const {login} = useAdminAuth();
 
-  const BASE_URL = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'}/api`;
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(
-        `${BASE_URL}/admin/login`,
-        { email, password },
-        { withCredentials: true }
-      );
+      const res = await axiosInstance.post('/login', { email, password });
       toast.success('Login Success');
       login();
       window.location.href = '/';

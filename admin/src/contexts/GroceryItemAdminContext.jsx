@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, useCallback, useEffect, act } from 'react';
-import axios from 'axios';
+import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import axiosInstance from '../api/axiosInstance'; 
 import toast from 'react-hot-toast';
 
 const GroceryItemAdminContext = createContext();
@@ -11,53 +11,55 @@ export const GroceryItemAdminProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [activeGroceryItemsCount, setActiveGroceryItemsCount] = useState(0);
 
-  const BASE_URL = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'}/api`;
-
   // Fetch all grocery items
   const fetchGroceryItems = useCallback(async () => {
-    console.log('Groceries Fetched');
     setLoading(true);
     try {
-      const response = await axios.get(`${BASE_URL}/grocery-items`);
+      const response = await axiosInstance.get('/grocery-items'); // GET all grocery items
       setGroceryItems(response.data);
     } catch (error) {
       toast.error('Failed to fetch grocery items.');
     } finally {
       setLoading(false);
     }
-  }, [BASE_URL]);
-
-  useEffect(() => {
-    fetchActiveGroceryItemsCount();
   }, []);
 
+  // Fetch count of active grocery items
   const fetchActiveGroceryItemsCount = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${BASE_URL}/grocery-items/active-count`);
+      const response = await axiosInstance.get('/grocery-items/active-count'); // GET count of active items
       setActiveGroceryItemsCount(response.data.count);
     } catch (error) {
+      console.log(error);
       toast.error('Failed to fetch active grocery items count.');
     } finally {
       setLoading(false);
     }
-  }, [BASE_URL]);
+  }, []);
 
-  // Create a new grocery item
+  useEffect(() => {
+    fetchActiveGroceryItemsCount();
+  }, [fetchActiveGroceryItemsCount]);
+
+  // Create a new grocery item (with optional image upload)
   const createGroceryItem = async (data, imageFile) => {
     setLoading(true);
     try {
       let imageUrl = data.image;
+
+      // Upload image if imageFile is provided
       if (imageFile) {
         const formData = new FormData();
         formData.append('image', imageFile);
-        const uploadResponse = await axios.post(`${BASE_URL}/grocery-items/upload-image`, formData);
+        const uploadResponse = await axiosInstance.post('/grocery-items/upload-image', formData); // POST image
         imageUrl = uploadResponse.data.url;
       }
 
       const newItem = { ...data, image: imageUrl };
-      const response = await axios.post(`${BASE_URL}/grocery-items`, newItem);
-      const createdItem = response.data.item; // Expecting the backend to return the created item
+      const response = await axiosInstance.post('/grocery-items', newItem); // POST new item
+      const createdItem = response.data.item;
+
       setGroceryItems((prevItems) => [...prevItems, createdItem]);
       toast.success('Grocery item created successfully.');
     } catch (error) {
@@ -68,21 +70,24 @@ export const GroceryItemAdminProvider = ({ children }) => {
     }
   };
 
-  // Update a grocery item
+  // Update an existing grocery item (optionally with new image)
   const updateGroceryItem = async (id, data, imageFile) => {
     setLoading(true);
     try {
       let imageUrl = data.image;
+
+      // Re-upload new image if changed
       if (imageFile) {
         const formData = new FormData();
         formData.append('image', imageFile);
-        const uploadResponse = await axios.post(`${BASE_URL}/grocery-items/upload-image`, formData);
+        const uploadResponse = await axiosInstance.post('/grocery-items/upload-image', formData); // POST new image
         imageUrl = uploadResponse.data.url;
       }
 
       const updatedItem = { ...data, image: imageUrl };
-      const response = await axios.put(`${BASE_URL}/grocery-items/${id}`, updatedItem);
-      const updatedItemFromServer = response.data.item; // Expecting the backend to return the updated item
+      const response = await axiosInstance.put(`/grocery-items/${id}`, updatedItem); // PUT update
+      const updatedItemFromServer = response.data.item;
+
       setGroceryItems((prevItems) =>
         prevItems.map((item) =>
           item._id === id ? updatedItemFromServer : item
@@ -101,7 +106,7 @@ export const GroceryItemAdminProvider = ({ children }) => {
   const deleteGroceryItem = async (id) => {
     setLoading(true);
     try {
-      await axios.delete(`${BASE_URL}/grocery-items/${id}`);
+      await axiosInstance.delete(`/grocery-items/${id}`); // DELETE item
       setGroceryItems((prevItems) => prevItems.filter((item) => item._id !== id));
       toast.success('Grocery item deleted successfully.');
     } catch (error) {
@@ -111,12 +116,13 @@ export const GroceryItemAdminProvider = ({ children }) => {
     }
   };
 
-  // Toggle active status
+  // Toggle active/inactive status of a grocery item
   const toggleGroceryActiveStatus = async (id) => {
     setLoading(true);
     try {
-      const response = await axios.patch(`${BASE_URL}/grocery-items/${id}/active`);
-      const updatedItem = response.data.item; // Expecting the backend to return the updated item
+      const response = await axiosInstance.patch(`/grocery-items/${id}/active`); // PATCH status toggle
+      const updatedItem = response.data.item;
+
       setGroceryItems((prevItems) =>
         prevItems.map((item) =>
           item._id === id ? updatedItem : item

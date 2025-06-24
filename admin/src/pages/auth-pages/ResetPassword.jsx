@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useLocation, useNavigate } from 'react-router-dom';
+import axiosInstance from '../../api/axiosInstance';
 
 const ResetPassword = () => {
   const location = useLocation();
@@ -14,7 +15,7 @@ const ResetPassword = () => {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
-  const BASE_URL = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'}/api`;
+  // const BASE_URL = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'}/api`;
 
   const handleReset = async (e) => {
     e.preventDefault();
@@ -25,11 +26,7 @@ const ResetPassword = () => {
     }    
 
     try {
-      const res = await axios.post(`${BASE_URL}/admin/reset-password`, {
-        token,
-        newPassword,
-      }); 
-
+      const res = await axiosInstance.post('/verify-reset-token', { token, newPassword });
       toast.success('Password reset successfully. Redirecting to login...');
       setTimeout(() => navigate('/login'), 3000);
     } catch (err) {

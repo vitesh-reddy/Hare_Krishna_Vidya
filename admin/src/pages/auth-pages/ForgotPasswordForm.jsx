@@ -1,18 +1,17 @@
 import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import axiosInstance from "../../api/axiosInstance";
 
 const ForgotPasswordForm = ({ switchToLogin }) => {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
-  const BASE_URL = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'}/api`;
-
   const handleRequestReset = async (e) => {
     e.preventDefault();
 
     try {
-      await axios.post(`${BASE_URL}/admin/forgot-password`, { email });
+      await axiosInstance.post("/forgot-password", { email });
       setSubmitted(true);
     } catch (err) {
       toast.error(err.response?.data?.message || 'Error sending reset link');

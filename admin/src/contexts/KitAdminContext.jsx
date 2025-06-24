@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../api/axiosInstance'; // ✅ Using axios instance with baseURL and credentials
 import toast from 'react-hot-toast';
 
 const KitAdminContext = createContext();
@@ -11,39 +11,38 @@ export const KitAdminProvider = ({ children }) => {
   const [activeKitsCount, setActiveKitsCount] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  const BASE_URL = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'}/api`;
-
   // Fetch all kits
   const fetchKits = useCallback(async () => {
-    console.log("Kits Fetch Called")
+    console.log("Kits Fetch Called");
     setLoading(true);
     try {
-      const response = await axios.get(`${BASE_URL}/kits`);
+      const response = await axiosInstance.get('/kits');
       setKits(response.data);
     } catch (error) {
       toast.error('Failed to fetch kits.');
     } finally {
       setLoading(false);
     }
-  }, [BASE_URL]);
+  }, []);
 
+  // Fetch active kits count
   const fetchActiveKitsCount = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${BASE_URL}/kits/active-count`);
+      const response = await axiosInstance.get('/kits/active-count');
       setActiveKitsCount(response.data.count);
     } catch (error) {
       toast.error('Failed to fetch active kits count.');
     } finally {
       setLoading(false);
     }
-  }, [BASE_URL]);
+  }, []);
 
   useEffect(() => {
     fetchActiveKitsCount();
   }, []);
 
-  // Create a new kit
+  // Create a new kit (with optional image)
   const createKit = async (data, imageFile) => {
     setLoading(true);
     try {
@@ -51,12 +50,12 @@ export const KitAdminProvider = ({ children }) => {
       if (imageFile) {
         const formData = new FormData();
         formData.append('image', imageFile);
-        const uploadResponse = await axios.post(`${BASE_URL}/kits/upload-image`, formData);
+        const uploadResponse = await axiosInstance.post('/kits/upload-image', formData);
         imageUrl = uploadResponse.data.url;
       }
 
       const newKit = { ...data, image: imageUrl };
-      const response = await axios.post(`${BASE_URL}/kits`, newKit);
+      const response = await axiosInstance.post('/kits', newKit);
       const createdKit = response.data.item;
       setKits((prevKits) => [...prevKits, createdKit]);
       toast.success('Kit created successfully.');
@@ -68,7 +67,7 @@ export const KitAdminProvider = ({ children }) => {
     }
   };
 
-  // Update a kit
+  // Update an existing kit (with optional new image)
   const updateKit = async (id, data, imageFile) => {
     setLoading(true);
     try {
@@ -76,17 +75,15 @@ export const KitAdminProvider = ({ children }) => {
       if (imageFile) {
         const formData = new FormData();
         formData.append('image', imageFile);
-        const uploadResponse = await axios.post(`${BASE_URL}/kits/upload-image`, formData);
+        const uploadResponse = await axiosInstance.post('/kits/upload-image', formData);
         imageUrl = uploadResponse.data.url;
       }
 
       const updatedKit = { ...data, image: imageUrl };
-      const response = await axios.put(`${BASE_URL}/kits/${id}`, updatedKit);
+      const response = await axiosInstance.put(`/kits/${id}`, updatedKit);
       const updatedKitFromServer = response.data.item;
       setKits((prevKits) =>
-        prevKits.map((kit) =>
-          kit._id === id ? updatedKitFromServer : kit
-        )
+        prevKits.map((kit) => (kit._id === id ? updatedKitFromServer : kit))
       );
       toast.success('Kit updated successfully.');
     } catch (error) {
@@ -97,11 +94,11 @@ export const KitAdminProvider = ({ children }) => {
     }
   };
 
-  // Delete a kit
+  // Delete a kit by ID
   const deleteKit = async (id) => {
     setLoading(true);
     try {
-      await axios.delete(`${BASE_URL}/kits/${id}`);
+      await axiosInstance.delete(`/kits/${id}`);
       setKits((prevKits) => prevKits.filter((kit) => kit._id !== id));
       toast.success('Kit deleted successfully.');
     } catch (error) {
@@ -111,16 +108,14 @@ export const KitAdminProvider = ({ children }) => {
     }
   };
 
-  // Toggle active status
+  // Toggle kit active/inactive status
   const toggleKitActiveStatus = async (id) => {
     setLoading(true);
     try {
-      const response = await axios.patch(`${BASE_URL}/kits/${id}/active`);
+      const response = await axiosInstance.patch(`/kits/${id}/active`);
       const updatedKit = response.data.item;
       setKits((prevKits) =>
-        prevKits.map((kit) =>
-          kit._id === id ? updatedKit : kit
-        )
+        prevKits.map((kit) => (kit._id === id ? updatedKit : kit))
       );
       toast.success('Kit status updated.');
     } catch (error) {

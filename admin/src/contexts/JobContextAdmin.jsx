@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useCallback, useRef, useEffect } from "react";
-import axios from 'axios';
+import axiosInstance from '../api/axiosInstance'; // ✅ Use custom Axios instance with credentials
 import toast from 'react-hot-toast';
 
 const JobAdminContext = createContext();
@@ -18,9 +18,9 @@ export const JobAdminProvider = ({ children }) => {
   const jobCache = useRef({});
   const applicationCache = useRef({});
 
-  const BASE_URL = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'}/api`;
   const PAGE_SIZE = 10;
 
+  // Fetch paginated jobs
   const fetchJobs = useCallback(async (page = 1) => {
     const skip = (page - 1) * PAGE_SIZE;
     if (isLoadingJobs || skip <= lastSkip) return;
@@ -34,27 +34,26 @@ export const JobAdminProvider = ({ children }) => {
       }
 
       console.log('admin fetch jobs called for page', page);
-      const response = await axios.get(`${BASE_URL}/jobs/all?skip=${skip}&limit=${PAGE_SIZE}`);
+      const response = await axiosInstance.get(`/jobs/all?skip=${skip}&limit=${PAGE_SIZE}`);
       const { data: newJobs, metadata } = response.data;
       setJobs(newJobs);
       jobCache.current[page] = newJobs;
       setHasMoreJobs(metadata.page < metadata.totalPages);
       setJobCount(metadata.totalCount); // Set initial count from metadata
     } catch (error) {
-      console.error('Error fetching jobs:', error);
       toast.error('Failed to fetch jobs');
     } finally {
       setIsLoadingJobs(false);
     }
-  }, []);
+  }, [isLoadingJobs, lastSkip]);
 
+  // Fetch active job count
   const fetchActiveJobsCount = useCallback(async () => {
     setIsLoadingJobs(true);
     try {
-      const response = await axios.get(`${BASE_URL}/jobs/active-count`);
+      const response = await axiosInstance.get(`/jobs/active-count`);
       setActiveJobsCount(response.data.count);
     } catch (error) {
-      console.error('Error fetching active jobs count:', error);
       toast.error('Failed to fetch active jobs count');
     } finally {
       setIsLoadingJobs(false);
@@ -63,8 +62,9 @@ export const JobAdminProvider = ({ children }) => {
 
   useEffect(() => {
     fetchActiveJobsCount();
-  }, []);
+  }, [fetchActiveJobsCount]);
 
+  // Fetch paginated applications for a job
   const fetchApplications = useCallback(async (jobId, page = 1) => {
     const skip = (page - 1) * PAGE_SIZE;
     setIsLoadingApplications(true);
@@ -77,126 +77,128 @@ export const JobAdminProvider = ({ children }) => {
       }
 
       console.log('admin fetch applications called for job', jobId, 'page', page);
-      const response = await axios.get(`${BASE_URL}/applications/${jobId}?skip=${skip}&limit=${PAGE_SIZE}`);
+      const response = await axiosInstance.get(`/applications/${jobId}?skip=${skip}&limit=${PAGE_SIZE}`);
       const { data: newApplications, metadata } = response.data;
       setApplications(newApplications);
       applicationCache.current[cacheKey] = newApplications;
+
       setApplicationCounts(prev => ({
         ...prev,
         [jobId]: newApplications.length > 0 ? newApplications[0].jobId.noOfApplications : prev[jobId] || 0
       }));
+
       setHasMoreApplications(metadata.page * PAGE_SIZE < (applicationCounts[jobId] || newApplications[0]?.jobId.noOfApplications || 0));
     } catch (error) {
-      console.error('Error fetching applications:', error);
       toast.error('Failed to fetch applications');
     } finally {
       setIsLoadingApplications(false);
     }
   }, [applicationCounts]);
 
+  // Create a new job
   const createJob = useCallback(async (jobData) => {
     try {
-      const response = await axios.post(`${BASE_URL}/jobs`, jobData);
+      const response = await axiosInstance.post(`/jobs`, jobData);
       setJobs(prev => [response.data.job, ...prev]);
       setJobCount(prev => prev + 1);
       jobCache.current = {};
       toast.success('Job created successfully');
       return response.data;
     } catch (error) {
-      console.error('Error creating job:', error);
       toast.error('Failed to create job');
       throw error;
     }
   }, []);
 
+  // Update a job
   const updateJob = useCallback(async (id, jobData) => {
     try {
-      const response = await axios.patch(`${BASE_URL}/jobs/${id}`, jobData);
+      const response = await axiosInstance.patch(`/jobs/${id}`, jobData);
       setJobs(prev => prev.map(job => job._id === id ? response.data.job : job));
       jobCache.current = {};
       toast.success('Job updated successfully');
       return response.data;
     } catch (error) {
-      console.error('Error updating job:', error);
       toast.error('Failed to update job');
       throw error;
     }
   }, []);
 
+  // Toggle job status (active/inactive)
   const toggleJobStatus = useCallback(async (id, currentStatus) => {
     try {
-      const response = await axios.patch(`${BASE_URL}/jobs/${id}/toggle-status`);
+      const response = await axiosInstance.patch(`/jobs/${id}/toggle-status`);
       setJobs(prev => prev.map(job => job._id === id ? response.data.job : job));
       setJobCount(prev => response.data.job.status === 'active' ? prev + 1 : prev - 1);
       jobCache.current = {};
       toast.success('Job status updated');
       return response.data;
     } catch (error) {
-      console.error('Error toggling job status:', error);
       toast.error('Failed to toggle job status');
       throw error;
     }
   }, []);
 
+  // Delete a job
   const deleteJob = useCallback(async (id) => {
     try {
-      await axios.delete(`${BASE_URL}/jobs/${id}`);
+      await axiosInstance.delete(`/jobs/${id}`);
       setJobs(prev => prev.filter(job => job._id !== id));
       setJobCount(prev => prev - 1);
       jobCache.current = {};
       toast.success('Job deleted successfully');
     } catch (error) {
-      console.error('Error deleting job:', error);
       toast.error('Failed to delete job');
       throw error;
     }
   }, []);
 
+  // Update application status (accepted/rejected)
   const updateApplicationStatus = useCallback(async (id, status) => {
     try {
-      const response = await axios.patch(`${BASE_URL}/applications/${id}/status`, { status });
+      const response = await axiosInstance.patch(`/applications/${id}/status`, { status });
       setApplications(prev => prev.map(app => app._id === id ? response.data.applicant : app));
       toast.success('Application status updated');
       return response.data;
     } catch (error) {
-      console.error('Error updating application status:', error);
       toast.error('Failed to update application status');
       throw error;
     }
   }, []);
 
+  // Fetch full application detail by ID
   const getApplicationById = useCallback(async (id) => {
     try {
-      const response = await axios.get(`${BASE_URL}/applications/view/${id}`);
+      const response = await axiosInstance.get(`/applications/view/${id}`);
       return response.data.applicant;
     } catch (error) {
-      console.error('Error fetching application:', error);
       toast.error('Failed to fetch application');
       throw error;
     }
   }, []);
 
+  // Refetch all jobs (page 1)
   const refreshJobs = useCallback(async () => {
     jobCache.current = {};
     setIsLoadingJobs(true);
     try {
-      const response = await axios.get(`${BASE_URL}/jobs/all?skip=0&limit=${PAGE_SIZE}`);
+      const response = await axiosInstance.get(`/jobs/all?skip=0&limit=${PAGE_SIZE}`);
       const { data: newJobs, metadata } = response.data;
       setJobs(newJobs);
       jobCache.current[1] = newJobs;
       setHasMoreJobs(metadata.page < metadata.totalPages);
       setJobCount(metadata.totalCount);
     } catch (error) {
-      console.error('Error refreshing jobs:', error);
       toast.error('Failed to refresh jobs');
     } finally {
       setIsLoadingJobs(false);
     }
   }, []);
 
+  // Fetch count of applicants for a specific job
   const getApplicantsCountByJobId = useCallback(async (jobId) => {
     try {
-      const response = await axios.get(`${BASE_URL}/jobs/applicants-count/${jobId}`);
+      const response = await axiosInstance.get(`/jobs/applicants-count/${jobId}`);
       setApplicationCounts(prev => ({
         ...prev,
         [jobId]: response.data.applicantsCount
@@ -204,9 +206,9 @@ export const JobAdminProvider = ({ children }) => {
       return response.data.applicantsCount;
     } catch (error) {
       toast.error('Error refreshing Applications');
-      return prevApplicationCounts[jobId] || 0; // Fallback to previous count
+      return applicationCounts[jobId] || 0;
     }
-  }, []);
+  }, [applicationCounts]);
 
   const updateApplicationCount = useCallback((jobId, count) => {
     setApplicationCounts(prev => ({
@@ -252,8 +254,7 @@ export const JobAdminProvider = ({ children }) => {
 
 export const useJobAdminContext = () => {
   const context = useContext(JobAdminContext);
-  if (!context) {
+  if (!context) 
     throw new Error('useJobAdminContext must be used within a JobAdminProvider');
-  }
   return context;
 };
