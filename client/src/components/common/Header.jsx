@@ -12,8 +12,8 @@ const Header = () => {
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   return (
-    <header className="fixed top-0 left-0 right-0 bg-neutral-background py-6 px-6 sm:px-12 z-[1000]">
-      <div className="max-w-7xl w-full flex items-center justify-between">
+    <header className=" fixed top-0 left-0 right-0 bg-neutral-background py-6 px-6 sm:px-12 z-[1000]">
+      <div className="w-full flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center">
           <Link to="/" className="text-[1.3rem] font-bold font-inter">
@@ -24,7 +24,7 @@ const Header = () => {
         </div>
 
         {/* Right side: Nav + Cart + Donate */}
-        <div className="flex items-center justify-end flex-1 space-x-[1rem]">
+        <div className="w-full flex items-center justify-end flex-1 space-x-[1rem] 2xl:space-x-[8rem]">
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center space-x-[1.5rem]">
             {[
@@ -32,7 +32,7 @@ const Header = () => {
               { path: '/about-us', label: 'About Us' },
               { path: '/our-initiative', label: 'Our Initiative' },
               { path: '/gallery', label: 'Gallery' }, 
-              { path: '/blog', label: 'Blogs' }, 
+              { path: '/blogs', label: 'Blogs' }, 
               { path: '/contact', label: 'Contact Us' },
               { path: '/advertforcampaign', label: 'Campaign' }
             ].map((item, idx) => (

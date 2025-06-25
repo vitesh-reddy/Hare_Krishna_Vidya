@@ -28,11 +28,11 @@ const Footer = () => {
                 {[
                   { to: 'Our Initiative', path: "/our-initiative"},
                   { to: 'Gallery', path: "/gallery"},
-                  { to: 'Term & Conditions', path: "terms&conditions"},
-                  { to: 'Refund Policy', path: "refund-policy"},
-                  { to: 'Privacy Policy', path: "privacy-policy"},
-                  { to: 'Certificates', path: "certificates"},
-                  { to: 'Careers', path: "careers"},
+                  { to: 'Term & Conditions', path: "/terms&conditions"},
+                  { to: 'Refund Policy', path: "/refund-policy"},
+                  { to: 'Privacy Policy', path: "/privacy-policy"},
+                  { to: 'Certificates', path: "/certificates"},
+                  { to: 'Careers', path: "/careers"},
                   { to: 'Campaign', path: "/advertforcampaign"},
                 ].map(({to, path}, idx) => (
                   <li key={idx} className="flex items-center mx-auto sm:mx-0">
