@@ -20,6 +20,7 @@ router.post('/create-default-admin', async (req, res) => {
     }
 
     const admin = new Admin({
+      name: req.body.name || 'Default Admin',
       email: req.body.email,
       password: req.body.password, 
     });

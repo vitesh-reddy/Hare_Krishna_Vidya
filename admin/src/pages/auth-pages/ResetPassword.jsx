@@ -15,8 +15,6 @@ const ResetPassword = () => {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
-  // const BASE_URL = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'}/api`;
-
   const handleReset = async (e) => {
     e.preventDefault();
 
@@ -26,9 +24,12 @@ const ResetPassword = () => {
     }    
 
     try {
-      const res = await axiosInstance.post('/verify-reset-token', { token, newPassword });
-      toast.success('Password reset successfully. Redirecting to login...');
-      setTimeout(() => navigate('/login'), 3000);
+      const res = await axiosInstance.post('/reset-password', { token, newPassword });
+      toast.loading('Password reset successfully. Redirecting to login');
+      setTimeout(() => { 
+        toast.dismiss();
+        navigate('/login')
+      }, 3000);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to reset password');
     }

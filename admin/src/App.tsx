@@ -33,19 +33,19 @@ const App = () => <AdminRoutes />
 
 const AdminMain = () => {
   return (
-      <GroceryItemAdminProvider>        
-      <AdminAuthProvider>
+    <AdminAuthProvider>
+    <AdminProtectedRoute>
       <KitAdminProvider>
       <BlogAdminProvider>
       <JobAdminProvider>
-      <AdminProtectedRoute>
+      <GroceryItemAdminProvider>        
           <AdminDashboard />
-      </AdminProtectedRoute>
+      </GroceryItemAdminProvider>   
       </JobAdminProvider>
       </BlogAdminProvider>
       </KitAdminProvider>
-      </AdminAuthProvider> 
-      </GroceryItemAdminProvider>   
+    </AdminProtectedRoute>
+    </AdminAuthProvider> 
   );
 }
 
