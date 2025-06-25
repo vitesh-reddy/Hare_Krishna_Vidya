@@ -8,8 +8,11 @@ import FinalStep from './components/FinalStep';
 import { useCampaigns } from '../../contexts/CampaignContext';
 import Loader from '../../components/common/Loader';
 import axios from 'axios';
+
+import { toast } from 'react-hot-toast';
+
 import imageCompression from 'browser-image-compression';
-import toast from 'react-hot-toast';
+
 const BASE_URL = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'}/api`;
 
 const CreateCampaign = () => {

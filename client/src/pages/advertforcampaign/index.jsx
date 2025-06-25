@@ -164,7 +164,18 @@ const FundraisingCampaigns = () => {
 
                       {/* Campaign Details */}
                       <div className="flex justify-between text-sm text-gray-500 mb-4">
-                        <span>{moment(campaign.endDate).diff(moment(new Date()), 'days')} days left</span>
+                        <span>
+                          {(() => {
+                            const daysLeft = moment(campaign.endDate).diff(moment(), 'days');
+                            if (daysLeft < 0) {
+                              return 'Campaign ended';
+                            } else if (daysLeft === 0) {
+                              return 'Last day';
+                            } else {
+                              return `${daysLeft} days left`;
+                            }
+                          })()}
+                        </span>
                         <span>by {campaign.organiser || 'organiser'}</span>
                       </div>
 
@@ -174,10 +185,23 @@ const FundraisingCampaigns = () => {
                           setSelectedCampaign(campaign);
                           setOpenDialog(true);
                         }}
-                        className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200 shadow-md hover:shadow-lg"
+                        disabled={
+                          campaign.raisedAmount >= campaign.goalAmount ||
+                          moment(campaign.endDate).diff(moment(), 'days') < 0
+                        }
+                        className={`w-full py-3 rounded-lg font-semibold transition-colors duration-200 shadow-md ${campaign.raisedAmount >= campaign.goalAmount || moment(campaign.endDate).diff(moment(), 'days') < 0
+                            ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                            : 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-lg'
+                          }`}
                       >
-                        DONATE NOW
+                        {campaign.raisedAmount >= campaign.goalAmount
+                          ? 'GOAL REACHED'
+                          : moment(campaign.endDate).diff(moment(), 'days') < 0
+                            ? 'CAMPAIGN ENDED'
+                            : 'DONATE NOW'
+                        }
                       </button>
+
                     </div>
                   </div>
                 );
@@ -193,6 +217,7 @@ const FundraisingCampaigns = () => {
 
       {/* Donation Modal */}
       {openDialog && (
+
         <DonationModal
           onClose={() => {
             setOpenDialog(false);

@@ -59,11 +59,6 @@ const donationSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  campaignId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'campaigns',
-  }
-  
 
 });
 
