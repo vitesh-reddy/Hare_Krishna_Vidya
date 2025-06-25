@@ -44,11 +44,7 @@ const CampaignDetails = ({ handleBack, handleNext, formData, handleInputChange, 
     if (!file.type.match(/^image\/(jpeg|jpg|png|gif)$/)) {
       alert(`${file.name} is not a valid format. Please upload JPG, PNG, or GIF.`);
       return;
-
     }
-
-    }  
-
 
     await handleImageUpload(file); // Use parent function
   };
@@ -146,10 +142,12 @@ const CampaignDetails = ({ handleBack, handleNext, formData, handleInputChange, 
               >
                 <X className="w-4 h-4" />
               </button>
-              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-2 rounded-b-lg">
-                <p className="truncate">{imageFile.name}</p>
-                <p>{(imageFile.size / 1024 / 1024).toFixed(1)} MB</p>
-              </div>
+              {imageFile && (
+                <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-2 rounded-b-lg">
+                  <p className="truncate">{imageFile.name}</p>
+                  <p>{(imageFile.size / 1024 / 1024).toFixed(1)} MB</p>
+                </div>
+              )}
             </div>
           )}
         </div>

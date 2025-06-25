@@ -5,6 +5,9 @@ import { useState } from "react";
 const CampaignType = ({ formData, handleNext, handleInputChange, campaignTypes = [] }) => {
   const [errors, setErrors] = useState({});
 
+  // Get today's date in YYYY-MM-DD format
+  const today = moment().format('YYYY-MM-DD');
+
   // Validation function
   const validateForm = () => {
     const newErrors = {};
@@ -23,10 +26,22 @@ const CampaignType = ({ formData, handleNext, handleInputChange, campaignTypes =
     
     if (!formData.startDate) {
       newErrors.startDate = "Start date is required";
+    } else {
+      // Check if start date is in the past
+      const startDate = moment(formData.startDate).format('YYYY-MM-DD');
+      if (startDate < today) {
+        newErrors.startDate = "Start date cannot be in the past";
+      }
     }
     
     if (!formData.endDate) {
       newErrors.endDate = "End date is required";
+    } else {
+      // Check if end date is in the past
+      const endDate = moment(formData.endDate).format('YYYY-MM-DD');
+      if (endDate < today) {
+        newErrors.endDate = "End date cannot be in the past";
+      }
     }
     
     if (formData.startDate && formData.endDate && formData.startDate >= formData.endDate) {
@@ -148,6 +163,7 @@ const CampaignType = ({ formData, handleNext, handleInputChange, campaignTypes =
                   }`}
                   value={formData.startDate ? moment(new Date(formData.startDate)).format('YYYY-MM-DD') : ''}
                   onChange={(e) => handleFieldChange('startDate', new Date(e.target.value).getTime())}
+                  min={today}
                   required
                 />
               </div>
@@ -165,7 +181,7 @@ const CampaignType = ({ formData, handleNext, handleInputChange, campaignTypes =
                   }`}
                   value={formData.endDate ? moment(new Date(formData.endDate)).format('YYYY-MM-DD') : ''}
                   onChange={(e) => handleFieldChange('endDate', new Date(e.target.value).getTime())}
-                  min={formData.startDate ? moment(new Date(formData.startDate)).format('YYYY-MM-DD') : ''}
+                  min={formData.startDate ? moment(new Date(formData.startDate)).format('YYYY-MM-DD') : today}
                   required
                 />
               </div>
