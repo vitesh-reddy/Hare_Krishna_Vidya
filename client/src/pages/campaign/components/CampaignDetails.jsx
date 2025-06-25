@@ -38,17 +38,11 @@ const CampaignDetails = ({ handleBack, handleNext, formData, handleInputChange, 
 
   const handleFileSelect = async (e) => {
     const file = e.target.files[0];
-    const maxSize = 5 * 1024 * 1024;
 
     if (!file) return;
 
     if (!file.type.match(/^image\/(jpeg|jpg|png|gif)$/)) {
       alert(`${file.name} is not a valid format. Please upload JPG, PNG, or GIF.`);
-      return;
-    }
-
-    if (file.size > maxSize) {
-      alert(`${file.name} is too large. Please upload files smaller than 5MB.`);
       return;
     }
 
@@ -124,7 +118,7 @@ const CampaignDetails = ({ handleBack, handleNext, formData, handleInputChange, 
           >
             <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
             <p className="text-gray-600 mb-1">Click to upload an image or drag and drop</p>
-            <p className="text-xs text-gray-500">JPG, PNG or GIF (max 5MB)</p>
+            <p className="text-xs text-gray-500">JPG, PNG or GIF</p>
           </div>
 
           <input
