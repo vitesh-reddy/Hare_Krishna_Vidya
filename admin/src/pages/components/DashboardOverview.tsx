@@ -1,19 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../../TSX-src/components/ui/card';
-import { Book, Briefcase, Gift, Grid2X2 } from 'lucide-react';
+import { Book, Briefcase, Eye, Gift, Grid2X2 } from 'lucide-react';
 import { useBlogsAdmin } from '../../contexts/BlogAdminContext';
 import { useKitsAdmin } from '../../contexts/KitAdminContext';
 import { useGroceryItemsAdmin } from '../../contexts/GroceryItemAdminContext';
 import { useJobAdminContext } from '../../contexts/JobContextAdmin';
+import { useAdminUpdates } from '../../contexts/UpdatesAdminContext';
+import { Button } from '../../TSX-src/components/ui/button';
+import dayjs from 'dayjs';
 
 const DashboardOverview = () => {
   const { publishedBlogsCount } = useBlogsAdmin();
   const { activeGroceryItemsCount } = useGroceryItemsAdmin();
   const { activeJobsCount } = useJobAdminContext();
   const {activeKitsCount} = useKitsAdmin();
+  const { recentActivity, loadMore, isLoading, hasMore, recentDonations, loadMoreDonations, isDonationLoading, hasMoreDonations } = useAdminUpdates();
+  const [selectedDonation, setSelectedDonation] = useState(null);
+
+  const handleViewDonation = (donation) => setSelectedDonation(donation)
+  const closeDialog = () => setSelectedDonation(null) 
+
   const stats = [
     {
-      title: 'Total Blog Posts',
+      title: 'Published Blogs',
       value: publishedBlogsCount,
       change: '+3 this month',
       icon: Book,
@@ -27,14 +36,14 @@ const DashboardOverview = () => {
       color: 'bg-[#16A34A]'
     },
     {
-      title: 'Donation Kits',
+      title: 'Active Kits',
       value: activeKitsCount,
       change: 'Updated prices',
       icon: Gift,
       color: 'bg-[#F97316]'
     },
     {
-      title: 'Grocery Items',
+      title: 'Active Groceries',
       value: activeGroceryItemsCount,
       change: 'Updated prices',
       icon: Grid2X2,
@@ -42,12 +51,6 @@ const DashboardOverview = () => {
     }
   ];
 
-  const recentActivity = [
-    { action: 'New blog post published', time: '2 hours ago', type: 'blog' },
-    { action: 'New Job Post Created', time: '4 hours ago', type: 'job' },
-    { action: 'Donation kit prices updated', time: '1 day ago', type: 'donation' },
-    { action: 'New grocery items added', time: '2 days ago', type: 'grocery' }
-  ];
   return (
     <div className="space-y-[1.5rem]">
       {/* Stats Grid */}
@@ -55,16 +58,27 @@ const DashboardOverview = () => {
         {stats.map((stat, index) => {
           const Icon = stat.icon;
           return (
-            <Card key={index} className="hover:shadow-lg transition-shadow dark:bg-[#0F172A]">
+            <Card
+              key={index}
+              className="bg-[#FFFBEB] dark:bg-[#0F172A] border border-[#E5E7EB] dark:border-[#1F2937] rounded-[1rem] shadow-sm hover:shadow-md transition-shadow"
+            >
               <CardContent className="p-[1.5rem]">
                 <div className="flex items-center justify-between">
+                  {/* Stat Info */}
                   <div>
-                    <p className="text-[0.875rem] font-medium text-[#4B5563] dark:text-[#9CA3AF]">{stat.title}</p>
-                    <p className="text-[1.875rem] font-bold text-[#111827] dark:text-[#F5F7FD]">{stat.value}</p>
-                    <p className="text-[0.875rem] text-[#6B7280] mt-[0.25rem] dark:text-[#9CA3AF]">{stat.change}</p>
+                    <p className="text-[0.875rem] font-medium text-[#4B5563] dark:text-[#9CA3AF]">
+                      {stat.title}
+                    </p>
+                    <p className="text-[1.875rem] font-bold text-[#111827] dark:text-[#F5F7FD]">
+                      {stat.value}
+                    </p>
                   </div>
-                  <div className={`w-[3rem] h-[3rem] ${stat.color} rounded-[0.5rem] flex items-center justify-center dark:bg-opacity-80`}>
-                    <Icon className="w-[1.5rem] h-[1.5rem] text-[#FFFFFF]" />
+
+                  {/* Icon Badge */}
+                  <div
+                    className={`w-[3rem] h-[3rem] ${stat.color} rounded-[0.75rem] flex items-center justify-center`}
+                  >
+                    <Icon className="w-[1.5rem] h-[1.5rem] text-white" />
                   </div>
                 </div>
               </CardContent>
@@ -73,33 +87,220 @@ const DashboardOverview = () => {
         })}
       </div>
 
-      {/* Recent Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-[1.5rem]">
-        <Card className="dark:bg-[#0F172A]">
+        {/* Recent Activity */}
+        <Card className="bg-[#FFFBEB] dark:bg-[#0F172A] shadow-md rounded-[1rem]">
           <CardHeader>
-            <CardTitle className="text-[#111827] dark:text-[#F5F7FD]">Recent Activity</CardTitle>
+            <CardTitle className="text-[#1E293B] dark:text-[#F5F7FD] text-[1.125rem] font-semibold">
+              Recent Activity
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-[1rem]">
+            <div className="space-y-[0.75rem] overflow-y-auto max-h-[calc(100vh-410px)] pr-[0.25rem]">  
               {recentActivity.map((activity, index) => (
-                <div key={index} className="flex items-center space-x-[0.75rem] p-[0.75rem] bg-[#F9FAFB] rounded-[0.5rem] dark:bg-[#1F2937]">
-                  <div className={`w-[0.5rem] h-[0.5rem] rounded-full ${
-                    activity.type === 'blog' ? 'bg-[#3B82F6]' :
-                    activity.type === 'job' ? 'bg-[#16A34A]' :
-                    activity.type === 'donation' ? 'bg-[#F97316]' :
-                    'bg-[#8B5CF6]'
-                  }`} />
+                <div
+                  key={`${activity._id}-${index}`}
+                  className="flex items-center space-x-[0.75rem] p-[0.75rem] bg-[#FFF] dark:bg-[#1F2937] rounded-[0.75rem] border border-[#F3F4F6] dark:border-[#374151] shadow-sm hover:shadow-md hover:scale-[1.01] transition-all duration-300 ease-in-out"
+                >
+                  <div
+                    className={`w-[0.5rem] h-[0.5rem] rounded-full ${
+                      activity.type === 'blog' ? 'bg-[#3B82F6]' :
+                      activity.type === 'job' ? 'bg-[#16A34A]' :
+                      activity.type === 'kit' ? 'bg-[#F97316]' :
+                      'bg-[#8B5CF6]'
+                    }`}
+                  />
                   <div className="flex-1">
-                    <p className="text-[0.875rem] font-medium text-[#111827] dark:text-[#F5F7FD]">{activity.action}</p>
-                    <p className="text-[0.75rem] text-[#6B7280] dark:text-[#9CA3AF]">{activity.time}</p>
+                    <p className="text-[0.875rem] font-medium text-[#1E293B] dark:text-[#F5F7FD] line-clamp-1">
+                      {activity.action}
+                    </p>
+                    <p className="text-[0.75rem] text-[#6B7280] dark:text-[#9CA3AF]">
+                      {activity.time}
+                    </p>
                   </div>
                 </div>
               ))}
+              {hasMore && (
+                <div className="pt-[0.5rem]">
+                  <button
+                    className="w-full flex justify-center"
+                    onClick={loadMore}
+                    disabled={isLoading}
+                  >
+                    <p
+                      className={`px-5 py-3 rounded-full text-white text-sm font-medium shadow-md transition-colors ${
+                        isLoading
+                          ? 'bg-[#FF7849]/50 cursor-not-allowed'
+                          : 'bg-[#FF7849] hover:bg-[#FB6A3A]'
+                      }`}
+                    >
+                      {isLoading ? 'Loading...' : 'Load More'}
+                    </p>
+                  </button>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>
 
-        <Card className="dark:bg-[#0F172A]">
+        {/* Received Donations */}
+        <Card className="bg-[#FFFBEB] dark:bg-[#0F172A] shadow-md rounded-[1rem]">
+          <CardHeader>
+            <CardTitle className="text-[#1E293B] dark:text-[#F5F7FD] text-[1.125rem] font-semibold">
+              Received Donations
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-[0.75rem] overflow-y-auto max-h-[calc(100vh-410px)] pr-[0.25rem]">
+              {recentDonations.map((donation, index) => (
+                <div
+                  key={`${donation._id}-${index}`}
+                  className="flex items-center space-x-[0.75rem] p-[0.75rem] bg-[#FFF] dark:bg-[#1F2937] rounded-[0.75rem] border border-[#F3F4F6] dark:border-[#374151] shadow-sm hover:shadow-md hover:scale-[1.01] transition-all duration-300 ease-in-out"
+                >
+                  <div
+                    className={`w-[0.5rem] h-[0.5rem] rounded-full ${
+                      donation.donationType === 'amount' ? 'bg-[#8B5CF6]' : 'bg-[#F97316]'
+                    }`}
+                  />
+                  <div className="flex-1">
+                    <p className="text-[0.875rem] font-medium text-[#1E293B] dark:text-[#F5F7FD] line-clamp-1">
+                      {donation.donorInfo.firstName } {donation.action}
+                    </p>
+                    <p className="text-[0.75rem] text-[#6B7280] dark:text-[#9CA3AF]">
+                      ₹{donation.amount} • {donation.time}
+                    </p>
+                  </div>
+                  <Button size="sm" variant="outline" onClick={() => handleViewDonation(donation)}>
+                    <Eye className="w-4 h-4" />
+                  </Button>
+                </div>
+              ))}
+              {hasMoreDonations && (
+                <div className="pt-[0.5rem]">
+                  <button
+                    className="w-full flex justify-center"
+                    onClick={loadMoreDonations}
+                    disabled={isDonationLoading}
+                  >
+                    <p
+                      className={`px-5 py-3 rounded-full text-white text-sm font-medium shadow-md transition-colors ${
+                        isDonationLoading
+                          ? 'bg-[#FF7849]/50 cursor-not-allowed'
+                          : 'bg-[#FF7849] hover:bg-[#FB6A3A]'
+                      }`}
+                    >
+                      {isDonationLoading ? 'Loading...' : 'Load More'}
+                    </p>
+                  </button>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+        
+        {/* Donation Details Dialog */}
+{selectedDonation && (
+  <div
+    className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 transition-all"
+    onClick={closeDialog}
+    role="dialog"
+    aria-modal="true"
+    tabIndex={-1}
+  >
+    <div
+      onClick={(e) => e.stopPropagation()}
+      className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto p-6 sm:p-10 bg-gradient-to-br from-[#ffffffcc] to-[#f9fafbcc] dark:from-[#1e293bcc] dark:to-[#0f172acc] backdrop-blur-xl rounded-3xl shadow-2xl border border-[#e5e7eb66] dark:border-[#33415566] animate-fade-in"
+    >
+      {/* Close Button */}
+      <button
+        onClick={closeDialog}
+        className="absolute top-5 right-5 text-gray-400 hover:text-gray-800 dark:hover:text-white transition-colors"
+        aria-label="Close dialog"
+      >
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      {/* Title */}
+      <div className="mb-6 border-b border-gray-200 dark:border-gray-700 pb-4">
+        <h2 className="text-3xl font-extrabold text-[#111827] dark:text-[#F5F7FD] flex items-center gap-2">
+          🎗️ Donation Summary
+        </h2>
+      </div>
+
+      <div className="space-y-8 text-[0.95rem] leading-relaxed text-gray-700 dark:text-gray-100">
+        {/* Donor Info */}
+        <section>
+          <h3 className="text-lg font-bold mb-4 text-[#0F172A] dark:text-yellow-400 flex items-center gap-2">👤 Donor Information</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div><strong>Name:</strong> {selectedDonation.donorInfo.firstName} {selectedDonation.donorInfo.lastName}</div>
+            <div><strong>Email:</strong> {selectedDonation.donorInfo.email}</div>
+            <div><strong>Phone:</strong> {selectedDonation.donorInfo.phone}</div>
+            {selectedDonation.donorInfo.address && (
+              <div className="sm:col-span-2">
+                <strong>Address:</strong> {selectedDonation.donorInfo.address}, {selectedDonation.donorInfo.city}, {selectedDonation.donorInfo.state} - {selectedDonation.donorInfo.pincode}
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* Donation Details */}
+        <section>
+          <h3 className="text-lg font-bold mb-4 text-[#0F172A] dark:text-yellow-400 flex items-center gap-2">🎁 Donation Details</h3>
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="font-medium">Type:</span>
+              <span className={`px-3 py-1 text-xs rounded-full font-semibold shadow-sm
+                ${selectedDonation.donationType === 'amount' 
+                  ? 'bg-green-200 text-green-800 dark:bg-green-700 dark:text-white' 
+                  : 'bg-blue-200 text-blue-800 dark:bg-blue-700 dark:text-white'}`}>
+                {selectedDonation.donationType.toUpperCase()}
+              </span>
+            </div>
+
+            {selectedDonation.donationType === 'amount' && (
+              <div><strong>Purpose:</strong> {selectedDonation.donatedFor}</div>
+            )}
+
+            {selectedDonation.donationType === 'items' && (
+              <div>
+                <p className="font-semibold mb-1">Items Donated:</p>
+                <div className="bg-[#f9fafb] dark:bg-[#1f2937] p-4 rounded-xl border border-gray-200 dark:border-gray-600">
+                  <ul className="list-disc pl-5 space-y-1 text-sm">
+                    {selectedDonation.items.map((item, idx) => (
+                      <li key={idx}>
+                        <span className="font-medium">{item.itemName}</span> — Qty: {item.quantity}, Price: ₹{item.price}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            <div><strong>Total Amount:</strong> ₹{selectedDonation.amount}</div>
+            <div><strong>Donated At:</strong> {dayjs(selectedDonation.donatedAt).format('MMMM D, YYYY h:mm A')}</div>
+          </div>
+        </section>
+
+        {/* Payment Details */}
+        <section>
+          <h3 className="text-lg font-bold mb-4 text-[#0F172A] dark:text-yellow-400 flex items-center gap-2">💳 Payment Details</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div><strong>Order ID:</strong> {selectedDonation.paymentDetails.orderId}</div>
+            <div><strong>Payment ID:</strong> {selectedDonation.paymentDetails.paymentId}</div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+)}
+
+
+
+
+
+        {/* <Card className="dark:bg-[#0F172A]">
           <CardHeader>
             <CardTitle className="text-[#111827] dark:text-[#F5F7FD]">Quick Actions</CardTitle>
           </CardHeader>
@@ -123,7 +324,7 @@ const DashboardOverview = () => {
               </button>
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
       </div>
     </div>
   );

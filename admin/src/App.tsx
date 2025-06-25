@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast";
 import { GroceryItemAdminProvider } from './contexts/GroceryItemAdminContext';
 import { KitAdminProvider } from './contexts/KitAdminContext';
 import { BlogAdminProvider } from './contexts/BlogAdminContext';
+import { UpdatesAdminProvider } from './contexts/UpdatesAdminContext';
 
 import { JobAdminProvider } from './contexts/JobContextAdmin';
 import { AdminAuthProvider } from './contexts/AdminAuthContext';
@@ -36,13 +37,15 @@ const AdminMain = () => {
     <AdminAuthProvider>
     <AdminProtectedRoute>
       <KitAdminProvider>
-      <BlogAdminProvider>
       <JobAdminProvider>
+      <BlogAdminProvider>
+      <UpdatesAdminProvider>
       <GroceryItemAdminProvider>        
           <AdminDashboard />
       </GroceryItemAdminProvider>   
-      </JobAdminProvider>
+      </UpdatesAdminProvider>
       </BlogAdminProvider>
+      </JobAdminProvider>
       </KitAdminProvider>
     </AdminProtectedRoute>
     </AdminAuthProvider> 
