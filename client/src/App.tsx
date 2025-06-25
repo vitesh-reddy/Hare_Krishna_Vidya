@@ -30,7 +30,6 @@ import FundraisingCampaigns from "./pages/advertforcampaign";
 
 // TSX Pages
 import DonateItemsPage from "./TSX-src/pages/donate-items/Index";
-import Blog from "./TSX-src/pages/Blog";
 import Cart from "./TSX-src/pages/Cart";
 import DonationFlow from "./TSX-src/pages/DonationFlow";
 import DonationSuccess from "./TSX-src/pages/DonationSuccess";
@@ -87,7 +86,6 @@ const AnimatedRoutes = () => {
           <Route path="/our-associated-trusts" element={<MainLayout><OurAssociatedTrustsPage /></MainLayout>} />
           <Route path="/governance" element={<MainLayout><GovernancePage /></MainLayout>} />
           <Route path="/donate-items" element={<MainLayout><DonateItemsPage /></MainLayout>} />
-          <Route path="/blog" element={<MainLayout><Blog /></MainLayout>} />
           <Route path="/blogs" element={<MainLayout><BlogPage /></MainLayout>} />
           <Route path="/blogs/:id" element={<MainLayout><BlogView /></MainLayout>} />
           <Route path="/CreateCampaign" element={<MainLayout><CreateCampaign /> </MainLayout>} />
@@ -119,11 +117,11 @@ const App = () => {
     <CartProvider>
     <DataProvider>
     <BlogProvider>
-    <CampaignProvider>
     <CareerProvider> 
+    <CampaignProvider>
       <AnimatedRoutes />
-    </CareerProvider>
     </CampaignProvider>    
+    </CareerProvider>
     </BlogProvider>
     </DataProvider>
     </CartProvider>
