@@ -1,16 +1,35 @@
 import Blog from '../models/Blog.js';
+import { addRecentActivity } from './updatesServices.js';
 
 // Create a new blog
 export const createBlog = async (blogData) => {
   const newBlog = new Blog(blogData);
-  return await newBlog.save();
+  const savedBlog = await newBlog.save();
+  // Log blog creation activity
+  await addRecentActivity({ action: `Blog Post created: ${savedBlog.title}`, type: 'blog' });
+  return savedBlog;
 };
 
 // Update an existing blog by ID
 export const updateBlog = async (id, updatedData) => {
   const blog = await Blog.findByIdAndUpdate(id, updatedData, { new: true });
   if (!blog) throw new Error('Blog not found');
+  // Log blog update activity
+  await addRecentActivity({ action: `Blog Post updated: ${blog.title}`, type: 'blog' });
   return blog;
+};
+
+// Toggle blog status (Draft <-> Published)
+export const toggleBlogStatus = async (id) => {
+  const blog = await Blog.findById(id);
+  if (!blog) throw new Error('Blog not found');
+
+  blog.status = blog.status === 'Published' ? 'Draft' : 'Published';
+  const updated = await blog.save(); // Return the updated blog
+  // Log blog status toggle activity
+  const statusAction = blog.status === 'Published' ? 'published' : 'drafted';
+  await addRecentActivity({ action: `Blog Post ${statusAction}: ${blog.title}`, type: 'blog' });
+  return updated;
 };
 
 // Fetch all blogs
@@ -66,11 +85,3 @@ export const getTotalBlogsCount = async () => {
   return { totalCount };
 };
 
-// Toggle blog status (Draft <-> Published)
-export const toggleBlogStatus = async (id) => {
-  const blog = await Blog.findById(id);
-  if (!blog) throw new Error('Blog not found');
-
-  blog.status = blog.status === 'Published' ? 'Draft' : 'Published';
-  return await blog.save(); // Return the updated blog
-};

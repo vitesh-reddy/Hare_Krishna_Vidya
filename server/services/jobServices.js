@@ -1,5 +1,46 @@
 import Job from '../models/Job.js';
 import Application from '../models/Application.js';
+import { addRecentActivity } from './updatesServices.js';
+
+export const createJob = async (data) => {
+  const job = await Job.create(data);
+  // Log job creation activity
+  await addRecentActivity({ action: `Job created: ${job.title}`, type: 'job' });
+  return job;
+};
+
+export const updateJob = async (id, data) => {
+  const job = await Job.findByIdAndUpdate(id, data, { new: true });
+  // Log job update activity
+  await addRecentActivity({ action: `Job updated: ${job?.title || id}`, type: 'job' });
+  return job;
+};
+
+export const toggleJobStatus = async (id) => {
+  const job = await Job.findById(id);
+  if (!job) throw new Error('Job not found');
+  job.status = job.status === 'active' ? 'inactive' : 'active';
+  const updated = await job.save();
+  // Log job status toggle activity
+  const statusAction = job.status === 'active' ? 'activated' : 'deactivated';
+  await addRecentActivity({ action: `Job ${statusAction}: ${job.title}`, type: 'job' });
+  return updated;
+};
+
+export const deleteJob = async (id) => {
+  const job = await Job.findByIdAndDelete(id);
+  if (job) {
+    await Application.deleteMany({ jobId: id });
+    // Log job deletion activity
+    await addRecentActivity({ action: `Job deleted: ${job.title}`, type: 'job' });
+  }
+  return job;
+};
+
+export const getJobById = async (id) => {
+  return await Job.findById(id);
+};
+
 
 export const getActiveJobCount = async () => {
   return await Job.countDocuments({ status: 'active' });
@@ -35,6 +76,46 @@ export const getAllJobs = async (skip = 0, limit = 10) => {
   }
 };
 
+export const getApplicantsCountByJobId = async (jobId) => {
+  console.log('hi');
+  return await Job.findById(jobId).select('noOfApplications');
+}
+
+export const getActiveJobs = async (skip = 0, limit = 10, search = '') => {
+  const filter = { status: 'active' };
+  const trimmedSearch = search.trim().toLowerCase();
+
+  // Fetch all active jobs (only once)
+  const allJobs = await Job.find(filter).sort({ createdAt: -1, _id: -1 }).select('title description skills location type requirements');
+
+  if (!trimmedSearch) {
+    return allJobs.slice(skip, skip + limit);
+  }
+
+  // Score jobs manually based on matching fields
+  const scored = allJobs.map(job => {
+    let score = 0;
+    const keywords = trimmedSearch.split(/\s+/); // split multiple words
+
+    keywords.forEach(kw => {
+      if (job.title?.toLowerCase().includes(kw)) score += 3;
+      if (job.location?.toLowerCase().includes(kw)) score += 2;
+      if (job.type?.toLowerCase().includes(kw)) score += 2;
+      if (job.skills?.some(skill => skill.toLowerCase().includes(kw))) score += 1;
+    });
+
+    return { job, score };
+  });
+
+  // Filter out score 0 and sort descending
+  const filtered = scored
+    .filter(item => item.score > 0)
+    .sort((a, b) => b.score - a.score || b.job.createdAt - a.job.createdAt);
+
+  // Return paginated job objects only
+  const data = filtered.slice(skip, skip + limit).map(item => item.job);
+  return data;
+};
 
 //optimal search
 // export const getActiveJobs = async (skip = 0, limit = 10, search = '') => {
@@ -88,73 +169,3 @@ export const getAllJobs = async (skip = 0, limit = 10) => {
 //     .skip(skip)
 //     .limit(limit);
 // };
-
-export const getActiveJobs = async (skip = 0, limit = 10, search = '') => {
-  const filter = { status: 'active' };
-  const trimmedSearch = search.trim().toLowerCase();
-
-  // Fetch all active jobs (only once)
-  const allJobs = await Job.find(filter).sort({ createdAt: -1, _id: -1 }).select('title description skills location type requirements');
-
-  if (!trimmedSearch) {
-    return allJobs.slice(skip, skip + limit);
-  }
-
-  // Score jobs manually based on matching fields
-  const scored = allJobs.map(job => {
-    let score = 0;
-    const keywords = trimmedSearch.split(/\s+/); // split multiple words
-
-    keywords.forEach(kw => {
-      if (job.title?.toLowerCase().includes(kw)) score += 3;
-      if (job.location?.toLowerCase().includes(kw)) score += 2;
-      if (job.type?.toLowerCase().includes(kw)) score += 2;
-      if (job.skills?.some(skill => skill.toLowerCase().includes(kw))) score += 1;
-    });
-
-    return { job, score };
-  });
-
-  // Filter out score 0 and sort descending
-  const filtered = scored
-    .filter(item => item.score > 0)
-    .sort((a, b) => b.score - a.score || b.job.createdAt - a.job.createdAt);
-
-  // Return paginated job objects only
-  const data = filtered.slice(skip, skip + limit).map(item => item.job);
-  return data;
-};
-
-export const getApplicantsCountByJobId = async (jobId) => {
-  console.log('hi');
-  return await Job.findById(jobId).select('noOfApplications');
-}
-
-
-
-export const createJob = async (data) => {
-  return await Job.create(data);
-};
-
-export const updateJob = async (id, data) => {
-  return await Job.findByIdAndUpdate(id, data, { new: true });
-};
-
-export const deleteJob = async (id) => {
-  const job = await Job.findByIdAndDelete(id);
-  if (job) {
-    await Application.deleteMany({ jobId: id });
-  }
-  return job;
-};
-
-export const getJobById = async (id) => {
-  return await Job.findById(id);
-};
-
-export const toggleJobStatus = async (id) => {
-  const job = await Job.findById(id);
-  if (!job) throw new Error('Job not found');
-  job.status = job.status === 'active' ? 'inactive' : 'active';
-  return await job.save();
-};
