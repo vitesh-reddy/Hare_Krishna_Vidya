@@ -16,6 +16,7 @@ import adminRoutes from "./routes/adminRoutes.js";
 import jobAdminRoutes from "./routes/jobAdminRoutes.js";
 import blogAdminRoutes from "./routes/blogAdminRoutes.js";  
 import kitsAdminRoutes from "./routes/kitsAdminRoutes.js";
+import updatesAdminRoutes from "./routes/updatesAdminRoutes.js";
 import groceryItemAdminRoutes from "./routes/groceryItemAdminRoutes.js";
 import applicationAdminRoutes from "./routes/applicationAdminRoutes.js";
 
@@ -55,6 +56,7 @@ app.use("/api/admin/blogs", blogAdminRoutes);
 app.use("/api/admin/kits", kitsAdminRoutes);
 app.use("/api/admin/grocery-items", groceryItemAdminRoutes);
 app.use('/api/admin/applications', applicationAdminRoutes);
+app.use("/api/admin/updates", updatesAdminRoutes);
 
 
 app.use("/api/jobs", jobRoutes);

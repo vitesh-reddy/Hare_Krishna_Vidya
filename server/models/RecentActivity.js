@@ -13,7 +13,7 @@ const recentActivitySchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['blog', 'job', 'donation', 'grocery'],
+    enum: ['blog', 'job', 'kit', 'grocery'],
     required: true,
   },
 });
