@@ -8,7 +8,7 @@ import { X, Heart, CreditCard, Smartphone, Building, Loader2, AlertCircle } from
 import { toast, Toaster } from 'react-hot-toast';
 
 import { initiateRazorpayPayment } from '../../../PaymentService';
-import toast from 'react-hot-toast';
+
 
 export const DonationModal = ({ isOpen, onClose, campaign }) => {
   const [selectedAmount, setSelectedAmount] = useState(null);
