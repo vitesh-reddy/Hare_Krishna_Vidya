@@ -47,7 +47,6 @@ router.get('/recent-donations', async (req, res) => {
     const recentDonations = await getRecentDonations(skip, limitNum);
     const totalDonations = await getRecentDonationsCount();
     const hasMore = skip + recentDonations.length < totalDonations;
-    console.log('Recent donations:', recentDonations);
     res.status(200).json({
       donations: recentDonations,
       hasMore,
