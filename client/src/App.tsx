@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { CartProvider } from "./TSX-src/contexts/CartContext";
