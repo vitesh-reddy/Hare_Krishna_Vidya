@@ -5,7 +5,7 @@ import AllBlogs from './components/AllBlogs';
 
 const BlogPage = () => {
   return (
-    <main className="flex flex-col items-center font-inter bg-white px-[2rem] sm:px-[2rem] md:px-[5rem] lg:px-[8rem]">
+    <main className="flex flex-col items-center font-inter bg-white">
       <HeroSection />
       <RecentBlogs />
       <AllBlogs />

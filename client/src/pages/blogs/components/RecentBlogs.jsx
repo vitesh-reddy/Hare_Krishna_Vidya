@@ -1,78 +1,85 @@
-import React from 'react';
-
-const blogData = [
-  {
-    id: 1,
-    author: 'Olivia Rhye',
-    date: '20 Jan 2022',
-    title: 'UX review presentations',
-    description: 'How do you create compelling presentations that wow your colleagues and impress your managers?',
-    image: '/assets/mission.png',
-    tags: ['Design', 'Research', 'Presentation'],
-  },
-  {
-    id: 2,
-    author: 'Phoenix Baker',
-    date: '19 Jan 2022',
-    title: 'Migrating to Linear 101',
-    description: 'Linear helps streamline software projects, sprints, tasks, and bug tracking. Here’s how to get started.',
-    image: '/assets/img_image_18.png',
-    tags: ['Design', 'Research'],
-  },
-  {
-    id: 3,
-    author: 'Lana Steiner',
-    date: '18 Jan 2022',
-    title: 'Building your API Stack',
-    description: 'The rise of RESTful APIs has been met by a rise in tools for creating, testing, and managing them.',
-    image: '/assets/img_image_19.png',
-    tags: ['Design', 'Research'],
-  }
-];
+import React, { useEffect } from 'react';
+import { useBlogs } from '../../../contexts/BlogContext';
+import { useNavigate } from 'react-router-dom';
+import Loader from '../../../components/common/Loader';
 
 // Tag color pool
 const tagColors = [
-  { bg: '#F0F9FF', text: '#026AA2' },
-  { bg: '#FDF2FA', text: '#C11574' },
-  { bg: '#ECFDF3', text: '#027A48' },
-  { bg: '#F9F5FF', text: '#6941C6' },
-  { bg: '#FFFAF5', text: '#C4320A' },
-  { bg: '#EEF4FF', text: '#175CD3' },
+  // Original Set (all kept)
+  { bg: '#F0F9FF', text: '#026AA2' }, // Soft blue
+  { bg: '#FDF2FA', text: '#C11574' }, // Blush pink
+  { bg: '#ECFDF3', text: '#027A48' }, // Mint green
+  { bg: '#F9F5FF', text: '#6941C6' }, // Lavender purple
+  { bg: '#FFFAF5', text: '#C4320A' }, // Peach orange
+  { bg: '#EEF4FF', text: '#175CD3' }, // Sky blue
+
+  // Set 3 (kept only those not too similar)
+  { bg: '#FEF2F2', text: '#DC2626' }, // Soft red
+  { bg: '#FFFBEB', text: '#F59E0B' }, // Warm yellow-orange
+  { bg: '#FFF7FB', text: '#DB2777' }, // Vivid pink
 ];
 
-const getRandomColor = () => tagColors[Math.floor(Math.random() * tagColors.length)];
+
+
+let lastColorIndex = -1;
+const getRandomColor = () => {
+  let index;
+  do {
+    index = Math.floor(Math.random() * tagColors.length);
+  } while (index === lastColorIndex && tagColors.length > 1);
+
+  lastColorIndex = index;
+  return tagColors[index];
+};
 
 const RecentBlogs = React.memo(() => {
-  return (
-    <section className="max-w-[75rem] py-[1.5rem] mx-auto">
-      <h2 className="text-[1.5rem] font-semibold mb-[1.5rem] text-[#101828]">Recent blog posts</h2>
+  const { recentBlogs, loadingRecent, fetchRecentBlogs } = useBlogs();
+  const navigate = useNavigate();  
 
-      <div className="flex flex-col md:flex-row gap-[1rem]">
-        {/* Left blog - main feature */}
-        <div className="w-full md:w-[50%]">
-          <div className="flex flex-col">
+  useEffect(() => {
+    fetchRecentBlogs();
+  }, []);
+
+  const handleBlogClick = (blogId) => {
+    navigate(`/blogs/${blogId}`);
+  };
+
+  if (loadingRecent) return <Loader />;
+  if (!recentBlogs.length) return <div className="text-center">No recent blogs available</div>;
+
+  return (
+    <section className="w-[85vw] py-[1.5rem] mt-[1rem]">
+      <h2 className="text-[1.4rem] font-semibold mb-[1.35rem] text-[#101828]">Recent blog posts</h2>
+
+      <div className="flex flex-col md:flex-row gap-[2rem] w-full">
+        <div className="w-full md:w-[50%] cursor-pointer" onClick={() => handleBlogClick(recentBlogs[0]._id)}>
+          <div className="flex flex-col gap-[0.75rem]">
             <img
-              src={blogData[0].image}
-              alt={blogData[0].title}
-              className="w-full h-[12rem] object-cover mb-[0.75rem]"
+              src={recentBlogs[0].image || '/assets/placeholder.png'}
+              alt={recentBlogs[0].title}
+              className="w-full h-[13rem] object-cover"
             />
-            <p className="text-[0.875rem] text-[#6941C6] font-medium mb-[0.25rem]">
-              {blogData[0].author} • {blogData[0].date}
+            <p className="text-[0.875rem] text-[#6941C6] font-medium">
+              {recentBlogs[0].author} • {new Date(recentBlogs[0].date).toLocaleDateString('en-US', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+              })}
             </p>
-            <div className='flex justify-between items-center pr-[1rem]'>
-              <p className="text-[1.5rem] font-semibold text-[#101828] mb-[0.25rem]">{blogData[0].title}</p>
+            <div className="flex justify-between items-center pr-[1rem]">
+              <p className="text-[1.25rem] font-semibold text-[#101828] line-clamp-2">{recentBlogs[0].title}</p>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M7 17L17 7M17 7H7M17 7V17" stroke="#101828" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M7 17L17 7M17 7H7M17 7V17" stroke="#101828" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
-            <p className="text-[1rem] text-[#475467] mb-[0.75rem]">{blogData[0].description}</p>
+            <p className="text-[0.9rem] text-[#667085] line-clamp-3">{recentBlogs[0].excerpt}</p>
             <div className="flex flex-wrap gap-[0.5rem]">
-              {blogData[0].tags.map((tag, index) => {
+              {recentBlogs[0].tags.map((tag, index) => {
                 const { bg, text } = getRandomColor();
                 return (
                   <span
                     key={index}
-                    className="px-[0.5rem] py-[0.25rem] text-[0.75rem] rounded-[1rem] font-medium"
+                    className="px-[0.5rem] py-[0.125rem] text-[0.75rem] rounded-[1rem] font-medium"
                     style={{ backgroundColor: bg, color: text }}
                   >
                     {tag}
@@ -83,35 +90,31 @@ const RecentBlogs = React.memo(() => {
           </div>
         </div>
 
-        {/* Right side - 2 blogs stacked vertically */}
-        <div className="w-full md:w-[50%] flex flex-col gap-[1rem]">
-          {blogData.slice(1).map(({ id, author, date, title, description, image, tags }) => (
-            <div key={id} className="flex flex-row gap-[0.75rem] h-[10rem] pr-[2rem]">
+        <div className="w-full md:w-[50%] flex flex-col gap-[1.5rem]">
+          {recentBlogs.slice(1).map((blog) => (
+            <div key={blog._id} className="flex flex-col md:flex-row gap-[1rem] md:h-[11rem] pr-[2rem] cursor-pointer" onClick={() => handleBlogClick(blog._id)}>
               <img
-                src={image}
-                alt={title}
-                className="w-[40%] h-full object-cover shrink-0"
+                src={blog.image || '/assets/placeholder.png'}
+                alt={blog.title}
+                className="w-full md:w-[52.5%] h-[13rem] md:h-full object-cover shrink-0"
               />
-              <div className="flex flex-col justify-between">
-                <div>
-                  <p className="text-[0.875rem] text-[#6941C6] font-medium mb-[0.25rem]">
-                    {author} • {date}
-                  </p>
-                  <div className='flex justify-between items-center'>
-                    <p className="text-[1.125rem] font-semibold text-[#101828] mb-[0.25rem]">{title}</p>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M7 17L17 7M17 7H7M17 7V17" stroke="#101828" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>    
-                  </div>              
-                  <p className="text-[0.875rem] text-[#475467] line-clamp-2">{description}</p>
-                </div>
-                <div className="flex flex-wrap gap-[0.5rem] mt-[0.25rem]">
-                  {tags.map((tag, index) => {
+              <div className="flex flex-col justify-start pt-1 gap-[0.5rem]">
+                <p className="text-[0.75rem] text-[#6941C6] font-medium">
+                  {blog.author} • {new Date(blog.date).toLocaleDateString('en-US', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                  })}
+                </p>
+                <p className="text-[1rem] font-semibold text-[#101828] line-clamp-2 leading-[1.25rem]">{blog.title}</p>
+                <p className="text-[0.875rem] text-[#667085] line-clamp-2">{blog.excerpt}</p>
+                <div className="flex flex-wrap gap-[0.5rem]">
+                  {blog.tags.map((tag, index) => {
                     const { bg, text } = getRandomColor();
                     return (
                       <span
                         key={index}
-                        className="px-[0.5rem] py-[0.25rem] text-[0.75rem] rounded-[1rem] font-medium"
+                        className="px-[0.5rem] py-[0.125rem] text-[0.7rem] rounded-[1rem] font-medium"
                         style={{ backgroundColor: bg, color: text }}
                       >
                         {tag}
@@ -129,3 +132,252 @@ const RecentBlogs = React.memo(() => {
 });
 
 export default RecentBlogs;
+
+// import React, { useEffect } from 'react';
+// import { useBlogs } from '../../../contexts/BlogContext';
+// import { useNavigate } from 'react-router-dom';
+
+// // Tag color pool
+// const tagColors = [
+//   { bg: '#F0F9FF', text: '#026AA2' },
+//   { bg: '#FDF2FA', text: '#C11574' },
+//   { bg: '#ECFDF3', text: '#027A48' },
+//   { bg: '#F9F5FF', text: '#6941C6' },
+//   { bg: '#FFFAF5', text: '#C4320A' },
+//   { bg: '#EEF4FF', text: '#175CD3' },
+// ];
+
+// const getRandomColor = () => tagColors[Math.floor(Math.random() * tagColors.length)];
+
+// const RecentBlogs = React.memo(() => {
+//   const { recentBlogs, fetchRecentBlogs, loading } = useBlogs();
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     fetchRecentBlogs();
+//   }, [fetchRecentBlogs]);
+
+//   const handleBlogClick = (blogId) => {
+//     navigate(`/blogs/${blogId}`);
+//   };
+
+//   if (loading) return <div className="text-center">Loading...</div>;
+//   if (!recentBlogs.length) return <div className="text-center">No recent blogs available</div>;
+
+//   return (
+//     <section className="w-[85vw] py-[1.5rem] mt-[1rem]">
+//       <h2 className="text-[1.4rem] font-semibold mb-[1.35rem] text-[#101828]">Recent blog posts</h2>
+
+//       <div className="flex flex-col md:flex-row gap-[2rem] w-full">
+//         {/* Left blog - main feature */}
+//         <div className="w-full md:w-[50%] cursor-pointer" onClick={() => handleBlogClick(recentBlogs[0]._id)}>
+//           <div className="flex flex-col gap-[0.75rem]">
+//             <img
+//               src={recentBlogs[0].image || '/assets/placeholder.png'}
+//               alt={recentBlogs[0].title}
+//               className="w-full h-[13rem] object-cover"
+//             />
+//             <p className="text-[0.875rem] text-[#6941C6] font-medium">
+//               {recentBlogs[0].author} • {new Date(recentBlogs[0].date).toLocaleDateString('en-US', {
+//                 day: '2-digit',
+//                 month: 'short',
+//                 year: 'numeric'
+//               })}
+//             </p>
+//             <div className='flex justify-between items-center pr-[1rem]'>
+//               <p className="text-[1.25rem] font-semibold text-[#101828]">{recentBlogs[0].title}</p>
+//               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+//                 <path d="M7 17L17 7M17 7H7M17 7V17" stroke="#101828" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+//               </svg>
+//             </div>
+//             <p className="text-[0.9rem] text-[#667085]">{recentBlogs[0].excerpt}</p>
+//             <div className="flex flex-wrap gap-[0.5rem]">
+//               {recentBlogs[0].tags.map((tag, index) => {
+//                 const { bg, text } = getRandomColor();
+//                 return (
+//                   <span
+//                     key={index}
+//                     className="px-[0.5rem] py-[0.125rem] text-[0.75rem] rounded-[1rem] font-medium"
+//                     style={{ backgroundColor: bg, color: text }}
+//                   >
+//                     {tag}
+//                   </span>
+//                 );
+//               })}
+//             </div>
+//           </div>
+//         </div>
+
+//         {/* Right side - 2 blogs stacked vertically */}
+//         <div className="w-full md:w-[50%] flex flex-col gap-[1.5rem]">
+//           {recentBlogs.slice(1).map((blog) => (
+//             <div key={blog._id} className="flex flex-col md:flex-row gap-[1rem] md:h-[11rem] pr-[2rem] cursor-pointer" onClick={() => handleBlogClick(blog._id)}>
+//               <img
+//                 src={blog.image || '/assets/placeholder.png'}
+//                 alt={blog.title}
+//                 className="w-full md:w-[52.5%] h-[13rem] md:h-full object-cover shrink-0"
+//               />
+//               <div className="flex flex-col justify-start pt-4 gap-[0.75rem]">
+//                 <p className="text-[0.875rem] text-[#6941C6] font-medium leading-[0rem]">
+//                   {blog.author} • {new Date(blog.date).toLocaleDateString('en-US', {
+//                     day: '2-digit',
+//                     month: 'short',
+//                     year: 'numeric'
+//                   })}
+//                 </p>
+//                 <p className="text-[1rem] font-semibold text-[#101828]">{blog.title}</p>
+//                 <p className="text-[0.875rem] text-[#667085] line-clamp-3">{blog.excerpt}</p>
+//                 <div className="flex flex-wrap gap-[0.5rem]">
+//                   {blog.tags.map((tag, index) => {
+//                     const { bg, text } = getRandomColor();
+//                     return (
+//                       <span
+//                         key={index}
+//                         className="px-[0.5rem] py-[0.125rem] text-[0.25rem] rounded-[0.5rem] font-medium"
+//                         style={{ backgroundColor: bg, color: text }}
+//                       >
+//                         {tag}
+//                       </span>
+//                     );
+//                   })}
+//                 </div>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       </div>
+//     </section>
+//   );
+// });
+
+// export default RecentBlogs;
+
+
+// import React from 'react';
+
+// const blogData = [
+//   {
+//     id: 1,
+//     author: 'Olivia Rhye',
+//     date: '20 Jan 2022',
+//     title: 'UX review presentations',
+//     description: 'How do you create compelling presentations that wow your colleagues and impress your managers?',
+//     image: '/assets/mission.png',
+//     tags: ['Design', 'Research', 'Presentation'],
+//   },
+//   {
+//     id: 2,
+//     author: 'Phoenix Baker',
+//     date: '19 Jan 2022',
+//     title: 'Migrating to Linear 101',
+//     description: 'Linear helps streamline software projects, sprints, tasks, and bug tracking. Here’s how to get started.',
+//     image: '/assets/img_image_18.png',
+//     tags: ['Design', 'Research'],
+//   },
+//   {
+//     id: 3,
+//     author: 'Lana Steiner',
+//     date: '18 Jan 2022',
+//     title: 'Building your API Stack',
+//     description: 'The rise of RESTful APIs has been met by a rise in tools for creating, testing, and managing them.',
+//     image: '/assets/img_image_19.png',
+//     tags: ['Design', 'Research'],
+//   }
+// ];
+
+// // Tag color pool
+// const tagColors = [
+//   { bg: '#F0F9FF', text: '#026AA2' },
+//   { bg: '#FDF2FA', text: '#C11574' },
+//   { bg: '#ECFDF3', text: '#027A48' },
+//   { bg: '#F9F5FF', text: '#6941C6' },
+//   { bg: '#FFFAF5', text: '#C4320A' },
+//   { bg: '#EEF4FF', text: '#175CD3' },
+// ];
+
+// const getRandomColor = (idx) => tagColors[Math.floor(Math.random() * tagColors.length)];
+
+// const RecentBlogs = React.memo(() => {
+//   return (
+//     <section className="w-[85vw] py-[1.5rem] mt-[1rem]">
+//       <h2 className="text-[1.4rem] font-semibold mb-[1.35rem] text-[#101828]">Recent blog posts</h2>
+
+//       <div className="flex flex-col md:flex-row gap-[2rem] w-full">
+//         {/* Left blog - main feature */}
+//         <div className="w-full md:w-[50%]">
+//           <div className="flex flex-col gap-[0.75rem]">
+//             <img
+//               src={blogData[0].image}
+//               alt={blogData[0].title}
+//               className="w-full h-[13rem] object-cover"
+//             />
+//             <p className="text-[0.875rem] text-[#6941C6] font-medium ">
+//               {blogData[0].author} • {blogData[0].date}
+//             </p>
+//             <div className='flex justify-between items-center pr-[1rem]'>
+//               <p className="text-[1.25rem] font-semibold text-[#101828]">{blogData[0].title}</p>
+//               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+//               <path d="M7 17L17 7M17 7H7M17 7V17" stroke="#101828" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+//               </svg>
+//             </div>
+//             <p className="text-[0.9rem] text-[#667085]">{blogData[0].description}</p>
+//             <div className="flex flex-wrap gap-[0.5rem]">
+//               {blogData[0].tags.map((tag, index) => {
+//                 const { bg, text } = getRandomColor();
+//                 return (
+//                   <span
+//                     key={index}
+//                     className="px-[0.5rem] py-[0.125rem] text-[0.75rem] rounded-[1rem] font-medium"
+//                     style={{ backgroundColor: bg, color: text }}
+//                   >
+//                     {tag}
+//                   </span>
+//                 );
+//               })}
+//             </div>
+//           </div>
+//         </div>
+
+//         {/* Right side - 2 blogs stacked vertically */}
+//         <div className="w-full md:w-[50%] flex flex-col gap-[1.5rem]">
+//           {blogData.slice(1).map(({ id, author, date, title, description, image, tags }) => (
+//             <div key={id} className="flex flex-col md:flex-row gap-[1rem] md:h-[11rem] pr-[2rem]">
+//               <img
+//                 src={image}
+//                 alt={title}
+//                 className="w-full md:w-[52.5%] h-[13rem] md:h-full object-cover shrink-0"
+//               />
+//               <div className="flex flex-col justify-start pt-4 gap-[0.75rem]">
+//                   <p className="text-[0.875rem] text-[#6941C6] font-medium leading-[0rem]">
+//                     {author} • {date}
+//                   </p>
+//                 <div>
+//                   <div className='flex justify-between items-center'>
+//                   </div>              
+//                 </div>
+//                     <p className="text-[1rem] font-semibold text-[#101828]">{title}</p>   
+//                   <p className="text-[0.875rem] text-[#667085] line-clamp-3">{description}</p>
+//                 <div className="flex flex-wrap gap-[0.5rem]">
+//                   {tags.map((tag, index) => {
+//                     const { bg, text } = getRandomColor();
+//                     return (
+//                       <span
+//                         key={index}
+//                         className="px-[0.5rem] py-[0.125rem] text-[0.75rem] rounded-[1rem] font-medium"
+//                         style={{ backgroundColor: bg, color: text }}
+//                       >
+//                         {tag}
+//                       </span>
+//                     );
+//                   })}
+//                 </div>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       </div>
+//     </section>
+//   );
+// });
+
+// export default RecentBlogs;

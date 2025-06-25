@@ -4,10 +4,9 @@ const CreateCampaignButton = () => {
   return (
     <button
       onClick={() => window.location.href = '/CreateCampaign'}
-      className="font-semibold rounded-[25px] transition-colors duration-200 cursor-pointer inline-flex items-center justify-center bg-[#e76f51] text-white text-[0.7rem] sm:text-lg px-6 py-4 hover:bg-[#d65a3f] focus:ring-[#e76f51]"
+      className="font-semibold rounded-[1.125rem] transition-colors duration-200 cursor-pointer inline-flex items-center justify-center shadow-custom-campaign bg-[#de5f3f] text-white text-[0.7rem] sm:text-[0.75rem] px-[1.5rem] py-4 hover:bg-[#bc5038] focus:ring-[#e76f51]"
     >
-      Create Campaign 
-
+      <p>Create Campaign</p>
     </button>
   );
 };

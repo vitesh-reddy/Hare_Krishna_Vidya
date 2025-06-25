@@ -12,6 +12,10 @@ export const getAllGroceryItems = async () => {
   return await GroceryItem.find();
 };
 
+export const getActiveGroceryItemsCount = async () => {
+  return await GroceryItem.countDocuments({ active: true });
+}
+
 // READ - Get only active grocery items
 export const getActiveGroceryItems = async () => {
   return await GroceryItem.find({ active: true });

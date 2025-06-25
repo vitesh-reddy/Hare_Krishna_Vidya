@@ -44,7 +44,11 @@ const CampaignDetails = ({ handleBack, handleNext, formData, handleInputChange, 
     if (!file.type.match(/^image\/(jpeg|jpg|png|gif)$/)) {
       alert(`${file.name} is not a valid format. Please upload JPG, PNG, or GIF.`);
       return;
+
     }
+
+    }  
+
 
     await handleImageUpload(file); // Use parent function
   };

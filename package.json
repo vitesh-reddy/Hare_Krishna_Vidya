@@ -1,0 +1,23 @@
+{
+  "name": "hare_krishna_vidya",
+  "author": "Vitesh Reddy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "admin": "npm run admin --prefix admin",
+    "client": "npm run client --prefix client",
+    "server": "npm run server --prefix server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vitesh-reddy/Hare_Krishna_Vidya.git"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/vitesh-reddy/Hare_Krishna_Vidya/issues"
+  },
+  "homepage": "https://github.com/vitesh-reddy/Hare_Krishna_Vidya#readme"
+}
