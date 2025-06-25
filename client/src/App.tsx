@@ -87,7 +87,7 @@ const AnimatedRoutes = () => {
           <Route path="/our-associated-trusts" element={<MainLayout><OurAssociatedTrustsPage /></MainLayout>} />
           <Route path="/governance" element={<MainLayout><GovernancePage /></MainLayout>} />
           <Route path="/donate-items" element={<MainLayout><DonateItemsPage /></MainLayout>} />
-          <Route path="/blog" element={< Navigate to="/blogs" replace />} />
+          <Route path="/blog" element={<MainLayout><Blog /></MainLayout>} />
           <Route path="/blogs" element={<MainLayout><BlogPage /></MainLayout>} />
           <Route path="/blogs/:id" element={<MainLayout><BlogView /></MainLayout>} />
           <Route path="/CreateCampaign" element={<MainLayout><CreateCampaign /> </MainLayout>} />
