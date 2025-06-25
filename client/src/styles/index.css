@@ -63,7 +63,10 @@ img {
 }
 
 
-#blogContent a {
-  color: #1d4ed8; /* Tailwind's blue-700 */
-  text-decoration: underline;
+#blogContent { 
+  font-family: 'Playfair Display', serif;
+  a {
+    color: #1d4ed8; /* Tailwind's blue-700 */
+    text-decoration: underline;
+  }
 }

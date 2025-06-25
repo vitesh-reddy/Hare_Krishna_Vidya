@@ -11,8 +11,6 @@ const tagColors = [
   { bg: '#F9F5FF', text: '#6941C6' }, // Lavender purple
   { bg: '#FFFAF5', text: '#C4320A' }, // Peach orange
   { bg: '#EEF4FF', text: '#175CD3' }, // Sky blue
-
-  // Set 3 (kept only those not too similar)
   { bg: '#FEF2F2', text: '#DC2626' }, // Soft red
   { bg: '#FFFBEB', text: '#F59E0B' }, // Warm yellow-orange
   { bg: '#FFF7FB', text: '#DB2777' }, // Vivid pink
@@ -34,8 +32,9 @@ export const BlogCard = React.memo(({ blog }) => {
   return (
   <div className="flex flex-col mb-[1rem]">
     <img
-      src={blog.image || '/assets/placeholder.png'}
+      src={blog.image || '/assets/blog placeholder.jpg'}
       alt={blog.title}
+      onError={(e) => {e.target.src = '/assets/blog placeholder.jpg'}}
       className="w-full h-[13rem] object-cover mb-[0.75rem]"
     />
     <p className="text-[0.875rem] self-start text-[#6941C6] font-medium mb-[0.35rem]">
