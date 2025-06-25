@@ -8,8 +8,8 @@ const AdminAuthContext = createContext({
   loading: true,
   adminInfo: null,
   showLogoutDialog: false,
-  setAdminInfo: () => {},
-  setShowLogoutDialog: () => {}
+  setAdminInfo: (state) => {},
+  setShowLogoutDialog: (state) => {}
 });
 
 export const useAdminAuth = () => useContext(AdminAuthContext);
