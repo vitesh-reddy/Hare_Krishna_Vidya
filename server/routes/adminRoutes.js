@@ -1,5 +1,5 @@
 import express from "express";
-import { loginAdmin, logoutAdmin, getAdminProfile, forgotPassword, resetPassword} from "../controllers/adminController.js";
+import { loginAdmin, logoutAdmin, getAdminProfile, forgotPassword, resetPassword, updateAdminProfile} from "../controllers/adminController.js";
 import { protectAdmin } from "../middleware/authMiddleware.js";
 import Admin from "../models/Admin.js";
 
@@ -8,6 +8,7 @@ const router = express.Router();
 router.post("/login", loginAdmin);
 router.get("/logout", logoutAdmin);
 router.get("/me", protectAdmin, getAdminProfile);
+router.patch("/update-profile", protectAdmin, updateAdminProfile);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
 
@@ -19,8 +20,8 @@ router.post('/create-default-admin', async (req, res) => {
     }
 
     const admin = new Admin({
-      email: 'rtyqwe71450@gmail.com',
-      password: '1234', 
+      email: req.body.email,
+      password: req.body.password, 
     });
 
     await admin.save();

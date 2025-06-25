@@ -17,6 +17,10 @@ export const getActiveKits = async () => {
   return await Kit.find({ active: true });
 };
 
+export const getActiveKitsCount = async () => {
+  return await Kit.countDocuments({ active: true });
+};
+
 // Update kit 
 export const updateKit = async (kitId, updateData) => {
   return await Kit.findByIdAndUpdate(kitId, updateData, {

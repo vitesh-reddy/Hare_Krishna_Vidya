@@ -206,28 +206,6 @@ const DonationSuccess = () => {
             </p>
           </div>
         </Card>
-
-        <div className="mt-[2rem] text-center">
-          <p className="text-[#4B5563] mb-[1rem] dark:text-[#9CA3AF]">
-            Want to stay connected with our work?
-          </p>
-          <div className="flex justify-center space-x-[1rem]">
-            <Button
-              variant="outline"
-              size="sm"
-              className="border-[#DCE4F2] text-[#2A3B5B] hover:bg-[#F4F6FB] hover:text-[#2A3B5B] dark:border-[#3F4856] dark:text-[#F5F7FD] dark:hover:bg-[#3F4856] dark:hover:text-[#F5F7FD]"
-            >
-              Follow on Social Media
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="border-[#DCE4F2] text-[#2A3B5B] hover:bg-[#F4F6FB] hover:text-[#2A3B5B] dark:border-[#3F4856] dark:text-[#F5F7FD] dark:hover:bg-[#3F4856] dark:hover:text-[#F5F7FD]"
-            >
-              Join Our Newsletter
-            </Button>
-          </div>
-        </div>
       </div>
     </div>
   );

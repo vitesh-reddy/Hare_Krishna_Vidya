@@ -25,6 +25,7 @@ const ApplicationForm = () => {
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Email is invalid';
     }
+    if (!formData.profileUrl.trim()) newErrors.profileUrl = 'Profile URL is required';
     if (!selectedJob?._id) newErrors.jobId = 'No job selected';
     return newErrors;
   };
@@ -75,7 +76,7 @@ const ApplicationForm = () => {
 
 
   return (
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 rounded-[0.75rem] -translate-y-[59%] flex justify-center items-center bg-gray-100">
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 rounded-[0.75rem] -translate-y-[59%] flex justify-center items-center bg-gray-100 z-[1001]">
       <div className="bg-white p-[1.75rem] rounded-[0.75rem] shadow-lg w-[20rem] md:w-full max-w-[28rem] border border-gray-200 text-[#EA580C]">
         {/* Back Button */}
         <button
@@ -153,7 +154,7 @@ const ApplicationForm = () => {
               onChange={handleChange}
               className={`w-full px-[0.5rem] py-[0.4rem] text-[#020817]/90 rounded-[0.25rem] font-normal border ${errors.email ? 'border-red-500' : 'border-[#FED7AA]'} bg-white focus:outline-none focus:border-orange-500`}
               placeholder=""
-            />
+              />
             {errors.email && <p className="text-red-500 text-[0.5rem]">{errors.email}</p>}
           </div>
 
@@ -169,7 +170,8 @@ const ApplicationForm = () => {
               onChange={handleChange}
               className="w-full px-[0.5rem] py-[0.4rem] text-[#020817]/90 rounded-[0.25rem] font-normal border border-[#FED7AA] bg-white focus:outline-none focus:border-orange-500"
               placeholder="https://linkedin.com/in/..."
-            />
+              />
+            {errors.profileUrl && <p className="text-red-500 text-[0.5rem]">{errors.profileUrl}</p>}
           </div>
 
           {/* Cover Letter */}
