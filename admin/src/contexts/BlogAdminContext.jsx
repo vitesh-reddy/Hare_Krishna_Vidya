@@ -72,21 +72,10 @@ export const BlogAdminProvider = ({ children }) => {
   };
 
   // Create a new blog post (with optional image upload)
-  const createBlog = async (data, imageFile, page, limit) => {
+  const createBlog = async (data, page, limit) => {
     setLoading(true);
     try {
-      let imageUrl = data.image;
-
-      // If a new image file is provided, upload it first
-      if (imageFile) {
-        const formData = new FormData();
-        formData.append('image', imageFile);
-        const uploadResponse = await axiosInstance.post('/blogs/upload-image', formData);
-        imageUrl = uploadResponse.data.url;
-      }
-
-      const newBlog = { ...data, image: imageUrl };
-      await axiosInstance.post('/blogs/create', newBlog);
+      await axiosInstance.post('/blogs/create', data);
 
       toast.success('Blog post created successfully.');
       invalidateCache();
@@ -100,33 +89,20 @@ export const BlogAdminProvider = ({ children }) => {
   };
 
   // Update existing blog (optionally with new image)
-  const updateBlog = async (id, data, imageFile, page, limit) => {
+  const updateBlog = async (id, data, page, limit) => {
     setLoading(true);
     try {
-      let imageUrl = data.image;
-
-      // If new image file exists, upload it
-      if (imageFile) {
-        const formData = new FormData();
-        formData.append('image', imageFile);
-        const uploadResponse = await axiosInstance.post('/blogs/upload-image', formData);
-        imageUrl = uploadResponse.data.url;
-      }
-
-      const updatedBlog = { ...data, image: imageUrl };
-      await axiosInstance.put(`/blogs/update/${id}`, updatedBlog);
-
+      await axiosInstance.put(`/blogs/update/${id}`, data);
       toast.success('Blog post updated successfully.');
       invalidateCache();
       await fetchBlogs(page, limit);
     } catch (error) {
-      toast.error('Failed to update blog post.');
+      console.log(error)
       throw error;
     } finally {
       setLoading(false);
     }
   };
-
   // Delete a blog post
   const deleteBlog = async (id, page, limit) => {
     setLoading(true);

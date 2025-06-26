@@ -98,7 +98,6 @@ const BlogManagement = () => {
       const result = await response.json();
       if (result.secure_url) {
         setFormData(prev => ({ ...prev, image: result.secure_url }));
-        setImageFile(compressedFile);
         toast.dismiss();
         toast.success('Image uploaded.');
       } else {
@@ -141,10 +140,11 @@ const BlogManagement = () => {
     try {
       const blogData = { ...formData };
       if (editingId) {
-        await updateBlog(editingId, blogData, imageFile, currentPage, postsPerPage);
+        console.log(updateBlog)
+        await updateBlog(editingId, blogData, currentPage, postsPerPage);
         setEditingId(null);
       } else {
-        await createBlog(blogData, imageFile, currentPage, postsPerPage);
+        await createBlog(blogData, currentPage, postsPerPage);
       }
       setIsCreating(false);
       setFormData({
@@ -173,7 +173,7 @@ const BlogManagement = () => {
       setShowDeleteDialog(false);
       setPostToDelete(null);
     }
-  };
+  }; 
 
   const cancelDelete = () => {
     setShowDeleteDialog(false);
