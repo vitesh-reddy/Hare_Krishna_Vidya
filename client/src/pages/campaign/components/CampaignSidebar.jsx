@@ -1,7 +1,7 @@
 import { BarChart3, Heart, Share2 } from "lucide-react";
 
 const CampaignSidebar = () => (
-    <div className="bg-gradient-to-b from-orange-400 to-orange-500 p-8 text-white min-h-screen">
+    <div className="hidden sm:block bg-gradient-to-b from-orange-400 to-orange-500 p-8 text-white min-h-screen">
       <h1 className="text-2xl font-bold mb-2">Create Your Fundraising Campaign</h1>
       <p className="text-orange-100 mb-8">Inspire devotees and well-wishers to support your spiritual cause.</p>
       

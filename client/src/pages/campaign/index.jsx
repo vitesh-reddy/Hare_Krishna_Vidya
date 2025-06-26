@@ -127,7 +127,7 @@ const CreateCampaign = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <div className="w-1/3">
+      <div className="hidden sm:block w-1/3">
         <CampaignSidebar />
       </div>
       <div className="flex-1 p-8">
