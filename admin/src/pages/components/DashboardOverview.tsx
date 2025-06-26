@@ -199,106 +199,164 @@ const DashboardOverview = () => {
         </Card>
         
         {/* Donation Details Dialog */}
-{selectedDonation && (
-  <div
-    className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 transition-all"
-    onClick={closeDialog}
-    role="dialog"
-    aria-modal="true"
-    tabIndex={-1}
-  >
-    <div
-      onClick={(e) => e.stopPropagation()}
-      className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto p-6 sm:p-10 bg-gradient-to-br from-[#ffffffcc] to-[#f9fafbcc] dark:from-[#1e293bcc] dark:to-[#0f172acc] backdrop-blur-xl rounded-3xl shadow-2xl border border-[#e5e7eb66] dark:border-[#33415566] animate-fade-in"
-    >
-      {/* Close Button */}
-      <button
-        onClick={closeDialog}
-        className="absolute top-5 right-5 text-gray-400 hover:text-gray-800 dark:hover:text-white transition-colors"
-        aria-label="Close dialog"
-      >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
+        {selectedDonation && (
+          <div
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 transition-all"
+            onClick={closeDialog}
+            role="dialog"
+            aria-modal="true"
+            tabIndex={-1}
+          >
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 bg-gradient-to-br from-[#f8fafc] to-[#f1f5f9] dark:from-[#1e293b] dark:to-[#0f172a] rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 animate-fade-in"
+            >
+              {/* Close Button */}
+              <button
+                onClick={closeDialog}
+                className="absolute top-4 right-4 p-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                aria-label="Close dialog"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
 
-      {/* Title */}
-      <div className="mb-6 border-b border-gray-200 dark:border-gray-700 pb-4">
-        <h2 className="text-3xl font-extrabold text-[#111827] dark:text-[#F5F7FD] flex items-center gap-2">
-          🎗️ Donation Summary
-        </h2>
-      </div>
-
-      <div className="space-y-8 text-[0.95rem] leading-relaxed text-gray-700 dark:text-gray-100">
-        {/* Donor Info */}
-        <section>
-          <h3 className="text-lg font-bold mb-4 text-[#0F172A] dark:text-yellow-400 flex items-center gap-2">👤 Donor Information</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div><strong>Name:</strong> {selectedDonation.donorInfo.firstName} {selectedDonation.donorInfo.lastName}</div>
-            <div><strong>Email:</strong> {selectedDonation.donorInfo.email}</div>
-            <div><strong>Phone:</strong> {selectedDonation.donorInfo.phone}</div>
-            {selectedDonation.donorInfo.address && (
-              <div className="sm:col-span-2">
-                <strong>Address:</strong> {selectedDonation.donorInfo.address}, {selectedDonation.donorInfo.city}, {selectedDonation.donorInfo.state} - {selectedDonation.donorInfo.pincode}
-              </div>
-            )}
-          </div>
-        </section>
-
-        {/* Donation Details */}
-        <section>
-          <h3 className="text-lg font-bold mb-4 text-[#0F172A] dark:text-yellow-400 flex items-center gap-2">🎁 Donation Details</h3>
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <span className="font-medium">Type:</span>
-              <span className={`px-3 py-1 text-xs rounded-full font-semibold shadow-sm
-                ${selectedDonation.donationType === 'amount' 
-                  ? 'bg-green-200 text-green-800 dark:bg-green-700 dark:text-white' 
-                  : 'bg-blue-200 text-blue-800 dark:bg-blue-700 dark:text-white'}`}>
-                {selectedDonation.donationType.toUpperCase()}
-              </span>
-            </div>
-
-            {selectedDonation.donationType === 'amount' && (
-              <div><strong>Purpose:</strong> {selectedDonation.donatedFor}</div>
-            )}
-
-            {selectedDonation.donationType === 'items' && (
-              <div>
-                <p className="font-semibold mb-1">Items Donated:</p>
-                <div className="bg-[#f9fafb] dark:bg-[#1f2937] p-4 rounded-xl border border-gray-200 dark:border-gray-600">
-                  <ul className="list-disc pl-5 space-y-1 text-sm">
-                    {selectedDonation.items.map((item, idx) => (
-                      <li key={idx}>
-                        <span className="font-medium">{item.itemName}</span> — Qty: {item.quantity}, Price: ₹{item.price}
-                      </li>
-                    ))}
-                  </ul>
+              {/* Header */}
+              <div className="mb-6">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-2 rounded-lg bg-yellow-100 dark:bg-yellow-900/50 text-yellow-600 dark:text-yellow-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
+                    Donation Details
+                  </h2>
                 </div>
+                <div className="h-1 w-20 bg-yellow-400 rounded-full"></div>
               </div>
-            )}
 
-            <div><strong>Total Amount:</strong> ₹{selectedDonation.amount}</div>
-            <div><strong>Donated At:</strong> {dayjs(selectedDonation.donatedAt).format('MMMM D, YYYY h:mm A')}</div>
+              <div className="space-y-6">
+                {/* Donor Info */}
+                <section className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700">
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="p-1.5 rounded-md bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200">Donor Information</h3>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-[0.8rem] leading-">
+                    <div className="space-y-1">
+                      <p className="text-gray-500 dark:text-gray-400 font-medium">Name</p>
+                      <p className="text-gray-800 dark:text-gray-100">{selectedDonation.donorInfo.firstName} {selectedDonation.donorInfo.lastName}</p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-gray-500 dark:text-gray-400 font-medium">Email</p>
+                      <p className="text-gray-800 dark:text-gray-100">{selectedDonation.donorInfo.email}</p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-gray-500 dark:text-gray-400 font-medium">Phone</p>
+                      <p className="text-gray-800 dark:text-gray-100">{selectedDonation.donorInfo.phone}</p>
+                    </div>
+                    {selectedDonation.donorInfo.address && (
+                      <div className="md:col-span-2 space-y-1">
+                        <p className="text-gray-500 dark:text-gray-400 font-medium">Address</p>
+                        <p className="text-gray-800 dark:text-gray-100">
+                          {selectedDonation.donorInfo.address}, {selectedDonation.donorInfo.city}, {selectedDonation.donorInfo.state} - {selectedDonation.donorInfo.pincode}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </section>
+
+                {/* Donation Details */}
+                <section className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700">
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="p-1.5 rounded-md bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-300">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m-8-8v8m16-8v8M7 11h10a2 2 0 012 2v4a2 2 0 01-2 2H7a2 2 0 01-2-2v-4a2 2 0 012-2z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200">Donation Details</h3>
+                  </div>
+                  
+                  <div className="space-y-4 text-[0.8rem] leading-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-500 dark:text-gray-400 font-medium">Type</span>
+                      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                        selectedDonation.donationType === 'amount' 
+                          ? 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300' 
+                          : 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300'
+                      }`}>
+                        {selectedDonation.donationType.charAt(0).toUpperCase() + selectedDonation.donationType.slice(1)}
+                      </span>
+                    </div>
+                    
+                    {selectedDonation.donationType === 'amount' && (
+                      <div className="flex justify-between">
+                        <span className="text-gray-500 dark:text-gray-400 font-medium">Purpose</span>
+                        <span className="text-gray-800 dark:text-gray-100">{selectedDonation.donatedFor}</span>
+                      </div>
+                    )}
+                    
+                    {selectedDonation.donationType === 'items' && (
+                      <div>
+                        <p className="text-gray-500 dark:text-gray-400 font-medium mb-2">Items Donated</p>
+                        <div className="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg border border-gray-100 dark:border-gray-700">
+                          <ul className="space-y-2">
+                            {selectedDonation.items.map((item, idx) => (
+                              <li key={idx} className="flex justify-between">
+                                <span className="text-gray-800 dark:text-gray-200">{item.itemName}</span>
+                                <span className="text-gray-600 dark:text-gray-300">{item.quantity} × ₹{item.price}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    )}
+                    
+                    <div className="flex justify-between">
+                      <span className="text-gray-500 dark:text-gray-400 font-medium">Total Amount</span>
+                      <span className="text-gray-800 dark:text-gray-100 font-semibold">₹{selectedDonation.amount}</span>
+                    </div>
+                    
+                    <div className="flex justify-between">
+                      <span className="text-gray-500 dark:text-gray-400 font-medium">Donation Date</span>
+                      <span className="text-gray-800 dark:text-gray-100">{dayjs(selectedDonation.donatedAt).format('MMMM D, YYYY h:mm A')}</span>
+                    </div>
+                  </div>
+                </section>
+
+                {/* Payment Details */}
+                <section className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700">
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="p-1.5 rounded-md bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-300">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200">Payment Details</h3>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-[0.75rem]">
+                    <div className="space-y-1">
+                      <p className="text-gray-500 dark:text-gray-400 font-medium">Order ID</p>
+                      <p className="text-gray-800 dark:text-gray-100">{selectedDonation.paymentDetails.orderId}</p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-gray-500 dark:text-gray-400 font-medium">Payment ID</p>
+                      <p className="text-gray-800 dark:text-gray-100">{selectedDonation.paymentDetails.paymentId}</p>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
           </div>
-        </section>
-
-        {/* Payment Details */}
-        <section>
-          <h3 className="text-lg font-bold mb-4 text-[#0F172A] dark:text-yellow-400 flex items-center gap-2">💳 Payment Details</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div><strong>Order ID:</strong> {selectedDonation.paymentDetails.orderId}</div>
-            <div><strong>Payment ID:</strong> {selectedDonation.paymentDetails.paymentId}</div>
-          </div>
-        </section>
-      </div>
-    </div>
-  </div>
-)}
-
-
-
-
+        )}
 
         {/* <Card className="dark:bg-[#0F172A]">
           <CardHeader>
