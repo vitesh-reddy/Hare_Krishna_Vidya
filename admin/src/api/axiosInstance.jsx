@@ -17,7 +17,7 @@ axiosInstance.interceptors.response.use(
     // Check if the error response has a status code
     if (error.response && error.response.status === 401) {
       
-      if(error?.response?.request?.responseURL.includes('/login'))
+      if(error?.response?.request?.responseURL.includes('/login') || error?.response?.request?.responseURL.includes('/me'))
         return Promise.reject(error);
 
       // Handle 401 Unauthorized error: redirect to login
