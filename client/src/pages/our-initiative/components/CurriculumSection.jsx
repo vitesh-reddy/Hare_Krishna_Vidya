@@ -13,7 +13,7 @@ const CurriculumSection = () => {
 				<div className='flex flex-col items-center justify-evenly space-y-7 pt-10 pb-20'>
           {points.map(({point, imgUrl}, idx) => {
 						return (<p key={idx} className='bg-[#E76F51] rounded-full sm:rounded-[1rem] text-white px-4 py-3 sm:px-6 sm:py-4 text-[0.73rem] sm:text-[1rem] md:text-[1.5rem] lg:text-[1.75rem] font-urbanist font-bold flex items-center justify-center gap-3 sm:gap-6'>
-							<img className='inline w-[2.5rem] md:w-[3rem] lg:w-[3.5rem] rounded-full sm:rounded-[1rem]' src={imgUrl} alt="GIF" /> {point}
+							<img  loading="lazy" className='inline w-[2.5rem] md:w-[3rem] lg:w-[3.5rem] rounded-full sm:rounded-[1rem]' src={imgUrl} alt="GIF" /> {point}
 						</p>);})						
           }				
         </div>

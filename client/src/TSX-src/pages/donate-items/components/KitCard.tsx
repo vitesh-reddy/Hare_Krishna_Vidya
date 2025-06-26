@@ -54,7 +54,7 @@ const KitCard: React.FC<KitCardProps> = ({ kit }) => {
   return (
     <Card className="group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 bg-[#FFFFFF] border-0 shadow-lg overflow-hidden dark:bg-[#0F172A]">
       <div className="relative overflow-hidden">
-        <img 
+        <img  loading="lazy" 
           src={kit.image} 
           alt={kit.name}
           className="w-full h-[16rem] object-cover group-hover:scale-105 transition-transform duration-300"

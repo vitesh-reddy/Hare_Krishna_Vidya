@@ -14,6 +14,7 @@ const DonationCards = () => {
           <div onClick={() => window.location.href = '#AnnadanSection'} className="bg-gradient-to-br from-[#e1e6e8] to-[#f9feff] border border-border-primary rounded-[30px] p-6 lg:px-8 lg:py-[1.5rem] hover:[box-shadow:inset_11px_11px_28px_rgba(209,213,215,0.9)] transition-all duration-300">
             <div className="bg-[#F4A261] bg-opacity-40 w-14 h-14 lg:w-[3.25rem] lg:h-[3.25rem] rounded-full flex items-center justify-center mb-6 lg:mb-8">
               <img
+                loading="lazy"
                 src="/assets/img_food_traced.svg"
                 alt="Food icon"
                 className="w-6 h-6 lg:w-7 lg:h-7"
@@ -32,6 +33,7 @@ const DonationCards = () => {
           <div onClick={() => window.location.href = '#SponsorChildSection'} className="bg-gradient-to-br from-[#e1e6e8] to-[#f9feff] border border-border-primary rounded-[30px] p-6 lg:p-8 hover:[box-shadow:inset_11px_11px_28px_rgba(209,213,215,0.9)] transition-all duration-300">
             <div className="bg-[#F4A261] bg-opacity-40 w-14 h-14 lg:w-[3.25rem] lg:h-[3.25rem] rounded-full flex items-center justify-center mb-6 lg:mb-8">
               <img
+                loading="lazy"
                 src="/assets/img_food_traced.svg"
                 alt="Child icon"
                 className="w-6 h-6 lg:w-7 lg:h-7"
@@ -49,6 +51,7 @@ const DonationCards = () => {
           <div onClick={() => window.location.href = '#VidhyadanaSection'} className="bg-gradient-to-br from-[#e1e6e8] to-[#f9feff] border border-border-primary rounded-[30px] p-6 lg:p-8 hover:[box-shadow:inset_11px_11px_28px_rgba(209,213,215,0.9)]   transition-all duration-300 md:col-span-2 lg:col-span-1">
             <div className="bg-[#F4A261] bg-opacity-40 w-14 h-14 lg:w-[3.25rem] lg:h-[3.25rem] rounded-full flex items-center justify-center mb-6 lg:mb-8">
               <img
+                loading="lazy"
                 src="/assets/img_food_traced.svg"
                 alt="Education icon"
                 className="w-6 h-6 lg:w-7 lg:h-7"

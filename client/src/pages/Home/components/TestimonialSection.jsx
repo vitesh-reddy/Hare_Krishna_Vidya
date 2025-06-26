@@ -55,6 +55,7 @@ const TestimonialSection = () => {
 
                   <div className="flex items-center space-x-4">
                     <img
+                      loading="lazy"
                       src={testimonial.image}
                       alt={testimonial.name}
                       className="w-16 lg:w-[4.75rem]  rounded-full object-cover"

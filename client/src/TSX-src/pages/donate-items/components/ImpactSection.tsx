@@ -32,7 +32,7 @@ const ImpactSection = () => {
         <div className="bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl p-8 md:p-12 max-w-4xl mx-auto">
           <div className="md:flex items-center space-y-6 md:space-y-0 md:space-x-8">
             <div className="md:w-1/3">
-              <img 
+              <img  loading="lazy" 
                 src="https://images.unsplash.com/photo-1594824452518-1d67e5b1fe1c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
                 alt="Beneficiary"
                 className="w-32 h-32 rounded-full object-cover mx-auto border-4 border-white shadow-lg"

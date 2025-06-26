@@ -27,7 +27,7 @@ const GovernancePage = () => {
           <LeadershipTeamSection/>
           <OfficersSection/>
           <ManagementTeamSection/>
-          <img className='pb-[2rem] lg:py-[4rem] w-[80%] sm:w-[65%] md:w-[70%] lg:w-[60%] mx-auto' src="/assets/Executive Assistants.png" alt="Executive Assistants" />
+          <img  loading="lazy" className='pb-[2rem] lg:py-[4rem] w-[80%] sm:w-[65%] md:w-[70%] lg:w-[60%] mx-auto' src="/assets/Executive Assistants.png" alt="Executive Assistants" />
         </main>
       </div>
     </motion.div>

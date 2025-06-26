@@ -130,6 +130,7 @@ const FundraisingCampaigns = () => {
                     {/* Campaign Image */}
                     <div className="h-[14rem] w-full overflow-hidden">
                       <img
+                        loading="lazy"
                         src={campaign.uploadedImage || '/placeholder-image.jpg'}
                         alt={campaign.campaignName}
                         className="object-cover w-full h-full"

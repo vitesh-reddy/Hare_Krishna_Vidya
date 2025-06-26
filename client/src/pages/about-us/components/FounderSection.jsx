@@ -9,7 +9,7 @@ const FounderSection = () => {
             <p className='font-urbanist font-bold text-[#F47514] text-[1.35rem]'>AC Bhaktivedanta Swami Prabhupada</p>
             <p className='font-outfit font-medium text-black/70 text-[1.125rem] w-[80%] md:w-[60%] '>Founder-Acharya of the worldwide Hare Krishna Movement</p>
         </div>
-        <img className='md:w-[54vw] px-[2rem] md:px-0' src='/assets/founder_img2.jpg' alt="Founder Img" />
+        <img  loading="lazy" className='md:w-[54vw] px-[2rem] md:px-0' src='/assets/founder_img2.jpg' alt="Founder Img" />
 
         <div className='md:absolute px-[2rem] md:px-0 top-[2.5rem] left-[4rem]'>
           <p className='font-inter text-[#EDF2F7] text-[0.75rem] md:text-[0.8rem] lg:text-[1rem] bg-[#E76F51] px-6 py-4 leading-[1rem] md:leading-[1.4rem] md:w-[39vw] rounded-2xl'>

@@ -44,7 +44,7 @@ const OurImpactSection = () => {
 const ImpactCard = ({emoji, metric, text}) => {
   return (
   <div className="flex items-center mb-[1rem] sm:mb-0">
-    <img src={emoji} alt="Emoji" className='w-[3rem] sm:w-[3.75rem] mr-2' />
+    <img  loading="lazy" src={emoji} alt="Emoji" className='w-[3rem] sm:w-[3.75rem] mr-2' />
     <p className="text-[2rem] sm:text-[2.75rem] font-urbanist font-bold  text-[#2C2C2C] mr-5">{metric}</p>
     <p className="text-[0.75rem] sm:text-[0.97rem] w-[30%] font-inter font-medium text-[#2C2C2C] mr-5">{text}</p>
   </div>

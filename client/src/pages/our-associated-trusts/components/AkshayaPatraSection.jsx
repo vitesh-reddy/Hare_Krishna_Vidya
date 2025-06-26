@@ -14,7 +14,7 @@ const AkshayaPatraSection = () => {
   ];
   return (
     <section className='pl-[2rem] pr-[5rem] sm:pr-[2rem] md:pr-[3rem] lg:pr-[6rem] pt-[4rem] md:mt-[6rem] flex flex-col'>
-      <img className='w-[8rem] sm:w-[17.5rem] mb-[1rem] md:mb-[3rem]' src="/assets/Akshaya Patra.png" alt="Akshaya Patra" />
+      <img  loading="lazy" className='w-[8rem] sm:w-[17.5rem] mb-[1rem] md:mb-[3rem]' src="/assets/Akshaya Patra.png" alt="Akshaya Patra" />
       <div>
         {lines.map((line, idx) => {
           return ( <p className={'font-inter text-[#303030] font-medium text-[0.75rem] sm:text-[0.8rem] md:[0.9rem] lg:text-[1rem] sm:leading-[1.65rem] sm:block ' + (idx > 2 ? "hidden" : "block") } key={idx}>{line}</p> ) })

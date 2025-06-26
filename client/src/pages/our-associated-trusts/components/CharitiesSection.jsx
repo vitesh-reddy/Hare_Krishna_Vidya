@@ -10,7 +10,7 @@ const CharitiesSection = () => {
 
   return (
     <section className='pl-[2rem] pr-[5rem] sm:pr-[2rem] md:pr-[3rem] lg:pr-[6rem]  flex flex-col'>
-      <img className='w-[8rem] sm:w-[18rem] mb-[1rem]' src="/assets/charities.png" alt="Charities" />
+      <img  loading="lazy" className='w-[8rem] sm:w-[18rem] mb-[1rem]' src="/assets/charities.png" alt="Charities" />
       <div className='sm:mb-[3rem]'>
         {lines.map((line, idx) => {
           return ( <p className={'font-inter text-[#303030] font-medium text-[0.75rem] sm:text-[0.8rem] md:[0.9rem] lg:text-[1rem] sm:leading-[1.65rem]  sm:block ' + (idx > 1 ? "hidden" : "block")} key={idx}>{line}</p> ) })

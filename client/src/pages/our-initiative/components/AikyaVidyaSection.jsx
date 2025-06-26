@@ -9,7 +9,7 @@ const AikyaVidyaSection = () => {
         </p>
       
         <div className="relative w-full sm:w-[85%] md:w-[70%] lg:w-[57%] mx-auto">
-          <img className='w-full' src="/assets/Aikya Vidya.png" alt="Aikya Vidya" />
+          <img  loading="lazy" className='w-full' src="/assets/Aikya Vidya.png" alt="Aikya Vidya" />
           <svg className='absolute -right-[2.5rem] top-1/2 -translate-y-1/2 hidden lg:block' width="90" height="90" viewBox="0 0 101 101" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="50.5" cy="50.5" r="50.5" fill="#F47514" />
             <g clipPath="url(#clip0_9_2219)">

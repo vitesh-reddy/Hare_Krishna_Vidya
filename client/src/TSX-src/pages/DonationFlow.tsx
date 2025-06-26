@@ -235,7 +235,7 @@ const DonationFlow = () => {
           {selectedCartItems.map((item) => (
             <Card key={item.id} className="p-[1.5rem]">
               <div className="flex flex-col md:flex-row items-start space-y-[1rem] md:space-y-0 md:space-x-[1.5rem]">
-                <img src={item.image} alt={item.name} className="w-full md:w-[6rem] h-[6rem] object-cover rounded-[0.5rem]" />
+                <img  loading="lazy" src={item.image} alt={item.name} className="w-full md:w-[6rem] h-[6rem] object-cover rounded-[0.5rem]" />
                 <div className="flex-1">
                   <h3 className="text-[1.125rem] font-semibold">{item.name}</h3>
                   <p className="text-[#4B5563] text-[0.875rem] dark:text-[#9CA3AF]">{item.description}</p>
@@ -263,7 +263,7 @@ const DonationFlow = () => {
           <Card className="mb-[1.5rem]">
             <CardContent className="p-[1.5rem]">
               <div className="flex flex-col md:flex-row items-start space-y-[1rem] md:space-y-0 md:space-x-[1.5rem]">
-                <img src={selectedKit.image} alt={selectedKit.name} className="w-full md:w-[8rem] h-[8rem] object-cover rounded-[0.5rem]" />
+                <img  loading="lazy" src={selectedKit.image} alt={selectedKit.name} className="w-full md:w-[8rem] h-[8rem] object-cover rounded-[0.5rem]" />
                 <div className="flex-1">
                   <h3 className="text-[1.5rem] font-semibold mb-[0.5rem]">{selectedKit.name}</h3>
                   <p className="text-[#4B5563] mb-[0.75rem] dark:text-[#9CA3AF]">{selectedKit.description}</p>
@@ -305,7 +305,7 @@ const DonationFlow = () => {
             <Card className="mb-[1.5rem]">
               <CardContent className="p-[1.5rem]">
                 <div className="flex flex-col md:flex-row items-start space-y-[1rem] md:space-y-0 md:space-x-[1.5rem]">
-                  <img src={selectedGroceryItem.image} alt={selectedGroceryItem.name} className="w-full md:w-[8rem] h-[8rem] object-cover rounded-[0.5rem]" />
+                  <img  loading="lazy" src={selectedGroceryItem.image} alt={selectedGroceryItem.name} className="w-full md:w-[8rem] h-[8rem] object-cover rounded-[0.5rem]" />
                   <div className="flex-1">
                     <h3 className="text-[1.5rem] font-semibold mb-[0.5rem]">{selectedGroceryItem.name}</h3>
                     <p className="text-[#4B5563] mb-[0.75rem] dark:text-[#9CA3AF]">{selectedGroceryItem.description}</p>

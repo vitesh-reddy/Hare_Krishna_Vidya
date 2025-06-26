@@ -48,6 +48,7 @@ const FinalStep = ({ formData, handleBack, onCampaignSubmit, isSaving }) => {
             <div className="bg-white border border-gray-200 rounded-lg overflow-hidden mb-6">
                 <div className="h-48 bg-gradient-to-r from-blue-400 to-purple-500 relative">
                     <img
+                        loading="lazy"
                         src={getDisplayImage()}
                         alt="Campaign"
                         className="w-full h-full object-cover"

@@ -7,7 +7,7 @@ const Footer = () => {
         
         {/* About Section */}
         <div className="hidden sm:block space-y-[0.25rem] w-[50%] sm:pr-[2rem] lg:pr-[4.5rem]">
-          <img 
+          <img  loading="lazy" 
             src="/assets/img_hkmi_1.png" 
             alt="HKMI Logo" 
             className="sm:w-[5rem] md:w-[7rem] lg:w-[9rem]"
@@ -61,17 +61,17 @@ const Footer = () => {
              </p>
  
              <div className="flex items-center space-x-3">
-               <img src="/assets/img_phone.svg" alt="Phone" className="w-6 h-6" />
+               <img  loading="lazy" src="/assets/img_phone.svg" alt="Phone" className="w-6 h-6" />
                <span className="sm:text-[0.75rem] md:text-[0.75rem] lg:text-[1rem] text-[#f9f9f9]">+91 81217.95663</span>
              </div>
  
              <div className="flex items-center space-x-3">
-               <img src="/assets/img_phone.svg" alt="Phone" className="w-6 h-6" />
+               <img  loading="lazy" src="/assets/img_phone.svg" alt="Phone" className="w-6 h-6" />
                <span className="sm:text-[0.75rem] md:text-[0.75rem] lg:text-[1rem] text-[#f9f9f9]">+91 83283 89862</span>
              </div>
  
              <div className="flex items-center space-x-3">
-               <img src="/assets/img_mail.svg" alt="Email" className="w-6 h-6" />
+               <img  loading="lazy" src="/assets/img_mail.svg" alt="Email" className="w-6 h-6" />
                <span className="sm:text-[0.75rem] md:text-[0.75rem] lg:text-[1rem] text-[#f9f9f9]">connect2aikyavidya@gmail.com</span>
              </div>
            </div>
@@ -86,9 +86,9 @@ const Footer = () => {
             Copyright © 2024 Hare Krishna Vidya-Aikya Vidya
           </p>
           <div className="hidden sm:flex space-x-4 items-center pr-[4rem]">
-            <img src="/assets/img_facebook.svg" alt="Facebook" className="w-[0.6rem]" />
-            <img src="/assets/img_instagram.svg" alt="Instagram" className="w-[1rem]" />
-            <img src="/assets/img_youtube.svg" alt="YouTube" className="w-[1rem]" />
+            <img  loading="lazy" src="/assets/img_facebook.svg" alt="Facebook" className="w-[0.6rem]" />
+            <img  loading="lazy" src="/assets/img_instagram.svg" alt="Instagram" className="w-[1rem]" />
+            <img  loading="lazy" src="/assets/img_youtube.svg" alt="YouTube" className="w-[1rem]" />
           </div>
         </div>
       </div>

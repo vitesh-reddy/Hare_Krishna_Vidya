@@ -19,10 +19,11 @@ const HeroSection = () => {
     <section className="relative bg-[#001b2c] rounded-[40px] mx-auto  mb-8 overflow-hidden w-[95%] h-[28rem] md:h-[40rem] lg:h-[48rem] lg:px-4">
       {/* Background Image */}
       <div className="absolute inset-0">
+        <div className='absolute inset-0 bg-black/10' ></div>
         <img
-          src="/assets/img_c2f5de6806506b4a28874bec3bcdf212_1_1_1.png"
+          src="/assets/Home Hero Image.png"
           alt="Children receiving food"
-          className="w-full h-full object-cover rounded-[40px]"
+          className="w-full h-full object-cover rounded-[40px] opacity-70"
         />
       </div>
       {/* Donation Notification */}
@@ -34,7 +35,7 @@ const HeroSection = () => {
       >
         <div className="bg-gradient-to-r from-[#ededed] to-white rounded-[15px] px-2 py-1 sm:p-3 shadow-[100px_100px_250px_rgba(224,224,224,0.9)] max-w-[435px]">
           <div className="flex items-center space-x-3 py-1">
-            <img src="/assets/img_om.png" alt="Om symbol" className="w-[1rem] h-[1rem]" />
+            <img loading="lazy" src="/assets/img_om.png" alt="Om symbol" className="w-[1rem] h-[1rem]" />
             <p className="text-[0.75rem] sm:text-lg font-urbanist text-[#2c2c2c] leading-4">
               <span className="font-black">Rohit</span> from Mumbai just donated{' '}
               <span className="font-black">₹1,000</span> to feed{' '}

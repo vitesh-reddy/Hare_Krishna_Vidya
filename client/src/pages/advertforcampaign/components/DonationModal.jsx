@@ -400,6 +400,7 @@ export const DonationModal = ({ isOpen, onClose, campaign }) => {
         <DialogHeader className="relative p-0">
           <div className="relative h-32 bg-gradient-to-br from-orange-400 via-amber-400 to-yellow-300">
             <img
+              loading="lazy"
               src={campaign?.uploadedImage || "/placeholder.jpg"}
               alt={campaign?.campaignName || "Campaign"}
               className="w-full h-full object-cover opacity-80"

@@ -56,13 +56,13 @@ const Mission_VisionSection = () => {
           onClick={() => handleStatusChange('mission')}
           className={'absolute left-0 cursor-pointer' + transition + (status === 'mission' ? ' z-10' : ' z-0')}
         >
-          <img src="assets/Rectangle_1.png" alt="Left" className="w-[334px]" draggable={false} />
+          <img  loading="lazy" src="assets/Rectangle_1.png" alt="Left" className="w-[334px]" draggable={false} />
         </div>
         <div
           onClick={() => handleStatusChange('vision')}
           className={'absolute right-0 cursor-pointer' + transition + (status === 'vision' ? ' z-10' : ' z-0')}
         >
-          <img src="assets/Rectangle_2.png" alt="Right" className="w-[290px]"  draggable={false} />
+          <img  loading="lazy" src="assets/Rectangle_2.png" alt="Right" className="w-[290px]"  draggable={false} />
         </div>
       </div>
 
@@ -102,6 +102,7 @@ const Mission_VisionSection = () => {
         {/* Right section with fade image */}
         <div className="rounded-[0px_30px_30px_0px] overflow-hidden relative w-[50%] flex items-center justify-center">
           <img
+            loading="lazy"
             key={status + '-image'}
             src={content.imgUrl}
             alt={status}

@@ -89,7 +89,7 @@ const Cart = () => {
             {cartItems.map((item) => (
               <Card key={item.id} className="p-6">
                 <div className="flex flex-col md:flex-row items-start space-y-4 md:space-y-0 md:space-x-6">
-                  <img 
+                  <img  loading="lazy" 
                     src={item.image} 
                     alt={item.name}
                     className="w-full md:w-32 h-32 object-cover rounded-lg"

@@ -7,7 +7,7 @@ const HKMSection = () => {
   ];
   return (
       <section className='pl-[2rem] pr-[5rem] sm:pr-[2rem] md:pr-[3rem] lg:pr-[6rem]  sm:mb-[4rem] flex flex-col'>
-      <img className='w-[7rem] sm:w-[10rem] rounded-[0.5rem] sm:rounded-[1rem] mb-[1rem]' src="/assets/HKM.png" alt="Charities" />
+      <img  loading="lazy" className='w-[7rem] sm:w-[10rem] rounded-[0.5rem] sm:rounded-[1rem] mb-[1rem]' src="/assets/HKM.png" alt="Charities" />
       <div className='mb-[2rem]'>
         {lines.map((line, idx) => {
           return ( <p className='font-inter text-[#303030] font-medium text-[0.75rem] sm:text-[0.8rem] md:[0.9rem] lg:text-[1rem] sm:leading-[1.65rem]' key={idx}>{line}</p> ) })

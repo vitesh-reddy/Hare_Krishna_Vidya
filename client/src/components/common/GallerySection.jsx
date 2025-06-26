@@ -30,6 +30,7 @@ const GallerySection = () => {
           <div className="space-y-12">
             <div className="overflow-hidden bg-white rounded-[20px] p-0 group shadow-[15px_15px_38px_rgba(209,213,215,0.9)]">
               <img
+                loading="lazy"
                 src={galleryImages[0].src}
                 alt={galleryImages[0].alt}
                 className="w-full  object-cover "
@@ -37,6 +38,7 @@ const GallerySection = () => {
             </div>
             <div className="overflow-hidden bg-white rounded-[20px] p-0 group shadow-[15px_15px_38px_rgba(209,213,215,0.9)]">
               <img
+                loading="lazy"
                 src={galleryImages[3].src}
                 alt={galleryImages[3].alt}
                 className="w-full object-cover "
@@ -48,6 +50,7 @@ const GallerySection = () => {
           <div className="">
             <div className="overflow-hidden bg-white rounded-[20px] p-0 mb-auto group shadow-[15px_15px_38px_rgba(209,213,215,0.9)]">
               <img
+                loading="lazy"
                 src={galleryImages[1].src}
                 alt={galleryImages[1].alt}
                 className="w-full object-cover "
@@ -71,6 +74,7 @@ const GallerySection = () => {
           <div className="space-y-12">
             <div className="overflow-hidden bg-white rounded-[20px] p-0 group shadow-[15px_15px_38px_rgba(209,213,215,0.9)]">
               <img
+                loading="lazy"
                 src={galleryImages[2].src}
                 alt={galleryImages[2].alt}
                 className="w-full object-cover "
@@ -78,6 +82,7 @@ const GallerySection = () => {
             </div>
             <div className="overflow-hidden bg-white rounded-[20px] p-0 group shadow-[15px_15px_38px_rgba(209,213,215,0.9)]">
               <img
+                loading="lazy"
                 src={galleryImages[4].src}
                 alt={galleryImages[4].alt}
                 className="w-full object-cover "
@@ -87,9 +92,9 @@ const GallerySection = () => {
         </div>
         {/* Mobile View */}
         <div className='flex sm:hidden flex-col space-y-5 items-center px-[4rem]'>
-          <img className='rounded-[2rem]' src={galleryImages[1].src} alt={galleryImages[1].alt}/>
-          <img className='rounded-[2rem]' src={galleryImages[4].src} alt={galleryImages[1].alt}/>
-          <img className='rounded-[2rem]' src={galleryImages[0].src} alt={galleryImages[0].alt}/>
+          <img  loading="lazy" className='rounded-[2rem]' src={galleryImages[1].src} alt={galleryImages[1].alt}/>
+          <img  loading="lazy" className='rounded-[2rem]' src={galleryImages[4].src} alt={galleryImages[1].alt}/>
+          <img  loading="lazy" className='rounded-[2rem]' src={galleryImages[0].src} alt={galleryImages[0].alt}/>
         </div>
       </div>
     </section>

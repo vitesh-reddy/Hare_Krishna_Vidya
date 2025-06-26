@@ -56,7 +56,7 @@ const GroceryItemCard: React.FC<GroceryItemCardProps> = ({ item }) => {
   return (
     <Card className="group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-[0.5rem] bg-[#FFFFFF] border-0 shadow-lg overflow-hidden dark:bg-[#0F172A]">
       <div className="relative overflow-hidden">
-        <img 
+        <img  loading="lazy" 
           src={item.image} 
           alt={item.name}
           className="w-full h-[20rem] object-cover group-hover:scale-105 transition-transform duration-300"

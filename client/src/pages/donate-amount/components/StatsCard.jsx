@@ -9,7 +9,7 @@ const StatsCard = ({position}) => {
           <div className="flex flex-row items-center gap-3 relative">
             <div className="bg-gradient-to-r from-[#e8e8e8] to-white rounded-[24px] p-4">
               <div className="flex items-center space-x-3">
-                <img src="/assets/img_shines.png" alt="Shine icon" className="h-4 lg:h-5" />
+                <img  loading="lazy" src="/assets/img_shines.png" alt="Shine icon" className="h-4 lg:h-5" />
                 <span className="text-[0.75rem] lg:text-lg font-semibold font-inter text-black">Karma Insights</span>
               </div>
             </div>
@@ -37,7 +37,7 @@ const StatsCard = ({position}) => {
 
           {/* Donors Info */}
           <div className="flex items-center space-x-4">
-            <img src="/assets/img_frame_12.png" alt="Donor avatars" className="h-12" />
+            <img  loading="lazy" src="/assets/img_frame_12.png" alt="Donor avatars" className="h-12" />
             <p className="text-sm font-bold text-[#505051] leading-4">
               300+ Donors around the world
             </p>
@@ -50,7 +50,7 @@ const StatsCard = ({position}) => {
           <div className="flex flex-row items-center mb-6 gap-3 relative">
             <div className="bg-gradient-to-r from-[#e8e8e8] to-white rounded-[24px] p-4 shadow-custom-numKeys">
               <div className="flex items-center space-x-3">
-                <img src="/assets/img_shines.png" alt="Shine icon" className="w-5 h-5" />
+                <img  loading="lazy" src="/assets/img_shines.png" alt="Shine icon" className="w-5 h-5" />
                 <span className="text-lg font-semibold font-inter text-black">Karma Insights</span>
               </div>
             </div>
@@ -78,7 +78,7 @@ const StatsCard = ({position}) => {
 
           {/* Donors Info */}
           <div className="flex items-center space-x-4">
-            <img src="/assets/img_frame_12.png" alt="Donor avatars" className="h-12" />
+            <img  loading="lazy" src="/assets/img_frame_12.png" alt="Donor avatars" className="h-12" />
             <p className="text-sm font-bold text-[#505051] leading-4">
               300+ Donors around the world
             </p>

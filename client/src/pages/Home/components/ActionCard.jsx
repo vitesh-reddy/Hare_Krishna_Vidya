@@ -23,7 +23,7 @@ const ActionCard = ({position}) => {
             <DonateButton/>
 
           <div onClick={() => window.location.href = '/about-us'} className="font-semibold rounded-[24px] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer inline-flex items-center justify-center bg-white text-[#2c2c2c] text-lg px-6 py-4 space-x-2 hover:bg-gray-100">
-            <img src="/assets/img_information_button.png" alt="Info" className="w-5" />
+            <img  loading="lazy" src="/assets/img_information_button.png" alt="Info" className="w-5" />
             <span className="text-black">About Us</span>
           </div>
           </div>
@@ -47,7 +47,7 @@ const ActionCard = ({position}) => {
             <DonateButton/>
 
           <div onClick={() => window.location.href = '/about-us'} className="font-semibold rounded-[24px] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer inline-flex items-center justify-center bg-white text-[#2c2c2c] text-lg px-6 py-4 space-x-2 hover:bg-gray-100">
-            <img src="/assets/img_information_button.png" alt="Info" className="w-5" />
+            <img  loading="lazy" src="/assets/img_information_button.png" alt="Info" className="w-5" />
             <span className="text-black">About Us</span>
           </div>
           </div>

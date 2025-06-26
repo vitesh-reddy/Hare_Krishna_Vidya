@@ -62,9 +62,9 @@ const BlogView = () => {
           </p>
           <div className="text-[0.875rem] mt-[0.5rem] opacity-80">
             <p className="leading-[1rem] text-[0.75rem] sm:text-[0.8rem] md:text-[0.9rem] lg:text-[1rem] flex items-center justify-center gap-[0.5rem]">
-              <img src="/assets/Profile Icon.svg" alt="" draggable={false} />
+              <img  loading="lazy" src="/assets/Profile Icon.svg" alt="" draggable={false} />
               By {blog.author} &nbsp; • &nbsp;
-              <img src="/assets/Calendar Icon.svg" alt="" draggable={false} />
+              <img  loading="lazy" src="/assets/Calendar Icon.svg" alt="" draggable={false} />
               {new Date(blog.date).toLocaleDateString('en-US', {
                 day: '2-digit',
                 month: 'short',
@@ -87,7 +87,7 @@ const BlogView = () => {
           className="bg-[#F4A261] text-white px-[1.25rem] py-[0.5rem] rounded-full text-[1rem] font-medium shadow-md hover:opacity-90 transition-all duration-300"
         >
           <p className="flex items-center justify-center gap-[0.25rem]">
-            <img src="/assets/Heart Icon.svg" alt="" draggable={false} /> Donate Now
+            <img  loading="lazy" src="/assets/Heart Icon.svg" alt="" draggable={false} /> Donate Now
           </p>
         </button>
 

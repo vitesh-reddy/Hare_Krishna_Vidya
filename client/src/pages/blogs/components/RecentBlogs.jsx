@@ -55,6 +55,7 @@ const RecentBlogs = React.memo(() => {
         <div className="w-full md:w-[50%] cursor-pointer" onClick={() => handleBlogClick(recentBlogs[0]._id)}>
           <div className="flex flex-col gap-[0.75rem]">
             <img
+              loading="lazy"
               src={recentBlogs[0].image || '/assets/placeholder.png'}
               alt={recentBlogs[0].title}
               className="w-full h-[13rem] object-cover"
@@ -94,6 +95,7 @@ const RecentBlogs = React.memo(() => {
           {recentBlogs.slice(1).map((blog) => (
             <div key={blog._id} className="flex flex-col md:flex-row gap-[1rem] md:h-[11rem] pr-[2rem] cursor-pointer" onClick={() => handleBlogClick(blog._id)}>
               <img
+                loading="lazy"
                 src={blog.image || '/assets/blog placeholder.jpg'}
                 alt={blog.title}
                 onError={(e) => {e.target.src = '/assets/blog placeholder.jpg'}}

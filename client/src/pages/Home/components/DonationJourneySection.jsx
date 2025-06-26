@@ -3,8 +3,8 @@ import React from 'react';
 const DonationJourneySection = () => {
   return (
     <section className="relative flex flex-col items-center pb-12 px-16 sm:pb-16 lg:pb-0 w-full">
-      <img className='mt-[4rem] hidden sm:block' src="/assets/Full Mobile.png" draggable={false} alt="Donation Journey" />
-      <img className='mt-[4rem] block sm:hidden h-[30rem]' src="/assets/Mobile.png" draggable={false} alt="Donation Journey" />
+      <img loading="lazy" className='mt-[4rem] hidden sm:block' src="/assets/Full Mobile.png" draggable={false} alt="Donation Journey" />
+      <img loading="lazy" className='mt-[4rem] block sm:hidden h-[30rem]' src="/assets/Mobile.png" draggable={false} alt="Donation Journey" />
       <div className="hidden max-w-7xl mx-auto w-full">
         <div className="flex justify-center items-center w-full">
           {/* Left Side - Journey Steps */}
@@ -55,6 +55,7 @@ const DonationJourneySection = () => {
           <div className="relative mt-12 flex justify-center w-[45%] z-1">
             <div className="relative max-w-full w-full">
               <img
+                loading="lazy"
                 src="/assets/img_iphone_15_1.png"
                 alt="Mobile donation interface"
                 className="h-[95%] rounded-[30px] lg:rounded-[50px] bg-[#EDF2F7] mix-blend-multiply"
@@ -62,6 +63,7 @@ const DonationJourneySection = () => {
               <div className="absolute inset-0 w-full flex flex-col top-[5rem] items-center space-y-10 pr-5">
                 <div className="w-[70%] relative inset-0">
                   <img
+                    loading="lazy"
                     className="w-full rounded-3xl z-1"
                     src="assets/img_image_14.png"
                     alt="Annadhanam"
@@ -82,7 +84,7 @@ const DonationJourneySection = () => {
                     <span className="text-black/50 font-semibold text-[1.25rem] font-urbanist ">
                       ₹ 5,000
                     </span>
-                    <img src="assets/img_chevrondown.svg" alt="Dropdown" className="w-6" />
+                    <img  loading="lazy" src="assets/img_chevrondown.svg" alt="Dropdown" className="w-6" />
                   </div>
 
                   {/* Keypad Grid */}
@@ -100,6 +102,7 @@ const DonationJourneySection = () => {
                     <div className="group col-span-2 w-full h-[3.75rem] mt-1 bg-[#FEAA66] from-[40%] to-[#FFAA66] shadow-custom-numButton rounded-full flex items-center justify-center text-black/50 text-[1.3rem] font-urbanist font-semibold cursor-pointer">
                       Confirm{' '}
                       <img
+                        loading="lazy"
                         src="assets/arrow-right-circle.svg"
                         alt="->"
                         className="group-hover:h-8 ml-1 mt-1 h-0 transition-all duration-[400ms]"
@@ -125,6 +128,7 @@ const DonationJourneySection = () => {
             <div className="bg-accent-yellow text-white px-6 py-3 rounded-[20px] font-semibold shadow-2xl hover:bg-accent-dark transition-colors flex items-center space-x-3 w-full sm:w-auto justify-center">
               <span>Click here to make payment</span>
               <img
+                loading="lazy"
                 src="/assets/img_credit.png"
                 alt="Credit card"
                 className="w-6 h-6 lg:w-7 lg:h-7"

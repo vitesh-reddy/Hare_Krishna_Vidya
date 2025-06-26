@@ -198,6 +198,7 @@ const ApplicationForm = () => {
           {isLoading ? 'Submitting...' : 'Submit Application'}
           {!isLoading && (
             <img
+              loading="lazy"
               className='ml-[0.125rem] w-[1rem]'
               src="assets/submit application arrow.svg"
               alt="->"

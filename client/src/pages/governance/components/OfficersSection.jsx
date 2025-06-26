@@ -23,7 +23,7 @@ const OfficersSection = () => {
       <div className='space-y-[2rem] flex flex-col justify-center items-center sm:space-y-[6rem] px-[2rem] lg:px-[10rem]'>
         <div className='flex flex-col md:flex-row gap-[4rem]'>
           <div className='flex flex-col items-center'>
-            <img className='w-[10rem] sm:w-[15rem]' src="/assets/Chaitanya Krishna Dasa.png" alt="Chaitanya Krishna Dasa" />
+            <img  loading="lazy" className='w-[10rem] sm:w-[15rem]' src="/assets/Chaitanya Krishna Dasa.png" alt="Chaitanya Krishna Dasa" />
             <div className='flex flex-col gap-[1rem]'>
               {bio1.map((line, idx) => {
                 return (
@@ -33,7 +33,7 @@ const OfficersSection = () => {
             </div>
           </div>
           <div className='flex flex-col items-center'>
-              <img className='w-[10rem] sm:w-[15rem]' src="/assets/Tejasvi Chaitanya Dasa.png" alt="Tejasvi Chaitanya Dasa" />
+              <img  loading="lazy" className='w-[10rem] sm:w-[15rem]' src="/assets/Tejasvi Chaitanya Dasa.png" alt="Tejasvi Chaitanya Dasa" />
             <div className='flex flex-col gap-[1rem]'>
               {bio2.map((line, idx) => {
                 return (
@@ -45,7 +45,7 @@ const OfficersSection = () => {
         </div>
 
         <div className='flex flex-col items-center'>
-          <img className='w-[12rem] sm:w-[20rem]' src="/assets/Raghavendra.png" alt="Raghavendra" />
+          <img  loading="lazy" className='w-[12rem] sm:w-[20rem]' src="/assets/Raghavendra.png" alt="Raghavendra" />
           <div className='flex flex-col gap-[1rem] sm:w-[50%]'>
             {bio3.map((line, idx) => {
               return (

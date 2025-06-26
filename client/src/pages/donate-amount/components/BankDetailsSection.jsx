@@ -15,7 +15,7 @@ const BankDetailsSection = () => {
         </div>
 
         <p className='text-[1.125rem] sm:text-[2rem] md:text-[1.5rem] lg:text-[1.75rem] font-urbanist font-bold text-[#303030]'>Pay by UPI ID</p>
-        <img src="/assets/upi_apps_logo 1.png" alt="upi_apps_logo 1" className='w-[10rem] sm:w-[15rem] md:w-[15rem] lg:w-[25rem]' />
+        <img  loading="lazy" src="/assets/upi_apps_logo 1.png" alt="upi_apps_logo 1" className='w-[10rem] sm:w-[15rem] md:w-[15rem] lg:w-[25rem]' />
         <p className='text-[1.25rem] sm:text-[1.5rem] md:text-[1.5rem] lg:text-[1.75rem] font-urbanist font-bold text-[#2C2C2C]'>
           Mob No: 7207 188 108 
         </p>
@@ -24,7 +24,8 @@ const BankDetailsSection = () => {
       {/* Right Section: QR Code */}
       <div className="flex-1 flex flex-col items-center justify-center">
         <img
-          src="/assets/QR Code.png" // Replace this path with your actual QR image path
+          loading="lazy"
+          src="/assets/QR Code.png"
           alt="QR Code"
           className="w-[15rem] sm:w-[20rem] md:w-[27rem]"
         />

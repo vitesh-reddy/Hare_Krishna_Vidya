@@ -132,6 +132,7 @@ const CampaignDetails = ({ handleBack, handleNext, formData, handleInputChange, 
           {formData.uploadedImage && (
             <div className="mt-4 relative group w-48">
               <img
+                loading="lazy"
                 src={formData.uploadedImage}
                 alt="Uploaded"
                 className="w-full h-32 object-cover rounded-lg border border-gray-200"

@@ -32,6 +32,7 @@ export const BlogCard = React.memo(({ blog }) => {
   return (
   <div className="flex flex-col mb-[1rem]">
     <img
+      loading="lazy"
       src={blog.image || '/assets/blog placeholder.jpg'}
       alt={blog.title}
       onError={(e) => {e.target.src = '/assets/blog placeholder.jpg'}}

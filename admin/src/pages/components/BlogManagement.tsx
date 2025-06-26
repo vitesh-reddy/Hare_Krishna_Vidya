@@ -350,9 +350,9 @@ const BlogManagement = () => {
             )}
             <div className="text-[0.875rem] mt-[0.5rem] opacity-80">
               <p className="leading-[1rem] text-[0.75rem] sm:text-[0.8rem] md:text-[0.9rem] lg:text-[1rem] flex items-center justify-center gap-[0.5rem]">
-                <img src="/assets/Profile Icon.svg" alt="" draggable={false} />
+                <img  loading="lazy" src="/assets/Profile Icon.svg" alt="" draggable={false} />
                 By {previewPost.author} &nbsp; • &nbsp;
-                <img src="/assets/Calendar Icon.svg" alt="" draggable={false} />
+                <img  loading="lazy" src="/assets/Calendar Icon.svg" alt="" draggable={false} />
                 {new Date(previewPost.date).toLocaleDateString('en-US', {
                   day: '2-digit',
                   month: 'short',
