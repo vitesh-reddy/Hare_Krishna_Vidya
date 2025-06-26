@@ -47,8 +47,40 @@ app.use(morgan("tiny", {
 
 
 app.use(express.json());
-app.get("/", async (req, res) => {
+
+//  ------------------------------ test api ------------------------------
+
+import Application from "./models/Application.js";
+import Blog from "./models/Blog.js";
+import Donation from "./models/Donations.js";
+import Job from "./models/Job.js";
+import redis from "./config/redisConfig.js";
+app.get("/api/ghost", async (req, res) => {
+  try {    
+    const appCacheKey = 'app';
+    const cachedApps = JSON.parse(await redis.get(appCacheKey))
+    const apps = cachedApps || await Application.find().populate('jobId').exec();
+
+    if(cachedApps)
+        console.log('Hit');
+    else {
+      console.log('miss');
+      redis.set(appCacheKey, JSON.stringify(apps));
+    }
+
+    const blogg =await Blog.find();
+    const dnn = await Donation.find();
+    const jbb = await Job.find();
+    
+    res.status(200).json({blogg, dnn, jbb});
+    
+  } catch (error) {
+    console.log(error)
+    res.sendStatus(500);
+  }
 });
+
+//  ------------------------------ test api ------------------------------
 
 app.use("/api/admin", adminRoutes);
 app.use("/api/admin/jobs", jobAdminRoutes);
