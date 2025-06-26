@@ -73,20 +73,16 @@ const BlogManagement = () => {
 
     try {
       toast.loading('Uploading image...');
-      console.log(`📷 Original file size: ${(file.size / 1024).toFixed(2)} KB`);
       let compressedFile = file;
 
-      if (file.size > 800 * 1024) {
+      if (file.size > 200 * 1024) {
         const options = {
           maxSizeMB: 1,
-          maxWidthOrHeight: 1024,
+          maxWidthOrHeight: 1920,
           useWebWorker: true,
           initialQuality: 0.8,
         };
         compressedFile = await imageCompression(file, options);
-        console.log(`🗜️ Compressed file size: ${(compressedFile.size / 1024).toFixed(2)} KB`);
-      } else {
-        console.log('⚠️ Skipped compression due to small file size.');
       }
 
       const formDataToUpload = new FormData();

@@ -57,8 +57,8 @@ const CreateCampaign = () => {
 
       let finalFile = file;
 
-      // Compress only if file is larger than 800KB
-      if (file.size > 800 * 1024) { 
+      // Compress only if file is larger than 200KB
+      if (file.size > 200 * 1024) { 
         const options = {
           maxSizeMB: 1,
           maxWidthOrHeight: 1024,
