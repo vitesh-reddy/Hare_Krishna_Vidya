@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import toast from 'react-hot-toast';
 import { Card, CardContent, CardHeader, CardTitle } from '../../TSX-src/components/ui/card';
 import { Button } from '../../TSX-src/components/ui/button';
@@ -35,37 +35,37 @@ const GroceryManagement = () => {
   const [itemToDelete, setItemToDelete] = useState(null);
 
 
-const handleImageUpload = async (file) => {
-  if (!file || !file.type.startsWith('image/')) {
-    toast.error('Please select a valid image file.');
-    return;
-  }
-
-  try {
-    let finalFile = file;
-
-    // Compress only if file is larger than 200KB
-    if (file.size > 200 * 1024) {
-      const options = {
-        maxSizeMB: 1,
-        maxWidthOrHeight: 1024,
-        useWebWorker: true,
-        initialQuality: 0.8,
-      };
-      finalFile = await imageCompression(file, options);
-      toast.success('Image uploaded.');
+  const handleImageUpload = async (file) => {
+    if (!file || !file.type.startsWith('image/')) {
+      toast.error('Please select a valid image file.');
+      return;
     }
 
-    const imageUrl = URL.createObjectURL(finalFile);
-    setFormData(prev => ({ ...prev, image: imageUrl }));
-    setImageFile(finalFile);
-  } catch (error) {
-    console.error('❌ Image compression failed:', error);
-    toast.error('Failed to process image.');
-  }
-};
+    try {
+      let finalFile = file;
 
+      // Compress only if file is larger than 200KB
+      if (file.size > 200 * 1024) {
+        const options = {
+          maxSizeMB: 1,
+          maxWidthOrHeight: 1024,
+          useWebWorker: true,
+          initialQuality: 0.8,
+        };
+        finalFile = await imageCompression(file, options);
+        toast.success('Image uploaded.');
+      }
 
+      const imageUrl = URL.createObjectURL(finalFile);
+      setFormData(prev => ({ ...prev, image: imageUrl }));
+      setImageFile(finalFile);
+    } catch (error) {
+      console.error('❌ Image compression failed:', error);
+      toast.error('Failed to process image.');
+    }
+  };
+
+  const componentRef = useRef(null);
   const handleEdit = (item) => {
     setFormData({
       name: item.name,
@@ -78,6 +78,10 @@ const handleImageUpload = async (file) => {
     setEditingId(item._id);
     setIsEditing(true);
     setImageFile(null);
+    if (componentRef.current) 
+      setTimeout(() => {
+        componentRef.current.scrollIntoView({behavior: "smooth", block: "start"  });
+      }, 0);
   };
 
   const handleSave = async () => {
@@ -168,7 +172,7 @@ const handleImageUpload = async (file) => {
           </Button>
         </div>
 
-        <Card className="group hover:shadow-2xl transition-all w-[50%] duration-300 transform hover:-translate-y-[0.5rem] bg-[#FFFFFF] border-0 shadow-lg overflow-hidden dark:bg-[#0F172A]">
+        <Card className="group hover:shadow-2xl transition-all max-w-md mx-auto duration-300 transform hover:-translate-y-[0.5rem] bg-[#FFFFFF] border-0 shadow-lg overflow-hidden dark:bg-[#0F172A]">
           <div className="relative overflow-hidden">
             <img
               src={previewItem.image}
@@ -201,7 +205,7 @@ const handleImageUpload = async (file) => {
   }
 
   return (
-    <div className="space-y-6">
+    <div ref={componentRef} className="space-y-6">
       {/* Delete Confirmation Dialog */}
       {showDeleteDialog && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">

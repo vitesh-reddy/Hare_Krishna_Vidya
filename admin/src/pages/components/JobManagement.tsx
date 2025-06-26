@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../../TSX-src/components/ui/card';
 import { Button } from '../../TSX-src/components/ui/button';
 import { Input } from '../../TSX-src/components/ui/input';
@@ -258,6 +258,7 @@ const JobManagement = () => {
     setJobToDelete(null);
   };
 
+  const componentRef = useRef(null);
   const handleEdit = (job) => {
     setFormData({
       title: job.title || '',
@@ -269,6 +270,10 @@ const JobManagement = () => {
     });
     setEditingId(job._id);
     setIsCreating(true);
+    if (componentRef.current) 
+      setTimeout(() => {
+        componentRef.current.scrollIntoView({behavior: "smooth", block: "start"  });
+      }, 0);    
   };
 
   const handleCancel = () => {
@@ -611,7 +616,7 @@ const JobManagement = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div ref={componentRef} className="space-y-6">
       {showDeleteDialog && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md shadow-lg">
