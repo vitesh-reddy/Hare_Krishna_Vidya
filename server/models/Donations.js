@@ -14,18 +14,9 @@ const donorInfoSchema = new mongoose.Schema({
 const donationSchema = new mongoose.Schema({
   donorInfo: donorInfoSchema,
 
-  donationType: {
-    type: String,
-    enum: ["amount", "items"],
-    required: true
-  },
-
-  donatedFor: {
-    type: String,
-    enum: ['Annadaan', 'Sponsor a Child', 'Vidyadaan'],
-    default: null
-  },
-
+  donationType: { type: String, enum: ["amount", "items"], required: true },
+  donatedFor: { type: String, 
+    enum: ['Annadaan', 'Sponsor a Child', 'Vidyadaan'], default: null },
   items: [
     {
       itemId: {
@@ -43,24 +34,23 @@ const donationSchema = new mongoose.Schema({
       price: Number,
     }
   ],
-
   amount: {
     type: Number,
     required: true
   },
-
   paymentDetails: {
     orderId: { type: String, required: true },
     paymentId: { type: String, required: true },
     signature: { type: String, required: true },
   },
-
   donatedAt: {
     type: Date,
     default: Date.now,
   },
 
 });
+
+donationSchema.index({ donatedAt: -1, _id: -1 });
 
 const Donation = mongoose.model('Donation', donationSchema);
 export default Donation;
