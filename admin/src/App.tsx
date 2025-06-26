@@ -55,7 +55,7 @@ const AdminMain = () => {
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
-    window.scrollTo(0, 0); // force scroll to top on route change
+    window.scrollTo(0, 0); 
   }, [pathname]);
 
   return null;
