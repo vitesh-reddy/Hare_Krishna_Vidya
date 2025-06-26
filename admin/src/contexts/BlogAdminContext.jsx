@@ -10,6 +10,7 @@ export const BlogAdminProvider = ({ children }) => {
   const [totalBlogsCount, setTotalBlogsCount] = useState(-1);
   const [loading, setLoading] = useState(false);
   const [publishedBlogsCount, setPublishedBlogsCount] = useState(0);
+  const [subscribers, setSubscribers] = useState([]);
 
   // 🧠 Blog Cache Map: key -> `${page}-${limit}`, value -> { blogs, totalCount }
   const blogCache = useRef({});
@@ -135,17 +136,29 @@ export const BlogAdminProvider = ({ children }) => {
     }
   };
 
+  const fetchSubscribers = async () => {
+    if(subscribers.length) return;
+    try {
+      const res = await axiosInstance.get('/blogs/subscribers');
+      setSubscribers(res.data);
+    } catch (error) {
+      toast.error('Faild to fetch Subscribers');            
+    }
+  }
+
   return (
     <BlogAdminContext.Provider
       value={{
         posts,
         totalBlogsCount,
         publishedBlogsCount,
+        subscribers,        
         fetchBlogs,
         createBlog,
         updateBlog,
         deleteBlog,
         toggleBlogStatus,
+        fetchSubscribers,
         loading,
       }}
     >

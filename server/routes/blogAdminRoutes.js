@@ -1,5 +1,5 @@
 import express from 'express';
-import { createBlog, updateBlog, getAllBlogs, toggleBlogStatus, getPublishedBlogsCount } from '../services/blogServices.js';
+import { createBlog, updateBlog, getAllBlogs, toggleBlogStatus, getPublishedBlogsCount, getAllSubscribers } from '../services/blogServices.js';
 import { deleteFromCloudinary, uploadToCloudinary } from '../config/cloudinaryConfig.js';
 import Blog from '../models/Blog.js';
 import { verifyAdminToken } from '../middleware/verifyAdminToken.js';
@@ -142,6 +142,15 @@ router.delete('/delete/:blogId', async (req, res) => {
     return res.status(200).json({ message: 'Blog deleted successfully' });
   } catch (error) {
     return res.status(500).json({ message: 'Failed to delete blog', error: error.message });
+  }
+});
+
+router.get('/subscribers', async (req, res) => {
+  try {
+    const subscribers = await getAllSubscribers();
+    res.status(200).json(subscribers);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 

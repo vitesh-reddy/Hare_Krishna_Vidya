@@ -1,4 +1,5 @@
 import Blog from '../models/Blog.js';
+import BlogSubscriber from '../models/BlogSubscriber.js';
 import { addRecentActivity } from './updatesServices.js';
 
 // Create a new blog
@@ -85,3 +86,11 @@ export const getTotalBlogsCount = async () => {
   return { totalCount };
 };
 
+export const addSubscriber = async (email) => {
+  const subscriber = new BlogSubscriber(email);
+  await subscriber.save();
+};
+
+export const getAllSubscribers = async () => {
+  return await BlogSubscriber.find().sort({ subscribedAt: -1 });
+};

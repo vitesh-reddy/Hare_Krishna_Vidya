@@ -1,6 +1,33 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 
 const HeroSection = React.memo(() => {
+
+  const [email, setEmail] = useState('');
+
+  const BASE_URL = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'}/api`;
+
+  const handleSubscribe = async () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      toast.error('Please enter a valid email address');
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${BASE_URL}/blogs/add-subscriber`, { email });
+      if (response.data?.success) {
+        toast.success('Successfully subscribed!');
+        setEmail('');
+      }
+    } catch (error) {
+      const message = error.response?.data?.message || 'Something went wrong';
+      toast.error(message);
+    }
+  };
+
   return (
     <section className="w-full flex flex-col items-center justify-center pt-[5rem] pb-[4rem] text-center bg-white">
       <p className="text-[#7F56D9] text-[0.875rem] font-semibold mb-[0.75rem]">Our blog</p>
@@ -15,7 +42,9 @@ const HeroSection = React.memo(() => {
             id="email"
             type="email"
             required
+            value={email}
             placeholder="Enter your email"
+            onChange={(e) => setEmail(e.target.value)}
             className="border border-[#D0D5DD] text-[#667085] rounded-[0.5rem] px-[1rem] py-[0.6rem] text-[0.875rem] w-[15rem] md:w-[20rem]"
           />
           <p className="text-[0.7rem] md:text-[0.75rem] text-[#98A2B3] mt-[0.625rem] self-start">
@@ -23,7 +52,7 @@ const HeroSection = React.memo(() => {
           </p>
         </div>
         <button
-          type="submit"
+          onClick={handleSubscribe}
           className="bg-[#7F56D9] hover:bg-[#6f47c3] text-white px-[1.25rem] py-[0.6rem] rounded-[0.5rem] text-[0.875rem] font-semibold transition-colors duration-300"
         >
           Subscribe

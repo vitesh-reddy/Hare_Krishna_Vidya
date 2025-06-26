@@ -13,9 +13,10 @@ import { useBlogsAdmin } from '../../contexts/BlogAdminContext';
 import Loader from '../../components/common/Loader';
 import imageCompression from 'browser-image-compression';
 import BlogEditor from './BlogEditor';
+import dayjs from 'dayjs';
 
 const BlogManagement = () => {
-  const { posts, totalBlogsCount, createBlog, updateBlog, deleteBlog, toggleBlogStatus, loading, fetchBlogs } = useBlogsAdmin();
+  const { posts, totalBlogsCount, createBlog, updateBlog, deleteBlog, toggleBlogStatus, loading, fetchBlogs, subscribers, fetchSubscribers } = useBlogsAdmin();
   const editorRef = useRef(null);
   const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
   const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
@@ -33,6 +34,7 @@ const BlogManagement = () => {
   const [editingId, setEditingId] = useState(null);
   const [previewPost, setPreviewPost] = useState(null);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [showSubscribers, setShowSubscribers] = useState(false);
   const [postToDelete, setPostToDelete] = useState(null);
   const [formData, setFormData] = useState({
     title: '',
@@ -558,6 +560,16 @@ const BlogManagement = () => {
     );
   }
 
+  const handleViewSubscribers = async () => {
+    setShowSubscribers(true);    
+    try {
+      await fetchSubscribers();      
+    } catch (error) {      
+      setShowSubscribers(false);
+    }
+  }
+  const handleCloseViewSubscribers = () => setShowSubscribers(false)
+
   return (
     <div className="space-y-6">
       {showDeleteDialog && (
@@ -589,16 +601,126 @@ const BlogManagement = () => {
         </div>
       )}
 
+      {showSubscribers && (
+        <div
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 transition-all"
+          onClick={handleCloseViewSubscribers}
+          role="dialog"
+          aria-modal="true"
+          tabIndex={-1}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-[30rem] max-h-[80vh] overflow-y-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 animate-fade-in"
+          >
+            {/* Close Button */}
+            <button
+              onClick={handleCloseViewSubscribers}
+              className="absolute top-4 right-4 p-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+              aria-label="Close dialog"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Header */}
+            <div className="mb-6">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="p-2 rounded-lg bg-orange-100 dark:bg-orange-900/50 text-orange-600 dark:text-orange-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
+                  Blog Subscribers
+                </h2>
+              </div>
+              <div className="h-1 w-20 bg-orange-500 rounded-full"></div>
+            </div>
+
+            {/* Copy All Button */}
+            <div className="flex justify-end mb-4">
+              <button
+                onClick={() => {
+                  const emails = subscribers.map(s => s.email).join(', ');
+                  navigator.clipboard.writeText(emails);
+                  toast.success('All emails copied to clipboard!');
+                }}
+                className="flex items-center gap-2 px-4 py-2 bg-orange-50 dark:bg-orange-900/30 hover:bg-orange-100 dark:hover:bg-orange-900/50 text-orange-600 dark:text-orange-300 rounded-lg transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                </svg>
+                Copy All Emails
+              </button>
+            </div>
+
+            {/* Subscribers List */}
+            <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 overflow-hidden">
+              {subscribers ? (
+                <ul className="divide-y divide-gray-200 dark:divide-gray-600">
+                  {subscribers.length > 0 ? (
+                    subscribers.map(({ email, _id, subscribedAt }) => (
+                      <li 
+                        key={_id} 
+                        className="p-4 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors group relative"
+                        onClick={() => {
+                          navigator.clipboard.writeText(email);
+                          toast.success('Email copied to clipboard!');
+                        }}
+                      >
+                        <div className="flex justify-between items-center cursor-pointer">
+                          <div className="font-inter text-[0.75rem] text-gray-800 dark:text-gray-100 truncate pr-2">
+                            {email}
+                            <span className="absolute left-0 -top-6 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                              Click to copy
+                            </span>
+                          </div>
+                          <div className="text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap">
+                            {dayjs(subscribedAt).fromNow()}
+                          </div>
+                        </div>
+                      </li>
+                    ))
+                  ) : (
+                    <li className="p-8 text-center text-gray-500 dark:text-gray-400">
+                      No subscribers found
+                    </li>
+                  )}
+                </ul>
+              ) : (
+                <div className="p-8 text-center">
+                  <Loader />
+                </div>
+              )}
+            </div>
+
+            {/* Footer */}
+            <div className="pt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+              <p>Total subscribers: {subscribers?.length || 0}</p>
+            </div>
+          </div>
+        </div>
+      )}
       <Card className="border-0 shadow-lg">
         <CardHeader className="flex flex-row items-center justify-between">         
-          <CardTitle>Blog Posts </CardTitle>            
-          <Button
-            onClick={() => setIsCreating(true)}
-            className="bg-orange-600 hover:bg-orange-700 text-white shadow-md"
-          >
-            <PlusCircle className="w-4 h-4 mr-2" />
-            Write New Story
-          </Button>
+          <CardTitle>Blog Posts </CardTitle>   
+          <div className='flex items-center justify-center gap-[0.5rem]'>
+            <Button
+              onClick={handleViewSubscribers}
+              className=" text-white shadow-md"
+            >
+              View Subscribers
+            </Button>
+            <Button
+              onClick={() => setIsCreating(true)}
+              className="bg-orange-600 hover:bg-orange-700 text-white shadow-md"
+            >
+              <PlusCircle className="w-4 h-4 mr-2" />
+              Write New Story
+            </Button>
+          </div>         
         </CardHeader>
         <CardContent>
           <Table>
@@ -689,4 +811,3 @@ const BlogManagement = () => {
 export default BlogManagement;
 
 /// Original -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-

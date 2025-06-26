@@ -1,5 +1,5 @@
 import express from 'express';
-import { getPublishedBlogs, getBlogById, getTotalBlogsCount, getRecentBlogs
+import { getPublishedBlogs, getBlogById, getTotalBlogsCount, getRecentBlogs, addSubscriber
 } from '../services/blogServices.js';
 import redis, { CACHE_KEYS, CACHE_TTL } from '../config/redisConfig.js';
 
@@ -89,6 +89,22 @@ router.get('/:id', async (req, res) => {
     return res.status(200).json(blog);
   } catch (error) {
     return res.status(500).json({ error: 'Failed to fetch blog' });
+  }
+});
+
+router.post('/add-subscriber', async (req, res) => {
+  try {
+    const { body : email } = req;
+    if (!email) 
+      return res.status(400).json({ error: 'Email is required' });
+
+    await addSubscriber(email);
+    res.status(201).json({success: true, message: 'Subscribed'});
+  } catch (error) {
+    console.log(error)
+    if(error.code === 11000)
+      res.status(400).json({ message:'Already Subscribed' });
+    res.status(500).json({ message: 'Failed to Subscribe, Try Again' });
   }
 });
 
