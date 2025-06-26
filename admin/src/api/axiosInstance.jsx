@@ -13,8 +13,12 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.response.use(
   response => response,
   error => {
+    console.log(error)
     // Check if the error response has a status code
     if (error.response && error.response.status === 401) {
+      
+      if(error?.response?.request?.responseURL.includes('/login'))
+        return Promise.reject(error);
 
       // Handle 401 Unauthorized error: redirect to login
       toast.loading('Session Expired,\nRedirecting to login...');
@@ -22,7 +26,6 @@ axiosInstance.interceptors.response.use(
         toast.dismiss()
         window.location.href = '/login'; 
       }, 1000);      
-      // Use window.location.href to force a full page reload and clear state
 
       // Reject the promise to prevent further processing by the calling function
       return Promise.reject(error);

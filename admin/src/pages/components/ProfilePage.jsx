@@ -58,7 +58,7 @@ const ProfilePage = () => {
       return;
     }
 
-    if (formState.newPassword && formState.newPassword !== formState.confirmPassword) {
+    if ((formState.newPassword || formState.confirmPassword) && formState.newPassword !== formState.confirmPassword) {
       setErrors((prev) => ({ ...prev, passwordMismatch: "New passwords do not match" }));
       return;
     }
@@ -74,7 +74,9 @@ const ProfilePage = () => {
       setAdminData({ name: res.data.name, email: res.data.email });
       setAdminInfo({ name: res.data.name, email: res.data.email });
 
-      setEditMode(false);
+      handleCancel()
+
+      // setEditMode(false);
       toast.success("Profile updated");
       
     } catch (err) {
