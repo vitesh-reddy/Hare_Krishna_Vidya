@@ -21,14 +21,12 @@ export const getRecentActivities = async (skip, limit) => {
 };
 
 export const getRecentActivitiesCount = async () => {
-  console.log('Fetching recent activities count');
   return await RecentActivity.countDocuments();
 }
 export const getRecentDonations = async (skip, limit) => {
   if (!Number.isInteger(skip) || skip < 0 || !Number.isInteger(limit) || limit <= 0) {
     throw new Error('Invalid pagination parameters');
   }
-  console.log('Fetching recent donations');
   return await Donation.find()
   .sort({ donatedAt: -1, _id: -1 })
   .skip(skip)

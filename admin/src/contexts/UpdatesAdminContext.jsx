@@ -14,37 +14,40 @@ export const UpdatesAdminProvider = ({ children }) => {
   const [activityPage, setActivityPage] = useState(1);
   const [isActivityLoading, setIsActivityLoading] = useState(false);
   const [hasMoreActivity, setHasMoreActivity] = useState(true);
+  const [totalActivities, setTotalActivities] = useState(undefined);
 
   // Recent Donations States
   const [recentDonations, setRecentDonations] = useState([]);
   const [donationPage, setDonationPage] = useState(1);
   const [isDonationLoading, setIsDonationLoading] = useState(false);
   const [hasMoreDonations, setHasMoreDonations] = useState(true);
+  const [totalDonations, setTotalDonations] = useState(undefined);
 
   const fetchActivities = useCallback(async (pageNum) => {
     setIsActivityLoading(true);
     try {
       const res = await axiosInstance.get('/updates/recent-activity', {
-        params: { page: pageNum, limit: 7 },
+        params: { page: pageNum, limit: 7, activitiesCount : totalActivities },
       });
       const transformed = res.data.activities.map((activity) => ({
         ...activity,
         time: dayjs(activity.date).fromNow(),
       }));
       setRecentActivity((prev) => (pageNum === 1 ? transformed : [...prev, ...transformed]));
+      setTotalActivities(res.data.totalActivities);
       setHasMoreActivity(res.data.hasMore);
     } catch (err) {
       console.error('Failed to fetch recent admin updates:', err);
     } finally {
       setIsActivityLoading(false);
     }
-  }, []);
+  }, [totalActivities]);
 
   const fetchDonations = useCallback(async (pageNum) => {
     setIsDonationLoading(true);
     try {
       const res = await axiosInstance.get('/updates/recent-donations', {
-        params: { page: pageNum, limit: 5 },
+        params: { page: pageNum, limit: 5, donationsCount: totalDonations },
       });
       const transformed = res.data.donations.map((donation) => ({
         ...donation,
@@ -54,13 +57,15 @@ export const UpdatesAdminProvider = ({ children }) => {
           : `Donated for ${(donation.items.length === 1 ? donation.items[0].itemName : 'Items')}`,
       }));
       setRecentDonations((prev) => (pageNum === 1 ? transformed : [...prev, ...transformed]));
+      setTotalDonations(res.data.totalDonations);
       setHasMoreDonations(res.data.hasMore);
+
     } catch (err) {
       console.error('Failed to fetch recent donations:', err);
     } finally {
       setIsDonationLoading(false);
     }
-  }, []);
+  }, [totalDonations]);
 
   useEffect(() => {
     fetchActivities(1);
