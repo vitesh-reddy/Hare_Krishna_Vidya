@@ -2,15 +2,17 @@ import Admin from "../models/Admin.js";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { sendResetEmail } from "../utils/sendMail.js";
-import bcrypt from "bcryptjs";
 
 const generateToken = (res, userId) => {
   const token = jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: "1hr" });
 
+  const mode = process.env.NODE_ENV;
+  const isProduction = mode === "production";
+
   res.cookie("adminToken", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "Lax",
+    secure: isProduction,
+    sameSite: isProduction ? "None" : "Lax",
     maxAge: 60 * 60 * 1000,
   });
 
