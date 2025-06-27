@@ -36,13 +36,13 @@ const Footer = () => {
                   { to: 'Campaign', path: "/advertforcampaign"},
                 ].map(({to, path}, idx) => (
                   <li key={idx} className="flex items-center mx-auto sm:mx-0">
-                    <a
-                      href={path}
+                    <Link
+                      to={path}
                       className="text-[#F9F9F9]/70 sm:text-[#F9F9F9] font-medium hover:text-[#f4a261] transition-colors"
                     >
                       <span className="mx-1 text-[#F9F9F9]/70 sm:hidden">•</span>
                       {to}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>

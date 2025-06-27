@@ -9,6 +9,7 @@ import { PlusCircle, Edit3, Trash2, Save, X, Users, Eye, ToggleRight, ToggleLeft
 import toast from 'react-hot-toast';
 import { useJobAdminContext } from '../../contexts/JobContextAdmin';
 import { ThreeDot } from 'react-loading-indicators';
+import { Link } from 'react-router-dom';
 
 const PAGE_SIZE = 10;
 
@@ -68,12 +69,12 @@ const ApplicationDialog = ({ open, setOpen, updateApplicationStatus }) => {
               <label className="block font-[600] mb-[0.25rem] text-gray-600 text-[0.8rem] uppercase tracking-[0.3px]">
                 Email
               </label>
-              <a
-                href={`mailto:${application.email}`}
+              <Link
+                to={`mailto:${application.email}`}
                 className="text-[#2563eb] hover:underline text-[0.95rem] font-[500] transition-colors duration-200"
               >
                 {application.email}
-              </a>
+              </Link>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-[1rem]">
@@ -103,14 +104,14 @@ const ApplicationDialog = ({ open, setOpen, updateApplicationStatus }) => {
               Profile URL
             </label>
             {application.profileUrl ? (
-              <a
-                href={application.profileUrl}
+              <Link
+                to={application.profileUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#2563eb] hover:underline text-[0.95rem] font-[500] transition-colors duration-200 break-all"
               >
                 {application.profileUrl}
-              </a>
+              </Link>
             ) : (
               <p className="text-gray-500 text-[0.95rem]">Not provided</p>
             )}
