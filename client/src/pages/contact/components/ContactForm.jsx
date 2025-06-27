@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ThreeDot } from 'react-loading-indicators';
+import { Link } from 'react-router-dom';
 
 const ContactForm = ({ formState, onSubmit }) => {
   const [formData, setFormData] = useState(() => {
@@ -183,9 +184,9 @@ const ContactForm = ({ formState, onSubmit }) => {
           <div className="ml-2 text-[0.85rem]">
             <label htmlFor="terms" className="font-medium text-[#344054]">
               You agree to our friendly{' '}
-              <a href="/privacy-policy" className="underline">
+              <Link to="/privacy-policy" className="underline">
                 privacy policy
-              </a>
+              </Link>
               .
             </label>
           </div>

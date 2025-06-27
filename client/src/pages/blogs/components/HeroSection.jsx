@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 
 const HeroSection = React.memo(() => {
 
@@ -48,7 +49,7 @@ const HeroSection = React.memo(() => {
             className="border border-[#D0D5DD] text-[#667085] rounded-[0.5rem] px-[1rem] py-[0.6rem] text-[0.875rem] w-[15rem] md:w-[20rem]"
           />
           <p className="text-[0.7rem] md:text-[0.75rem] text-[#98A2B3] mt-[0.625rem] self-start">
-            We care about your data in our <a href="/privacy-policy" className="underline">privacy policy</a>
+            We care about your data in our <Link href="/privacy-policy" className="underline">privacy policy</Link>
           </p>
         </div>
         <button
