@@ -66,7 +66,7 @@ app.use((req, res, next) => {
 // Rate limiting
 app.use(rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100,
+  max: process.env.REQUEST_LIMIT || 100,
   message: "Too many requests, please try again later.",
 }));
 
