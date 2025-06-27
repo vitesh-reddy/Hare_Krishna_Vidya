@@ -70,7 +70,7 @@ export const UpdatesAdminProvider = ({ children }) => {
   useEffect(() => {
     fetchActivities(1);
     fetchDonations(1);
-  }, [fetchActivities, fetchDonations]);
+  }, []);
 
   const loadMoreActivities = useCallback(() => {
     if (!isActivityLoading && hasMoreActivity) {
