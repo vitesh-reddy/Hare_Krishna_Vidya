@@ -1,4 +1,4 @@
-import WhiteGlowDiv from '@/components/common/whiteGlowDiv';
+import WhiteGlowDiv from '@/components/common/WhiteGlowDiv';
 import React from 'react';
 
 const OurImpactSection = () => {
