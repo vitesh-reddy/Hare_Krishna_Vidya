@@ -10,7 +10,7 @@ const Vacancies = () => {
         </h2>
 
         {/* Scrollable vacancy list */}    
-        <div className="overflow-y-auto md:pr-[0.5rem] custom-scrollbar h-[60vh] md:h-[40vh] xl:h-[50vh]">
+        <div className="overflow-y-auto md:pr-[0.5rem] custom-scrollbar h-[60vh] md:h-[40vh] 2xl:h-[50vh]">
           {jobs.length === 0 ? (
             <p className="text-[0.75rem] text-center text-[#303030]">No vacancies found</p>
           ) : (
