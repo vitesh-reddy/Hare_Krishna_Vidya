@@ -8,6 +8,7 @@ import { useJobAdminContext } from '../../contexts/JobContextAdmin';
 import { useAdminUpdates } from '../../contexts/UpdatesAdminContext';
 import { Button } from '../../TSX-src/components/ui/button';
 import dayjs from 'dayjs';
+import { ThreeDot } from 'react-loading-indicators';
 
 const DashboardOverview = () => {
   const { publishedBlogsCount } = useBlogsAdmin();
@@ -70,7 +71,7 @@ const DashboardOverview = () => {
                       {stat.title}
                     </p>
                     <p className="text-[1.875rem] font-bold text-[#111827] dark:text-[#F5F7FD]">
-                      {stat.value}
+                      {stat.value != -1 ? stat.value : <div> <ThreeDot color="#fa7000" size="small" text="" textColor="" />  </div>}
                     </p>
                   </div>
 

@@ -17,6 +17,7 @@ const AmountDonationFlow = () => {
   const [step, setStep] = useState(1);
   const [amount, setAmount] = useState(parseFloat(initialAmount.replace(/[^0-9]/g, '')) || 0);
   const [customAmount, setCustomAmount] = useState(isEditable ? '' : amount.toString());
+  const [isProcessing, setIsProcessing] = useState(false);
   const [formData, setFormData] = useState(() => {
     const storedData = JSON.parse(localStorage.getItem('donorData')) || {
       firstName: '',
@@ -102,6 +103,8 @@ const AmountDonationFlow = () => {
       setStep(step + 1);
     } else {
       try {
+        setIsProcessing(true);
+        toast.loading("Payment Processing");
         const baseUrl = import.meta.env.VITE_BACKEND_URL;
         const response = await fetch(`${baseUrl}/api/payments/create-order`, {
           method: 'POST',
@@ -195,6 +198,8 @@ const AmountDonationFlow = () => {
             }
 
             setPaymentCompleted(true);
+            setIsProcessing(false);
+            toast.dismiss();            
             navigate('/donation-success', {
               state: {
                 amount: amount,
@@ -206,11 +211,15 @@ const AmountDonationFlow = () => {
             });
           },
           (error) => {
+            toast.dismiss();   
+            setIsProcessing(false);     
             setPaymentError(error);
             toast.error(error || 'Payment failed. Please try again.');
           }
         );
       } catch (error) {
+        toast.dismiss();     
+        setIsProcessing(false);   
         console.error('HandleContinue Error:', error);
         setPaymentError(error.message);
         toast.error(error.message || 'An error occurred during payment.');
@@ -511,11 +520,12 @@ const AmountDonationFlow = () => {
                 onClick={handleContinue}
                 className="bg-[#F97316] hover:bg-[#EA580C] px-[2rem] py-[0.75rem] text-[1.125rem]"
                 disabled={
+                  isProcessing || 
                   (step === 1 && amount <= 0) ||
                   (step === 2 && (!formData.firstName || !formData.lastName || !formData.email || !formData.phone))
                 }
               >
-                {step === 3 ? 'Complete Donation' : 'Continue'}
+                {step === 3 ?( isProcessing ? 'Processing Payment...' : 'Complete Donation' ): 'Continue'}
               </Button>
             </div>
           )}

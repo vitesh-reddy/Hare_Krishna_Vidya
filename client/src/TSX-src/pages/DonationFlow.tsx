@@ -16,6 +16,7 @@ const DonationFlow = () => {
   const location = useLocation();
   const { cartItems, clearCart } = useCart();
   const { getKitById, getGroceryItemById } = useData();
+  const [isProcessing, setIsProcessing] = useState(false);
   const kitId = searchParams.get('kit');
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState(() => {
@@ -61,6 +62,8 @@ const DonationFlow = () => {
       setStep(step + 1);
     } else {
       try {
+        setIsProcessing(true);
+        toast.loading('Payment Processing');
         const baseUrl = import.meta.env.VITE_BACKEND_URL;
         const response = await fetch(`${baseUrl}/api/payments/create-order`, {
           method: 'POST',
@@ -147,6 +150,7 @@ const DonationFlow = () => {
             if (isCartMode) {
               clearCart();
             }
+            toast.dismiss();
             navigate('/donation-success', {
               state: {
                 cartItems: isCartMode ? selectedCartItems : undefined,
@@ -158,11 +162,15 @@ const DonationFlow = () => {
             });
           },
           (error) => {
+            toast.dismiss();
+            setIsProcessing(false);
             setPaymentError(error);
             toast.error(error || 'Payment failed. Please try again.');
           }
         );
       } catch (error) {
+        toast.dismiss();
+        setIsProcessing(false);
         setPaymentError(error.message);
         toast.error(error.message || 'An error occurred during payment.');
       }
@@ -538,10 +546,10 @@ const DonationFlow = () => {
               onClick={handleContinue}
               className="bg-[#F97316] hover:bg-[#EA580C] px-[2rem] py-[0.75rem] text-[1.125rem]"
               disabled={
-                step === 2 && (!formData.firstName || !formData.lastName || !formData.email || !formData.phone)
+                isProcessing || step === 2 && (!formData.firstName || !formData.lastName || !formData.email || !formData.phone)
               }
             >
-              {step === 3 ? 'Complete Donation' : 'Continue'}
+              {step === 3 ? (isProcessing ? 'Payment Processing' : 'Complete Donation') : 'Continue'}
             </Button>
           </div>
         </Card>
