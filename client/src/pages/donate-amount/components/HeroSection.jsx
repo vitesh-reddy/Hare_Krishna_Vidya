@@ -7,12 +7,12 @@ const HeroSection = () => {
     <section className="relative bg-[#001b2c] rounded-[40px] mx-auto mb-0 lg:mb-8 overflow-hidden w-[95%] h-[28rem] md:h-[40rem] lg:h-[48rem] lg:px-4">
       {/* Background Image */}
       <div className="absolute inset-0">
+        <div className='absolute inset-0 bg-black/10' ></div>
         <img
-          src="/assets/img_c2f5de6806506b4a28874bec3bcdf212_1_1_1.png"
+          src="/assets/Home Hero Image.png"
           alt="Children receiving food"
-          className="w-full h-full object-cover rounded-[40px]"
+          className="w-full h-full object-cover rounded-[40px] opacity-70"
         />
-        <div className="absolute inset-0 bg-black/10 rounded-[40px]"></div>
       </div>
  
       ){/* Main Content */}
