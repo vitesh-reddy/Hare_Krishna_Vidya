@@ -1,5 +1,5 @@
 import express from 'express';
-import { getActiveJobCount, getAllJobs, createJob, updateJob, deleteJob, getJobById, toggleJobStatus, getApplicantsCountByJobId } from '../services/JobServices.js';
+import { getActiveJobCount, getAllJobs, createJob, updateJob, deleteJob, getJobById, toggleJobStatus, getApplicantsCountByJobId } from '../services/jobServices.js';
 import { verifyAdminToken } from '../middleware/verifyAdminToken.js';
 
 const router = express.Router();
