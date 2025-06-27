@@ -9,12 +9,19 @@ const ForgotPasswordForm = ({ switchToLogin }) => {
 
   const handleRequestReset = async (e) => {
     e.preventDefault();
-
+    toast.loading('Sending Mail');
     try {
       await axiosInstance.post("/forgot-password", { email });
-      setSubmitted(true);
-    } catch (err) {
-      toast.error(err.response?.data?.message || 'Error sending reset link');
+      setTimeout(() => {
+        toast.dismiss();
+        toast.success('Mail Sent');
+        setSubmitted(true);      
+      }, 1000);
+    } catch (err) {      
+      setTimeout(() => {
+        toast.dismiss();
+        toast.error(err.response?.data?.message || 'Error sending reset link');
+      }, 1000);
     }
   };
 
