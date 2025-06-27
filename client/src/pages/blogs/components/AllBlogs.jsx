@@ -134,7 +134,7 @@ const AllBlogs = () => {
   };
 
   return (
-    <section className="w-[85vw] py-[2rem] mx-auto">
+    <section className="w-[85vw] max-w-[100rem] py-[2rem] mx-auto">
       <h2 id='allBlogs' className="text-[1.5rem] font-semibold mb-[1.5rem] text-[#101828]">All blog posts</h2>
 
       {loadingAll ? (

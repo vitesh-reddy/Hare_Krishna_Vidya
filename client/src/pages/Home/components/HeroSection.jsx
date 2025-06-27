@@ -16,7 +16,7 @@ const HeroSection = () => {
   useEffect(() => {}, [showNotification]);
 
   return (
-    <section className="relative bg-[#001b2c] rounded-[40px] mx-auto  mb-8 overflow-hidden w-[95%] h-[28rem] md:h-[40rem] lg:h-[48rem] lg:px-4">
+    <section className="relative bg-[#001b2c] rounded-[40px] mx-auto mb-8 overflow-hidden max-w-[120rem] w-[95%] h-[28rem] md:h-[40rem] lg:h-[48rem] 2xl:h-[80rem] lg:px-4">
       {/* Background Image */}
       <div className="absolute inset-0">
         <div className='absolute inset-0 bg-black/10' ></div>

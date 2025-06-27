@@ -48,7 +48,7 @@ const RecentBlogs = React.memo(() => {
   if (!recentBlogs.length) return <div className="text-center">No recent blogs available</div>;
 
   return (
-    <section className="w-[85vw] py-[1.5rem] mt-[1rem]">
+    <section className="w-[85vw] max-w-[100rem] py-[1.5rem] mt-[1rem]">
       <h2 className="text-[1.4rem] font-semibold mb-[1.35rem] text-[#101828]">Recent blog posts</h2>
 
       <div className="flex flex-col md:flex-row gap-[2rem] w-full">

@@ -41,7 +41,7 @@ const BlogView = () => {
   return (
     <div className="w-full bg-[#fdfcf9] text-[#1f1f1f]">
       <div
-        className="relative font-playfair w-full h-[35rem] bg-cover bg-center flex items-center justify-center text-center text-white"
+        className="relative font-playfair w-full h-[35rem] 2xl:h-[50rem] bg-cover bg-center flex items-center justify-center text-center text-white"
         style={{ backgroundImage: `url(${blog.image || '/assets/placeholder.png'})` }}
       >
         <div className="absolute inset-0 bg-black bg-opacity-50" />
@@ -112,9 +112,9 @@ const BlogView = () => {
       </div>
 
       {otherBlogs.length > 0 && (
-        <div className="text-center font-playfair my-[3rem] mb-[2rem]">
+        <div className="text-center font-playfair my-[3rem] mb-[2rem] w-full">
           <p className="text-[1.5rem] font-semibold mb-[2rem]">Continue Your Spiritual journey</p>
-          <div className="flex flex-col md:flex-row justify-center items-center gap-[1rem] px-[3rem] sm:px-[5rem]">
+          <div className="flex flex-col md:flex-row justify-center items-center gap-[1rem] px-[3rem] sm:px-[5rem] max-w-[120rem] 2xl:mx-auto">
             {otherBlogs.map((b) => (
               <div key={b._id} onClick={() => navigate(`/blogs/${b._id}`)} className="cursor-pointer">
                 <BlogCard blog={b} key={b._id} />

@@ -18,9 +18,9 @@ const DonatePage = () => {
 
   return (
     <motion.div initial={{ x: '100%', opacity: 100 }} animate={{ x: 0, opacity: 1 }} exit={false} transition={{ duration: 0.4 }} className="page">
-    <div className="min-h-screen bg-[#F9F9F9]">
+    <div className="min-h-screen w-full bg-[#F9F9F9]">
 
-      <main className='flex flex-col gap-[4rem] items-center'>
+      <main className='flex flex-col gap-[4rem] items-center max-w-[100rem] mx-auto'>
         <HeroSection />
         <StatsCard position={"outside"} />
         <AnnadanSection/>
