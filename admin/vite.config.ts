@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => ({
     react(),
   ].filter(Boolean),
   build: {
-    outDir: 'build',
+    outDir: 'dist',
   },
   resolve: {
     alias: {
