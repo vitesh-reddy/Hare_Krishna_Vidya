@@ -1,3 +1,4 @@
+import { z } from "zod";
 import jwt from "jsonwebtoken";
 import Admin from "../models/Admin.js";
 
@@ -11,5 +12,18 @@ export const protectAdmin = async (req, res, next) => {
     next();
   } catch (err) {
     res.status(401).json({ message: "Invalid token" });
+  }
+};
+
+const credSchema = z.object({
+  email: z.string().email(),
+});
+
+export const validateCreds = (req, res, next) => {
+  try {
+    credSchema.parse(req.body);
+    next();
+  } catch (err) {
+    return res.status(400).json({ message: "Invalid login input" });
   }
 };
