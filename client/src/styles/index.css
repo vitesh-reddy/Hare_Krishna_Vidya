@@ -58,8 +58,19 @@ img {
   margin-right: auto;
 }
 
+.ql-align-right img {
+  display: block;
+  margin-left: auto;
+}
+
 .ql-align-center {
   text-align: center;
+}
+
+.ql-align-right {
+  width: 100%;
+  text-align: right;
+  margin-left: auto;
 }
 
 
