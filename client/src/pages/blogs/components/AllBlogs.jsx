@@ -157,7 +157,7 @@ const AllBlogs = () => {
               disabled={currentPage === 1 || loadingAll}
               className="sm:px-[0.75rem] sm:py-[0.25rem] text-[0.75rem] sm:text-[0.875rem] text-[#667085] disabled:opacity-50"
             >
-              ← <p className='hidden sm:block'>Previous</p>
+              ← <p className='hidden sm:inline'>Previous</p>
             </button>
             <div>{renderPagination()}</div>
             <button
@@ -165,7 +165,7 @@ const AllBlogs = () => {
               disabled={currentPage === totalPages || loadingAll}
               className="sm:px-[0.75rem] sm:py-[0.25rem] text-[0.75rem] sm:text-[0.875rem] text-[#667085] disabled:opacity-50"
             >
-              <p className='hidden sm:block'> Next </p> →
+              <p className='hidden sm:inline'> Next </p> →
             </button>
           </div>
         </>

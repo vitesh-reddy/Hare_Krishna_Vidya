@@ -12,11 +12,11 @@ const Header = () => {
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   return (
-    <header className=" fixed top-0 left-0 right-0 bg-neutral-background py-6 px-6 sm:px-12 z-[1000]">
+    <header className=" fixed top-0 left-0 right-0 bg-neutral-background py-6 px-6 lg:px-4 xl:px-6 sm:px-12 z-[1000]">
       <div className="w-full flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center">
-          <Link to="/" className="text-[1.3rem] font-bold font-inter">
+          <Link to="/" className="text-[1.3rem] lg:text-[1.25rem] xl:text-[1.3rem] font-bold font-inter">
             <span className="text-primary-blue">HARE KRISHNA</span>
             <span className="text-black"> </span>
             <span className="text-accent-yellow">VIDYA</span>
@@ -26,7 +26,7 @@ const Header = () => {
         {/* Right side: Nav + Cart + Donate */}
         <div className="w-full flex items-center justify-end flex-1 space-x-[1rem] 2xl:space-x-[8rem]">
           {/* Desktop Nav */}
-          <nav className="hidden xl:flex items-center space-x-[1.5rem]">
+          <nav className="hidden lg:flex items-center lg:space-x-[1.25rem] xl:space-x-[1.5rem]">
             {[
               { path: '/', label: 'Home' },
               { path: '/about-us', label: 'About Us' },
@@ -51,7 +51,7 @@ const Header = () => {
           </nav>
 
           {/* Cart + Donate */}
-          <div className="hidden xl:flex items-center">
+          <div className="hidden lg:flex items-center">
             <CartButton />
             <CreateCampaignButton />
             <div className="ml-[0.5rem] mr-[0.25rem] relative group font-medium font-inter rounded-[1.125rem] transition-colors duration-200 cursor-pointer inline-flex items-center justify-center bg-primary-blue shadow-custom-donate text-white px-[2rem] py-4 text-[0.8rem] hover:bg-primary-dark focus:ring-[#0b3954]">
@@ -69,7 +69,7 @@ const Header = () => {
         </div>
 
         {/* Mobile Menu button (Hamburger) */}
-        <div className="flex items-center xl:hidden">
+        <div className="flex items-center lg:hidden">
           <CartButton />
           <button 
             onClick={toggleMobileMenu}
@@ -97,7 +97,7 @@ const Header = () => {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="xl:hidden fixed inset-0 z-40">
+        <div className="lg:hidden fixed inset-0 z-40">
           {/* Overlay */}
           <div
             className="absolute inset-0 bg-transparent"

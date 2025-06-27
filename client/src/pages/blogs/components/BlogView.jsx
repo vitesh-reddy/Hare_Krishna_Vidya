@@ -114,7 +114,7 @@ const BlogView = () => {
       {otherBlogs.length > 0 && (
         <div className="text-center font-playfair my-[3rem] mb-[2rem]">
           <p className="text-[1.5rem] font-semibold mb-[2rem]">Continue Your Spiritual journey</p>
-          <div className="flex flex-col md:flex-row justify-center items-center gap-[1rem] px-[5rem]">
+          <div className="flex flex-col md:flex-row justify-center items-center gap-[1rem] px-[3rem] sm:px-[5rem]">
             {otherBlogs.map((b) => (
               <div key={b._id} onClick={() => navigate(`/blogs/${b._id}`)} className="cursor-pointer">
                 <BlogCard blog={b} key={b._id} />
