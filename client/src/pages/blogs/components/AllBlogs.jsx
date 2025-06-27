@@ -151,21 +151,21 @@ const AllBlogs = () => {
             ))}
           </div>
 
-          <div className="flex items-center justify-between gap-[0.5rem]">
+          <div className="flex items-center justify-center sm:justify-between gap-[0.25rem] sm:gap-[0.5rem]">
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1 || loadingAll}
-              className="px-[0.75rem] py-[0.25rem] text-[0.875rem] text-[#667085] disabled:opacity-50"
+              className="sm:px-[0.75rem] sm:py-[0.25rem] text-[0.75rem] sm:text-[0.875rem] text-[#667085] disabled:opacity-50"
             >
-              ← Previous
+              ← <p className='hidden sm:block'>Previous</p>
             </button>
             <div>{renderPagination()}</div>
             <button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages || loadingAll}
-              className="px-[0.75rem] py-[0.25rem] text-[0.875rem] text-[#667085] disabled:opacity-50"
+              className="sm:px-[0.75rem] sm:py-[0.25rem] text-[0.75rem] sm:text-[0.875rem] text-[#667085] disabled:opacity-50"
             >
-              Next →
+              <p className='hidden sm:block'> Next </p> →
             </button>
           </div>
         </>

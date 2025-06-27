@@ -25,7 +25,7 @@ const Footer = () => {
          {/* Quick Links */}
             <div className="space-y-[0.5rem]">
               <h3 className="hidden sm:block sm:[0.75rem] md:text-[1rem] lg:text-[1.25rem] font-bold text-[#f4a261]">Quick Links</h3>
-              <ul className="flex sm:flex-col flex-wrap items-center sm:items-start gap-x-3 gap-y-1 sm:gap-y-[0.25rem] text-[0.55rem] sm:text-[0.75rem] md:text-[0.75rem] lg:text-[1rem] sm:text-[#f9f9f9] font-inter">
+              <ul className="w-[50vw] sm:w-full flex sm:flex-col flex-wrap items-center sm:items-start gap-x-3 gap-y-1 sm:gap-y-[0.25rem] text-[0.55rem] sm:text-[0.75rem] md:text-[0.75rem] lg:text-[1rem] sm:text-[#f9f9f9] font-inter">
                 {[
                   { to: 'Our Initiative', path: "/our-initiative"},
                   { to: 'Gallery', path: "/gallery"},

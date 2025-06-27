@@ -75,7 +75,7 @@ const BlogView = () => {
         </div>
       </div>
 
-      <div id='blogContent' className="w-[60vw] mt-[2rem] mx-auto" dangerouslySetInnerHTML={{ __html: blog.content }} />
+      <div id='blogContent' className="w-[80vw] sm:w-[60vw] mt-[2rem] mx-auto" dangerouslySetInnerHTML={{ __html: blog.content }} />
 
       <div className="text-center font-playfair mt-[3rem] bg-gradient-to-r from-[#f4a2611a] to-[#5881571a] py-[4rem]">
         <p className="text-[2.25rem] font-semibold mb-[1rem]">Join the Movement</p>
