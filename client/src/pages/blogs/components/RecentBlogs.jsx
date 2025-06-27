@@ -55,7 +55,6 @@ const RecentBlogs = React.memo(() => {
         <div className="w-full md:w-[50%] cursor-pointer" onClick={() => handleBlogClick(recentBlogs[0]._id)}>
           <div className="flex flex-col gap-[0.75rem]">
             <img
-              loading="lazy"
               src={recentBlogs[0].image || '/assets/placeholder.png'}
               alt={recentBlogs[0].title}
               className="w-full h-[13rem] object-cover"
@@ -93,9 +92,8 @@ const RecentBlogs = React.memo(() => {
 
         <div className="w-full md:w-[50%] flex flex-col gap-[1.5rem]">
           {recentBlogs.slice(1).map((blog) => (
-            <div key={blog._id} className="flex flex-col md:flex-row gap-[1rem] md:h-[11rem] pr-[2rem] cursor-pointer" onClick={() => handleBlogClick(blog._id)}>
+            <div key={blog._id} className="flex flex-col md:flex-row gap-[1rem] md:h-[11rem] md:pr-[2rem] cursor-pointer" onClick={() => handleBlogClick(blog._id)}>
               <img
-                loading="lazy"
                 src={blog.image || '/assets/blog placeholder.jpg'}
                 alt={blog.title}
                 onError={(e) => {e.target.src = '/assets/blog placeholder.jpg'}}
@@ -109,7 +107,12 @@ const RecentBlogs = React.memo(() => {
                     year: 'numeric'
                   })}
                 </p>
-                <p className="text-[1rem] font-semibold text-[#101828] line-clamp-2 leading-[1.25rem]">{blog.title}</p>
+                <div className="flex justify-between items-start gap-[1rem] pr-[1rem]">
+                  <p className="text-[1.25rem] md:text-[1rem] font-semibold text-[#101828] line-clamp-2 md:leading-[1.25rem]">{blog.title}</p>
+                  <svg className='block md:hidden' width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7 17L17 7M17 7H7M17 7V17" stroke="#101828" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>                
                 <p className="text-[0.875rem] text-[#667085] line-clamp-2">{blog.excerpt}</p>
                 <div className="flex flex-wrap gap-[0.5rem]">
                   {blog.tags.map((tag, index) => {
