@@ -44,7 +44,6 @@ app.use(express.json({ limit: process.env.PAYLOAD_LIMIT || '1mb' }));
 
 
 // Security middlewares
-app.disable("x-powered-by");
 app.use(helmet());
 
 // custom XSS Sanitizer
