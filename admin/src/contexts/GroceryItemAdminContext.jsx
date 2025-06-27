@@ -9,7 +9,7 @@ export const useGroceryItemsAdmin = () => useContext(GroceryItemAdminContext);
 export const GroceryItemAdminProvider = ({ children }) => {
   const [groceryItems, setGroceryItems] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [activeGroceryItemsCount, setActiveGroceryItemsCount] = useState(0);
+  const [activeGroceryItemsCount, setActiveGroceryItemsCount] = useState(-1);
 
   // Fetch all grocery items
   const fetchGroceryItems = useCallback(async () => {

@@ -8,7 +8,7 @@ export const useKitsAdmin = () => useContext(KitAdminContext);
 
 export const KitAdminProvider = ({ children }) => {
   const [kits, setKits] = useState([]);
-  const [activeKitsCount, setActiveKitsCount] = useState(0);
+  const [activeKitsCount, setActiveKitsCount] = useState(-1);
   const [loading, setLoading] = useState(false);
 
   // Fetch all kits

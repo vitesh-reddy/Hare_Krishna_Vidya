@@ -6,7 +6,7 @@ const JobAdminContext = createContext();
 
 export const JobAdminProvider = ({ children }) => {
   const [jobs, setJobs] = useState([]);
-  const [activeJobsCount, setActiveJobsCount] = useState(0);
+  const [activeJobsCount, setActiveJobsCount] = useState(-1);
   const [applications, setApplications] = useState([]);
   const [jobCount, setJobCount] = useState(0);
   const [applicationCounts, setApplicationCounts] = useState({}); // Store counts per jobId
