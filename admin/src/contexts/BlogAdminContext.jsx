@@ -7,9 +7,9 @@ export const useBlogsAdmin = () => useContext(BlogAdminContext);
 
 export const BlogAdminProvider = ({ children }) => {
   const [posts, setPosts] = useState([]);
-  const [totalBlogsCount, setTotalBlogsCount] = useState(-1);
+  const [totalBlogsCount, setTotalBlogsCount] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [publishedBlogsCount, setPublishedBlogsCount] = useState(0);
+  const [publishedBlogsCount, setPublishedBlogsCount] = useState(-1);
   const [subscribers, setSubscribers] = useState([]);
 
   // 🧠 Blog Cache Map: key -> `${page}-${limit}`, value -> { blogs, totalCount }
