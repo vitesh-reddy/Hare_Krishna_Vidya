@@ -1,5 +1,5 @@
 import React from 'react';
-import WhiteGlowDiv from '@/components/common/whiteGlowDiv';
+import WhiteGlowDiv from '@/components/common/WhiteGlowDiv';
 
 const TestimonialSection = () => {
   const testimonials = [
