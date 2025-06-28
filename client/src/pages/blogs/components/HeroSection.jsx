@@ -6,31 +6,36 @@ import { Link } from 'react-router-dom';
 const HeroSection = React.memo(() => {
 
   const [email, setEmail] = useState('');
+  const [isSubscribing, setIsSusbscribing] = useState(false);
 
-  const BASE_URL = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'}/api`;
+  const BASE_URL = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'}/api`;  
 
   const handleSubscribe = async () => {
+    if(isSubscribing) return;
     toast.loading('Subscribing');
+    setIsSusbscribing(true);
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
+    
     if (!emailRegex.test(email)) {
       toast.dismiss();
+      setIsSusbscribing(false);
       toast.error('Please enter a valid email address');
       return;
     }
-
+    setEmail('');
     try {
       const response = await axios.post(`${BASE_URL}/blogs/add-subscriber`, { email });
       if (response.data?.success) {
         toast.dismiss();
         toast.success('Successfully subscribed!');
-        setEmail('');
       }
     } catch (error) {
       const message = error.response?.data?.message || 'Something went wrong';
-      setEmail('');
       toast.dismiss();
       toast.error(message);
+    } 
+    finally {
+      setIsSusbscribing(false);
     }
   };
 
@@ -58,10 +63,11 @@ const HeroSection = React.memo(() => {
           </p>
         </div>
         <button
+          disabled={isSubscribing}
           onClick={handleSubscribe}
           className="bg-[#7F56D9] hover:bg-[#6f47c3] text-white px-[1.25rem] py-[0.6rem] rounded-[0.5rem] text-[0.875rem] font-semibold transition-colors duration-300"
         >
-          Subscribe
+          {isSubscribing ? "Subscribing..." : "Subscribe"}
         </button>
       </form>
 
