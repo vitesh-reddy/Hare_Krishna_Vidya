@@ -16,7 +16,7 @@ const Header = () => {
       <div className="w-full flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center">
-          <Link to="/" className="text-[1.3rem] lg:text-[1.25rem] xl:text-[1.3rem] font-bold font-inter">
+          <Link to="/" className="text-[1.3rem] lg:text-[1.125rem] xl:text-[1.3rem] font-bold font-inter">
             <span className="text-primary-blue">HARE KRISHNA</span>
             <span className="text-black"> </span>
             <span className="text-accent-yellow">VIDYA</span>
@@ -24,9 +24,9 @@ const Header = () => {
         </div>
 
         {/* Right side: Nav + Cart + Donate */}
-        <div className="w-full flex items-center justify-end flex-1 space-x-[1rem] 2xl:space-x-[8rem]">
+        <div className="w-full flex items-center justify-end flex-1 space-x-[1rem] lg:space-x-[2.5vw] xl:space-x-[3rem] 2xl:space-x-[8rem]">
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center lg:space-x-[1.25rem] xl:space-x-[1.5rem]">
+          <nav className="hidden lg:flex items-center lg:space-x-[1rem] xl:space-x-[1.5rem]">
             {[
               { path: '/', label: 'Home' },
               { path: '/about-us', label: 'About Us' },
@@ -54,7 +54,7 @@ const Header = () => {
           <div className="hidden lg:flex items-center">
             <CartButton />
             <CreateCampaignButton />
-            <div className="ml-[0.5rem] mr-[0.25rem] relative group font-medium font-inter rounded-[1.125rem] transition-colors duration-200 cursor-pointer inline-flex items-center justify-center bg-primary-blue shadow-custom-donate text-white px-[2rem] py-4 text-[0.8rem] hover:bg-primary-dark focus:ring-[#0b3954]">
+            <div className="ml-[0.5rem] mr-[0.25rem] relative group font-medium font-inter rounded-[1.125rem] transition-colors duration-200 cursor-pointer inline-flex items-center justify-center bg-primary-blue shadow-custom-donate text-white px-[2rem] lg:px-[1rem] xl:px-[2rem] py-4 text-[0.8rem] lg:text-[0.75rem] xl:text-[0.8rem] hover:bg-primary-dark focus:ring-[#0b3954]">
               <p className="text-shadow-[0_100px_100px_rgba(71,187,255,0.30)]">Donate Now</p>
               <div className='absolute top-[2.75rem] hidden group-hover:flex flex-col justify-evenly gap-[0.5rem] px-4 py-5 w-fit bg-[#fafcfd] font-inter shadow-custom-light text-[#1a1a1a] transition-all duration-300 rounded-[1rem] text-[0.8rem]'>
                 <Link to="/donate-amount" >

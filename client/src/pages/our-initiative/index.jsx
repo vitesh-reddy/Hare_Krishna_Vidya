@@ -7,7 +7,7 @@ import DonateSection from './components/DonateSection'
 
 const OurInitiativePage = () => {
   return (
-    <section className='2xl:px-[30rem]'>
+    <section className='2xl:px-[10vw]'>
       <AikyaVidyaSection/>
       <CurriculumSection/>
       <MahadanamSection id={1}/>
