@@ -30,7 +30,7 @@ export const BlogAdminProvider = ({ children }) => {
 
   // Trigger count fetch only once on mount
   useEffect(() => {
-    if (totalBlogsCount === -1) fetchPublishedBlogsCount();  
+    if (publishedBlogsCount === -1) fetchPublishedBlogsCount();  
   }, []);
 
   // Fetch paginated list of blogs with caching
