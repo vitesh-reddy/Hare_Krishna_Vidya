@@ -372,7 +372,7 @@ export const DonationModal = ({ isOpen, onClose, campaign }) => {
     : 0;
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog  open={isOpen} onOpenChange={onClose}>
       <Toaster
         position="top-center"
         reverseOrder={false}
@@ -395,7 +395,7 @@ export const DonationModal = ({ isOpen, onClose, campaign }) => {
           },
         }}
       />
-      <DialogContent className="max-w-md mx-auto bg-white rounded-2xl shadow-2xl border-0 overflow-hidden" >
+      <DialogContent showClose={false} className="max-w-md mx-auto bg-white rounded-2xl shadow-2xl border-0 overflow-hidden" >
         
         <DialogHeader className="relative p-0">
           <div className="relative h-32 bg-gradient-to-br from-orange-400 via-amber-400 to-yellow-300">
