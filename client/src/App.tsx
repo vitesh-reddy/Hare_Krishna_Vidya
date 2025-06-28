@@ -41,6 +41,8 @@ const DonationFlow = lazy(() => import("./TSX-src/pages/DonationFlow"));
 const DonationSuccess = lazy(() => import("./TSX-src/pages/DonationSuccess"));
 const NotFound = lazy(() => import("./TSX-src/pages/NotFound"));
 
+import { Analytics } from '@vercel/analytics/react';
+
 
 const queryClient = new QueryClient();
 
@@ -113,6 +115,7 @@ const App = () => {
           <BlogProvider>
             <CareerProvider>
               <CampaignProvider>
+                <Analytics />
                 <AnimatedRoutes />
               </CampaignProvider>
             </CareerProvider>
