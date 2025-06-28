@@ -20,4 +20,5 @@ const connectDB = async (DATABASE_URI) => {
   }
 };
 
+
 export default connectDB;
