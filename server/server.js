@@ -45,7 +45,7 @@ app.use(express.json({ limit: process.env.PAYLOAD_LIMIT || '1mb' }));
 
 // Security middlewares
 app.use(helmet());
-app.set('trust proxy', true);
+app.set('trust proxy', 1);
 
 // custom XSS Sanitizer
 app.use((req, res, next) => {
