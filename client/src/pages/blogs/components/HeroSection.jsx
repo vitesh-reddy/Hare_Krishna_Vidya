@@ -10,9 +10,11 @@ const HeroSection = React.memo(() => {
   const BASE_URL = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'}/api`;
 
   const handleSubscribe = async () => {
+    toast.loading('Subscribing');
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(email)) {
+      toast.dismiss();
       toast.error('Please enter a valid email address');
       return;
     }
@@ -20,11 +22,14 @@ const HeroSection = React.memo(() => {
     try {
       const response = await axios.post(`${BASE_URL}/blogs/add-subscriber`, { email });
       if (response.data?.success) {
+        toast.dismiss();
         toast.success('Successfully subscribed!');
         setEmail('');
       }
     } catch (error) {
       const message = error.response?.data?.message || 'Something went wrong';
+      setEmail('');
+      toast.dismiss();
       toast.error(message);
     }
   };

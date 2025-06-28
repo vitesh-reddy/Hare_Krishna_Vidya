@@ -101,10 +101,10 @@ router.post('/add-subscriber', async (req, res) => {
     await addSubscriber(email);
     res.status(201).json({success: true, message: 'Subscribed'});
   } catch (error) {
-    console.log(error)
+    console.error(error);
     if(error.code === 11000)
       res.status(400).json({ message:'Already Subscribed' });
-    res.status(500).json({ message: 'Failed to Subscribe, Try Again' });
+    else res.status(500).json({ message: 'Failed to Subscribe, Try Again' });
   }
 });
 
