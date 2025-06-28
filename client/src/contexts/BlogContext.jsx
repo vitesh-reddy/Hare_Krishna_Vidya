@@ -8,6 +8,7 @@ export const BlogProvider = ({ children }) => {
   const [recentBlogs, setRecentBlogs] = useState([]);
   const [allBlogs, setAllBlogs] = useState([]);
   const [totalBlogsCount, setTotalBlogsCount] = useState(-1);
+  const [currentPage, setCurrentPage] = useState(1);
   const [loadingRecent, setLoadingRecent] = useState(false);
   const [loadingAll, setLoadingAll] = useState(false);
 
@@ -34,7 +35,6 @@ export const BlogProvider = ({ children }) => {
   const fetchTotalBlogsCount = async () => {
     try {
       if (totalBlogsCount !== -1) return;
-      setTotalBlogsCount(0);
       const res = await axios.get(`${BASE_URL}/api/blogs/count`);
       setTotalBlogsCount(res.data.totalCount);
     } catch (err) {
@@ -97,6 +97,8 @@ export const BlogProvider = ({ children }) => {
         loadingRecent,
         loadingAll,
         clearBlogCache, // exposed in case needed
+        currentPage,
+        setCurrentPage
       }}
     >
       {children}

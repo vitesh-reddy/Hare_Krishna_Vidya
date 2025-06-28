@@ -5,16 +5,21 @@ import { BlogCard } from './BlogCard';
 import Loader from '../../../components/common/Loader';
 
 const AllBlogs = () => {
-  const { allBlogs, totalBlogsCount, fetchTotalBlogsCount, fetchAllBlogs, loadingAll } = useBlogs();
+  const { allBlogs, totalBlogsCount, fetchTotalBlogsCount, fetchAllBlogs, loadingAll, currentPage, setCurrentPage } = useBlogs();
   const navigate = useNavigate();
   const postsPerPage = 6;
-  const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil((totalBlogsCount - 3) / postsPerPage) || 1;
 
+  // Only fetch count once on mount
   useEffect(() => {
     fetchTotalBlogsCount();
+  }, []);
+
+  // Fetch blog data when currentPage changes
+  useEffect(() => {
     fetchAllBlogs(currentPage, postsPerPage);
   }, [currentPage]);
+
 
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
