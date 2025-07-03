@@ -1,102 +1,96 @@
-# React + Vite + Tailwind CSS Project
+Client
 
-A modern React-based project utilizing the latest frontend technologies and tools for building responsive web applications.
+This is the user-facing frontend for the Hare Krishna Vidya project, a platform enabling donors, campaigners, and job seekers to interact with the NGO and support its mission.
 
-## 🚀 Features
+---
 
-- **React 19** - React version with improved rendering and concurrent features
-- **Vite** - Lightning-fast build tool and development server
-- **TailwindCSS** - Utility-first CSS framework with extensive customization
-- **React Router** - Declarative routing for React applications
+## 🌟 Features
 
-## 📋 Prerequisites
+- Donate money (Annadaan, Vidyadaan, Sponsor a Child)
+- Donate items (Donation Kits, Groceries)
+- Create and view fundraising campaigns
+- Paginated blog and updates section
+- Paginated careers/jobs section
+- Transparent donation progress and impact
+- Responsive, accessible UI
+- Blog subscription and notifications
 
-- Node.js (v14.x or higher)
-- npm or yarn
+---
 
+## 🛠️ Tech Stack
 
-## 🛠️ Installation
+- **React** (with Vite)
+- **TypeScript** (for type safety and maintainability)
+- **Tailwind CSS** (utility-first styling)
+- **Framer Motion** (animations and transitions)
+- **Radix UI** (accessible UI primitives)
+- **Zod** (schema validation)
+- **React Hook Form** (form management)
+- **Axios** (API requests)
+- **React Router** (routing)
+- **TanStack React Query** (data fetching and caching)
 
-1. Install dependencies:
-  ```bash
-  npm install
-  # or
-  yarn install
-  ```
+---
 
-2. Start the server:
-  ```bash
-  npm run start
-  # or
-  yarn start
-  ```
-
-## 📁 Project Structure
-
+## 📂 Project Structure
 ```
-/
-├── public/              # Static assets
+client/
+├── public/                  # Static assets (images, icons, favicon, etc.)
+│   └── assets/
 ├── src/
-│   ├── components/      # Reusable UI components
-│   ├── pages/           # Page components
-│   ├── styles/          # Global styles and Tailwind configuration
-│   ├── App.jsx          # Main application component
-│   ├── main.jsx         # Application entry point
-│   └── Routes.jsx       # Application routes
-├── index.html           # HTML template
-├── package.json         # Project dependencies and scripts
-├── postcss.config.js    # PostCSS configuration for Tailwind
-├── tailwind.config.js   # Tailwind CSS configuration
-├── vite.config.js       # Vite configuration
+│   ├── App.tsx             # Main app component
+│   ├── main.tsx            # App entry point
+│   ├── components/         # Reusable UI and common components
+│   ├── contexts/           # React context providers
+│   ├── lib/                # Utility functions and helpers
+│   ├── pages/              # Page components (donate, blogs, careers, etc.)
+│   ├── styles/             # Tailwind and global CSS
+│   ├── api/                # Axios instance and API helpers
+│   └── TSX-src/            # TypeScript/TSX components and utilities
+├── index.html              # HTML template
+├── package.json            # Project dependencies and scripts
+├── postcss.config.js       # PostCSS configuration for Tailwind
+├── tailwind.config.js      # Tailwind CSS configuration
+├── tsconfig.json           # TypeScript configuration
+├── vite.config.ts          # Vite configuration
+└── vercel.json             # Vercel deployment configuration
+
 ```
+---
 
-## 🧩 Adding Routes
+## ⚡ Getting Started
 
-To add new routes to the application, update the `Routes.jsx` file:
+### Prerequisites
 
-```jsx
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+- **Node.js** (v18+ recommended)  
+  Node.js is required to run the development server, build the project, and manage dependencies.
+- **npm** (comes with Node.js)
 
-// Import page components
-import HomePage from "./pages/HomePage";
-import AboutPage from "./pages/AboutPage";
+### Setup
 
-const AppRoutes = () => {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/about" element={<AboutPage />} />
-      </Routes>
-    </Router>
-  );
-};
+1. **Install dependencies:**
+   ```sh
+   npm install
+   ```
 
-export default AppRoutes;
-```
+2. **Configure environment variables:**
+   ```sh
+   Copy .env.example to .env and fill in the required values 
+   ```
 
-## 🎨 Styling
+3. **Start the development server:**
+    ```sh
+    npm run dev
+    ```
 
-This project uses Tailwind CSS for styling. The configuration includes:
+4. **Build for production:**
+    ```sh
+    npm run build
+    ```
 
-- Utility-first approach for rapid development
-- Custom theme configuration
-- Responsive design utilities
-- PostCSS and Autoprefixer integration
 
-## 📦 Deployment
+### 🛡️ Security & Best Practices
+ - All sensitive data is handled securely; no secrets are exposed in the frontend.
+ - Input validation and sanitization are enforced on forms.
+ - Uses HTTPS for all API and payment requests in production.
 
-Build the application for production:
-
-```bash
-npm run build
-```
-
-## 🙏 Acknowledgments
-
-- Built with [Rocket.new](https://rocket.new)
-- Powered by React and Vite
-- Styled with Tailwind CSS
-
-Built with ❤️ on Rocket.new
