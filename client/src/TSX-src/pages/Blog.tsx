@@ -24,11 +24,9 @@ const Blog = () => {
     );
   }
 
-  // Individual Blog Post View
   if (selectedBlog) 
     return <ViewBlog selectedBlog={selectedBlog} setSelectedBlogId={setSelectedBlogId} />
 
-  // Blog List View
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-6 py-20">

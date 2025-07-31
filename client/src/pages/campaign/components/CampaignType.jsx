@@ -5,10 +5,8 @@ import { useState } from "react";
 const CampaignType = ({ formData, handleNext, handleInputChange, campaignTypes = [] }) => {
   const [errors, setErrors] = useState({});
 
-  // Get today's date in YYYY-MM-DD format
   const today = moment().format('YYYY-MM-DD');
 
-  // Validation function
   const validateForm = () => {
     const newErrors = {};
     
@@ -27,7 +25,6 @@ const CampaignType = ({ formData, handleNext, handleInputChange, campaignTypes =
     if (!formData.startDate) {
       newErrors.startDate = "Start date is required";
     } else {
-      // Check if start date is in the past
       const startDate = moment(formData.startDate).format('YYYY-MM-DD');
       if (startDate < today) {
         newErrors.startDate = "Start date cannot be in the past";
@@ -37,7 +34,6 @@ const CampaignType = ({ formData, handleNext, handleInputChange, campaignTypes =
     if (!formData.endDate) {
       newErrors.endDate = "End date is required";
     } else {
-      // Check if end date is in the past
       const endDate = moment(formData.endDate).format('YYYY-MM-DD');
       if (endDate < today) {
         newErrors.endDate = "End date cannot be in the past";
@@ -51,7 +47,6 @@ const CampaignType = ({ formData, handleNext, handleInputChange, campaignTypes =
     return newErrors;
   };
 
-  // Handle form submission with validation
   const handleSubmit = () => {
     const newErrors = validateForm();
     setErrors(newErrors);
@@ -61,7 +56,6 @@ const CampaignType = ({ formData, handleNext, handleInputChange, campaignTypes =
     }
   };
 
-  // Clear error when user starts typing
   const handleFieldChange = (field, value) => {
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: undefined }));
@@ -69,7 +63,6 @@ const CampaignType = ({ formData, handleNext, handleInputChange, campaignTypes =
     handleInputChange(field, value);
   };
 
-  // Get character count for campaign name
   const characterCount = formData.campaignName ? formData.campaignName.length : 0;
 
   return (

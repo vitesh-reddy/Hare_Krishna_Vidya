@@ -26,7 +26,6 @@ const GallerySection = () => {
         </div>
 
         <div className="hidden sm:flex justify-evenly items-start space-x-8">
-          {/* Left Column */}
           <div className="space-y-12">
             <div className="overflow-hidden bg-white rounded-[20px] p-0 group shadow-[15px_15px_38px_rgba(209,213,215,0.9)]">
               <img
@@ -46,7 +45,6 @@ const GallerySection = () => {
             </div>
           </div>
 
-          {/* Center Column */}
           <div className="">
             <div className="overflow-hidden bg-white rounded-[20px] p-0 mb-auto group shadow-[15px_15px_38px_rgba(209,213,215,0.9)]">
               <img
@@ -70,7 +68,6 @@ const GallerySection = () => {
             </div>
           </div>
 
-          {/* Right Column */}
           <div className="space-y-12">
             <div className="overflow-hidden bg-white rounded-[20px] p-0 group shadow-[15px_15px_38px_rgba(209,213,215,0.9)]">
               <img
@@ -90,7 +87,6 @@ const GallerySection = () => {
             </div>
           </div>
         </div>
-        {/* Mobile View */}
         <div className='flex sm:hidden flex-col space-y-5 items-center px-[4rem]'>
           <img  loading="lazy" className='rounded-[2rem]' src={galleryImages[1].src} alt={galleryImages[1].alt}/>
           <img  loading="lazy" className='rounded-[2rem]' src={galleryImages[4].src} alt={galleryImages[1].alt}/>

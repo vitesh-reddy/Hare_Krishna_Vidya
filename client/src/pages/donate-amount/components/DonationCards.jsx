@@ -10,7 +10,6 @@ const DonationCards = () => {
       </div>
       <div className="max-w-7xl mx-auto">
         <div  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {/* Annadaan Card */}
           <div onClick={() => window.location.href = '#AnnadanSection'} className="bg-gradient-to-br from-[#e1e6e8] to-[#f9feff] border border-border-primary rounded-[30px] p-6 lg:px-8 lg:py-[1.5rem] hover:[box-shadow:inset_11px_11px_28px_rgba(209,213,215,0.9)] transition-all duration-300">
             <div className="bg-[#F4A261] bg-opacity-40 w-14 h-14 lg:w-[3.25rem] lg:h-[3.25rem] rounded-full flex items-center justify-center mb-6 lg:mb-8">
               <img
@@ -29,7 +28,6 @@ const DonationCards = () => {
             </p>
           </div>
 
-          {/* Sponsor a Child Card */}
           <div onClick={() => window.location.href = '#SponsorChildSection'} className="bg-gradient-to-br from-[#e1e6e8] to-[#f9feff] border border-border-primary rounded-[30px] p-6 lg:p-8 hover:[box-shadow:inset_11px_11px_28px_rgba(209,213,215,0.9)] transition-all duration-300">
             <div className="bg-[#F4A261] bg-opacity-40 w-14 h-14 lg:w-[3.25rem] lg:h-[3.25rem] rounded-full flex items-center justify-center mb-6 lg:mb-8">
               <img
@@ -47,7 +45,6 @@ const DonationCards = () => {
             </p>
           </div>
 
-          {/* Vidya Daan Card */}
           <div onClick={() => window.location.href = '#VidhyadanaSection'} className="bg-gradient-to-br from-[#e1e6e8] to-[#f9feff] border border-border-primary rounded-[30px] p-6 lg:p-8 hover:[box-shadow:inset_11px_11px_28px_rgba(209,213,215,0.9)]   transition-all duration-300 md:col-span-2 lg:col-span-1">
             <div className="bg-[#F4A261] bg-opacity-40 w-14 h-14 lg:w-[3.25rem] lg:h-[3.25rem] rounded-full flex items-center justify-center mb-6 lg:mb-8">
               <img

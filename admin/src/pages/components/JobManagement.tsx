@@ -320,7 +320,7 @@ const JobManagement = () => {
       const newCount = await getApplicantsCountByJobId(viewingApplications._id);
       setViewingApplications(prev => ({ ...prev, noOfApplications: newCount }));
       refreshApplications(viewingApplications._id);      
-      setApplicationPage(1); // Reset to first page
+      setApplicationPage(1);
     } catch (error) {
       console.error('Error refreshing applications:', error);
       toast.error('Failed to refresh applications');

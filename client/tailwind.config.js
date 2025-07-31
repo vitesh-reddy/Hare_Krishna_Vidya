@@ -7,7 +7,6 @@ function scaleRemValues(obj, factor) {
       const num = parseFloat(val);
       scaled[key] = `${(num * factor).toFixed(4)}rem`;
     } else if (Array.isArray(val) && typeof val[0] === 'string' && val[0].endsWith('rem')) {
-      // handle fontSize: ['1rem', { lineHeight: '1.5rem' }]
       const num = parseFloat(val[0]);
       const scaledLineHeight = val[1]?.lineHeight
         ? `${(parseFloat(val[1].lineHeight) * factor).toFixed(4)}rem`
@@ -18,7 +17,7 @@ function scaleRemValues(obj, factor) {
         scaledLineHeight ? { lineHeight: scaledLineHeight } : undefined,
       ];
     } else {
-      scaled[key] = val; // leave non-rem values as-is
+      scaled[key] = val;
     }
   }
   return scaled;

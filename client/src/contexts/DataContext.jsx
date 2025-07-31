@@ -13,7 +13,6 @@ import React, { createContext, useContext, useState } from 'react';
 
      const BASE_URL = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'}/api`;
 
-     // Fetch active kits
      const fetchKits = async () => {
        try {
          setIsLoading(prev => ({ ...prev, kits: true }));
@@ -29,7 +28,6 @@ import React, { createContext, useContext, useState } from 'react';
        }
      };
      
-     // Fetch active grocery items
      const fetchGroceryItems = async () => {
        try {
          setIsLoading(prev => ({ ...prev, groceryItems: true }));
@@ -45,13 +43,11 @@ import React, { createContext, useContext, useState } from 'react';
        }
      };
      
-     // Get kit by ID from local state
      const getKitById = (kitId) => {
        console.log("fetching kit by id");
        return kits.find((kit) => kit._id === kitId) || null;
      };
      
-     // Get grocery item by ID from local state
      const getGroceryItemById = (itemId) => {
        console.log("fetching item by id");
        return groceryItems.find((item) => item._id === itemId) || null;

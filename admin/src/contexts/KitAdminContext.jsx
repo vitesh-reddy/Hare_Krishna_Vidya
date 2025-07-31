@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
-import axiosInstance from '../api/axiosInstance'; // ✅ Using axios instance with baseURL and credentials
+import axiosInstance from '../api/axiosInstance';
 import toast from 'react-hot-toast';
 
 const KitAdminContext = createContext();
@@ -11,7 +11,6 @@ export const KitAdminProvider = ({ children }) => {
   const [activeKitsCount, setActiveKitsCount] = useState(-1);
   const [loading, setLoading] = useState(false);
 
-  // Fetch all kits
   const fetchKits = useCallback(async () => {
     console.log("Kits Fetch Called");
     setLoading(true);
@@ -25,7 +24,6 @@ export const KitAdminProvider = ({ children }) => {
     }
   }, []);
 
-  // Fetch active kits count
   const fetchActiveKitsCount = useCallback(async () => {
     setLoading(true);
     try {
@@ -42,7 +40,6 @@ export const KitAdminProvider = ({ children }) => {
     fetchActiveKitsCount();
   }, []);
 
-  // Create a new kit (with optional image)
   const createKit = async (data, imageFile) => {
     setLoading(true);
     try {
@@ -67,7 +64,6 @@ export const KitAdminProvider = ({ children }) => {
     }
   };
 
-  // Update an existing kit (with optional new image)
   const updateKit = async (id, data, imageFile) => {
     setLoading(true);
     try {
@@ -94,7 +90,6 @@ export const KitAdminProvider = ({ children }) => {
     }
   };
 
-  // Delete a kit by ID
   const deleteKit = async (id) => {
     setLoading(true);
     try {
@@ -108,7 +103,6 @@ export const KitAdminProvider = ({ children }) => {
     }
   };
 
-  // Toggle kit active/inactive status
   const toggleKitActiveStatus = async (id) => {
     setLoading(true);
     try {

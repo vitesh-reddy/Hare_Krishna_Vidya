@@ -9,7 +9,6 @@ const Vacancies = () => {
         <h2 className="text-[1rem] md:text-[1.125rem] mb-[1rem] text-[#303030]">
         </h2>
 
-        {/* Scrollable vacancy list */}    
         <div className="overflow-y-auto md:pr-[0.5rem] custom-scrollbar h-[60vh] md:h-[40vh] 2xl:h-[50vh]">
           {jobs.length === 0 ? (
             <p className="text-[0.75rem] text-center text-[#303030]">No vacancies found</p>
@@ -69,7 +68,7 @@ const VacancyCard = ({ vacancy }) => {
             <img
               className='w-[0.75rem] mr-[0.25rem]'
               src="/assets/map-pin.svg"
-              alt="📍"
+              alt=""
               draggable={false}
             />
             <span className="text-[0.65rem]">{location}</span>
@@ -92,7 +91,7 @@ const VacancyCard = ({ vacancy }) => {
             <img
               className='w-[1rem]'
               src="/assets/arrow-up-right.svg"
-              alt="↗️"
+              alt=""
               draggable={false}
             />
           </button>

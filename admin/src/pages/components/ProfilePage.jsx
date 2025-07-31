@@ -76,7 +76,6 @@ const ProfilePage = () => {
 
       handleCancel()
 
-      // setEditMode(false);
       toast.success("Profile updated");
       
     } catch (err) {

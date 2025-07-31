@@ -27,7 +27,7 @@ export const AdminAuthProvider = ({ children }) => {
         setIsAuthenticated(true);
         setAdminInfo(res.data);
       } catch (err) {
-        console.error("❌ Not authenticated", err?.response?.data || err.message);
+        console.error("Not authenticated", err?.response?.data || err.message);
         setIsAuthenticated(false);
         setAdminInfo(null);
       } finally {

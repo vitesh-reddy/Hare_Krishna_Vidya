@@ -45,9 +45,6 @@ const FundraisingCampaigns = () => {
   )];
 
 
-  // Filter campaigns based on active category
-
-  // Handle different possible structures for campaign type
   const filteredCampaigns = activeCategory === 'All'
     ? campaigns
     : campaigns?.filter(campaign => {
@@ -59,12 +56,6 @@ const FundraisingCampaigns = () => {
     }) || [];
 
 
-
-
-
-
-
-
   if (loading) {
     return <Loader />;
   }
@@ -72,7 +63,6 @@ const FundraisingCampaigns = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-blue-50 p-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-800 mb-4">
             Active Fundraising Campaigns
@@ -83,13 +73,11 @@ const FundraisingCampaigns = () => {
           </p>
         </div>
 
-        {/* Recently Created Campaigns Section */}
         <div className="mb-8">
           <h2 className="text-2xl font-semibold text-blue-600 mb-6">
             Recently created campaigns
           </h2>
 
-          {/* Category Filter */}
           <div className="flex flex-wrap gap-2 mb-8">
             {categoryOptions.map((categoryName) => (
               <button
@@ -106,18 +94,15 @@ const FundraisingCampaigns = () => {
           </div>
 
 
-          {/* Campaign Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             {filteredCampaigns.length > 0 ? (
               filteredCampaigns.map((campaign) => {
-                // Calculate percentage safely
                 const raisedAmount = campaign.raisedAmount || 0;
                 const goalAmount = campaign.goalAmount || 1;
                 const percentage = Math.round((raisedAmount / goalAmount) * 100);
 
                 return (
                   <div key={campaign._id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                    {/* Category Badge */}
                     <div className="relative">
                       <div className={`absolute top-4 left-4 px-3 py-1 rounded-full text-sm font-medium z-10 ${getCategoryColor(campaign.campaignType?.label || campaign.campaignType || campaign.category)}`}>
                         {campaign.campaignType?.label || campaign.campaignType || campaign.category || 'General'}
@@ -127,7 +112,6 @@ const FundraisingCampaigns = () => {
                       </div>
                     </div>
 
-                    {/* Campaign Image */}
                     <div className="h-[14rem] w-full overflow-hidden">
                       <img
                         loading="lazy"
@@ -140,7 +124,6 @@ const FundraisingCampaigns = () => {
                       />
                     </div>
 
-                    {/* Campaign Content */}
                     <div className="p-6">
                       <h3 className="text-xl font-bold text-gray-800 mb-2">
                         {campaign.campaignName}
@@ -149,7 +132,6 @@ const FundraisingCampaigns = () => {
                         {campaign.description}
                       </p>
 
-                      {/* Progress Bar */}
                       <div className="mb-4">
                         <div className="flex justify-between text-sm text-gray-600 mb-2">
                           <span>Raised: {formatCurrency(raisedAmount)}</span>
@@ -163,7 +145,6 @@ const FundraisingCampaigns = () => {
                         </div>
                       </div>
 
-                      {/* Campaign Details */}
                       <div className="flex justify-between text-sm text-gray-500 mb-4">
                         <span>
                           {(() => {
@@ -180,7 +161,6 @@ const FundraisingCampaigns = () => {
                         <span>by {campaign.organiser || 'organiser'}</span>
                       </div>
 
-                      {/* Donate Button */}
                       <button
                         onClick={() => {
                           setSelectedCampaign(campaign);
@@ -216,7 +196,6 @@ const FundraisingCampaigns = () => {
         </div>
       </div>
 
-      {/* Donation Modal */}
       {openDialog && (
 
         <DonationModal
@@ -224,7 +203,7 @@ const FundraisingCampaigns = () => {
             setOpenDialog(false);
             setTimeout(() => {
               fetchPublishedCampaigns();
-            }, 3000); // 1000ms = 1 second delay
+            }, 3000);
           }
           }
           isOpen={openDialog}

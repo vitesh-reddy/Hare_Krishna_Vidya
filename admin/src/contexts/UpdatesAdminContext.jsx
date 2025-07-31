@@ -9,14 +9,12 @@ dayjs.extend(relativeTime);
 const UpdatesAdminContext = createContext();
 
 export const UpdatesAdminProvider = ({ children }) => {
-  // Recent Activity States
   const [recentActivity, setRecentActivity] = useState([]);
   const [activityPage, setActivityPage] = useState(1);
   const [isActivityLoading, setIsActivityLoading] = useState(false);
   const [hasMoreActivity, setHasMoreActivity] = useState(true);
   const [totalActivities, setTotalActivities] = useState(undefined);
 
-  // Recent Donations States
   const [recentDonations, setRecentDonations] = useState([]);
   const [donationPage, setDonationPage] = useState(1);
   const [isDonationLoading, setIsDonationLoading] = useState(false);

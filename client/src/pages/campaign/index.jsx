@@ -26,7 +26,7 @@ const CreateCampaign = () => {
     startDate: new Date(),
     endDate: new Date(),
     description: '',
-    uploadedImage: null // this should be a File
+    uploadedImage: null
   });
 
   const { loading, fetchCampaignTypes, campaignTypes } = useCampaigns();
@@ -53,11 +53,10 @@ const CreateCampaign = () => {
     }
     toast.loading('Uploading image...');
     try {
-      console.log(`📷 Original file size: ${(file.size / 1024).toFixed(2)} KB`);
+      console.log(`Original file size: ${(file.size / 1024).toFixed(2)} KB`);
 
       let finalFile = file;
 
-      // Compress only if file is larger than 200KB
       if (file.size > 200 * 1024) { 
         const options = {
           maxSizeMB: 1,
@@ -66,9 +65,9 @@ const CreateCampaign = () => {
           initialQuality: 0.8,
         };
         finalFile = await imageCompression(file, options);
-        console.log(`🗜️ Compressed file size: ${(finalFile.size / 1024).toFixed(2)} KB`);
+        console.log(`Compressed file size: ${(finalFile.size / 1024).toFixed(2)} KB`);
       } else {
-        console.log('⚠️ Skipped compression due to small file size.');
+        console.log('Skipped compression due to small file size.');
       }
 
       const imageUrl = URL.createObjectURL(finalFile);
@@ -79,12 +78,11 @@ const CreateCampaign = () => {
     } catch (error) {
       toast.dismiss();
       toast.error('Image upload failed. Please try again.');
-      console.error('❌ Image compression failed:', error);
+      console.error('Image compression failed:', error);
       toast.error('Failed to process image.');
     }
   };
 
-  // ✅ Updated to use FormData for image upload
   const onCampaignSubmit = async () => {
     const form = new FormData();
     form.append("campaignType", formData.campaignType._id);

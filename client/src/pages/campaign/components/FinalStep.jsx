@@ -19,23 +19,23 @@ const FinalStep = ({ formData, handleBack, onCampaignSubmit, isSaving }) => {
 
     const handleSubmit = async () => {
         if (!isChecked) {
-            setError("⚠️ You must agree to the terms before submitting.");
+            setError("You must agree to the terms before submitting.");
             return;
         }
 
         setError('');
 
         try {
-            await onCampaignSubmit(); // ✅ Properly await the function
-            setSuccess(true); // ✅ This should now trigger the re-render correctly
-            console.log("✅ Success message triggered");
+            await onCampaignSubmit();
+            setSuccess(true);
+            console.log("Success message triggered");
 
             setTimeout(() => {
                 navigate('/advertforcampaign');
             }, 2000);
         } catch (err) {
-            console.error("❌ Submission failed:", err);
-            setError("❌ Submission failed. Please try again.");
+            console.error("Submission failed:", err);
+            setError("Submission failed. Please try again.");
         }
     };
 

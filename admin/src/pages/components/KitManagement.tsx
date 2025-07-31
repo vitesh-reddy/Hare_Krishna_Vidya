@@ -45,7 +45,6 @@ const KitManagement = () => {
     try {
       let finalFile = file;
 
-      // Compress only if file is larger than 200KB
       if (file.size > 200 * 1024) {
         const options = {
           maxSizeMB: 1,
@@ -61,7 +60,7 @@ const KitManagement = () => {
       setFormData(prev => ({ ...prev, image: imageUrl }));
       setImageFile(finalFile);
     } catch (error) {
-      console.error('❌ Image compression failed:', error);
+      console.error('Image compression failed:', error);
       toast.error('Failed to process image.');
     }
   };
@@ -112,7 +111,6 @@ const KitManagement = () => {
       setNewItem('');
       setEditingItemIndex(null);
     } catch (error) {
-      // Error is already handled in context
     }
   };
 
@@ -205,7 +203,6 @@ const KitManagement = () => {
     return <Loader/>
   }
 
-  // Preview View
   if (previewKit) {
     return (
       <div className="space-y-6">
@@ -258,7 +255,6 @@ const KitManagement = () => {
 
   return (
     <div ref={componentRef} className="space-y-6">
-      {/* Delete Confirmation Dialog */}
       {showDeleteDialog && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md shadow-lg">
@@ -303,7 +299,6 @@ const KitManagement = () => {
                 {editingId ? 'Edit Kit' : 'Create New Kit'}
               </h3>
 
-              {/* Image Upload */}
               <div className="mb-4">
                 <Label htmlFor="image">Kit Image</Label>
                 <div className="mt-2">
@@ -395,7 +390,6 @@ const KitManagement = () => {
                 />
               </div>
 
-              {/* Items Management */}
               <div className="mb-4">
                 <Label htmlFor="item">Add Item</Label>
                 <div className="flex gap-2 mb-2">

@@ -57,7 +57,6 @@ const AdminDashboard = () => {
       <AdminSidebar />
       
       <div className="flex-1 overflow-hidden">
-        {/* Header */}
         <div className="bg-[#FFFFFF]/80 backdrop-blur-sm border-b border-[#FED7AA] px-[1.5rem] py-[1rem] dark:border-[#EA580C]">
           <div className="flex items-center justify-between">
             <div>
@@ -72,7 +71,6 @@ const AdminDashboard = () => {
               </p>
             </div>
             
-            {/* Admin Profile Dropdown */}
             <div className="flex items-center space-x-[1rem]">
               <div className="text-right">
                 <p className="text-[0.875rem] font-medium text-[#374151] dark:text-[#D1D5DB]">{adminInfo.name}</p>
@@ -85,7 +83,6 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        {/* Main Content */}
         <div className="p-[1.5rem] overflow-y-auto h-[calc(100vh-5rem)]">
           {showLogoutDialog && <LogoutDialog />} 
           {renderContent()}

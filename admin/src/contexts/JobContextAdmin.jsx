@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useCallback, useRef, useEffect } from "react";
-import axiosInstance from '../api/axiosInstance'; // ✅ Use custom Axios instance with credentials
+import axiosInstance from '../api/axiosInstance';
 import toast from 'react-hot-toast';
 
 const JobAdminContext = createContext();
@@ -9,7 +9,7 @@ export const JobAdminProvider = ({ children }) => {
   const [activeJobsCount, setActiveJobsCount] = useState(-1);
   const [applications, setApplications] = useState([]);
   const [jobCount, setJobCount] = useState(0);
-  const [applicationCounts, setApplicationCounts] = useState({}); // Store counts per jobId
+  const [applicationCounts, setApplicationCounts] = useState({});
   const [isLoadingJobs, setIsLoadingJobs] = useState(false);
   const [isLoadingApplications, setIsLoadingApplications] = useState(false);
   const [hasMoreJobs, setHasMoreJobs] = useState(true);
@@ -20,7 +20,6 @@ export const JobAdminProvider = ({ children }) => {
 
   const PAGE_SIZE = 10;
 
-  // Fetch paginated jobs
   const fetchJobs = useCallback(async (page = 1) => {
     const skip = (page - 1) * PAGE_SIZE;
     if (isLoadingJobs || skip <= lastSkip) return;
@@ -39,7 +38,7 @@ export const JobAdminProvider = ({ children }) => {
       setJobs(newJobs);
       jobCache.current[page] = newJobs;
       setHasMoreJobs(metadata.page < metadata.totalPages);
-      setJobCount(metadata.totalCount); // Set initial count from metadata
+      setJobCount(metadata.totalCount);
     } catch (error) {
       toast.error('Failed to fetch jobs');
     } finally {
@@ -47,7 +46,6 @@ export const JobAdminProvider = ({ children }) => {
     }
   }, [isLoadingJobs, lastSkip]);
 
-  // Fetch active job count
   const fetchActiveJobsCount = useCallback(async () => {
     setIsLoadingJobs(true);
     try {
@@ -64,7 +62,6 @@ export const JobAdminProvider = ({ children }) => {
     fetchActiveJobsCount();
   }, [fetchActiveJobsCount]);
 
-  // Fetch paginated applications for a job
   const fetchApplications = useCallback(async (jobId, page = 1) => {
     const skip = (page - 1) * PAGE_SIZE;
     setIsLoadingApplications(true);
@@ -95,7 +92,6 @@ export const JobAdminProvider = ({ children }) => {
     }
   }, [applicationCounts]);
 
-  // Create a new job
   const createJob = useCallback(async (jobData) => {
     try {
       const response = await axiosInstance.post(`/jobs`, jobData);
@@ -110,7 +106,6 @@ export const JobAdminProvider = ({ children }) => {
     }
   }, []);
 
-  // Update a job
   const updateJob = useCallback(async (id, jobData) => {
     try {
       const response = await axiosInstance.patch(`/jobs/${id}`, jobData);
@@ -124,7 +119,6 @@ export const JobAdminProvider = ({ children }) => {
     }
   }, []);
 
-  // Toggle job status (active/inactive)
   const toggleJobStatus = useCallback(async (id, currentStatus) => {
     try {
       const response = await axiosInstance.patch(`/jobs/${id}/toggle-status`);
@@ -139,7 +133,6 @@ export const JobAdminProvider = ({ children }) => {
     }
   }, []);
 
-  // Delete a job
   const deleteJob = useCallback(async (id) => {
     try {
       await axiosInstance.delete(`/jobs/${id}`);
@@ -153,7 +146,6 @@ export const JobAdminProvider = ({ children }) => {
     }
   }, []);
 
-  // Update application status (accepted/rejected)
   const updateApplicationStatus = useCallback(async (id, status) => {
     try {
       const response = await axiosInstance.patch(`/applications/${id}/status`, { status });
@@ -166,7 +158,6 @@ export const JobAdminProvider = ({ children }) => {
     }
   }, []);
 
-  // Fetch full application detail by ID
   const getApplicationById = useCallback(async (id) => {
     try {
       const response = await axiosInstance.get(`/applications/view/${id}`);
@@ -177,7 +168,6 @@ export const JobAdminProvider = ({ children }) => {
     }
   }, []);
 
-  // Refetch all jobs (page 1)
   const refreshJobs = useCallback(async () => {
     jobCache.current = {};
     setIsLoadingJobs(true);
@@ -195,7 +185,6 @@ export const JobAdminProvider = ({ children }) => {
     }
   }, []);
 
-  // Fetch count of applicants for a specific job
   const getApplicantsCountByJobId = useCallback(async (jobId) => {
     try {
       const response = await axiosInstance.get(`/jobs/applicants-count/${jobId}`);

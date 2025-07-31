@@ -1,4 +1,3 @@
-// src/pages/contact/index.jsx
 import React, { useState } from 'react';
 import ContactInfo from './components/ContactInfo';
 import ContactForm from './components/ContactForm';
@@ -11,7 +10,6 @@ const ContactPage = () => {
   const onSubmit = async (formData) => {
     setFormState('submitting');
 
-    // Combine phone number before sending
     const formattedData = {
       ...formData,
       phone: `${formData.countryCode} ${formData.phone}`,

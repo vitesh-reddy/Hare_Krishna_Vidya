@@ -4,37 +4,31 @@
 
 @layer base {
   :root {
-    /* Primary Colors */
     --primary-background: #0b3954;
     --primary-foreground: #ffffff;
     --primary-light: #1a4a66;
     --primary-dark: #083042;
 
-    /* Secondary Colors */
     --secondary-background: #e76f51;
     --secondary-foreground: #ffffff;
     --secondary-light: #eb8268;
     --secondary-dark: #d65a3f;
 
-    /* Accent Colors */
     --accent-color: #f4a261;
     --accent-foreground: #ffffff;
     --accent-light: #f6b47a;
     --accent-dark: #e89a5c;
 
-    /* Neutral Colors */
     --neutral-background: #f9f9f9;
     --neutral-foreground: #2c2c2c;
     --neutral-light: #ffffff;
     --neutral-dark: #1a1a1a;
 
-    /* Border Colors */
     --border-primary: #cfcfcf;
     --border-secondary: #999999;
     --border-light: #e0e0e0;
     --border-dark: #666666;
 
-    /* Text Colors */
     --text-muted: #656565;
     --text-light: #888787;
     --text-dark: #2c2c2c;
@@ -42,7 +36,6 @@
 }
 
 @layer utilities {
-  /* Background Color Utilities */
   .bg-primary-blue {
     background-color: var(--primary-background);
   }
@@ -95,7 +88,6 @@
     background-color: var(--neutral-dark);
   }
 
-  /* Text Color Utilities */
   .text-primary-blue {
     color: var(--primary-background);
   }
@@ -120,7 +112,6 @@
     color: var(--text-light);
   }
 
-  /* Border Color Utilities */
   .border-primary {
     border-color: var(--border-primary);
   }
@@ -145,7 +136,6 @@
     border-color: var(--border-dark);
   }
 
-  /* Custom Gradient Utilities */
   .bg-gradient-charity {
     background: linear-gradient(135deg, #e1e6e8 0%, #f9feff 100%);
   }
@@ -165,9 +155,7 @@
     background: linear-gradient(180deg, #edf2f7 0%, #edf2f7 100%);
   }
 
-  /* Responsive utilities for iPhone 16 Pro Max and other devices */
   @media (max-width: 430px) {
-    /* iPhone 16 Pro Max specific styles */
     .iphone-16-pro-max\:text-sm {
       font-size: 0.875rem;
     }
@@ -182,7 +170,6 @@
   }
 
   @media (max-width: 390px) {
-    /* iPhone 16 Pro specific styles */
     .iphone-16-pro\:text-xs {
       font-size: 0.75rem;
     }
@@ -192,7 +179,6 @@
     }
   }
 
-  /* Enhanced responsive grid utilities */
   .responsive-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -213,24 +199,20 @@
     }
   }
 
-  /* Touch-friendly button sizes */
   .touch-target {
     min-height: 44px;
     min-width: 44px;
   }
 
-  /* Smooth scrolling for anchor links */
   html {
     scroll-behavior: smooth;
   }
 
-  /* Focus styles for accessibility */
   .focus-visible\:ring-custom {
     outline: 2px solid var(--accent-color);
     outline-offset: 2px;
   }
 
-  /* Custom scrollbar */
   .custom-scrollbar::-webkit-scrollbar {
     width: 8px;
   }
@@ -248,7 +230,6 @@
     background: var(--border-secondary);
   }
 
-  /* Reduced motion support */
   @media (prefers-reduced-motion: reduce) {
     * {
       animation-duration: 0.01ms !important;
@@ -257,7 +238,6 @@
     }
   }
 
-  /* High contrast mode support */
   @media (prefers-contrast: high) {
     .bg-gradient-charity {
       background: white;
@@ -268,13 +248,4 @@
       color: black;
     }
   }
-
-  /* Dark mode support (for future implementation) */
-  /* @media (prefers-color-scheme: dark) {
-    :root {
-      --neutral-background: #1a1a1a;
-      --neutral-foreground: #f9f9f9;
-      --text-muted: #a0a0a0;
-    }
-  } */
 }

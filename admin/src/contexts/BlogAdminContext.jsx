@@ -12,10 +12,8 @@ export const BlogAdminProvider = ({ children }) => {
   const [publishedBlogsCount, setPublishedBlogsCount] = useState(-1);
   const [subscribers, setSubscribers] = useState([]);
 
-  // 🧠 Blog Cache Map: key -> `${page}-${limit}`, value -> { blogs, totalCount }
   const blogCache = useRef({});
 
-  // Fetch count of published blogs (for analytics)
   const fetchPublishedBlogsCount = useCallback(async () => {
     setLoading(true);
     try {
@@ -28,16 +26,13 @@ export const BlogAdminProvider = ({ children }) => {
     }
   }, []);
 
-  // Trigger count fetch only once on mount
   useEffect(() => {
     if (publishedBlogsCount === -1) fetchPublishedBlogsCount();  
   }, []);
 
-  // Fetch paginated list of blogs with caching
   const fetchBlogs = useCallback(async (page = 1, limit = 10) => {
     const cacheKey = `${page}-${limit}`;
     
-    // ✅ Serve from cache if exists
     if (blogCache.current[cacheKey]) {
       const cached = blogCache.current[cacheKey];
       setPosts(cached.blogs);
@@ -45,7 +40,6 @@ export const BlogAdminProvider = ({ children }) => {
       return;
     }
 
-    // 🚀 Else fetch from server
     setLoading(true);
     try {
       const response = await axiosInstance.get('/blogs/all', {
@@ -55,7 +49,6 @@ export const BlogAdminProvider = ({ children }) => {
       const blogs = response.data.blogs;
       const totalCount = response.data.totalCount;
 
-      // Save to cache
       blogCache.current[cacheKey] = { blogs, totalCount };
 
       setPosts(blogs);
@@ -67,12 +60,10 @@ export const BlogAdminProvider = ({ children }) => {
     }
   }, []);
 
-  // Clear blog cache
   const invalidateCache = () => {
     blogCache.current = {};
   };
 
-  // Create a new blog post (with optional image upload)
   const createBlog = async (data, page, limit) => {
     setLoading(true);
     try {
@@ -89,7 +80,6 @@ export const BlogAdminProvider = ({ children }) => {
     }
   };
 
-  // Update existing blog (optionally with new image)
   const updateBlog = async (id, data, page, limit) => {
     setLoading(true);
     try {
@@ -104,7 +94,7 @@ export const BlogAdminProvider = ({ children }) => {
       setLoading(false);
     }
   };
-  // Delete a blog post
+
   const deleteBlog = async (id, page, limit) => {
     setLoading(true);
     try {
@@ -120,7 +110,6 @@ export const BlogAdminProvider = ({ children }) => {
     }
   };
 
-  // Toggle publish/unpublish status of a blog
   const toggleBlogStatus = async (id, page, limit) => {
     setLoading(true);
     try {

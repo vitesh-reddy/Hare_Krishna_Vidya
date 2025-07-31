@@ -28,7 +28,6 @@ const DonationFlow = () => {
       city: '',
       state: '',
       pincode: '',
-      // Removed panCard as it's not used in the UI or backend
     };
     return storedData;
   });
@@ -50,7 +49,6 @@ const DonationFlow = () => {
         ...prev,
         [name]: value,
       };
-      // Update localStorage with the latest state
       localStorage.setItem('donorData', JSON.stringify(updatedFormData));
       return updatedFormData;
     });

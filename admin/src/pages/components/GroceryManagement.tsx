@@ -44,7 +44,6 @@ const GroceryManagement = () => {
     try {
       let finalFile = file;
 
-      // Compress only if file is larger than 200KB
       if (file.size > 200 * 1024) {
         const options = {
           maxSizeMB: 1,
@@ -60,7 +59,7 @@ const GroceryManagement = () => {
       setFormData(prev => ({ ...prev, image: imageUrl }));
       setImageFile(finalFile);
     } catch (error) {
-      console.error('❌ Image compression failed:', error);
+      console.error('Image compression failed:', error);
       toast.error('Failed to process image.');
     }
   };
@@ -85,7 +84,6 @@ const GroceryManagement = () => {
   };
 
   const handleSave = async () => {
-    // Validate required fields
     if (!formData.name.trim()) {
       toast.error('Item name is required');
       return;
@@ -118,7 +116,6 @@ const GroceryManagement = () => {
       setFormData({ name: '', price: 0, image: '', description: '', serves: '', active: true });
       setImageFile(null);
     } catch (error) {
-      // Error is already handled in context
     }
   };
 
@@ -160,7 +157,6 @@ const GroceryManagement = () => {
     return <Loader/>;
   }
 
-  // Preview View
   if (previewItem) {
     return (
       <div className="space-y-6">
@@ -206,7 +202,6 @@ const GroceryManagement = () => {
 
   return (
     <div ref={componentRef} className="space-y-6">
-      {/* Delete Confirmation Dialog */}
       {showDeleteDialog && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md shadow-lg">

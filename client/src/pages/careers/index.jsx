@@ -9,7 +9,6 @@ const CareersPage = () => {
   const { status, jobs, fetchJobs, isFetchingRef, searchQuery, debouncedSearch, setCareersPageActive } = useCareer();
   const isInitialRender = useRef(true);
 
-  // Initial fetch and page activation
   useEffect(() => {
     console.log('career page rendered');
     setCareersPageActive(true);
@@ -21,11 +20,10 @@ const CareersPage = () => {
     };
   }, [setCareersPageActive]);
 
-  // Debounced search for query changes, skip initial render
   useEffect(() => {
     if (isInitialRender.current) {
       isInitialRender.current = false;
-      return; // Skip initial debounced search
+      return;
     }
     debouncedSearch(searchQuery);
   }, [searchQuery, debouncedSearch]);

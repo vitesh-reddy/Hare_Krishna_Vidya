@@ -65,7 +65,7 @@ if (cluster.isPrimary) {
   app.use(cookieParser());
   app.use(cors({ origin: [CLIENT_URL, ADMIN_URL], credentials: true }));
   app.use(securityMiddleware);
-  // app.use(rateLimitMiddleware);
+  app.use(rateLimitMiddleware);
   app.use(uploadMiddleware);
   app.use(xssMiddleware);
 

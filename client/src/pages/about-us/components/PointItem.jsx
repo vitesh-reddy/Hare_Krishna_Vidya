@@ -6,21 +6,17 @@ const PointItem = ({ point, fadeIn, status, index, align = "center" }) => {
 
   useLayoutEffect(() => {
     if (spanRef.current && wrapperRef.current) {
-      // Temporarily disable transition to measure current width
       wrapperRef.current.style.transition = 'none';
       const currentWidth = wrapperRef.current.offsetWidth;
 
-      // Measure new width
       const textWidth = spanRef.current.offsetWidth;
-      const iconWidth = 16; // 1rem
-      const spacing = 12;   // space-x-3
-      const padding = 32;   // px-4 total
+      const iconWidth = 16;
+      const spacing = 12;
+      const padding = 32;
       const targetWidth = textWidth + iconWidth + spacing + padding;
 
-      // Set current width first
       setWidth(currentWidth);
 
-      // Trigger reflow and then apply new width with transition
       requestAnimationFrame(() => {
         wrapperRef.current.style.transition = 'width 0.5s ease-in-out';
         setWidth(targetWidth);

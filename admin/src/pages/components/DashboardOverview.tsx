@@ -107,7 +107,6 @@ const DashboardOverview = () => {
 
   return (
     <div className="space-y-[1.5rem]">
-      {/* Refund Confirmation Dialog */}
       {showRefundDialog && selectedDonation && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md shadow-lg">
@@ -138,7 +137,6 @@ const DashboardOverview = () => {
           </div>
         </div>
       )}
-      {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[1.5rem]">
         {stats.map((stat, index) => {
           const Icon = stat.icon;
@@ -149,7 +147,6 @@ const DashboardOverview = () => {
             >
               <CardContent className="p-[1.5rem]">
                 <div className="flex items-center justify-between">
-                  {/* Stat Info */}
                   <div>
                     <p className="text-[0.875rem] font-medium text-[#4B5563] dark:text-[#9CA3AF]">
                       {stat.title}
@@ -159,7 +156,6 @@ const DashboardOverview = () => {
                     </p>
                   </div>
 
-                  {/* Icon Badge */}
                   <div
                     className={`w-[3rem] h-[3rem] ${stat.color} rounded-[0.75rem] flex items-center justify-center`}
                   >
@@ -173,7 +169,6 @@ const DashboardOverview = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-[1.5rem]">
-        {/* Recent Activity */}
         <Card className="bg-[#FFFBEB] dark:bg-[#0F172A] shadow-md rounded-[1rem]">
           <CardHeader>
             <CardTitle className="text-[#1E293B] dark:text-[#F5F7FD] text-[1.125rem] font-semibold">
@@ -228,7 +223,6 @@ const DashboardOverview = () => {
           </CardContent>
         </Card>
 
-        {/* Received Donations */}
         <Card className="bg-[#FFFBEB] dark:bg-[#0F172A] shadow-md rounded-[1rem]">
           <CardHeader>
             <CardTitle className="text-[#1E293B] dark:text-[#F5F7FD] text-[1.125rem] font-semibold">
@@ -289,7 +283,6 @@ const DashboardOverview = () => {
           </CardContent>
         </Card>
         
-        {/* Donation Details Dialog */}
         {selectedDonation && (
           <div
             className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-40 transition-all"
@@ -302,7 +295,6 @@ const DashboardOverview = () => {
               onClick={(e) => e.stopPropagation()}
               className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 bg-gradient-to-br from-[#f8fafc] to-[#f1f5f9] dark:from-[#1e293b] dark:to-[#0f172a] rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 animate-fade-in"
             >
-              {/* Close Button */}
               <button
                 onClick={closeDialog}
                 className="absolute top-4 right-4 p-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
@@ -313,7 +305,6 @@ const DashboardOverview = () => {
                 </svg>
               </button>
 
-              {/* Header */}
               <div className="mb-6">
                 <div className="flex items-center gap-3 mb-2">
                   <div className="p-2 rounded-lg bg-yellow-100 dark:bg-yellow-900/50 text-yellow-600 dark:text-yellow-300">
@@ -329,7 +320,6 @@ const DashboardOverview = () => {
               </div>
 
               <div className="space-y-6">
-                {/* Donor Info */}
                 <section className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700">
                   <div className="flex items-center gap-2 mb-4">
                     <div className="p-1.5 rounded-md bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300">
@@ -364,7 +354,6 @@ const DashboardOverview = () => {
                   </div>
                 </section>
 
-                {/* Donation Details */}
                 <section className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700">
                   <div className="flex items-center gap-2 mb-4">
                     <div className="p-1.5 rounded-md bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-300">
@@ -440,7 +429,6 @@ const DashboardOverview = () => {
                   </div>
                 </section>
 
-                {/* Payment Details & Refunds */}
                 <section className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700">
                   <div className="flex items-center gap-2 mb-4">
                     <div className="p-1.5 rounded-md bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-300">
@@ -497,32 +485,6 @@ const DashboardOverview = () => {
             </div>
           </div>
         )}
-
-        {/* <Card className="dark:bg-[#0F172A]">
-          <CardHeader>
-            <CardTitle className="text-[#111827] dark:text-[#F5F7FD]">Quick Actions</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 gap-[0.75rem]">
-              <button className="p-[1rem] bg-[#EFF6FF] hover:bg-[#DBEAFE] rounded-[0.5rem] text-left transition-colors dark:bg-[#1E3A8A] dark:hover:bg-[#1E40AF]">
-                <Book className="w-[1.5rem] h-[1.5rem] text-[#3B82F6] mb-[0.5rem] dark:text-[#60A5FA]" />
-                <p className="text-[0.875rem] font-medium text-[#111827] dark:text-[#F5F7FD]">New Blog Post</p>
-              </button>
-              <button className="p-[1rem] bg-[#F0FDF4] hover:bg-[#DCFCE7] rounded-[0.5rem] text-left transition-colors dark:bg-[#14532D] dark:hover:bg-[#166534]">
-                <Briefcase className="w-[1.5rem] h-[1.5rem] text-[#16A34A] mb-[0.5rem] dark:text-[#4ADE80]" />
-                <p className="text-[0.875rem] font-medium text-[#111827] dark:text-[#F5F7FD]">Post Job</p>
-              </button>
-              <button className="p-[1rem] bg-[#FFF7ED] hover:bg-[#FFEDD5] rounded-[0.5rem] text-left transition-colors dark:bg-[#7C2D12] dark:hover:bg-[#9A3412]">
-                <Gift className="w-[1.5rem] h-[1.5rem] text-[#F97316] mb-[0.5rem] dark:text-[#FDBA74]" />
-                <p className="text-[0.875rem] font-medium text-[#111827] dark:text-[#F5F7FD]">Add Kit</p>
-              </button>
-              <button className="p-[1rem] bg-[#F5F3FF] hover:bg-[#EDE9FE] rounded-[0.5rem] text-left transition-colors dark:bg-[#4C1D95] dark:hover:bg-[#6B21A8]">
-                <Grid2X2 className="w-[1.5rem] h-[1.5rem] text-[#8B5CF6] mb-[0.5rem] dark:text-[#A78BFA]" />
-                <p className="text-[0.875rem] font-medium text-[#111827] dark:text-[#F5F7FD]">Update Prices</p>
-              </button>
-            </div>
-          </CardContent>
-        </Card> */}
       </div>
     </div>
   );

@@ -95,7 +95,6 @@ const KitCard: React.FC<KitCardProps> = ({ kit }) => {
           </ul>
         </div>
 
-        {/* Quantity Selector */}
         <div className="mb-[1rem]">
           <label className="block text-[0.875rem] font-medium text-[#374151] mb-[0.5rem] dark:text-[#D1D5DB]">
             Number of kits:
@@ -130,7 +129,6 @@ const KitCard: React.FC<KitCardProps> = ({ kit }) => {
           </p>
         </div>
         
-        {/* Action Buttons */}
         <div className="space-y-[0.75rem]">
           <Button 
             onClick={handleAddToCart}

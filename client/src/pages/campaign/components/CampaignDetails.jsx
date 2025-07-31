@@ -46,7 +46,7 @@ const CampaignDetails = ({ handleBack, handleNext, formData, handleInputChange, 
       return;
     }
 
-    await handleImageUpload(file); // Use parent function
+    await handleImageUpload(file);
   };
 
   const removeImage = () => {

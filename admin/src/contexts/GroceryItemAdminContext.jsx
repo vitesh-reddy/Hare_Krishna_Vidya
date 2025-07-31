@@ -11,11 +11,10 @@ export const GroceryItemAdminProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [activeGroceryItemsCount, setActiveGroceryItemsCount] = useState(-1);
 
-  // Fetch all grocery items
   const fetchGroceryItems = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await axiosInstance.get('/grocery-items'); // GET all grocery items
+      const response = await axiosInstance.get('/grocery-items');
       setGroceryItems(response.data);
     } catch (error) {
       toast.error('Failed to fetch grocery items.');
@@ -24,11 +23,10 @@ export const GroceryItemAdminProvider = ({ children }) => {
     }
   }, []);
 
-  // Fetch count of active grocery items
   const fetchActiveGroceryItemsCount = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await axiosInstance.get('/grocery-items/active-count'); // GET count of active items
+      const response = await axiosInstance.get('/grocery-items/active-count');
       setActiveGroceryItemsCount(response.data.count);
     } catch (error) {
       console.log(error);
@@ -42,22 +40,20 @@ export const GroceryItemAdminProvider = ({ children }) => {
     fetchActiveGroceryItemsCount();
   }, [fetchActiveGroceryItemsCount]);
 
-  // Create a new grocery item (with optional image upload)
   const createGroceryItem = async (data, imageFile) => {
     setLoading(true);
     try {
       let imageUrl = data.image;
 
-      // Upload image if imageFile is provided
       if (imageFile) {
         const formData = new FormData();
         formData.append('image', imageFile);
-        const uploadResponse = await axiosInstance.post('/grocery-items/upload-image', formData); // POST image
+        const uploadResponse = await axiosInstance.post('/grocery-items/upload-image', formData);
         imageUrl = uploadResponse.data.url;
       }
 
       const newItem = { ...data, image: imageUrl };
-      const response = await axiosInstance.post('/grocery-items', newItem); // POST new item
+      const response = await axiosInstance.post('/grocery-items', newItem);
       const createdItem = response.data.item;
 
       setGroceryItems((prevItems) => [...prevItems, createdItem]);
@@ -70,22 +66,20 @@ export const GroceryItemAdminProvider = ({ children }) => {
     }
   };
 
-  // Update an existing grocery item (optionally with new image)
   const updateGroceryItem = async (id, data, imageFile) => {
     setLoading(true);
     try {
       let imageUrl = data.image;
 
-      // Re-upload new image if changed
       if (imageFile) {
         const formData = new FormData();
         formData.append('image', imageFile);
-        const uploadResponse = await axiosInstance.post('/grocery-items/upload-image', formData); // POST new image
+        const uploadResponse = await axiosInstance.post('/grocery-items/upload-image', formData);
         imageUrl = uploadResponse.data.url;
       }
 
       const updatedItem = { ...data, image: imageUrl };
-      const response = await axiosInstance.put(`/grocery-items/${id}`, updatedItem); // PUT update
+      const response = await axiosInstance.put(`/grocery-items/${id}`, updatedItem);
       const updatedItemFromServer = response.data.item;
 
       setGroceryItems((prevItems) =>
@@ -102,11 +96,10 @@ export const GroceryItemAdminProvider = ({ children }) => {
     }
   };
 
-  // Delete a grocery item
   const deleteGroceryItem = async (id) => {
     setLoading(true);
     try {
-      await axiosInstance.delete(`/grocery-items/${id}`); // DELETE item
+      await axiosInstance.delete(`/grocery-items/${id}`);
       setGroceryItems((prevItems) => prevItems.filter((item) => item._id !== id));
       toast.success('Grocery item deleted successfully.');
     } catch (error) {
@@ -116,11 +109,10 @@ export const GroceryItemAdminProvider = ({ children }) => {
     }
   };
 
-  // Toggle active/inactive status of a grocery item
   const toggleGroceryActiveStatus = async (id) => {
     setLoading(true);
     try {
-      const response = await axiosInstance.patch(`/grocery-items/${id}/active`); // PATCH status toggle
+      const response = await axiosInstance.patch(`/grocery-items/${id}/active`);
       const updatedItem = response.data.item;
 
       setGroceryItems((prevItems) =>

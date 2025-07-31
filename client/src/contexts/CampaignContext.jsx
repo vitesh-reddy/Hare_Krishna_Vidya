@@ -1,5 +1,3 @@
-// CampaignContext.jsx
-
 import React, { createContext, useContext, useState } from 'react';
 import axios from 'axios';
 
@@ -12,7 +10,6 @@ export const CampaignProvider = ({ children }) => {
 
   const base_url = import.meta.env.VITE_BACKEND_URL;
 
-  // Fetch campaign types
   const fetchCampaignTypes = async () => {
     setLoading(true);
     console.log("fetching campaign types");
@@ -26,7 +23,6 @@ export const CampaignProvider = ({ children }) => {
     }
   };
 
-  // Fetch all published campaigns
   const fetchPublishedCampaigns = async () => {
     setLoading(true);
     console.log("fetching campaigns");
@@ -40,14 +36,10 @@ export const CampaignProvider = ({ children }) => {
     }
   };
 
-
-
-  // Create a new campaign
   const createCampaign = async (campaignData) => {
     setLoading(true);
     try {
       const res = await axios.post(`${base_url}/api/campaigns/create`, campaignData);
-      // Add the new campaign to the local state
       setCampaigns(prev => [...prev, res.data]);
       return res.data;
     } catch (err) {

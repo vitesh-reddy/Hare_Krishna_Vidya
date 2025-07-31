@@ -6,7 +6,6 @@ const Footer = () => {
     <footer className="w-full bg-[#0b3954] text-white">
       <div className="w-full px-[5rem] sm:px-[2rem] lg:px-[5rem] py-3 sm:py-16 flex justify-evenly">
         
-        {/* About Section */}
         <div className="hidden sm:block space-y-[0.25rem] w-[50%] sm:pr-[2rem] lg:pr-[4.5rem]">
           <img  loading="lazy" 
             src="/assets/img_hkmi_1.png" 
@@ -22,7 +21,6 @@ const Footer = () => {
         </div>
 
         <div className='flex w-full sm:w-[50%] justify-center gap-[3rem]'>
-         {/* Quick Links */}
             <div className="space-y-[0.5rem]">
               <h3 className="hidden sm:block sm:[0.75rem] md:text-[1rem] lg:text-[1.25rem] font-bold text-[#f4a261]">Quick Links</h3>
               <ul className="w-[50vw] sm:w-full flex sm:flex-col flex-wrap items-center sm:items-start gap-x-3 gap-y-1 sm:gap-y-[0.25rem] text-[0.55rem] sm:text-[0.75rem] md:text-[0.75rem] lg:text-[1rem] sm:text-[#f9f9f9] font-inter">
@@ -51,7 +49,6 @@ const Footer = () => {
 
 
  
-         {/* Contact Us */}
          <div className="hidden sm:block space-y-[0.75rem]">
            <h3 className="text-[1.25rem] font-bold text-[#f4a261]">Contact Us</h3>
            <div className="space-y-[0.25rem]">
@@ -80,7 +77,6 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Bottom Bar */}
       <div className="sm:bg-[#002942] py-3">
         <div className="max-w-7xl mx-auto sm:px-[5rem] flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
           <p className="text-white/70 sm:text-white text-sm">

@@ -10,12 +10,10 @@ const AllBlogs = () => {
   const postsPerPage = 6;
   const totalPages = Math.ceil((totalBlogsCount - 3) / postsPerPage) || 1;
 
-  // Only fetch count once on mount
   useEffect(() => {
     fetchTotalBlogsCount();
   }, []);
 
-  // Fetch blog data when currentPage changes
   useEffect(() => {
     fetchAllBlogs(currentPage, postsPerPage);
   }, [currentPage]);
@@ -25,16 +23,15 @@ const AllBlogs = () => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
       setTimeout(() => {
-        // window.scrollTo({ top: 0, behavior: 'smooth' });
-        window.location.hash = '#allBlogs'; // Scroll to the top of the section
-      }, 100); // Delay to ensure smooth scroll after state update
+        window.location.hash = '#allBlogs';
+      }, 100);
     }
   };
 
   const renderPagination = () => {
     const pages = [];
-    const maxVisiblePages = 6; // Total 6 page buttons excluding dots
-    const siblingCount = 1; // One sibling on each side of current page
+    const maxVisiblePages = 6;
+    const siblingCount = 1;
 
     if (totalPages <= maxVisiblePages) {
       for (let i = 1; i <= totalPages; i++) {
@@ -52,7 +49,6 @@ const AllBlogs = () => {
         );
       }
     } else {
-      // Always show first two pages
       pages.push(
         <button
           key={1}
@@ -80,16 +76,13 @@ const AllBlogs = () => {
       );
     }
 
-      // Calculate middle section
       const leftSiblingIndex = Math.max(3, currentPage - siblingCount);
       const rightSiblingIndex = Math.min(totalPages - 2, currentPage + siblingCount);
 
-      // Add ellipsis after first two pages if needed
       if (leftSiblingIndex > 3) {
         pages.push(<span key="start-ellipsis" className="px-[0.5rem] text-[#667085]">...</span>);
       }
 
-      // Add middle pages
       for (let i = leftSiblingIndex; i <= rightSiblingIndex; i++) {
         if (i > 2 && i < totalPages - 1) {
           pages.push(
@@ -107,12 +100,10 @@ const AllBlogs = () => {
         }
       }
 
-      // Add ellipsis before last two pages if needed
       if (rightSiblingIndex < totalPages - 2) {
         pages.push(<span key="end-ellipsis" className="px-[0.5rem] text-[#667085]">...</span>);
       }
 
-      // Always show last two pages
       for (let i = Math.max(totalPages - 1, rightSiblingIndex + 1); i <= totalPages; i++) {
         if (i > 2) {
           pages.push(

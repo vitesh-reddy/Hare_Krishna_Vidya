@@ -77,7 +77,6 @@ const GroceryItemCard: React.FC<GroceryItemCardProps> = ({ item }) => {
           </div>
         </div>
 
-        {/* Quantity Selector */}
         <div className="mb-[1rem]">
           <label className="block text-[0.875rem] font-medium text-[#4B5563] mb-[0.5rem] dark:text-[#9CA3AF]">
             Quantity:
@@ -112,7 +111,6 @@ const GroceryItemCard: React.FC<GroceryItemCardProps> = ({ item }) => {
           </p>
         </div>
         
-        {/* Action Buttons */}
         <div className="space-y-[0.5rem]">
           <Button 
             onClick={handleAddToCart}

@@ -3,7 +3,6 @@ import React from 'react';
 const ContactInfo = () => {
   return (
     <div className="space-y-[2.5rem] w-full max-w-md">
-      {/* Visit us */}
       <div className="flex flex-col items-center space-y-[1rem] bg-[#F1F6FB] rounded-[1.5rem] px-[2rem]  py-[2.25rem] shadow-custom-content-card">
         <div className="flex items-center space-x-2 mb-2 text-[#264653] font-semibold text-lg">
           <img  loading="lazy" src="/assets/location.svg" alt="Location" className="w-[1.75rem]" />
@@ -16,7 +15,6 @@ const ContactInfo = () => {
         </p>
       </div>
 
-      {/* Call us */}
       <div className="flex flex-col items-center space-y-[1rem] bg-[#F1F6FB] rounded-[1.5rem] px-[2rem]  py-[2.25rem] shadow-custom-content-card">
         <div className="flex items-center space-x-2 mb-2 text-[#264653] font-semibold text-lg">
           <img  loading="lazy" src="/assets/phone.svg" alt="" className="w-[1.75rem]" />
@@ -28,7 +26,6 @@ const ContactInfo = () => {
         </div>
       </div>
 
-      {/* Email at */}
       <div className="flex flex-col items-center space-y-[1rem] bg-[#F1F6FB] rounded-[1.5rem] px-[2rem]  py-[2.25rem] shadow-custom-content-card">
         <div className="flex items-center space-x-2 mb-2 text-[#264653] font-semibold text-lg">
           <img  loading="lazy" src="/assets/email.svg" alt="Email" className="w-[1.75rem]" />

@@ -1,4 +1,3 @@
-// middleware/verifyAdminToken.js
 import jwt from 'jsonwebtoken';
 import Admin from "../models/Admin.js";
 

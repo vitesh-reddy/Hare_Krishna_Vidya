@@ -3,7 +3,6 @@ const BankDetailsSection = () => {
   return (
     <div className="w-full flex flex-col md:flex-row justify-between items-center gap-8 border border-dashed rounded-lg px-[3rem] sm:px-[6  rem] md:px-[6rem]">
       
-      {/* Left Section: Bank and UPI Details */}
       <div className="flex-1 space-y-4">
         <p className='text-[1.125rem] sm:text-[2rem] md:text-[1.5rem] lg:text-[1.75rem] font-urbanist font-bold text-[#303030]'>Donation Through Bank (NEFT/ RTGS)</p>
         
@@ -21,7 +20,6 @@ const BankDetailsSection = () => {
         </p>
       </div>
 
-      {/* Right Section: QR Code */}
       <div className="flex-1 flex flex-col items-center justify-center">
         <img
           loading="lazy"

@@ -14,7 +14,6 @@ export const BlogProvider = ({ children }) => {
 
   const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
 
-  // 🧠 Cache for paginated blogs
   const blogPageCache = useRef({});
 
   const fetchRecentBlogs = async () => {
@@ -58,7 +57,6 @@ export const BlogProvider = ({ children }) => {
 
       const blogs = res.data.blogs;
 
-      // Cache the blogs for this page-limit combo
       blogPageCache.current[cacheKey] = blogs;
 
       setAllBlogs(blogs);
@@ -79,7 +77,6 @@ export const BlogProvider = ({ children }) => {
     }
   };
 
-  // Optional: function to clear the cache manually
   const clearBlogCache = () => {
     blogPageCache.current = {};
   };
@@ -96,7 +93,7 @@ export const BlogProvider = ({ children }) => {
         fetchBlogById,
         loadingRecent,
         loadingAll,
-        clearBlogCache, // exposed in case needed
+        clearBlogCache,
         currentPage,
         setCurrentPage
       }}

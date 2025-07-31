@@ -10,7 +10,7 @@ import { toast } from 'react-hot-toast';
 const AmountDonationFlow = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const donationType = searchParams.get('type'); // e.g., 'annadan', 'sponsorchild', 'vidhyadana'
+  const donationType = searchParams.get('type');
   const initialAmount = searchParams.get('amount') || '0';
   const isEditable = searchParams.get('editable') === 'true';
   const [step, setStep] = useState(1);
@@ -27,12 +27,66 @@ const AmountDonationFlow = () => {
       city: '',
       state: '',
       pincode: '',
-      // Removed panCard as it's not used in the UI or backend
     };
     return storedData;
   });
   const [paymentCompleted, setPaymentCompleted] = useState(false);
   const [paymentError, setPaymentError] = useState(null);
+
+  const getAmountIntent = () => {
+    const intent = {
+      flow: 'amount',
+      donationType: donationType || 'unknown',
+      amount,
+      email: formData.email,
+    };
+
+    const sortedKeys = Object.keys(intent).sort();
+    const normalized = {};
+    sortedKeys.forEach((key) => {
+      normalized[key] = intent[key];
+    });
+
+    return JSON.stringify(normalized);
+  };
+
+  const computeFingerprint = async () => {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(getAmountIntent());
+
+    const hashBuffer = await window.crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+    return hashHex;
+  };
+
+  const getOrCreateIdempotencyKey = async () => {
+    const fingerprint = await computeFingerprint();
+    const storageKey = `donation_idempotency_${fingerprint}`;
+
+    try {
+      const existing = localStorage.getItem(storageKey);
+      if (existing) {
+        return existing;
+      }
+    } catch (e) {}
+
+    const newKey = window.crypto.randomUUID();
+
+    try {
+      localStorage.setItem(storageKey, newKey);
+    } catch (e) {}
+
+    return newKey;
+  };
+
+  const clearIdempotencyKeyForCurrentIntent = async () => {
+    const fingerprint = await computeFingerprint();
+    const storageKey = `donation_idempotency_${fingerprint}`;
+    try {
+      localStorage.removeItem(storageKey);
+    } catch (e) {}
+  };
 
   const formatDonationType = () => {
     switch (donationType) {
@@ -84,7 +138,6 @@ const AmountDonationFlow = () => {
         ...prev,
         [name]: value,
       };
-      // Update localStorage with the latest state
       localStorage.setItem('donorData', JSON.stringify(updatedFormData));
       return updatedFormData;
     });
@@ -102,11 +155,13 @@ const AmountDonationFlow = () => {
       setStep(step + 1);
     } else {
       try {
+        await new Promise((resolve) => { setTimeout(() => resolve(), 2000) });
         setIsProcessing(true);
         setPaymentError(null);
         toast.loading('Redirecting to secure payment...');
         const baseUrl = import.meta.env.VITE_BACKEND_URL;
-        console.log(baseUrl);
+
+        const idempotencyKey = await getOrCreateIdempotencyKey();
 
         const response = await fetch(`${baseUrl}/api/payments/stripe/create-checkout-session`, {
           method: 'POST',
@@ -117,6 +172,7 @@ const AmountDonationFlow = () => {
             donationType: 'amount',
             amount,
             donatedFor: mapDonationTypeToSchema(),
+            idempotencyKey,
             donorInfo: {
               firstName: formData.firstName,
               lastName: formData.lastName,
@@ -137,6 +193,8 @@ const AmountDonationFlow = () => {
         }
 
         toast.dismiss();
+
+        await clearIdempotencyKeyForCurrentIntent();
         window.location.href = data.url;
       } catch (error) {
         toast.dismiss();

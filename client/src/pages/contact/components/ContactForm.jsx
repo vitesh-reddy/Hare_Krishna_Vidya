@@ -61,7 +61,6 @@ const ContactForm = ({ formState, onSubmit }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === 'countryCode') {
-      // Ensure country code always starts with '+'
       const sanitized = value.startsWith('+') ? value : '+' + value.replace(/[^0-9]/g, '');
       setFormData((prev) => ({ ...prev, [name]: sanitized }));
     } else {
@@ -75,7 +74,6 @@ const ContactForm = ({ formState, onSubmit }) => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center pt-[3rem]">
-      {/* Header */}
       <div className="flex flex-col space-y-[0.5rem] text-center mb-[1rem] sm:mb-[3.5rem] font-inter">
         <p className="text-[#E76F51] text-[1.5rem] sm:text-[0.9rem] font-semibold leading-3">Contact us</p>
         <p className="text-[2rem] font-semibold text-[#101828] leading-[3.5rem]">Get in touch</p>

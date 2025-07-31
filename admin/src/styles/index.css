@@ -19,29 +19,25 @@ body {
   box-sizing: border-box;
 }
 
-/* Smooth scrolling */
 html {
   scroll-behavior: smooth;
 
 }
 
-/* Hide scrollbar for all elements */
 * {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 *::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  display: none;
 }
 
-/* Transition for interactive elements */
 button,
 a {
   transition: all 0.2s ease-in-out;
 }
 
-/* Ensure images are responsive */
 img {
   max-width: 100%;
   height: auto;
@@ -50,12 +46,6 @@ img {
 .clip-custom-shape {
   clip-path: path("M0,0 H240 Q300,0 360,40 Q420,80 512,47 V100 H0 Z");
 }
-
-/* .ql-editor img {
-  display: block;
-  margin: auto;
-  max-width: 100%;
-} */
 
 .ql-align-center img {
   display: block;

@@ -36,7 +36,6 @@ const RightSection = () => {
         </p>
       </div>
 
-      {/* Search and Button Section */}
       <div className="flex items-center justify-start gap-[0.75rem] my-[1rem] md:my-[2rem]">
         <div className="relative">
           <input
@@ -55,7 +54,7 @@ const RightSection = () => {
             <img
               className='absolute top-1/2 -translate-y-1/2 right-3 w-[1.125rem]'
               src="/assets/search.png"
-              alt="🔍"
+              alt=""
               draggable={false}
             />
           )}

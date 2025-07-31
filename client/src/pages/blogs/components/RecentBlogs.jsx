@@ -3,20 +3,16 @@ import { useBlogs } from '../../../contexts/BlogContext';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../../../components/common/Loader';
 
-// Tag color pool
 const tagColors = [
-  // Original Set (all kept)
-  { bg: '#F0F9FF', text: '#026AA2' }, // Soft blue
-  { bg: '#FDF2FA', text: '#C11574' }, // Blush pink
-  { bg: '#ECFDF3', text: '#027A48' }, // Mint green
-  { bg: '#F9F5FF', text: '#6941C6' }, // Lavender purple
-  { bg: '#FFFAF5', text: '#C4320A' }, // Peach orange
-  { bg: '#EEF4FF', text: '#175CD3' }, // Sky blue
-
-  // Set 3 (kept only those not too similar)
-  { bg: '#FEF2F2', text: '#DC2626' }, // Soft red
-  { bg: '#FFFBEB', text: '#F59E0B' }, // Warm yellow-orange
-  { bg: '#FFF7FB', text: '#DB2777' }, // Vivid pink
+  { bg: '#F0F9FF', text: '#026AA2' },
+  { bg: '#FDF2FA', text: '#C11574' },
+  { bg: '#ECFDF3', text: '#027A48' },
+  { bg: '#F9F5FF', text: '#6941C6' },
+  { bg: '#FFFAF5', text: '#C4320A' },
+  { bg: '#EEF4FF', text: '#175CD3' },
+  { bg: '#FEF2F2', text: '#DC2626' },
+  { bg: '#FFFBEB', text: '#F59E0B' },
+  { bg: '#FFF7FB', text: '#DB2777' },
 ];
 
 

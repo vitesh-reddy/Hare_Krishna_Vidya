@@ -25,11 +25,10 @@ export const CareerProvider = ({ children }) => {
   const BASE_URL = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'}/api`;
   const LIMIT = 10;
 
-  // Fetch jobs
  const fetchJobs = useCallback(async (newSkip = 0, query = '') => {
     if (!isCareersPageActiveRef.current || isFetchingRef.current || newSkip < lastFetchedSkipRef.current + LIMIT) return;
     console.log('client fetch jobs', query);
-    if (isFetchingRef.current) return; // Double-check to prevent overlap
+    if (isFetchingRef.current) return;
     isFetchingRef.current = true;
     setLoading(true);
     try {
@@ -39,7 +38,7 @@ export const CareerProvider = ({ children }) => {
       const newJobs = response.data.jobs || [];
       setJobs(prev => {
         if (newSkip === 0) {
-          return newJobs; // Reset jobs to full backend response for new search
+          return newJobs;
         }
         const existingIds = new Set(prev.map(job => job._id.toString()));
         const uniqueNewJobs = newJobs.filter(job => !existingIds.has(job._id.toString()));
@@ -57,7 +56,6 @@ export const CareerProvider = ({ children }) => {
     }
   }, []);
 
-  // Handle search
   const handleSearch = useCallback((query) => {
     console.log('Searching for:', query);
     setSkip(0);
@@ -65,7 +63,6 @@ export const CareerProvider = ({ children }) => {
     fetchJobs(0, query);
   }, [fetchJobs]);
 
-  // Debounced search
   const debouncedSearch = useMemo(
     () => debounce((query) => {
       handleSearch(query);
@@ -74,13 +71,11 @@ export const CareerProvider = ({ children }) => {
     [handleSearch]
   );
 
-  // Trigger immediate search (for button click)
   const triggerSearch = useCallback((query) => {
     setSearchQuery(query);
     handleSearch(query);
   }, [handleSearch]);
 
-  // Clear search
   const clearSearch = useCallback(() => {
     setSearchQuery('');
     setSkip(0);
@@ -88,14 +83,12 @@ export const CareerProvider = ({ children }) => {
     fetchJobs(0, '');
   }, [fetchJobs]);
 
-  // Load more jobs
   const loadMoreJobs = useCallback(() => {
     if (!isFetchingRef.current && hasMoreJobs) {
       fetchJobs(skip, searchQuery);
     }
   }, [hasMoreJobs, fetchJobs, skip, searchQuery]);
 
-  // Apply for a job
   const applyForJob = async (applicationData) => {
     setLoading(true);
     try {
@@ -114,15 +107,12 @@ export const CareerProvider = ({ children }) => {
     }
   };
 
-  // Check if job is applied
   const isJobApplied = (jobId) => appliedJobs.includes(jobId);
 
-  // Clear selectedJob when navigating back to viewing
   const resetSelectedJob = () => {
     setSelectedJob(null);
   };
 
-  // Set Careers page active state
   const setCareersPageActive = useCallback((isActive) => {
     isCareersPageActiveRef.current = isActive;
   }, []);

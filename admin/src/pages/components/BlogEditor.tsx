@@ -1,6 +1,3 @@
-/// Original -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
 import React, {
   useMemo,
   forwardRef,
@@ -46,12 +43,11 @@ const BlogEditor = forwardRef(({
     getEditor: () => quillRef.current?.getEditor(),
   }));
 
-  // ✅ Dynamically register the image resize module before rendering editor
   useEffect(() => {
     import('quill-image-resize-module-react').then((module) => {
       const ImageResize = module.default;
       Quill.register('modules/imageResize', ImageResize);
-      setIsReady(true); // ✅ Now it's safe to render ReactQuill
+      setIsReady(true);
     });
   }, []);
 
@@ -173,6 +169,3 @@ const BlogEditor = forwardRef(({
 
 BlogEditor.displayName = 'BlogEditor';
 export default BlogEditor;
-
-
-/// Original -----------------------------------------------------------------------------------------------------------------------------------------------------------------------

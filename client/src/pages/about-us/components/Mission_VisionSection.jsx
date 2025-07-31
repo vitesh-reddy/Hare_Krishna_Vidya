@@ -40,11 +40,11 @@ const Mission_VisionSection = () => {
 
   const handleStatusChange = (newStatus) => {
     if (newStatus === status) return;
-    setFadeIn(false); // Trigger fade out
+    setFadeIn(false);
     setTimeout(() => {
       setStatus(newStatus);
-      setFadeIn(true); // Trigger fade in after state update
-    }, 300); // match with transition duration
+      setFadeIn(true);
+    }, 300);
   };
 
   const content = status === 'mission' ? contents.mission : contents.vision;
@@ -67,23 +67,19 @@ const Mission_VisionSection = () => {
       </div>
 
       <div className="hidden md:flex w-[96.5%] max-w-[90rem] mt-[2.6rem] h-[550px]">
-        {/* Left section with bg color */}
         <div
           className={`w-[50%] p-[3rem] rounded-[0px_0px_0px_30px] flex flex-col justify-evenly transition-all duration-500`}
           style={{ backgroundColor: content.bgColor }}
         >
-          {/* text1 with fade and width transition */}
           <p
             key={status + '-text1'}
             className={`font-inter font-semibold text-[0.75rem] md:text-[0.8rem] lg:text-[1rem] text-[#F9F9F9] lg:leading-[1.7rem] transition-[opacity,width] duration-500 ${
               fadeIn ? 'opacity-100' : 'opacity-80'
             }`}
-            // style={{ width: content.text1Width }}
           >
             {content.text1}
           </p>
 
-          {/* points */}
           <div className="flex flex-col justify-evenly space-y-6">
             <p className="font-inter md:text-[0.8rem] lg:text-[1rem] font-semibold text-[#2C2C2C]">{content.text2}</p>
 						{content.points.map((point, index) => (
@@ -99,7 +95,6 @@ const Mission_VisionSection = () => {
           </div>
         </div>
 
-        {/* Right section with fade image */}
         <div className="rounded-[0px_30px_30px_0px] overflow-hidden relative w-[50%] flex items-center justify-center">
           <img
             loading="lazy"

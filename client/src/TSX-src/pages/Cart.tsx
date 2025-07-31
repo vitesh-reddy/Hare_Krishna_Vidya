@@ -16,7 +16,6 @@ const Cart = () => {
     navigate('/donate', { state: { cartItems } });
   };
 
-  // Breadcrumb component
   const Breadcrumb = () => (  
     <div className="flex items-center space-x-2 text-sm text-gray-600 mb-6">
       <Button 

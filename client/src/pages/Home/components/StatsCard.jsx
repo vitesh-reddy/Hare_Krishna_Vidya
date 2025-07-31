@@ -5,7 +5,6 @@ const StatsCard = ({position}) => {
     <>
     {position == 'inside' &&
      (<div onClick={() => window.location.href = '/donate-amount'} className="hidden md:block absolute left-10 bottom-14 bg-[#edf2f7cc] rounded-[40px] p-6 shadow-[0px_4px_12px_rgba(136,136,136,1)] max-w-[18rem] lg:max-w-[23.4375rem] h-[14rem] cursor-pointer">
-          {/* Karma Insights Header */}
           <div className="flex flex-row items-center mb-3 lg:mb-6 gap-3 relative">
             <div className="bg-gradient-to-r from-[#e8e8e8] to-white rounded-[24px] p-4 shadow-custom-numKeys">
               <div className="flex items-center space-x-3">
@@ -20,7 +19,6 @@ const StatsCard = ({position}) => {
               className="absolute top-7 h-[7.5rem] right-6 lg:right-8 z-[100]"
             />
           </div>
-          {/* Stats */}
           <div className="grid grid-cols-2 gap-0 pr-16 mb-6">
             <div className="w-fit">
               <p className="w-fit text-[1.5rem] font-urbanist font-bold text-[#2c2c2cbb] leading-10">
@@ -41,7 +39,6 @@ const StatsCard = ({position}) => {
             </div>
           </div>
 
-          {/* Donors Info */}
           <div className="flex items-center space-x-4">
             <img  loading="lazy" src="/assets/img_frame_12.png" alt="Donor avatars" className="h-12" />
             <p className="text-sm font-bold text-[#505051] leading-4">
@@ -52,7 +49,6 @@ const StatsCard = ({position}) => {
 
     {position == 'outside' &&
      (<div onClick={() => window.location.href = '/donate-amount'} className="block md:hidden bg-[#edf2f7cc] rounded-[40px] p-6 mb-[2rem] w-[80%] sm:w-[60%] h-[14rem] cursor-pointer">
-          {/* Karma Insights Header */}
           <div className="flex flex-row items-center mb-6 gap-3 relative">
             <div className="bg-gradient-to-r from-[#e8e8e8] to-white rounded-[24px] p-4 shadow-custom-numKeys">
               <div className="flex items-center space-x-3">
@@ -67,7 +63,6 @@ const StatsCard = ({position}) => {
               className="absolute top-7 h-[7.5rem] right-8  z-[100]"
             />
           </div>
-          {/* Stats */}
           <div className="grid grid-cols-2 gap-0 pr-16 mb-6">
             <div className="w-fit">
               <p className="w-fit text-[1.5rem] font-urbanist font-bold text-[#2c2c2cbb] leading-10">
@@ -88,7 +83,6 @@ const StatsCard = ({position}) => {
             </div>
           </div>
 
-          {/* Donors Info */}
           <div className="flex items-center space-x-4">
             <img  loading="lazy" src="/assets/img_frame_12.png" alt="Donor avatars" className="h-12" />
             <p className="text-sm font-bold text-[#505051] leading-4">

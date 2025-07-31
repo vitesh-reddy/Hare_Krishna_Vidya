@@ -1,4 +1,3 @@
-// src/pages/about-us/components/AboutUsHeroSection.jsx
 import React from 'react';
 
 const AboutUsHeroSection = () => {

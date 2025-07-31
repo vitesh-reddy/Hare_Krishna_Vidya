@@ -9,7 +9,6 @@ const ViewBlog = ({ selectedBlog, setSelectedBlogId }) => {
   if (selectedBlog) {
     return (
       <div className="relative min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
-        {/* Gradient Header with Floating Back Button */}
         <header className="top-0 z-50 bg-gradient-to-r from-orange-400 to-amber-300 shadow-lg">
           <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
             <h2 className="text-3xl font-bold text-white tracking-tight">
@@ -26,10 +25,9 @@ const ViewBlog = ({ selectedBlog, setSelectedBlogId }) => {
           </div>
         </header>
 
-        {/* Main Content */}
         <main className="max-w-4xl mx-auto px-6 py-12">
           <Card className="shadow-2xl border-0 rounded-3xl overflow-hidden bg-white/95 backdrop-blur-sm">
-            {/* Hero Image */}
+
             {selectedBlog.image && (
               <div className="relative aspect-[16/9] overflow-hidden">
                 <img
@@ -41,16 +39,13 @@ const ViewBlog = ({ selectedBlog, setSelectedBlogId }) => {
               </div>
             )}
 
-            {/* Blog Content */}
             <CardContent className="p-10 md:p-14 space-y-8">
-              {/* Category Tag */}
               <div className="flex justify-start">
                 <span className="inline-block bg-orange-100 text-orange-700 px-5 py-2 rounded-full text-sm font-semibold tracking-wide shadow-sm hover:bg-orange-200 transition-colors duration-300">
                   {selectedBlog.category}
                 </span>
               </div>
 
-              {/* Title */}
               <h1
                 className="text-[1.5rem] md:text-[2.25rem] font-extrabold text-gray-900 tracking-tight"
                 style={{ fontFamily: "'Georgia', serif" }}
@@ -58,7 +53,6 @@ const ViewBlog = ({ selectedBlog, setSelectedBlogId }) => {
                 {selectedBlog.title}
               </h1>
 
-              {/* Excerpt */}
               {selectedBlog.excerpt && (
                 <p
                   className="text-lg md:text-xl text-gray-600 leading-relaxed font-light italic border-l-4 border-orange-400 pl-4"
@@ -68,7 +62,6 @@ const ViewBlog = ({ selectedBlog, setSelectedBlogId }) => {
                 </p>
               )}
 
-              {/* Meta Information */}
               <div className="flex items-center text-gray-500 text-base md:text-lg space-x-4">
                 <div className="flex items-center">
                   <User className="w-5 h-5 mr-2 text-orange-600" />
@@ -87,7 +80,6 @@ const ViewBlog = ({ selectedBlog, setSelectedBlogId }) => {
                 </div>
               </div>
 
-              {/* Blog Content with Markdown Rendering */}
               <article className="prose prose-lg max-w-none text-gray-800 leading-loose tracking-wide">
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
@@ -125,7 +117,6 @@ const ViewBlog = ({ selectedBlog, setSelectedBlogId }) => {
           </Card>
         </main>
 
-        {/* Floating Back Button on Scroll */}
         <div className="fixed bottom-6 right-6 z-50 hidden md:block">
           <Button
             onClick={() => setSelectedBlogId(null)}

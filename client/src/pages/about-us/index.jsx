@@ -1,4 +1,3 @@
-// src/pages/about-us/index.jsx
 import React from 'react';
 import AboutUsHeroSection from './components/AboutUsHeroSection';
 import OurImpactSection from './components/OurImpactSection';

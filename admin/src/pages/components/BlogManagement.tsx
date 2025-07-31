@@ -1,7 +1,4 @@
-
 import React, { useState, useEffect, useRef } from 'react';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import { Card, CardContent, CardHeader, CardTitle } from '../../TSX-src/components/ui/card';
 import { Button } from '../../TSX-src/components/ui/button';
 import { Input } from '../../TSX-src/components/ui/input';
@@ -108,7 +105,7 @@ const BlogManagement = () => {
     } catch (error) {
       toast.dismiss();
       toast.error('Image upload failed. Please try again.');
-      console.error('❌ Image upload failed:', error);
+      console.error('Image upload failed:', error);
       toast.error('Failed to upload image to Cloudinary.');
     }
   };
@@ -160,7 +157,6 @@ const BlogManagement = () => {
       setImageFile(null);
       setTagInput('');
     } catch (error) {
-      // Error is already handled in context
     }
   };
 
@@ -226,7 +222,7 @@ const BlogManagement = () => {
 
   const renderPagination = () => {
     const pages = [];
-    const maxVisiblePages = 6; // Total 6 page buttons excluding dots
+    const maxVisiblePages = 6;
     const siblingCount = 1;
 
     if (totalPages <= maxVisiblePages) {
@@ -405,22 +401,6 @@ const BlogManagement = () => {
               </div>
               <div className="flex items-center gap-3">
                 <span className="text-sm text-gray-500">Drafted upon Save</span>
-                {/* <Button
-                  onClick={() =>
-                    handlePreview({
-                      ...formData,
-                      _id: editingId || Date.now(),
-                      date: new Date().toISOString(),
-                      status: 'Draft',
-                    })
-                  }
-                  variant="outline"
-                  size="sm"
-                  className="flex items-center gap-2"
-                >
-                  <Eye className="w-4 h-4" />
-                  Preview
-                </Button> */}
                 <Button
                   onClick={handleSave}
                   className="bg-green-600 hover:bg-green-700 text-white"
@@ -613,7 +593,6 @@ const BlogManagement = () => {
             onClick={(e) => e.stopPropagation()}
             className="relative w-full max-w-[30rem] max-h-[80vh] overflow-y-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 animate-fade-in"
           >
-            {/* Close Button */}
             <button
               onClick={handleCloseViewSubscribers}
               className="absolute top-4 right-4 p-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
@@ -624,7 +603,6 @@ const BlogManagement = () => {
               </svg>
             </button>
 
-            {/* Header */}
             <div className="mb-6">
               <div className="flex items-center gap-3 mb-2">
                 <div className="p-2 rounded-lg bg-orange-100 dark:bg-orange-900/50 text-orange-600 dark:text-orange-300">
@@ -639,7 +617,6 @@ const BlogManagement = () => {
               <div className="h-1 w-20 bg-orange-500 rounded-full"></div>
             </div>
 
-            {/* Copy All Button */}
             <div className="flex justify-end mb-4">
               <button
                 onClick={() => {
@@ -656,7 +633,6 @@ const BlogManagement = () => {
               </button>
             </div>
 
-            {/* Subscribers List */}
             <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 overflow-hidden">
               {subscribers ? (
                 <ul className="divide-y divide-gray-200 dark:divide-gray-600">
@@ -696,7 +672,6 @@ const BlogManagement = () => {
               )}
             </div>
 
-            {/* Footer */}
             <div className="pt-6 text-center text-sm text-gray-500 dark:text-gray-400">
               <p>Total subscribers: {subscribers?.length || 0}</p>
             </div>
@@ -809,5 +784,3 @@ const BlogManagement = () => {
 };
 
 export default BlogManagement;
-
-/// Original -----------------------------------------------------------------------------------------------------------------------------------------------------------------------

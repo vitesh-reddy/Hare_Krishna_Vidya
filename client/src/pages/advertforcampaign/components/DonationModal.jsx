@@ -23,20 +23,18 @@ export const DonationModal = ({ isOpen, onClose, campaign }) => {
   const [step, setStep] = useState(1);
   const [isSaving, setIsSaving] = useState(false);
 
-  // Validation states
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
 
   const predefinedAmounts = [100, 250, 500, 1000, 2500, 5000];
 
-  // Validation rules
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
   const validatePhone = (phone) => {
-    const phoneRegex = /^[6-9]\d{9}$/; // Indian mobile number format
+    const phoneRegex = /^[6-9]\d{9}$/;
     return phone === '' || phoneRegex.test(phone.replace(/\s+/g, ''));
   };
 
@@ -50,13 +48,11 @@ export const DonationModal = ({ isOpen, onClose, campaign }) => {
     return numAmount >= 10 && numAmount <= 100000;
   };
 
-  // Real-time validation
   const validateField = (fieldName, value) => {
     const newErrors = { ...errors };
 
     switch (fieldName) {
       case 'amount':
-        // For predefined amounts, value is the amount itself
         const amountToValidate = value || getCurrentAmount();
         if (amountToValidate < 10) {
           newErrors.amount = 'Minimum donation amount is ₹10';
@@ -120,7 +116,6 @@ export const DonationModal = ({ isOpen, onClose, campaign }) => {
   const handleAmountSelect = (amount) => {
     setSelectedAmount(amount);
     setCustomAmount('');
-    // Clear any existing amount errors when selecting a valid predefined amount
     const newErrors = { ...errors };
     delete newErrors.amount;
     delete newErrors.customAmount;
@@ -139,7 +134,6 @@ export const DonationModal = ({ isOpen, onClose, campaign }) => {
     setDonorInfo({ ...donorInfo, [field]: value });
     setTouched({ ...touched, [field]: true });
 
-    // Debounced validation for better UX
     setTimeout(() => {
       if (touched[field]) {
         validateField(field, value);
@@ -171,11 +165,9 @@ export const DonationModal = ({ isOpen, onClose, campaign }) => {
         newErrors.amount = 'Maximum donation amount is ₹1,00,000';
         isValid = false;
       } else {
-        // Clear amount errors if amount is valid
         delete newErrors.amount;
       }
 
-      // Only validate custom amount if it's being used
       if (customAmount && !selectedAmount) {
         newTouched.customAmount = true;
         if (!validateAmount(customAmount)) {
@@ -186,7 +178,6 @@ export const DonationModal = ({ isOpen, onClose, campaign }) => {
     }
 
     if (stepNumber === 2) {
-      // Validate name
       newTouched.name = true;
       if (!donorInfo.name.trim()) {
         newErrors.name = 'Full name is required';
@@ -196,7 +187,6 @@ export const DonationModal = ({ isOpen, onClose, campaign }) => {
         isValid = false;
       }
 
-      // Validate email
       newTouched.email = true;
       if (!donorInfo.email.trim()) {
         newErrors.email = 'Email address is required';
@@ -206,7 +196,6 @@ export const DonationModal = ({ isOpen, onClose, campaign }) => {
         isValid = false;
       }
 
-      // Validate phone (optional but if provided, must be valid)
       if (donorInfo.phone) {
         newTouched.phone = true;
         if (!validatePhone(donorInfo.phone)) {
@@ -227,7 +216,6 @@ export const DonationModal = ({ isOpen, onClose, campaign }) => {
         setStep(step + 1);
       }
     } else {
-      // Show validation toast with correct syntax
       toast.error('Please fix the errors before continuing');
     }
   };
@@ -247,21 +235,14 @@ export const DonationModal = ({ isOpen, onClose, campaign }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          amount: (selectedAmount || parseInt(customAmount)) * 100, // Convert to paise
+          amount: (selectedAmount || parseInt(customAmount)) * 100,
           currency: 'INR',
           donationType: 'campaign',
         }),
       });
 
-      // Debug: Log the response status and headers
-      console.log('Create Order Response Status:', response.status);
-      console.log('Create Order Response Headers:', response.headers);
-
-      // Debug: Log the raw response body
       const responseText = await response.text();
-      console.log('Create Order Response Body:', responseText);
 
-      // Parse the response body as JSON
       let orderData;
       try {
         orderData = JSON.parse(responseText);
@@ -310,7 +291,6 @@ export const DonationModal = ({ isOpen, onClose, campaign }) => {
             }),
           });
 
-          // Debug: Log the verify response
           console.log('Verify Payment Response Status:', verifyResponse.status);
           const verifyResponseText = await verifyResponse.text();
           console.log('Verify Payment Response Body:', verifyResponseText);
@@ -327,7 +307,6 @@ export const DonationModal = ({ isOpen, onClose, campaign }) => {
             throw new Error(verifyResult.error || 'Payment verification failed');
           }
 
-          // Success toast
           toast.success(`Thank you for donating ₹${getCurrentAmount()}! 🙏`);
         },
         (error) => {
@@ -354,7 +333,6 @@ export const DonationModal = ({ isOpen, onClose, campaign }) => {
     onClose();
   };
 
-  // Component for error message display
   const ErrorMessage = ({ error, touched }) => {
     if (!error || !touched) return null;
     return (

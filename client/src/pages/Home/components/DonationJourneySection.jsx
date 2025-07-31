@@ -7,14 +7,12 @@ const DonationJourneySection = () => {
       <img loading="lazy" className='mt-[4rem] block sm:hidden h-[30rem]' src="/assets/Mobile.png" draggable={false} alt="Donation Journey" />
       <div className="hidden max-w-7xl mx-auto w-full">
         <div className="flex justify-center items-center w-full">
-          {/* Left Side - Journey Steps */}
           <div className="relative left-1 overflow-hidden bg-[#f4a261] w-[50%] p-8 lg:p-12 rounded-[50px_0px_0px_50px]">
             <p className="text-3xl sm:text-4xl lg:text-[2.25rem] w-[70%] font-urbanist font-bold text-white mb-8 lg:mb-12 leading-[1rem]">
               Your Donation Journey
             </p>
 
             <div className="space-y-6">
-              {/* Step 1 */}
               <div className="bg-white bg-opacity-70 rounded-[15px] px-4 py-2 w-fit font-urbanist flex items-center space-x-4">
                 <div className="bg-white w-10 h-10 lg:w-[42px] lg:h-[42px] rounded-full flex items-center justify-center flex-shrink-0">
                   <span className="text-lg lg:text-xl font-extrabold font-urbanist text-neutral-dark">
@@ -26,7 +24,6 @@ const DonationJourneySection = () => {
                 </span>
               </div>
 
-              {/* Step 2 */}
               <div className="bg-white bg-opacity-70 rounded-[15px]  px-4 py-2 w-fit font-urbanist flex items-center space-x-4">
                 <div className="bg-white w-10 h-10 lg:w-[42px] lg:h-[42px] rounded-full flex items-center justify-center flex-shrink-0">
                   <span className="text-lg lg:text-xl font-bold font-urbanist text-neutral-dark">
@@ -38,7 +35,6 @@ const DonationJourneySection = () => {
                 </span>
               </div>
 
-              {/* Step 3 */}
               <div className="bg-white bg-opacity-70 rounded-[15px]  px-4 py-2 w-fit font-urbanist flex items-center space-x-4">
                 <div className="bg-white w-10 h-10 lg:w-[42px] lg:h-[42px] rounded-full flex items-center justify-center flex-shrink-0">
                   <span className="text-lg lg:text-xl font-bold font-urbanist text-neutral-dark">
@@ -51,7 +47,6 @@ const DonationJourneySection = () => {
               </div>
             </div>
           </div>
-          {/* Mobile Donation Interface */}
           <div className="relative mt-12 flex justify-center w-[45%] z-1">
             <div className="relative max-w-full w-full">
               <img
@@ -79,7 +74,6 @@ const DonationJourneySection = () => {
                   <div className="absolute inset-0 bg-black/30 rounded-3xl"></div>
                 </div>
                 <div id="keypad" className="w-[90%] h-[50%] flex flex-col items-center p-4 bg-white/0">
-                  {/* Display Field */}
                   <div className="w-[16rem] flex items-center justify-between bg-[#F9F9F9] rounded-full px-6 py-4 mb-6 shadow-custom-complex">
                     <span className="text-black/50 font-semibold text-[1.25rem] font-urbanist ">
                       ₹ 5,000
@@ -87,9 +81,7 @@ const DonationJourneySection = () => {
                     <img  loading="lazy" src="assets/img_chevrondown.svg" alt="Dropdown" className="w-6" />
                   </div>
 
-                  {/* Keypad Grid */}
                   <div className="grid grid-cols-3 gap-4 w-full">
-                    {/* Numeric Buttons */}
                     {[7, 8, 9, 7, 8, 9, 7, 8, 9, 0].map((num, index) => (
                       <div
                         key={index}
@@ -98,7 +90,7 @@ const DonationJourneySection = () => {
                         {num}
                       </div>
                     ))}
-                    {/* Confirm Button */}
+                    
                     <div className="group col-span-2 w-full h-[3.75rem] mt-1 bg-[#FEAA66] from-[40%] to-[#FFAA66] shadow-custom-numButton rounded-full flex items-center justify-center text-black/50 text-[1.3rem] font-urbanist font-semibold cursor-pointer">
                       Confirm{' '}
                       <img
@@ -114,7 +106,6 @@ const DonationJourneySection = () => {
             </div>
           </div>
 
-          {/* Right Side - Success Message */}
           <div className="h-[30rem] relative overflow-hidden bg-[#e76f51] right-7 flex flex-col gap-2 items-start justify-center rounded-[0px_50px_50px_0px] p-8 lg:p-12 shadow-[15px_15px_38px_rgba(209,213,215,0.9)]">
             <h2 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-bold font-urbanist text-white/70 text-opacity-90 mb-6">
               Woohoo! 🎉
