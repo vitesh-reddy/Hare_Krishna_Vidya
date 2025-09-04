@@ -24,7 +24,7 @@ const Header = () => {
         </div>
 
         {/* Right side: Nav + Cart + Donate */}
-        <div className="w-full flex items-center justify-end flex-1 space-x-[1rem] lg:space-x-[10vw] xl:space-x-[10rem] 2xl:space-x-[10rem]">
+        <div className="w-full flex items-center justify-end flex-1 space-x-[1rem] lg:space-x-[14rem] xl:space-x-[10rem] 2xl:space-x-[10rem]">
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center lg:space-x-[1rem] xl:space-x-[1.5rem]">
             {[
@@ -54,9 +54,9 @@ const Header = () => {
           <div className="hidden lg:flex items-center">
             <CartButton />
             {/* <CreateCampaignButton /> */}
-            <div className="ml-[0.5rem] mr-[0.25rem] relative group font-medium font-inter rounded-[1.125rem] transition-colors duration-200 cursor-pointer inline-flex items-center justify-center bg-primary-blue shadow-custom-donate text-white px-[2rem] lg:px-[1rem] xl:px-[2rem] py-4 text-[0.8rem] lg:text-[0.75rem] xl:text-[0.8rem] hover:bg-primary-dark focus:ring-[#0b3954]">
+            <div className="ml-[0.5rem] mr-[0.25rem] relative group font-medium font-inter rounded-[1.125rem] transition-colors duration-200 cursor-pointer inline-flex items-center justify-center bg-primary-blue shadow-custom-donate text-white px-[2rem] lg:px-[2rem] xl:px-[2rem] py-4 text-[0.8rem] lg:text-[0.8 rem] xl:text-[0.8rem] hover:bg-primary-dark focus:ring-[#0b3954]">
               <p className="text-shadow-[0_100px_100px_rgba(71,187,255,0.30)]">Donate Now</p>
-              <div className='absolute top-[2.75rem] hidden group-hover:flex flex-col justify-evenly gap-[0.5rem] px-4 py-5 w-fit bg-[#fafcfd] font-inter shadow-custom-light text-[#1a1a1a] transition-all duration-300 rounded-[1rem] text-[0.8rem]'>
+              <div className='absolute top-[2.75rem] right-0 hidden group-hover:flex flex-col justify-evenly gap-[0.5rem] px-4 py-5 w-fit bg-[#fafcfd] font-inter shadow-custom-light text-[#1a1a1a] transition-all duration-300 rounded-[1rem] text-[0.8rem]'>
                 <Link to="/donate-amount" >
                     <p className="w-[10rem] text-center text-shadow-[0_100px_100px_rgba(71,187,255,0.30)] hover:text-secondary-orange">Donate Amount</p>              
                 </Link>
