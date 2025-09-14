@@ -5,46 +5,27 @@ import Kit from '../models/Kit.js';
 import GroceryItem from '../models/GroceryItem.js';
 
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
-if (!stripeSecretKey) {
-  // In runtime this should be configured; keeping a soft failure here so tests/dev
-  // can still boot, but any attempt to create sessions will throw.
-  // eslint-disable-next-line no-console
+if (!stripeSecretKey)
   console.warn('STRIPE_SECRET_KEY is not set. Stripe payments will not work until configured.');
-}
 
 const stripe = stripeSecretKey ? new Stripe(stripeSecretKey, { apiVersion: '2024-06-20' }) : null;
 
 const createIdempotencyKey = () => crypto.randomUUID();
 
-export const createStripeCheckoutSession = async ({
-  donationType,
-  donatedFor = null,
-  items = [],
-  amount,
-  donorInfo,
-  successUrl,
-  cancelUrl,
-}) => {
-  if (!stripe) {
+export const createStripeCheckoutSession = async ({ donationType, donatedFor = null, items = [], amount, donorInfo, successUrl, cancelUrl }) => {
+  if (!stripe)
     throw new Error('Stripe is not configured');
-  }
 
-  if (!amount || amount <= 0) {
-    // For amount donations this must be valid; for items donations we recompute
-    // the total from the server-side item prices below.
-    if (donationType === 'amount') {
+  if (!amount || amount <= 0)
+    if (donationType === 'amount')
       throw new Error('Invalid donation amount');
-    }
-  }
 
   const idempotencyKey = createIdempotencyKey();
 
-  // Compute authoritative amount and normalized items on the server.
   let finalAmount = 0;
   let normalizedItems = [];
 
   if (donationType === 'items') {
-    // items are expected as { itemId, itemType, quantity }
     const normalized = [];
     for (const item of items) {
       if (!item.itemId || !item.itemType) {
@@ -89,12 +70,10 @@ export const createStripeCheckoutSession = async ({
 
     normalizedItems = normalized;
   } else {
-    // Amount-based donations trust the server-side validated amount from input
     finalAmount = amount;
     normalizedItems = [];
   }
 
-  // Build the Donation document first; amount is authoritative from the server.
   const donation = new Donation({
     donorInfo,
     donationType,
@@ -251,8 +230,50 @@ export const getStripeSessionAndDonation = async (sessionId) => {
     return { session, donation: null };
   }
 
-  // Important: this endpoint is read-only with respect to donation state.
-  // Stripe webhooks are the sole authority for transitioning donation.status
-  // between 'pending' → 'succeeded' or 'failed'.
   return { session, donation };
+};
+
+export const refundDonation = async ({ donationId, adminId }) => {
+  if (!stripe) {
+    throw new Error('Stripe is not configured');
+  }
+
+  const donation = await Donation.findById(donationId);
+  if (!donation) {
+    throw new Error('Donation not found');
+  }
+
+  if (donation.status !== 'succeeded') {
+    throw new Error('Only succeeded donations can be refunded');
+  }
+
+  if (donation.refundHistory && donation.refundHistory.length > 0) {
+    throw new Error('Donation has already been refunded');
+  }
+
+  if (!donation.stripePaymentIntentId) {
+    throw new Error('Donation is missing Stripe payment intent id');
+  }
+
+  const refund = await stripe.refunds.create({
+    payment_intent: donation.stripePaymentIntentId,
+  });
+
+  donation.statusHistory.push({
+    status: 'refunded',
+    source: 'admin:refund',
+    reason: 'full_refund',
+  });
+
+  donation.refundHistory = donation.refundHistory || [];
+  donation.refundHistory.push({
+    refundId: refund.id,
+    refundedAt: new Date(),
+    refundedBy: adminId,
+  });
+
+  donation.status = 'refunded';
+  await donation.save();
+
+  return refund;
 };

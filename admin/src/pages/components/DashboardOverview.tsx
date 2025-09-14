@@ -9,17 +9,70 @@ import { useAdminUpdates } from '../../contexts/UpdatesAdminContext';
 import { Button } from '../../TSX-src/components/ui/button';
 import dayjs from 'dayjs';
 import { ThreeDot } from 'react-loading-indicators';
+import toast from 'react-hot-toast';
+import axiosInstance from '../../api/axiosInstance';
 
 const DashboardOverview = () => {
   const { publishedBlogsCount } = useBlogsAdmin();
   const { activeGroceryItemsCount } = useGroceryItemsAdmin();
   const { activeJobsCount } = useJobAdminContext();
   const {activeKitsCount} = useKitsAdmin();
-  const { recentActivity, loadMore, isLoading, hasMore, recentDonations, loadMoreDonations, isDonationLoading, hasMoreDonations } = useAdminUpdates();
+  const { recentActivity, loadMore, isLoading, hasMore, recentDonations, loadMoreDonations, isDonationLoading, hasMoreDonations, updateDonationInList } = useAdminUpdates();
   const [selectedDonation, setSelectedDonation] = useState(null);
+  const [isRefunding, setIsRefunding] = useState(false);
+  const [showRefundDialog, setShowRefundDialog] = useState(false);
 
-  const handleViewDonation = (donation) => setSelectedDonation(donation)
-  const closeDialog = () => setSelectedDonation(null) 
+  const handleViewDonation = (donation) => setSelectedDonation(donation);
+  const closeDialog = () => setSelectedDonation(null);
+
+  const openRefundDialog = () => {
+    setShowRefundDialog(true);
+  };
+
+  const cancelRefund = () => {
+    if (isRefunding) return;
+    setShowRefundDialog(false);
+  };
+
+  const confirmRefund = async () => {
+    if (!selectedDonation) return;
+    try {
+      setIsRefunding(true);
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
+      const response = await axiosInstance.post(
+        `${backendUrl}/api/payments/stripe/refund/${selectedDonation._id}`
+      );
+
+      toast.success('Donation refunded successfully');
+
+      const newRefundEntry = {
+        refundId: response.data.refundId,
+        refundedAt: new Date().toISOString(),
+        refundedBy: 'You',
+      };
+
+      setSelectedDonation((prev) => {
+        if (!prev) return prev;
+        const updated = {
+          ...prev,
+          status: 'refunded',
+          refundHistory: [...(prev.refundHistory || []), newRefundEntry],
+        };
+        updateDonationInList({
+          _id: updated._id,
+          status: updated.status,
+          refundHistory: updated.refundHistory,
+        });
+        return updated;
+      });
+    } catch (error) {
+      console.error('Failed to refund donation:', error);
+      toast.error(error?.response?.data?.error || 'Failed to refund donation');
+    } finally {
+      setIsRefunding(false);
+      setShowRefundDialog(false);
+    }
+  };
 
   const stats = [
     {
@@ -54,6 +107,37 @@ const DashboardOverview = () => {
 
   return (
     <div className="space-y-[1.5rem]">
+      {/* Refund Confirmation Dialog */}
+      {showRefundDialog && selectedDonation && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md shadow-lg">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              Confirm Refund
+            </h3>
+            <p className="text-gray-600 dark:text-gray-300 mb-6">
+              Are you sure you want to refund this donation? This action cannot be undone.
+            </p>
+            <div className="flex justify-end gap-2">
+              <Button
+                variant="outline"
+                onClick={cancelRefund}
+                disabled={isRefunding}
+                className="text-gray-600 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                No
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={confirmRefund}
+                disabled={isRefunding}
+                className="bg-red-600 hover:bg-red-700 text-white"
+              >
+                {isRefunding ? 'Processing...' : 'Yes, Refund'}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[1.5rem]">
         {stats.map((stat, index) => {
@@ -160,12 +244,18 @@ const DashboardOverview = () => {
                 >
                   <div
                     className={`w-[0.5rem] h-[0.5rem] rounded-full ${
-                      donation.donationType === 'amount' ? 'bg-[#8B5CF6]' : 'bg-[#F97316]'
+                      donation.status === 'refunded'
+                        ? 'bg-[#A855F7]'
+                        : donation.status === 'succeeded'
+                        ? 'bg-[#22C55E]'
+                        : donation.status === 'failed'
+                        ? 'bg-[#EF4444]'
+                        : 'bg-[#F97316]'
                     }`}
                   />
                   <div className="flex-1">
                     <p className="text-[0.875rem] font-medium text-[#1E293B] dark:text-[#F5F7FD] line-clamp-1">
-                      {donation.donorInfo.firstName } {donation.action}
+                      {(donation.donorInfo && donation.donorInfo.firstName) || 'Donor'} {donation.action}
                     </p>
                     <p className="text-[0.75rem] text-[#6B7280] dark:text-[#9CA3AF]">
                       ₹{donation.amount} • {donation.time}
@@ -202,7 +292,7 @@ const DashboardOverview = () => {
         {/* Donation Details Dialog */}
         {selectedDonation && (
           <div
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 transition-all"
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-40 transition-all"
             onClick={closeDialog}
             role="dialog"
             aria-modal="true"
@@ -287,6 +377,24 @@ const DashboardOverview = () => {
                   
                   <div className="space-y-4 text-[0.8rem] leading-3">
                     <div className="flex justify-between items-center">
+                      <span className="text-gray-500 dark:text-gray-400 font-medium">Status</span>
+                      <span
+                        className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                          selectedDonation.status === 'succeeded'
+                            ? 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300'
+                            : selectedDonation.status === 'pending'
+                            ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300'
+                            : selectedDonation.status === 'failed'
+                            ? 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300'
+                            : 'bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300'
+                        }`}
+                      >
+                        {selectedDonation.status
+                          ? selectedDonation.status.charAt(0).toUpperCase() + selectedDonation.status.slice(1)
+                          : 'Unknown'}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
                       <span className="text-gray-500 dark:text-gray-400 font-medium">Type</span>
                       <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
                         selectedDonation.donationType === 'amount' 
@@ -332,7 +440,7 @@ const DashboardOverview = () => {
                   </div>
                 </section>
 
-                {/* Payment Details */}
+                {/* Payment Details & Refunds */}
                 <section className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700">
                   <div className="flex items-center gap-2 mb-4">
                     <div className="p-1.5 rounded-md bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-300">
@@ -345,14 +453,45 @@ const DashboardOverview = () => {
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-[0.75rem]">
                     <div className="space-y-1">
-                      <p className="text-gray-500 dark:text-gray-400 font-medium">Order ID</p>
-                      <p className="text-gray-800 dark:text-gray-100">{selectedDonation.paymentDetails.orderId}</p>
+                      <p className="text-gray-500 dark:text-gray-400 font-medium">Provider</p>
+                      <p className="text-gray-800 dark:text-gray-100">{selectedDonation.paymentProvider || 'stripe'}</p>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-gray-500 dark:text-gray-400 font-medium">Payment ID</p>
-                      <p className="text-gray-800 dark:text-gray-100">{selectedDonation.paymentDetails.paymentId}</p>
+                      <p className="text-gray-500 dark:text-gray-400 font-medium">Session ID</p>
+                      <p className="text-gray-800 dark:text-gray-100 break-all">{selectedDonation.stripeCheckoutSessionId || 'N/A'}</p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-gray-500 dark:text-gray-400 font-medium">Payment Intent ID</p>
+                      <p className="text-gray-800 dark:text-gray-100 break-all">{selectedDonation.stripePaymentIntentId || 'N/A'}</p>
                     </div>
                   </div>
+
+                  {selectedDonation.refundHistory && selectedDonation.refundHistory.length > 0 && (
+                    <div className="mt-4 border-t border-gray-200 dark:border-gray-700 pt-4 text-[0.75rem]">
+                      <p className="text-gray-500 dark:text-gray-400 font-medium mb-2">Refunds</p>
+                      {selectedDonation.refundHistory.map((refund, idx) => (
+                        <div key={idx} className="flex justify-between mb-1">
+                          <span className="text-gray-800 dark:text-gray-100 break-all">{refund.refundId}</span>
+                          <span className="text-gray-600 dark:text-gray-300">
+                            {dayjs(refund.refundedAt).format('MMM D, YYYY h:mm A')} • {refund.refundedBy}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {selectedDonation.status === 'succeeded' &&
+                    (!selectedDonation.refundHistory || selectedDonation.refundHistory.length === 0) && (
+                      <div className="mt-6 flex justify-end">
+                        <Button
+                          variant="destructive"
+                          disabled={isRefunding}
+                          onClick={openRefundDialog}
+                        >
+                          Refund Donation
+                        </Button>
+                      </div>
+                    )}
                 </section>
               </div>
             </div>

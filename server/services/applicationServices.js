@@ -18,7 +18,7 @@ export const getApplicationsByJobId = async (jobId, skip = 0, limit = 10) => {
     return {
       data: applications,
       metadata: {
-        lastUpdated: new Date().toISOString(), // Timestamp for cache invalidation
+        lastUpdated: new Date().toISOString(),
         page: Math.floor(skip / limit) + 1,
         pageSize: limit
       }

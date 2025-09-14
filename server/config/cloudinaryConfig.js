@@ -3,7 +3,6 @@ import { v2 as cloudinary } from 'cloudinary';
 
 dotenvConfig();
 
-// Import Cloudinary credentials from .env
 const { CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } = process.env;
 
 // Configure Cloudinary
@@ -17,14 +16,12 @@ cloudinary.config({
 
 const uploadToCloudinary = async (fileBuffer, imageType) => {
   try {
-    // Validate imageType to ensure it's a string and not empty
     if (!imageType || typeof imageType !== 'string') {
       throw new Error('imageType must be a non-empty string');
     }
 
-    // Define the root folder and construct the full folder path
     const rootFolder = 'Hare Krishna Vidya';
-    const folderPath = `${rootFolder}/${imageType}`; // e.g., x/blog-cover, x/grocery
+    const folderPath = `${rootFolder}/${imageType}`;
 
     const result = await new Promise((resolve, reject) => {
       cloudinary.uploader.upload_stream(
@@ -50,13 +47,11 @@ const deleteFromCloudinary = async (imageUrl) => {
     const url = new URL(imageUrl);
     const pathParts = url.pathname.split('/');
 
-    // Find index of "upload" to locate the path after it
     const uploadIndex = pathParts.indexOf('upload');
     if (uploadIndex === -1 || uploadIndex + 2 >= pathParts.length) {
       throw new Error('Invalid Cloudinary URL structure');
     }
 
-    // Skip: '', 'v<digits>' (version)
     const publicIdParts = pathParts.slice(uploadIndex + 2);
     const lastPart = publicIdParts[publicIdParts.length - 1];
     const fileNameWithoutExt = lastPart.substring(0, lastPart.lastIndexOf('.'));

@@ -12,7 +12,6 @@ router.get('/active', async (req, res) => {
   }
 });
 
-// Optional: make item viewable publicly if needed
 router.get('/:id', async (req, res) => {
   try {
     const item = await getGroceryItemById(req.params.id);

@@ -36,14 +36,12 @@ export const logoutAdmin = (req, res) => {
   res.status(200).json({ message: "Logged out" });
 };
 
-// GET /api/admin/me
 export const getAdminProfile = async (req, res) => {
   const admin = await Admin.findById(req.user.id).select("name email");
   if (!admin) return res.status(404).json({ message: "Admin not found" });
   res.status(200).json(admin);
 };
 
-// PATCH /api/admin/update-profile
 export const updateAdminProfile = async (req, res) => {
   const { name, email, currentPassword, newPassword } = req.body;
 
@@ -59,14 +57,11 @@ export const updateAdminProfile = async (req, res) => {
     return res.status(401).json({ message: "Incorrect current password" });
   }
 
-  // Update name/email
   admin.name = name || admin.name;
   admin.email = email || admin.email;
 
-  // Optional: update password
-  if (newPassword) {
-    admin.password = newPassword; // will be hashed in pre-save hook
-  }
+  if (newPassword)
+    admin.password = newPassword;
 
   await admin.save();
   res.status(200).json({ message: "Profile updated successfully", name: admin.name, email: admin.email });
@@ -81,7 +76,7 @@ export const forgotPassword = async (req, res) => {
 
   const resetToken = crypto.randomBytes(32).toString("hex");
   admin.resetToken = resetToken;
-  admin.resetTokenExpiry = Date.now() + 3600000; // 1 hour
+  admin.resetTokenExpiry = Date.now() + 3600000;
   await admin.save();
 
   const resetURL = `${process.env.ADMIN_URL}/reset-password?token=${resetToken}`;

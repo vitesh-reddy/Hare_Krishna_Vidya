@@ -5,7 +5,6 @@ import { uploadToCloudinary } from '../config/cloudinaryConfig.js';
 
 const router = express.Router();
 
-// Get Campaign Types
 router.get('/types', async (req, res) => {
     try {
         const campaignTypes = await CampaignType.find({});
@@ -31,25 +30,8 @@ router.post('/upload-image', async (req, res) => {
 });
 router.post('/create', async (req, res) => {
     try {
-        const {
-            campaignType,     // should be ObjectId string
-            campaignName,
-            goalAmount,
-            startDate,        // should be in milliseconds
-            endDate,          // should be in milliseconds
-            description,
-            uploadedImage
-        } = req.body;
-
-        const newCampaign = new Campaign({
-            campaignType,
-            campaignName,
-            goalAmount,
-            startDate,
-            endDate,
-            description,
-            uploadedImage // default null
-        });
+        const { campaignType, campaignName, goalAmount, startDate, endDate, description, uploadedImage } = req.body;
+        const newCampaign = new Campaign({ campaignType, campaignName, goalAmount, startDate, endDate, description, uploadedImage });
 
         const saved = await newCampaign.save();
         return res.status(201).json(saved);

@@ -1,10 +1,10 @@
 import express from 'express';
 import rateLimitMiddleware from '../middlewares/rateLimitMiddleware.js';
-import { createStripeCheckoutSession, getStripeSessionAndDonation } from '../services/stripeService.js';
+import { protectAdmin } from '../middlewares/authMiddleware.js';
+import { createStripeCheckoutSession, getStripeSessionAndDonation, refundDonation } from '../services/stripeService.js';
 
 const router = express.Router();
 
-// Stripe Checkout session creation for both amount and items donations
 router.post('/stripe/create-checkout-session', rateLimitMiddleware, async (req, res) => {
   try {
     const { donationType, donatedFor = null, items = [], amount, donorInfo } = req.body;
@@ -37,7 +37,6 @@ router.post('/stripe/create-checkout-session', rateLimitMiddleware, async (req, 
   }
 });
 
-// Endpoint used by the donation success page to hydrate UI from server state
 router.get('/stripe/session/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -67,6 +66,35 @@ router.get('/stripe/session/:id', async (req, res) => {
   } catch (error) {
     console.error('Error fetching Stripe session/donation:', error);
     return res.status(500).json({ error: error.message || 'Failed to fetch Stripe session' });
+  }
+});
+
+router.post('/stripe/refund/:id', protectAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const adminId = req.user?._id?.toString() || 'unknown_admin';
+
+    const refund = await refundDonation({ donationId: id, adminId });
+
+    return res.status(200).json({
+      message: 'Donation refunded successfully',
+      refundId: refund.id,
+      status: refund.status,
+    });
+  } catch (error) {
+    const message = error.message || 'Failed to refund donation';
+
+    if (
+      message === 'Donation not found' ||
+      message === 'Only succeeded donations can be refunded' ||
+      message === 'Donation has already been refunded' ||
+      message === 'Donation is missing Stripe payment intent id'
+    ) {
+      return res.status(400).json({ error: message });
+    }
+
+    console.error('Error processing refund:', error);
+    return res.status(500).json({ error: 'Failed to refund donation' });
   }
 });
 

@@ -67,6 +67,17 @@ export const UpdatesAdminProvider = ({ children }) => {
     }
   }, [totalDonations]);
 
+  const updateDonationInList = useCallback((updatedDonation) => {
+    if (!updatedDonation || !updatedDonation._id) return;
+    setRecentDonations((prev) =>
+      prev.map((donation) =>
+        donation._id === updatedDonation._id
+          ? { ...donation, ...updatedDonation }
+          : donation
+      )
+    );
+  }, []);
+
   useEffect(() => {
     fetchActivities(1);
     fetchDonations(1);
@@ -98,6 +109,7 @@ export const UpdatesAdminProvider = ({ children }) => {
       loadMoreDonations,
       isDonationLoading,
       hasMoreDonations,
+      updateDonationInList,
     }}>
       {children}
     </UpdatesAdminContext.Provider>

@@ -14,7 +14,7 @@ const donorInfoSchema = new mongoose.Schema({
 const statusHistoryEntrySchema = new mongoose.Schema({
   status: {
     type: String,
-    enum: ['pending', 'succeeded', 'failed'],
+    enum: ['pending', 'succeeded', 'failed', 'refunded'],
     required: true,
   },
   at: {
@@ -82,7 +82,7 @@ const donationSchema = new mongoose.Schema({
 
   status: {
     type: String,
-    enum: ['pending', 'succeeded', 'failed'],
+    enum: ['pending', 'succeeded', 'failed', 'refunded'],
     required: true,
     default: 'pending',
     index: true,
@@ -91,6 +91,14 @@ const donationSchema = new mongoose.Schema({
     type: [statusHistoryEntrySchema],
     default: [],
   },
+
+  refundHistory: [
+    {
+      refundId: { type: String, required: true },
+      refundedAt: { type: Date, required: true, default: Date.now },
+      refundedBy: { type: String, required: true },
+    },
+  ],
 
   idempotencyKey: {
     type: String,
@@ -110,17 +118,5 @@ const donationSchema = new mongoose.Schema({
 donationSchema.index({ donatedAt: -1, _id: -1 });
 
 const Donation = mongoose.model('Donation', donationSchema);
-
-// Clean up legacy indexes from the previous Razorpay-based schema.
-// In particular, drop the unique index on paymentDetails.orderId which would
-// conflict now that we no longer store paymentDetails.
-Donation.collection
-  .dropIndex('paymentDetails.orderId_1')
-  .catch((err) => {
-    if (err && err.codeName !== 'IndexNotFound' && err.code !== 27) {
-      // eslint-disable-next-line no-console
-      console.error('Failed to drop legacy paymentDetails.orderId_1 index:', err.message || err);
-    }
-  });
 
 export default Donation;

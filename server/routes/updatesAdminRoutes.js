@@ -12,14 +12,12 @@ router.get('/recent-activity', async (req, res) => {
     const pageNum = parseInt(page);
     const limitNum = parseInt(limit);
 
-    // Validate pagination parameters
     if (pageNum < 1 || limitNum < 1 || isNaN(pageNum) || isNaN(limitNum)) 
       return res.status(400).json({ message: 'Invalid page or limit parameter' });    
 
     const skip = (pageNum - 1) * limitNum;
     const recentActivities = await getRecentActivities(skip, limitNum);
 
-    // Check if there are more activities to fetch
     const totalActivities = +activitiesCount || await getRecentActivitiesCount()
     const hasMore = skip + recentActivities.length < totalActivities;
 

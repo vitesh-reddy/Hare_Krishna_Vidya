@@ -6,7 +6,6 @@ const router = express.Router();
 
 router.use(verifyAdminToken);
 
-// View application by ID
 router.get('/view/:id', async (req, res) => {
   try {
     const application = await getApplicationById(req.params.id);
@@ -16,7 +15,6 @@ router.get('/view/:id', async (req, res) => {
   }
 });
 
-// Update application status
 router.patch('/:id/status', async (req, res) => {
   try {
     const updatedApplication = await updateApplicationStatus(req.params.id, req.body.status);
@@ -26,7 +24,6 @@ router.patch('/:id/status', async (req, res) => {
   }
 });
 
-// Get applications by Job ID
 router.get('/:jobId', async (req, res) => {
   try {
     const { jobId } = req.params;
