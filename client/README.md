@@ -88,7 +88,6 @@ client/
     npm run build
     ```
 
-
 ### 🛡️ Security & Best Practices
  - All sensitive data is handled securely; no secrets are exposed in the frontend.
  - Input validation and sanitization are enforced on forms.
