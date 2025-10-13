@@ -88,12 +88,7 @@ See [`API_DOC.md`](./API_DOC.md) for a full list of endpoints, request/response 
 - Input validation and sanitization are enforced.
 - Rate limiting, helmet, and CORS are enabled.
 - Production-ready error handling and logging.
-
----
-
-## 🤝 Contributing
-Pull requests and issues are welcome!
-
+  
 ---
 
 > **Hare Krishna Vidya Server** — Powering transparent and impactful giving.
