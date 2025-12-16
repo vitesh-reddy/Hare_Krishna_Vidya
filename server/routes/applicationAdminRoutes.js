@@ -1,6 +1,6 @@
 import express from 'express';
 import { getApplicationsByJobId, getApplicationById, updateApplicationStatus } from '../services/applicationServices.js';
-import { verifyAdminToken } from '../middleware/verifyAdminToken.js';
+import { verifyAdminToken } from '../middlewares/verifyAdminToken.js';
 
 const router = express.Router();
 

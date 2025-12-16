@@ -1,6 +1,6 @@
 import express from "express";
 import { getRecentActivities, getRecentActivitiesCount, getRecentDonations, getRecentDonationsCount } from "../services/updatesServices.js";
-import { verifyAdminToken } from "../middleware/verifyAdminToken.js";
+import { verifyAdminToken } from "../middlewares/verifyAdminToken.js";
 
 const router = express.Router();
 

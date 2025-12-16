@@ -1,7 +1,7 @@
 import express from 'express';
 import { createGroceryItem, getAllGroceryItems, getActiveGroceryItems, getGroceryItemById, updateGroceryItem, toggleGroceryActiveStatus, deleteGroceryItem, getActiveGroceryItemsCount } from '../services/groceryItemServices.js';
 import { deleteFromCloudinary, uploadToCloudinary } from '../config/cloudinaryConfig.js';
-import { verifyAdminToken } from '../middleware/verifyAdminToken.js';
+import { verifyAdminToken } from '../middlewares/verifyAdminToken.js';
 
 const router = express.Router();
 router.use(verifyAdminToken);

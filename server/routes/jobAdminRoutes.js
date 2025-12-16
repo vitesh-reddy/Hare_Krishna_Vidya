@@ -1,6 +1,6 @@
 import express from 'express';
 import { getActiveJobCount, getAllJobs, createJob, updateJob, deleteJob, getJobById, toggleJobStatus, getApplicantsCountByJobId } from '../services/jobServices.js';
-import { verifyAdminToken } from '../middleware/verifyAdminToken.js';
+import { verifyAdminToken } from '../middlewares/verifyAdminToken.js';
 
 const router = express.Router();
 router.use(verifyAdminToken);

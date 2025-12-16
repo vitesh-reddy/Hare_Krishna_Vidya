@@ -2,7 +2,7 @@ import express from 'express';
 import { createBlog, updateBlog, getAllBlogs, toggleBlogStatus, getPublishedBlogsCount, getAllSubscribers } from '../services/blogServices.js';
 import { deleteFromCloudinary, uploadToCloudinary } from '../config/cloudinaryConfig.js';
 import Blog from '../models/Blog.js';
-import { verifyAdminToken } from '../middleware/verifyAdminToken.js';
+import { verifyAdminToken } from '../middlewares/verifyAdminToken.js';
 import redis, { CACHE_KEYS, CACHE_TTL } from '../config/redisConfig.js';
 
 const router = express.Router();
@@ -163,7 +163,7 @@ export default router;
 // import { createBlog, updateBlog, getAllBlogs, toggleBlogStatus, getPublishedBlogsCount } from '../services/blogServices.js';
 // import { deleteFromCloudinary, uploadToCloudinary } from '../config/cloudinaryConfig.js';
 // import Blog from '../models/Blog.js';
-// import { verifyAdminToken } from '../middleware/verifyAdminToken.js';
+// import { verifyAdminToken } from '../middlewares/verifyAdminToken.js';
 
 // const router = express.Router();
 

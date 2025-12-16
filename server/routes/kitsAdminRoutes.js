@@ -1,7 +1,7 @@
 import express from 'express';
 import { createKit, getAllKits, updateKit, deleteKit, toggleKitActiveStatus, getActiveKitsCount } from '../services/kitsServices.js';
 import { deleteFromCloudinary, uploadToCloudinary } from '../config/cloudinaryConfig.js';
-import { verifyAdminToken } from '../middleware/verifyAdminToken.js';
+import { verifyAdminToken } from '../middlewares/verifyAdminToken.js';
 import Kit from '../models/Kit.js';
 
 const router = express.Router();
