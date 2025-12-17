@@ -35,7 +35,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
 const ADMIN_URL = process.env.ADMIN_URL || "http://localhost:5174";
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/";
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/Hare_Krishna_Vidya";
 
 connectDB(MONGODB_URI);
 
@@ -50,7 +50,7 @@ app.use(cookieParser());
 app.use(cors({origin: [CLIENT_URL, ADMIN_URL], credentials: true}));
 
 app.use(securityMiddleware);
-app.use(rateLimitMiddleware);
+// app.use(rateLimitMiddleware);
 app.use(uploadMiddleware);
 app.use(xssMiddleware);
 
