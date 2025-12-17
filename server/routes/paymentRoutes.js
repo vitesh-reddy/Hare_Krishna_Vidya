@@ -39,8 +39,13 @@ router.post('/verify-payment', async (req, res) => {
     if (campaignId) {
       await saveCampaignDonation(campaignId, donationData)
     } else {
-      // Save the donation to the database using donationService
-      await saveDonation(donationData);
+      const savedDonation = await saveDonation(donationData);
+
+      if (!savedDonation) {
+        return res.status(200).json({
+          message: "Donation already processed"
+        });
+      }
     }
 
     res.status(200).json({ message: 'Payment verified and donation saved successfully' });

@@ -5,14 +5,16 @@ import Kit from '../models/Kit.js';
 
 const saveDonation = async (donationData) => {
   try {
-    // Save the donation first
     const donation = new Donation(donationData);
-    const savedDonation = await donation.save();
-    return savedDonation;
+    return await donation.save();
   } catch (error) {
-    throw new Error('Failed to save donation: ' + error.message);
+    if (error.code === 11000) {
+      return null;
+    }
+    throw error;
   }
 };
+
 
 const saveCampaignDonation = async (campaignId, donationData) => {
   try {

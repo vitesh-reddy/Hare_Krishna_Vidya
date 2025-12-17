@@ -51,6 +51,7 @@ const donationSchema = new mongoose.Schema({
 });
 
 donationSchema.index({ donatedAt: -1, _id: -1 });
+donationSchema.index({ "paymentDetails.orderId": 1 }, { unique: true });
 
 const Donation = mongoose.model('Donation', donationSchema);
 export default Donation;
