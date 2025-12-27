@@ -7,14 +7,13 @@ import { Label } from '../components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { ArrowLeft, CreditCard, User, Mail, Phone, Package, Home, ShoppingCart } from 'lucide-react';
 import { useData } from '../../contexts/DataContext';
-import { initiateRazorpayPayment } from '../../PaymentService.jsx';
 import { toast } from 'react-hot-toast';
 
 const DonationFlow = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const { cartItems, clearCart } = useCart();
+  const { cartItems } = useCart();
   const { getKitById, getGroceryItemById } = useData();
   const [isProcessing, setIsProcessing] = useState(false);
   const kitId = searchParams.get('kit');
@@ -65,109 +64,48 @@ const DonationFlow = () => {
         setIsProcessing(true);
         toast.loading('Payment Processing');
         const baseUrl = import.meta.env.VITE_BACKEND_URL;
-        const response = await fetch(`${baseUrl}/api/payments/create-order`, {
+        const items = isCartMode
+          ? selectedCartItems.map((item) => ({
+              itemId: item.id,
+              itemType: item.type,
+              quantity: item.quantity,
+            }))
+          : [
+              {
+                itemId: kitId,
+                itemType: selectedKit ? 'Kit' : 'GroceryItem',
+                quantity: 1,
+              },
+            ];
+
+        const response = await fetch(`${baseUrl}/api/payments/stripe/create-checkout-session`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            amount: totalAmount * 100, // Convert to paise
-            currency: 'INR',
             donationType: 'items',
+            items,
+            donorInfo: {
+              firstName: formData.firstName,
+              lastName: formData.lastName,
+              email: formData.email,
+              phone: formData.phone,
+              address: formData.address,
+              city: formData.city,
+              state: formData.state,
+              pincode: formData.pincode,
+            },
           }),
         });
 
-        const orderData = await response.json();
+        const data = await response.json();
         if (!response.ok) {
-          throw new Error(orderData.error || 'Failed to create payment order');
+          throw new Error(data.error || 'Failed to initiate payment');
         }
 
-        initiateRazorpayPayment(
-          {
-            orderId: orderData.orderId,
-            amount: totalAmount * 100,
-            donorName: `${formData.firstName} ${formData.lastName}`,
-            email: formData.email,
-            phone: formData.phone,
-          },
-          async (paymentResponse) => {
-            const items = isCartMode
-              ? selectedCartItems.map((item) => { console.log(item.type); return ({
-                  itemId: item.id,
-                  itemType: item.type,
-                  itemName: item.name,
-                  quantity: item.quantity,
-                  price: item.price,
-                })})
-              : [
-                  {
-                    itemId: kitId,
-                    itemType: selectedKit ? 'Kit' : 'GroceryItem',
-                    itemName: selectedKit ? selectedKit.name : selectedGroceryItem.name,
-                    quantity: 1,
-                    price: selectedKit ? selectedKit.price : selectedGroceryItem.price,
-                  },
-                ];
-
-            const verifyResponse = await fetch(`${baseUrl}/api/payments/verify-payment`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                orderId: orderData.orderId,
-                paymentId: paymentResponse.razorpay_payment_id,
-                signature: paymentResponse.razorpay_signature,
-                donationData: {
-                  donorInfo: {
-                    firstName: formData.firstName,
-                    lastName: formData.lastName,
-                    email: formData.email,
-                    phone: formData.phone,
-                    address: formData.address,
-                    city: formData.city,
-                    state: formData.state,
-                    pincode: formData.pincode,
-                  },
-                  donationType: 'items',
-                  donatedFor: null,
-                  items: items,
-                  amount: totalAmount,
-                  paymentDetails: {
-                    orderId: orderData.orderId,
-                    paymentId: paymentResponse.razorpay_payment_id,
-                    signature: paymentResponse.razorpay_signature,
-                  },
-                },
-              }),
-            });
-
-            const verifyResult = await verifyResponse.json();
-            if (!verifyResponse.ok) {
-              throw new Error(verifyResult.error || 'Payment verification failed');
-            }
-
-            if (isCartMode) {
-              clearCart();
-            }
-            toast.dismiss();
-            navigate('/donation-success', {
-              state: {
-                cartItems: isCartMode ? selectedCartItems : undefined,
-                kit: !isCartMode ? (selectedKit || selectedGroceryItem) : undefined,
-                amount: totalAmount,
-                donorName: `${formData.firstName} ${formData.lastName}`,
-                paymentId: paymentResponse.razorpay_payment_id,
-              },
-            });
-          },
-          (error) => {
-            toast.dismiss();
-            setIsProcessing(false);
-            setPaymentError(error);
-            toast.error(error || 'Payment failed. Please try again.');
-          }
-        );
+        toast.dismiss();
+        window.location.href = data.url;
       } catch (error) {
         toast.dismiss();
         setIsProcessing(false);

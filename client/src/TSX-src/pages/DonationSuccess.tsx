@@ -1,19 +1,101 @@
-import React, { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Check, Download, Share2, Heart, Mail, Home } from 'lucide-react';
+import { useCart } from '../contexts/CartContext';
 
 const DonationSuccess = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { kit, cartItems, amount, donorName, donationType, impact, paymentId } = location.state || {};
+  const [searchParams] = useSearchParams();
+  const { clearCart } = useCart();
+
+  const [serverData, setServerData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const stateData = location.state || {};
+  const { kit, cartItems, amount, donorName, donationType, impact, paymentId } = stateData as any;
+
+  const sessionId = searchParams.get('session_id');
 
   useEffect(() => {
-    if (!kit && !cartItems && !donationType) {
-      navigate('/donate-items');
+    const fetchFromServer = async () => {
+      if (!sessionId) {
+        if (!kit && !cartItems && !donationType) {
+          navigate('/donate-items');
+        }
+        return;
+      }
+
+      try {
+        setLoading(true);
+        setError(null);
+        const baseUrl = import.meta.env.VITE_BACKEND_URL as string;
+        const res = await fetch(`${baseUrl}/api/payments/stripe/session/${sessionId}`);
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || 'Failed to fetch donation details');
+        }
+        setServerData(data);
+      } catch (err: any) {
+        setError(err.message || 'Failed to load donation details');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFromServer();
+  }, [sessionId, navigate]);
+
+  const derived = useMemo(() => {
+    if (serverData?.donation) {
+      const d = serverData.donation;
+      const donationKind = d.donationType;
+      const derivedDonationType = donationKind === 'amount' ? d.donatedFor : null;
+      const derivedCartItems = donationKind === 'items'
+        ? d.items.map((item: any) => ({
+            type: item.itemType,
+            name: item.itemName,
+            quantity: item.quantity,
+          }))
+        : null;
+
+      return {
+        donationKind,
+        donationType: derivedDonationType || donationType,
+        cartItems: derivedCartItems || cartItems,
+        kit: donationKind === 'items' ? null : kit,
+        amount: d.amount ?? amount,
+        donorName: `${d.donorInfo.firstName} ${d.donorInfo.lastName}`.trim() || donorName,
+        paymentId: d.stripePaymentIntentId || paymentId,
+      };
     }
-  }, [kit, cartItems, donationType, navigate]);
+
+    return {
+      donationKind: donationType ? 'amount' : cartItems || kit ? 'items' : null,
+      donationType,
+      cartItems,
+      kit,
+      amount,
+      donorName,
+      paymentId,
+    };
+  }, [serverData, donationType, cartItems, kit, amount, donorName, paymentId]);
+
+  const hasClearedCartRef = useRef(false);
+
+  useEffect(() => {
+    if (
+      !hasClearedCartRef.current &&
+      serverData?.donation?.donationType === 'items' &&
+      serverData.status === 'succeeded'
+    ) {
+      hasClearedCartRef.current = true;
+      clearCart();
+    }
+  }, [serverData, clearCart]);
 
   const handleDownloadReceipt = () => {
     console.log('Downloading receipt...');
@@ -21,9 +103,9 @@ const DonationSuccess = () => {
   };
 
   const handleShare = () => {
-    const shareText = donationType
-      ? `I donated ₹${(amount || 0).toLocaleString()} for ${donationType} to Hare Krishna Vidya! Join me in making a difference.`
-      : `I donated ₹${(amount || 0).toLocaleString()} for ${kit?.name || cartItems?.map(item => item.name).join(', ')} to Hare Krishna Vidya! Join me in making a difference.`;
+    const shareText = derived.donationType
+      ? `I donated ₹${(derived.amount || 0).toLocaleString()} for ${derived.donationType} to Hare Krishna Vidya! Join me in making a difference.`
+      : `I donated ₹${(derived.amount || 0).toLocaleString()} for ${derived.kit?.name || derived.cartItems?.map((item: any) => item.name).join(', ')} to Hare Krishna Vidya! Join me in making a difference.`;
 
     if (navigator.share) {
       navigator.share({
@@ -38,7 +120,27 @@ const DonationSuccess = () => {
     }
   };
 
-  if (!kit && !cartItems && !donationType) {
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p>Loading your donation details...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Card className="p-[2rem] text-center">
+          <h2 className="text-[1.25rem] font-bold mb-[1rem]">Unable to load donation details</h2>
+          <p className="mb-[1.5rem]">{error}</p>
+          <Button onClick={() => navigate('/')}>Back to Home</Button>
+        </Card>
+      </div>
+    );
+  }
+
+  if (!derived.kit && !derived.cartItems && !derived.donationType) {
     return null;
   }
 
@@ -80,13 +182,13 @@ const DonationSuccess = () => {
             <CardContent className="p-[1.5rem]">
               <h2 className="text-[1.125rem] font-semibold mb-[1rem]">Donation Details</h2>
               <div className="space-y-[0.5rem] text-left text-[0.8rem] max-w-[28rem] mx-auto">
-                {donationType ? (
+                {derived.donationType ? (
                   <div className="flex justify-between">
                     <span className="font-medium">Donation Type:</span>
-                    <span>{donationType}</span>
+                    <span>{derived.donationType}</span>
                   </div>
-                ) : cartItems ? (
-                  cartItems.map((item, index) => (
+                ) : derived.cartItems ? (
+                  derived.cartItems.map((item: any, index: number) => (
                     <div key={index} className="flex justify-between">
                       <span className="font-medium">{item.type === 'Kit' ? 'Kit' : 'Grocery Item'}:</span>
                       <span>{item.name} (x{item.quantity})</span>
@@ -95,20 +197,20 @@ const DonationSuccess = () => {
                 ) : (
                   <div className="flex justify-between">
                     <span className="font-medium">{kit?.type === 'Kit' ? 'Kit' : 'Grocery Item'}:</span>
-                    <span>{kit?.name}</span>
+                    <span>{derived.kit?.name}</span>
                   </div>
                 )}
                 <div className="flex justify-between">
                   <span className="font-medium">Amount:</span>
-                  <span>₹{(amount || 0).toLocaleString()}</span>
+                  <span>₹{(derived.amount || 0).toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="font-medium">Donor:</span>
-                  <span>{donorName}</span>
+                  <span>{derived.donorName}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="font-medium">Transaction ID:</span>
-                  <span className="text-[0.875rem]">{paymentId}</span>
+                  <span className="text-[0.875rem]">{derived.paymentId}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="font-medium">Date:</span>

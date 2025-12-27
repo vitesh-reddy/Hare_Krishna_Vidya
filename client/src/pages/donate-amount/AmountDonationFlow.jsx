@@ -5,8 +5,7 @@ import { Input } from '../../TSX-src/components/ui/input';
 import { Label } from '../../TSX-src/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '../../TSX-src/components/ui/card';
 import { ArrowLeft, CreditCard, Home, User, Mail, Phone, Heart } from 'lucide-react';
-import { initiateRazorpayPayment } from '../../PaymentService.jsx';
-import { toast, ToastBar } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 
 const AmountDonationFlow = () => {
   const [searchParams] = useSearchParams();
@@ -104,122 +103,44 @@ const AmountDonationFlow = () => {
     } else {
       try {
         setIsProcessing(true);
-        toast.loading("Payment Processing");
+        setPaymentError(null);
+        toast.loading('Redirecting to secure payment...');
         const baseUrl = import.meta.env.VITE_BACKEND_URL;
-        const response = await fetch(`${baseUrl}/api/payments/create-order`, {
+        console.log(baseUrl);
+
+        const response = await fetch(`${baseUrl}/api/payments/stripe/create-checkout-session`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            amount: amount * 100, // Convert to paise
-            currency: 'INR',
             donationType: 'amount',
+            amount,
+            donatedFor: mapDonationTypeToSchema(),
+            donorInfo: {
+              firstName: formData.firstName,
+              lastName: formData.lastName,
+              email: formData.email,
+              phone: formData.phone,
+              address: formData.address,
+              city: formData.city,
+              state: formData.state,
+              pincode: formData.pincode,
+            },
           }),
         });
 
-        // Debug: Log the response status and headers
-        console.log('Create Order Response Status:', response.status);
-        console.log('Create Order Response Headers:', response.headers);
-
-        // Debug: Log the raw response body
-        const responseText = await response.text();
-        console.log('Create Order Response Body:', responseText);
-
-        // Parse the response body as JSON
-        let orderData;
-        try {
-          orderData = JSON.parse(responseText);
-        } catch (parseError) {
-          console.error('JSON Parse Error:', parseError);
-          throw new Error('Failed to parse create-order response: ' + parseError.message);
-        }
+        const data = await response.json();
 
         if (!response.ok) {
-          throw new Error(orderData.error || 'Failed to create payment order');
+          throw new Error(data.error || 'Failed to initiate payment');
         }
 
-        initiateRazorpayPayment(
-          {
-            orderId: orderData.orderId,
-            amount: amount * 100,
-            donorName: `${formData.firstName} ${formData.lastName}`,
-            email: formData.email,
-            phone: formData.phone,
-          },
-          async (paymentResponse) => {
-            const verifyResponse = await fetch(`${baseUrl}/api/payments/verify-payment`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                orderId: orderData.orderId,
-                paymentId: paymentResponse.razorpay_payment_id,
-                signature: paymentResponse.razorpay_signature,
-                donationData: {
-                  donorInfo: {
-                    firstName: formData.firstName,
-                    lastName: formData.lastName,
-                    email: formData.email,
-                    phone: formData.phone,
-                    address: formData.address,
-                    city: formData.city,
-                    state: formData.state,
-                    pincode: formData.pincode,
-                  },
-                  donationType: 'amount',
-                  donatedFor: mapDonationTypeToSchema(),
-                  amount: amount,
-                  paymentDetails: {
-                    orderId: orderData.orderId,
-                    paymentId: paymentResponse.razorpay_payment_id,
-                    signature: paymentResponse.razorpay_signature,
-                  },
-                },
-              }),
-            });
-
-            // Debug: Log the verify response
-            console.log('Verify Payment Response Status:', verifyResponse.status);
-            const verifyResponseText = await verifyResponse.text();
-            console.log('Verify Payment Response Body:', verifyResponseText);
-
-            let verifyResult;
-            try {
-              verifyResult = JSON.parse(verifyResponseText);
-            } catch (parseError) {
-              console.error('JSON Parse Error (Verify):', parseError);
-              throw new Error('Failed to parse verify-payment response: ' + parseError.message);
-            }
-
-            if (!verifyResponse.ok) {
-              throw new Error(verifyResult.error || 'Payment verification failed');
-            }
-
-            setPaymentCompleted(true);
-            setIsProcessing(false);
-            toast.dismiss();            
-            navigate('/donation-success', {
-              state: {
-                amount: amount,
-                donationType: formatDonationType(),
-                donorName: `${formData.firstName} ${formData.lastName}`,
-                impact: calculateImpact(),
-                paymentId: paymentResponse.razorpay_payment_id,
-              },
-            });
-          },
-          (error) => {
-            toast.dismiss();   
-            setIsProcessing(false);     
-            setPaymentError(error);
-            toast.error(error || 'Payment failed. Please try again.');
-          }
-        );
+        toast.dismiss();
+        window.location.href = data.url;
       } catch (error) {
-        toast.dismiss();     
-        setIsProcessing(false);   
+        toast.dismiss();
+        setIsProcessing(false);
         console.error('HandleContinue Error:', error);
         setPaymentError(error.message);
         toast.error(error.message || 'An error occurred during payment.');

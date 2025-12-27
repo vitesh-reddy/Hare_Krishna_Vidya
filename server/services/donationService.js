@@ -8,6 +8,10 @@ const saveDonation = async (donationData) => {
     const donation = new Donation(donationData);
     return await donation.save();
   } catch (error) {
+    // The only uniqueness constraint is idempotencyKey, which acts as an
+    // attempt identifier, not a replay/dedup key. If a duplicate key error
+    // ever occurs, surface it so callers can treat it as an application bug
+    // rather than automatic idempotent replay handling.
     if (error.code === 11000) {
       return null;
     }
