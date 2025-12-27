@@ -20,8 +20,6 @@ const recentActivitySchema = new mongoose.Schema({
 
 const THREE_MONTHS_IN_SECONDS = 3 * 30 * 24 * 60 * 60;
 
-
-// Activities over 3 months will be erased from the DB
 recentActivitySchema.index( { date: 1 }, { expireAfterSeconds: THREE_MONTHS_IN_SECONDS });
 
 const RecentActivity = mongoose.model('RecentActivity', recentActivitySchema);

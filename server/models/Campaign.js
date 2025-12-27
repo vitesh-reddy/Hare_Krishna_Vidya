@@ -7,7 +7,6 @@ const donorInfoSchema = new mongoose.Schema({
   phone: { type: String, required: true },
 }, { _id: false });
 
-// 🔹 Embedded Donation Schema (no model created here)
 const embeddedDonationSchema = new mongoose.Schema({
   donorInfo: donorInfoSchema,
   amount: {
@@ -26,14 +25,12 @@ const embeddedDonationSchema = new mongoose.Schema({
 }, { _id: true });
 
 
-// CampaignType Schema
 const campaignTypeSchema = new mongoose.Schema({
   value: { type: String, required: true },
   label: { type: String, required: true },
   description: { type: String }
 });
 
-// Campaign Schema
 const campaignSchema = new mongoose.Schema({
   campaignType: {
     type: mongoose.Schema.Types.ObjectId,
@@ -50,7 +47,6 @@ const campaignSchema = new mongoose.Schema({
   donations: [embeddedDonationSchema]
 });
 
-// Model Definitions
 const CampaignType = mongoose.model('campaignType', campaignTypeSchema, 'campaignType');
 const Campaign = mongoose.model('Campaign', campaignSchema, 'campaigns');
 

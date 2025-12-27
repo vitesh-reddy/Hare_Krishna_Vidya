@@ -27,6 +27,7 @@ import kitsAdminRoutes from "./routes/kitsAdminRoutes.js";
 import updatesAdminRoutes from "./routes/updatesAdminRoutes.js";
 import groceryItemAdminRoutes from "./routes/groceryItemAdminRoutes.js";
 import applicationAdminRoutes from "./routes/applicationAdminRoutes.js";
+import { handleStripeWebhook } from "./services/stripeService.js";
 
 dotenv.config();
 
@@ -42,12 +43,28 @@ connectDB(MONGODB_URI);
 app.set("trust proxy", 1);
 
 app.use(morgan("tiny", {skip: req => req.url.match(/\.(css|js|png|jpg|ico|svg|woff2?)$/)}));
-
-app.use(express.json({ limit: process.env.PAYLOAD_LIMIT || "1mb" }));
-app.use(express.urlencoded({ extended: true, limit: process.env.PAYLOAD_LIMIT || "1mb" }));
 app.use(cookieParser());
 
 app.use(cors({origin: [CLIENT_URL, ADMIN_URL], credentials: true}));
+
+app.post("/api/payments/stripe/webhook", express.raw({ type: "application/json" }), async (req, res, next) => {
+	try {  
+		const signature = req.headers["stripe-signature"];
+		const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+		if (!signature || !webhookSecret) {
+			return res.status(400).send("Missing Stripe webhook configuration");
+		}
+
+		await handleStripeWebhook(req, signature, webhookSecret);
+		return res.status(200).send("ok");
+	} catch (err) {
+		console.error("Stripe webhook error:", err);
+		return res.status(400).send("Webhook Error");
+	}
+});
+
+app.use(express.json({ limit: process.env.PAYLOAD_LIMIT || "1mb" }));
+app.use(express.urlencoded({ extended: true, limit: process.env.PAYLOAD_LIMIT || "1mb" }));
 
 app.use(securityMiddleware);
 // app.use(rateLimitMiddleware);
@@ -75,5 +92,5 @@ app.use("/uploads", express.static("uploads"));
 app.get("/health", (_, res) => res.send("OK"));
 
 app.use(errorMiddleware);
-
+console.log('STRIPE_WEBHOOK_SECRET (first 6 chars):', (process.env.STRIPE_WEBHOOK_SECRET || '').slice(0, 6));
 app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));

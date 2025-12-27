@@ -30,7 +30,11 @@
     "morgan": "^1.10.0",
     "nodemailer": "^7.0.3",
     "razorpay": "^2.9.6",
+    "stripe": "^16.6.0",
     "xss": "^1.0.15",
     "zod": "^3.25.67"
+  },
+  "devDependencies": {
+    "vercel": "^50.1.3"
   }
 }

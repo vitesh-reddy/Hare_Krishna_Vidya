@@ -5,7 +5,6 @@ import redis, { CACHE_KEYS, CACHE_TTL } from '../config/redisConfig.js';
 
 const router = express.Router();
 
-// Returns recent blogs with optional limit (default 3)
 router.get('/recent', async (req, res) => {
   const limit = parseInt(req.query.limit) || 3;
   const key = CACHE_KEYS.RECENT_BLOGS(limit);
@@ -18,15 +17,14 @@ router.get('/recent', async (req, res) => {
     }
 
     console.log(`MISS - ${key}`);
-    const { blogs } = await getRecentBlogs(limit); // Fetch from DB
-    await redis.set(key, JSON.stringify(blogs), 'EX', CACHE_TTL.RECENT_BLOGS); // Write to cache
+    const { blogs } = await getRecentBlogs(limit);
+    await redis.set(key, JSON.stringify(blogs), 'EX', CACHE_TTL.RECENT_BLOGS);
     return res.status(200).json({ blogs });
   } catch (error) {
     return res.status(500).json({ error: 'Failed to fetch recent blogs' });
   }
 });
 
-// Returns total count of published blogs (cached)
 router.get('/count', async (_req, res) => {
   const key = CACHE_KEYS.PUBLISHED_COUNT;
 
@@ -38,8 +36,8 @@ router.get('/count', async (_req, res) => {
     }
 
     console.log(`MISS - ${key}`);
-    const { totalCount } = await getTotalBlogsCount(); // Fetch from DB
-    await redis.set(key, totalCount.toString(), 'EX', CACHE_TTL.PUBLISHED_COUNT); // Write to cache
+    const { totalCount } = await getTotalBlogsCount();
+    await redis.set(key, totalCount.toString(), 'EX', CACHE_TTL.PUBLISHED_COUNT);
     return res.status(200).json({ totalCount });
   } catch (error) {
     console.log(error)
@@ -47,7 +45,6 @@ router.get('/count', async (_req, res) => {
   }
 });
 
-// Returns paginated published blogs
 router.get('/published', async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 6;
@@ -61,15 +58,14 @@ router.get('/published', async (req, res) => {
     }
 
     console.log(`MISS - ${key}`);
-    const data = await getPublishedBlogs(page, limit); // Fetch from DB
-    await redis.set(key, JSON.stringify(data), 'EX', CACHE_TTL.PUBLISHED_PAGE); // Write to cache
+    const data = await getPublishedBlogs(page, limit);
+    await redis.set(key, JSON.stringify(data), 'EX', CACHE_TTL.PUBLISHED_PAGE);
     return res.status(200).json(data);
   } catch (error) {
     return res.status(500).json({ error: 'Failed to fetch published blogs' });
   }
 });
 
-// Returns single blog by ID
 router.get('/:id', async (req, res) => {
   const id = req.params.id;
   const key = CACHE_KEYS.BLOG_DETAIL(id);
@@ -82,10 +78,10 @@ router.get('/:id', async (req, res) => {
     }
 
     console.log(`MISS - ${key}`);
-    const blog = await getBlogById(id); // Fetch from DB
+    const blog = await getBlogById(id);
     if (!blog) return res.status(404).json({ error: 'Blog not found' });
 
-    await redis.set(key, JSON.stringify(blog), 'EX', CACHE_TTL.BLOG_DETAIL); // Write to cache
+    await redis.set(key, JSON.stringify(blog), 'EX', CACHE_TTL.BLOG_DETAIL);
     return res.status(200).json(blog);
   } catch (error) {
     return res.status(500).json({ error: 'Failed to fetch blog' });
@@ -109,56 +105,3 @@ router.post('/add-subscriber', async (req, res) => {
 });
 
 export default router;
-
-
-// import express from 'express';
-// import { getPublishedBlogs, getPublishedBlogsCount, getBlogById, getTotalBlogsCount, getRecentBlogs } from '../services/blogServices.js';
-
-// const router = express.Router();
-
-// router.get('/recent', async (req, res) => {
-//   try {
-//     const { limit = 3 } = req.query;
-//     const { blogs } = await getRecentBlogs(parseInt(limit));
-//     return res.status(200).json({ blogs });
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).json({ error: 'Failed to fetch recent blogs' });
-//   }
-// });
-
-// router.get('/count', async (req, res) => {
-//   try {
-//     const { totalCount } = await getTotalBlogsCount();
-//     return res.status(200).json({ totalCount });
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).json({ error: 'Failed to fetch blogs count' });
-//   }
-// });
-
-// router.get('/published', async (req, res) => {
-//   try {
-//     const { page = 1, limit = 6 } = req.query;
-//     const { blogs, totalCount } = await getPublishedBlogs(parseInt(page), parseInt(limit));
-//     return res.status(200).json({ blogs, totalCount });
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).json({ error: 'Failed to fetch published blogs' });
-//   }
-// });
-
-// router.get('/:id', async (req, res) => {
-//   try {
-//     const blog = await getBlogById(req.params.id);
-//     if (!blog) {
-//       return res.status(404).json({ error: 'Blog not found' });
-//     }
-//     return res.status(200).json(blog);
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).json({ error: 'Failed to fetch blog' });
-//   }
-// });
-
-// export default router;
