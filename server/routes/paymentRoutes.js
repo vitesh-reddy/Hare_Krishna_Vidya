@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post('/stripe/create-checkout-session', rateLimitMiddleware, async (req, res) => {
   try {
-    const { donationType, donatedFor = null, items = [], amount, donorInfo } = req.body;
+    const { donationType, donatedFor = null, items = [], amount, donorInfo, idempotencyKey } = req.body;
 
     if (!donationType || !donorInfo) {
       return res.status(400).json({ error: 'donationType and donorInfo are required' });
@@ -28,6 +28,7 @@ router.post('/stripe/create-checkout-session', rateLimitMiddleware, async (req, 
       donorInfo,
       successUrl,
       cancelUrl,
+      idempotencyKey,
     });
 
     return res.status(200).json({ url: sessionUrl });

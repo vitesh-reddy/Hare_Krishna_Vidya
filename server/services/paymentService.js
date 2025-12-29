@@ -5,13 +5,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // Comment out actual Razorpay instance for testing
-/*
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
-*/
-
 const createOrder = async (amount, currency, donationType) => {
   try {
     // Actual Razorpay Logic (Commented out for testing)
