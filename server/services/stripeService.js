@@ -9,7 +9,7 @@ const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 if (!stripeSecretKey)
   console.warn('STRIPE_SECRET_KEY is not set. Stripe payments will not work until configured.');
 
-const stripe = stripeSecretKey ? new Stripe(stripeSecretKey, { apiVersion: '2024-06-20' }) : null;
+const stripe = stripeSecretKey ? new Stripe(stripeSecretKey) : null;
 
 const reuseExistingDonationIfAny = async (idempotencyKey) => {
   const existingDonation = await Donation.findOne({ idempotencyKey, status: 'pending' }).lean();
@@ -33,11 +33,11 @@ const normalizeItemsAndComputeAmount = async ({ donationType, items, amount }) =
     const quantity = item.quantity > 0 ? item.quantity : 1;
     let entity;
 
-    if (item.itemType === 'Kit') 
+    if (item.itemType === 'Kit')
       entity = await Kit.findById(item.itemId).lean();
-    else if (item.itemType === 'GroceryItem') 
+    else if (item.itemType === 'GroceryItem')
       entity = await GroceryItem.findById(item.itemId).lean();
-    else 
+    else
       throw new Error('Unsupported itemType in donation');
 
     if (!entity || entity.active === false)
@@ -63,15 +63,30 @@ const persistPendingDonation = async (payload) => {
     return donation;
   } catch (error) {
     if (error.code === 11000 || error.code === 11001) {
-      const existingDonation = await Donation.findOne({ idempotencyKey: payload.idempotencyKey }).lean();
-      if (existingDonation?.stripeCheckoutSessionId) {
+      const existingDonation = await Donation.findOne({
+        idempotencyKey: payload.idempotencyKey,
+      });
+
+      if (!existingDonation) throw error;
+
+      if (existingDonation.status !== 'pending')
+        throw new Error('Donation attempt already finalized');
+
+      if (existingDonation.stripeCheckoutSessionId) {
         const session = await stripe.checkout.sessions.retrieve(existingDonation.stripeCheckoutSessionId);
+
         return {
           reused: true,
-          response: { sessionUrl: session.url, sessionId: session.id, donationId: existingDonation._id.toString() },
+          response: {
+            sessionUrl: session.url,
+            sessionId: session.id,
+            donationId: existingDonation._id.toString(),
+          },
         };
       }
+      return { recovered: true, donation: existingDonation };
     }
+
     throw error;
   }
 };
@@ -134,8 +149,8 @@ const handleFailedEvent = async (session) => {
 
 export const createStripeCheckoutSession = async ({
   donationType, donatedFor = null, items = [], amount,
-  donorInfo, successUrl, cancelUrl, idempotencyKey: requestIdempotencyKey,
-}) => {
+  donorInfo, successUrl, cancelUrl, idempotencyKey: requestIdempotencyKey }) => {
+
   if (!stripe) throw new Error('Stripe is not configured');
   if (donationType === 'amount' && (!amount || amount <= 0))
     throw new Error('Invalid donation amount');
@@ -159,9 +174,10 @@ export const createStripeCheckoutSession = async ({
     idempotencyKey,
   });
 
-  if (persisted.reused) return persisted.response;
+  if (persisted?.reused) return persisted.response;
 
-  const donation = persisted;
+  const donation = persisted.recovered ? persisted.donation : persisted;
+
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',
     payment_method_types: ['card'],
@@ -213,7 +229,7 @@ export const refundDonation = async ({ donationId, adminId }) => {
   if (!stripe) throw new Error('Stripe is not configured');
 
   const donation = await Donation.findById(donationId);
-  if (!donation) 
+  if (!donation)
     throw new Error('Donation not found');
 
   if (donation.status !== 'succeeded')
