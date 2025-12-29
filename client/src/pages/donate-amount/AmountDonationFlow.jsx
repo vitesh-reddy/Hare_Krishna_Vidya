@@ -155,7 +155,6 @@ const AmountDonationFlow = () => {
       setStep(step + 1);
     } else {
       try {
-        await new Promise((resolve) => { setTimeout(() => resolve(), 2000) });
         setIsProcessing(true);
         setPaymentError(null);
         toast.loading('Redirecting to secure payment...');
