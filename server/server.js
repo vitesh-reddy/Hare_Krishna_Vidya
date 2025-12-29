@@ -78,7 +78,6 @@ app.use('/api/payments', paymentRoutes);
 app.use('/api/grocery-items', groceryItemRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/campaigns', campaignRoutes);
-
 app.use('/api/admin', adminRoutes);
 app.use('/api/admin/jobs', jobAdminRoutes);
 app.use('/api/admin/blogs', blogAdminRoutes);
